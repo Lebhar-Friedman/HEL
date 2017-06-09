@@ -26,6 +26,9 @@ class User extends ActiveRecord implements IdentityInterface {
 
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    
+    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'admin';
 
     /**
      * @inheritdoc
@@ -34,12 +37,19 @@ class User extends ActiveRecord implements IdentityInterface {
         return ['health_events', 'user'];
     }
 
+    //setup for model attributes
     public function attributes() {
         return ['_id',
             'username',
             'password_hash',
             'password_reset_token',
-            ];
+            'email',
+            'auth_key',
+            'role',
+            'status',
+            'created_at',
+            'updated_at',
+        ];
     }
 
     /**
@@ -47,7 +57,13 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function behaviors() {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ]
         ];
     }
 
@@ -58,6 +74,8 @@ class User extends ActiveRecord implements IdentityInterface {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['role', 'default', 'value' => self::ROLE_USER],
+            ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
     }
 
@@ -65,7 +83,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public static function findIdentity($id) {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['_id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
