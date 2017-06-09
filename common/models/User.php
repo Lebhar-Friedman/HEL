@@ -83,7 +83,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public static function findIdentity($id) {
-        return static::findOne(['_id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['_id' => $id]);
     }
 
     /**
@@ -140,7 +140,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public function getId() {
-        return $this->getPrimaryKey();
+        return (string)$this->getPrimaryKey();
     }
 
     /**
