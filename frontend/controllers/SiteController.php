@@ -87,6 +87,7 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+        $model->role = \common\models\User::ROLE_USER;
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
