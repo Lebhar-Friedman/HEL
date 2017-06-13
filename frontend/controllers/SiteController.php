@@ -146,21 +146,15 @@ class SiteController extends Controller {
     public function actionSignup() {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                $email = Yii::$app->mailer->compose()
-                        ->setTo($user->email)
-                        ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
-                        ->setSubject('Signup Confirmation')
-                        ->setTextBody("Click this link " . Html::a('confirm', Yii::$app->urlManager->createAbsoluteUrl(['site/confirm', 'id' => $user->id, 'key' => $user->auth_key])))
-                        ->send();
-                if ($email) {
-                    Yii::$app->getSession()->setFlash('success', 'Check Your email!');
+            $user =$model->signup();
+            if ($user){
+                $email = $model->confirmationEmail($user);
+                if($email) {
+                    Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                 } else {
-                    Yii::$app->getSession()->setFlash('warning', 'Failed, contact Admin!');
+                    Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
                 }
-//                if (Yii::$app->getUser()->login($user)) {
                 return $this->goHome();
-//                }
             }
         }
 
@@ -171,14 +165,15 @@ class SiteController extends Controller {
 
     public function actionConfirm($id, $key) {
         $user = User::find()->where([
-                    'id' => $id,
+                    '_id' => new \MongoDB\BSON\ObjectID($id),
                     'auth_key' => $key,
                     'status' => 0,
                 ])->one();
         if (!empty($user)) {
             $user->status = 10;
             $user->save();
-            Yii::$app->getSession()->setFlash('success', 'Success!');
+            Yii::$app->getSession()->setFlash('success', 'Email confirmed');
+            Yii::$app->getUser()->login($user);
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Failed!');
         }
