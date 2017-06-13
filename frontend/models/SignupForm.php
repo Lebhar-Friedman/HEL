@@ -1,8 +1,9 @@
 <?php
 namespace frontend\models;
 
-use yii\base\Model;
 use common\models\User;
+use Yii;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -55,5 +56,15 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->status=0;
         return $user->save() ? $user : null;
+    }
+    
+    public function confirmationEmail($user){
+        return Yii::$app->mailer->compose(
+                                ['html' => 'registration-confirmation-html'], ['user' => $user]
+                        )
+                        ->setTo($user->email)
+                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                        ->setSubject('Signup Confirmation')
+                        ->send();
     }
 }
