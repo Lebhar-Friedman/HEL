@@ -49,6 +49,7 @@ class SignupForm extends Model
         }
         
         $user = new User();
+        $user->user_id = \common\models\Counter::getAutoIncrementId(\common\models\Counter::COUNTER_USER_ID);
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);

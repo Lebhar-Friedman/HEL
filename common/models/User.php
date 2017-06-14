@@ -11,8 +11,11 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property integer $id
+ * @property object $_id
+ * @property integer $user_id
  * @property string $username
+ * @property string $first_name
+ * @property string $last_name
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
@@ -26,7 +29,6 @@ class User extends ActiveRecord implements IdentityInterface {
 
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-    
     const ROLE_USER = 'user';
     const ROLE_ADMIN = 'admin';
 
@@ -40,15 +42,45 @@ class User extends ActiveRecord implements IdentityInterface {
     //setup for model attributes
     public function attributes() {
         return ['_id',
+            'login_id', // for user login from social media
             'username',
+            'email',
+            'user_id', // auto increment
+            'first_name', // for user
+            'last_name', // for user
             'password_hash',
             'password_reset_token',
-            'email',
             'auth_key',
             'role',
             'status',
             'created_at',
             'updated_at',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules() {
+        return [
+            [['_id',
+            'login_id', // for user login from social media
+            'username',
+            'email',
+            'user_id', // auto increment
+            'first_name', // for user
+            'last_name', // for user
+            'password_hash',
+            'password_reset_token',
+            'auth_key',
+            'role',
+            'status',
+            'created_at',
+            'updated_at'], 'safe'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['role', 'default', 'value' => self::ROLE_USER],
+            ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
     }
 
@@ -64,18 +96,6 @@ class User extends ActiveRecord implements IdentityInterface {
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
             ]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules() {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
     }
 
@@ -101,6 +121,16 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public static function findByUsername($username) {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -140,7 +170,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public function getId() {
-        return (string)$this->getPrimaryKey();
+        return (string) $this->getPrimaryKey();
     }
 
     /**
