@@ -12,7 +12,6 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use const YII_ENV_TEST;
@@ -64,7 +63,39 @@ class SiteController extends Controller {
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
         ];
+    }
+
+    public function onAuthSuccess($client) {
+//        (new AuthHandler($client))->handle();
+        $userAttributes = $client->getUserAttributes();
+//        echo '<pre>';
+//        print_r($userAttributes);
+//        exit();
+        if(is_array($userAttributes['name'])){
+            $user_email = $userAttributes['emails'][0]['value'];
+//            echo '<pre>';
+//            print_r($userAttributes);
+//            exit();
+        }else{
+            $user_email = $userAttributes['email'];
+        }
+        $user = User::find()->where(['email' => $user_email,])->one();
+        if (!empty($user)) {
+            Yii::$app->user->login($user);
+        } else {
+            $user = new User();
+            $user->username = $userAttributes['email'];
+            $user->email = $userAttributes['email'];
+//            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->save() ;
+            Yii::$app->user->login($user);
+        }
     }
 
     /**
@@ -87,7 +118,7 @@ class SiteController extends Controller {
         }
 
         $model = new LoginForm();
-        $model->role = \common\models\User::ROLE_USER;
+        $model->role = User::ROLE_USER;
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
