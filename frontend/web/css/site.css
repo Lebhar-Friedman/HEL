@@ -118,3 +118,220 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+/*----------------------------------------------- general ---------------------------------------*/
+body{
+    margin:0 auto !important;
+    font-family: 'open_sansregular' !important;
+    font-size:15px;
+    color:#000;
+    background:#eaeaea !important;
+    /*word-break:break-all;*/
+}
+h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'open_sansregular' !important;}
+h1{font-size:35px;}
+h2{font-size:22px;font-family: 'open_sansregular';}
+h3{font-size:18px;}
+p{margin:0 ; padding:0px  ; font-family: 'open_sansregular' !important;}
+a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'open_sansregular';}
+a img{border:none;}
+/*a img:hover{opacity: 0.7; filter: alpha(opacity = 70);}*/
+input{font-family: 'open_sansregular';}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
+        url('../fonts/opensans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('../fonts/opensans-light-webfont.woff2') format('woff2'),
+        url('../fonts/opensans-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*----------------------------------------------- general end */
+
+/*----------------------------------------------- layout header ---------------------------------------*/
+header{
+    display:block;
+    background:#FFF;
+    padding:19px 0px;
+    border-bottom:1px solid #34cab5;
+    margin-bottom:15px;
+}
+.logo img{max-width:100%;}
+.header-nav{
+    float:right;
+}
+.header-nav a{
+    float:left;
+    padding:11px 12px 12px 14px;
+    margin-left:5px !important;
+    font-size:17px;
+    line-height:17px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.header-nav a:hover, .header-nav a.active{
+    color:#FFF !important;
+    background:#34cab5;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.mobile-nav{
+    display:none;
+    color:#26bcc3;
+    font-size:20px;
+    line-height:20px;
+    text-align:center;
+    padding:15px 5px 5px 5px;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span{
+    cursor:pointer;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span:hover{
+    color:#000;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+/*----------------------------------------------- layout footer ---------------------------------------*/
+footer{
+    display:block;
+    padding:30px 15px;
+    background:#34cab5;
+    text-align:center;
+    font-size:16px;
+    line-height:16px;
+    color:#FFF;
+}
+footer .social-icon{
+    display:block;
+    padding-bottom:13px;
+}
+footer a{
+    display:inline-block;
+    margin-right:5px !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+footer a:hover{
+    opacity:0.7;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+/*----------------------------------------------- layout  end */
+
+/*----------------------------------------------- Signup page ---------------------------------------*/
+.middle-content{
+    display:block;
+    background:#FFF;
+    padding:55px 15px 65px 15px;
+    margin-bottom:15px;
+    border-radius: 6px;
+    background-clip: padding-box;
+}
+.signup-form{
+    max-width:600px;
+    margin:0 auto;
+}
+.signup-form h1{
+    display:block;
+    text-align:center;
+    font-size:40px;
+    line-height:37px;
+}
+.signup-form h2{
+    display:block;
+    text-align:center;
+    font-size:26px;
+    line-height:25px;
+    padding:70px 0px 45px 0px !important;
+}
+.f-name-txtbx{
+    width:100%;
+    height:47px;
+    padding:0px 16px;
+    display:block;
+    border:1px solid #e3e3e3;
+    outline:none;
+    font-size:17px;
+    line-height:17px;
+    margin-bottom:25px;
+    color:#000;
+}
+.create-account{
+    display:block;
+    padding:10px 0px 29px 0px;
+}
+.create-account a{
+    display:block;
+    max-width:270px;
+    text-align:center;
+    margin:0 auto !important;
+    background:#0088cc;
+    font-size:17px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.create-account a:hover{
+    background:#333;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.sign-in{
+    display:block;
+    text-align:center;
+    font-size:17px;
+    line-height:17px;
+}
+.sign-in a{
+    font-size:17px;
+    line-height:17px;
+    color:#0088cc !important;
+}
+.sign-in a:hover{text-decoration:underline !important;}
+/*----------------------------------------------- Signup page  end */
+
+
+/**********************************************************************************************************************************************/
+/*----------------------------------------------- tablet screens ---------------------------------------*/
+@media (max-width: 1000px) and (min-width: 768px){
+    .container{width:100% !important;}
+}
+/*----------------------------------------------- tablet screens  end */
+
+/*----------------------------------------------- mobile screens ---------------------------------------*/
+@media (max-width: 767px) and (min-width: 0px){
+    /*..........................header */
+    .header-nav{
+        width:100%;
+    }
+    .logo{display:block; text-align:center;}
+    .header-nav a{
+        width:100%;
+        text-align:center;
+        margin:0px 0px 5px 0px !important;
+    }
+    .mobile-nav{
+        display:block;
+    }
+    /*..........................signup */
+    .middle-content{padding:15px;}
+    .signup-form h1{font-size:30px; line-height:30px;}
+    .signup-form h2{font-size:20px; line-height:20px; padding:25px 0px !important;}
+    .f-name-txtbx{margin-bottom:15px;}
+
+}
+/*----------------------------------------------- mobile  end */
