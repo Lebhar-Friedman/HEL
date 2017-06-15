@@ -27,5 +27,22 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
         ),
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+                    'clientId' => '306153573106027',
+                    'clientSecret' => 'becb54315614a98345f33978b6f51e60',
+                    'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
+                ],
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => '743187643300-0q5i61hds3sm182dla83l0579620612n.apps.googleusercontent.com',
+                    'clientSecret' => 'yvhkrX6LkE3raa6o7CnYkzKO',
+                ],
+            ],
+        ],
     ],
 ];
