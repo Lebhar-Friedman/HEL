@@ -272,7 +272,7 @@ footer a:hover{
     display:block;
     padding:10px 0px 29px 0px;
 }
-.create-account a{
+.create-account button{
     display:block;
     max-width:270px;
     text-align:center;
@@ -285,10 +285,13 @@ footer a:hover{
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
-.create-account a:hover{
+.create-account button:hover{
     background:#333;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
+}
+.btn-radius-0{
+    border-radius: 0px;
 }
 .sign-in{
     display:block;
