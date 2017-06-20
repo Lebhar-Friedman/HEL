@@ -53,6 +53,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'auth_key',
             'role',
             'status',
+            'saved_events',
             'created_at',
             'updated_at',
         ];
@@ -95,6 +96,14 @@ class User extends ActiveRecord implements IdentityInterface {
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
+                'value' => new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000)),
+            ],
+            [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['user_id'],
+                ],
+                'value' => Counter::getAutoIncrementId(Counter::COUNTER_USER_ID),
             ]
         ];
     }
