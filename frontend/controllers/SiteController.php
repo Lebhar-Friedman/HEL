@@ -84,14 +84,14 @@ class SiteController extends Controller {
         }else{
             $user_email = $userAttributes['email'];
         }
-        $user = User::find()->where(['email' => $user_email,])->one();
+        $user = User::find()->where(['username' => $userAttributes['id']])->one();
         if (!empty($user)) {
             Yii::$app->user->login($user);
         } else {
             $user = new User();
-            $user->username = $userAttributes['email'];
-            $user->email = $userAttributes['email'];
-//            $user->setPassword($this->password);
+            $user->username = $userAttributes['id'];
+            $user->email = $user_email;
+            $user->setPassword('');
             $user->generateAuthKey();
             $user->save() ;
             Yii::$app->user->login($user);
