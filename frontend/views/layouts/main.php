@@ -50,7 +50,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                     <a href="<?= $baseUrl ?>/site/signup" class="active">Sign Up</a>
                                 <?php } else {
                                     ?>
-                                    <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->username ?>)</a>
+                                    <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
                                 <?php } ?>
                             </div>
                         </div>
