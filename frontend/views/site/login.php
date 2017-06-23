@@ -53,11 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div>
                                 <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'email-input passowrd-icon', 'placeholder' => 'Password']])->passwordInput()->label(false) ?>
                             </div>
-                            <div class="forgot">
-                                <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
-                            </div>
                             <div class="login-account">
                             <?= Html::submitButton('Login', ['class' => 'btn', 'name' => 'login-button']) ?>
+                            </div>
+                            <div class="forgot">
+                                <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
                             </div>
                             <div class="sign-in">
                                 Don’t have an account? 

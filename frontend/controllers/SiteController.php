@@ -71,24 +71,26 @@ class SiteController extends Controller {
     }
 
     public function onAuthSuccess($client) {
-//        (new AuthHandler($client))->handle();
         $userAttributes = $client->getUserAttributes();
 //        echo '<pre>';
 //        print_r($userAttributes);
 //        exit();
         if(is_array($userAttributes['name'])){
+            $first_name=$userAttributes['name']['givenName'];
+            $last_name=$userAttributes['name']['familyName'];
             $user_email = $userAttributes['emails'][0]['value'];
-//            echo '<pre>';
-//            print_r($userAttributes);
-//            exit();
         }else{
             $user_email = $userAttributes['email'];
+            $first_name=$userAttributes['first_name'];
+            $last_name=$userAttributes['last_name'];
         }
         $user = User::find()->where(['username' => $userAttributes['id']])->one();
         if (!empty($user)) {
             Yii::$app->user->login($user);
         } else {
             $user = new User();
+            $user->first_name=$first_name;
+            $user->last_name=$last_name;
             $user->username = $userAttributes['id'];
             $user->email = $user_email;
             $user->setPassword('');
@@ -168,6 +170,10 @@ class SiteController extends Controller {
      */
     public function actionAbout() {
         return $this->render('about');
+    }
+    
+    public function actionPrivacy() {
+        return $this->render('privacy');
     }
 
     /**
