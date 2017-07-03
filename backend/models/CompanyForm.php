@@ -1,14 +1,13 @@
 <?php
 
-namespace common\models;
+namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 
 /**
  * Login form
  */
-class LoginForm extends Model {
+class CompanyForm extends Model {
 
     public $name;
     public $contact_name;
