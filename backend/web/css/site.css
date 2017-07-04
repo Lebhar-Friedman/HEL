@@ -485,3 +485,118 @@ a.login-btn {
 
 /*-------------------------------------------- login ends */
 
+
+/*********************Add New Company***************************/
+.new-comp-content{
+    display:block;
+    background:#FFF;
+    padding:0px 15px 65px 15px;
+    margin-bottom:15px;
+    border-radius: 6px;
+    background-clip: padding-box;
+    font-family: 'open_sansregular';
+}
+.signup-addnew-form{
+    max-width:600px;
+    margin:0 auto;
+}
+.signup-addnew-form h2{
+    display:block;
+    text-align:center;
+    font-size:30px;
+    line-height:25px;
+    color:#000;
+    padding:70px 0px 45px 0px !important;
+    font-family: 'open_sansregular';
+}
+.upload-img {
+    display: block;
+    float:left;
+}
+.upload-logo {
+    display: block;
+    float:left;
+}
+.upload-logo label{
+    display:inline-block;
+    color:#233872 !important;
+    margin-top:134px  !important;
+    font-size:16px;
+    line-height:16px;
+    border:1px solid #0088cc;
+    padding:14px 22px;
+    border-radius:4px;
+    font-family: 'open_sansregular' !important;
+}
+.upload-logo label:hover{
+    cursor: pointer;
+}
+#logo{
+    display: none ;
+}
+.row-margin-top {
+    margin-top: 25px;
+}
+.row-margin-t {
+    margin-top: 80px;
+}
+.school-name {
+    color: #333333;
+    display: block;
+    font-size: 16px;
+    line-height: 14px;
+    padding: 5px 0;
+    position: relative;
+}
+.school-name-textbx {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #b4b4b4;
+    color: #1e1e1e;
+    display: block;
+    float: left;
+    font-family: "robotolight";
+    font-size: 16px;
+    height: 44px;
+    line-height: 16px;
+    outline: medium none;
+    padding: 0 10px;
+    width: 100%;
+}
+.add-new-btn{
+    display:block;
+    padding:38px 0 85px 90px;
+}
+.add-new-btn button{
+    display:block;
+    width:270px;
+    text-align:center;
+    margin:0 auto !important;
+    border-radius:4px;
+    background:#0088cc;
+    font-size:17px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.add-new-btn button:hover{
+    background:#333;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 1199px) and (min-width: 768px){
+
+    .upload-logo a{margin-left:50px !important;}
+}
+@media (max-width: 767px) and (min-width: 0px){
+
+    .upload-logo { text-align: center; float:none;}
+    .upload-logo a{margin-top:25px !important;}
+    .upload-img {text-align:center;float:none;}
+    .add-new-btn {padding: 38px 0 85px;}
+
+}
+
+/*End add company*/

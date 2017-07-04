@@ -19,15 +19,15 @@ class CompanyController extends Controller {
         $request = Yii::$app->request;
         $model = new CompanyForm();
         if ($request->isPost) {
-            $company = new Company();
-            $company->attributes = $model->attributes;
-            
             $model->load($request->post());
             $model->logo = UploadedFile::getInstance($model, 'logo');
+            $company = new Company();
+            $company->attributes = $model->attributes;
 
             $image_name = rand(100, 5000);
             if (isset($model->logo) && $model->upload($image_name)) {
                 $company->logo = $image_name . '.' . $model->logo->extension;
+                $model->logo=$company->logo;
             }
             $company->save();
         }
