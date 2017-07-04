@@ -27,6 +27,7 @@ $form = ActiveForm::begin([
 <?= $form->field($model, 'contact_name', ['inputOptions' => ['class' => 'form-control', 'placeholder' => 'Contact Name']])->textInput()->label(false); ?>
 <?= $form->field($model, 'phone', ['inputOptions' => ['class' => 'form-control', 'placeholder' => 'Phone number']])->textInput()->label(false); ?>
 <?= $form->field($model, 'email', ['inputOptions' => ['class' => 'form-control', 'placeholder' => 'email']])->textInput()->label(false); ?>
-<input type="file" name="companyForm[image]" id="image" value="">
+<?= $form->field($model, 'logo')->fileInput() ?>
+<!--<input type="file" name="companyForm[image]" id="image" value="">-->
 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
 <?php $form->end(); ?>

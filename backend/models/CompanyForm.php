@@ -14,7 +14,6 @@ class CompanyForm extends Model {
     public $phone;
     public $email;
     public $logo;
-
     /**
      * @inheritdoc
      */
@@ -27,7 +26,7 @@ class CompanyForm extends Model {
             // email validation
             ['email', 'email'],
             // image field
-            ['logo', 'file'],
+            [['logo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -44,6 +43,22 @@ class CompanyForm extends Model {
             if (!$user || $this->role != $user->role || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
+        }
+    }
+    
+    public function upload($image_name='')
+    {
+        if ($this->validate()) {
+            if($this->logo == null){
+                return true;
+            }
+            if($image_name == ''){
+                $image_name=$this->logo->baseName;
+            }
+            $this->logo->saveAs('../../common/uploads/' . $image_name . '.' . $this->logo->extension);
+            return true;
+        } else {
+            return false;
         }
     }
 

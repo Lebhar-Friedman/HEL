@@ -37,7 +37,7 @@ class Company extends ActiveRecord {
             'email',
             'logo',
             'created_at',
-            'updated_at',
+            'updated_at'
         ];
     }
 
@@ -87,6 +87,5 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-
-// end class counter
+    
 }
