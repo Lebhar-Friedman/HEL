@@ -2,11 +2,8 @@
 
 namespace common\models;
 
-use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
+use yii\behaviors\AttributeBehavior;
 use yii\mongodb\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
  * Location model
@@ -40,7 +37,7 @@ class Company extends ActiveRecord {
             'email',
             'logo',
             'created_at',
-            'updated_at',
+            'updated_at'
         ];
     }
 
@@ -75,7 +72,7 @@ class Company extends ActiveRecord {
                 'value' => new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000)),
             ],
             [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'class' => AttributeBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['company_id'],
                 ],
@@ -90,6 +87,5 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-
-// end class counter
+    
 }

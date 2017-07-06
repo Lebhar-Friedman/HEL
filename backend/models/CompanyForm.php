@@ -1,21 +1,19 @@
 <?php
 
-namespace common\models;
+namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 
 /**
  * Login form
  */
-class LoginForm extends Model {
+class CompanyForm extends Model {
 
     public $name;
     public $contact_name;
     public $phone;
     public $email;
     public $logo;
-
     /**
      * @inheritdoc
      */
@@ -28,7 +26,7 @@ class LoginForm extends Model {
             // email validation
             ['email', 'email'],
             // image field
-            ['logo', 'file'],
+            [['logo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -45,6 +43,22 @@ class LoginForm extends Model {
             if (!$user || $this->role != $user->role || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
+        }
+    }
+    
+    public function upload($image_name='')
+    {
+        if ($this->validate()) {
+            if($this->logo == null){
+                return true;
+            }
+            if($image_name == ''){
+                $image_name=$this->logo->baseName;
+            }
+            $this->logo->saveAs('../../common/uploads/' . $image_name . '.' . $this->logo->extension);
+            return true;
+        } else {
+            return false;
         }
     }
 
