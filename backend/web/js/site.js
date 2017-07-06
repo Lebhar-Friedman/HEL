@@ -91,7 +91,8 @@ function importcsv() {
             error: function (data) {
                 Msg('Something went wrong, Please try later.', 'ERR');
             },
-            complete: function (jqXHR, textStatus) {console.log(textStatus);
+            complete: function (jqXHR, textStatus) {
+                console.log(textStatus);
                 $('#Loader').addClass('hidden');
                 $('#import').val('');
             }
@@ -102,3 +103,4 @@ function importcsv() {
     }
 
 }
+

@@ -2,11 +2,12 @@
 
 use yii\helpers\BaseUrl;
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 
 $baseUrl = BaseUrl::base();
-$this->registerJsFile('@web/js/company.js');
 ?>
+<?php $this->registerJsFile('@web/js/company.js', ['depends' => [JqueryAsset::className()]] ); ?>
 
 <?php
 $form = ActiveForm::begin([
@@ -22,7 +23,7 @@ $form = ActiveForm::begin([
 ?>
 <?php 
 if(!isset($model->logo) || $model->logo === NULL || $model->logo === ''){
-    $logo_url='../images/upload-logo.png';
+    $logo_url='../../../common/images/upload-logo.png';
 }else{
     $logo_url='../../../common/uploads/'.$model->logo;
 }

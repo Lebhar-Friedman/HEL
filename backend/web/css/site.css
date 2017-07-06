@@ -545,7 +545,7 @@ a.login-btn {
     display: block;
     font-size: 16px;
     line-height: 14px;
-    padding: 5px 0;
+    padding: 25px 0;
     position: relative;
 }
 .school-name-textbx {
@@ -587,16 +587,218 @@ a.login-btn {
 }
 
 @media (max-width: 1199px) and (min-width: 768px){
-
     .upload-logo a{margin-left:50px !important;}
 }
 @media (max-width: 767px) and (min-width: 0px){
-
     .upload-logo { text-align: center; float:none;}
     .upload-logo a{margin-top:25px !important;}
     .upload-img {text-align:center;float:none;}
     .add-new-btn {padding: 38px 0 85px;}
+    .school-name {padding: 5px 0 }
 
 }
 
 /*End add company*/
+
+/*****************Search Company ******************/
+.add-new-btn2 a{
+    text-decoration: none;
+}
+.search-box{
+	width:100%;
+	height:46px;
+	display:block;
+	background:#FFF;
+	padding:0px 40px 0px 12px;
+	border:1px solid #bbbbbb;
+	outline:none;
+	margin-bottom:15px;
+	margin-top:25px;
+	margin-left:5%;
+	color:#7f7f7f;
+	font-size:16px;
+	line-height:16px;	
+  	border-radius: 3px; 
+  	background-clip: padding-box;
+}
+.search-img{background:#FFF url(../images/sreach-img.png) no-repeat right center !important;}
+
+.company-container {
+    margin: 0 auto;
+    max-width: 970px;
+}
+.search-comp-content{
+	display:block;
+	background:#FFF;
+	padding:0px 100px 100px 100px;
+	margin-bottom:15px;
+	border-radius: 6px;
+	background-clip: padding-box;
+	font-family: 'open_sansregular';
+}
+	.add-new-btn2 a{
+		display:block;
+		text-align:center;
+		margin:0 auto !important;
+		border-radius:4px;
+		background:#0088cc;
+		font-size:17px;
+		line-height:17px;
+		color:#FFF !important;
+		padding:15px 50px 17px 50px;
+		-webkit-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+		font-weight:bold;
+	}
+	.add-new-btn2 a:hover{
+		background:#333;
+		-webkit-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+	}
+	.flt-lft{float:left !important;}
+	.total {
+    display: block;
+    float: right;
+    padding-top: 25px;
+	font-size:16px;
+    font-family: 'open_sansregular' !important;
+	
+}
+
+.list-table {
+    width: 100%;
+    font-family: 'open_sansregular';
+    overflow: hidden;
+}
+.table-th {
+    height: 50px;
+    background: #34cab5;
+    border-bottom: solid 1px #cdcdcd;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 14px;
+	margin-top:8px;
+}
+.table-company{ width:23.8%; float:left; text-align:left; margin-left:19%;padding:16px 0px;}
+
+.table-events{width:23.8%;float:left; text-align:left;  padding: 16px 0px;}
+.table-locations{ width:23.9%; float:left; text-align:left; padding: 16px 0px;}
+.frb-table-product-th{width:19.1%;float:left; text-align:left; padding: 14px 0px;}
+.frb-table-price-th {
+    width: 10.3%;
+    float: left;
+    text-align: left;
+    padding: 14px 0px 0 37px;
+}
+.table-space{width:3.5%;float:left; text-align:right;   padding: 16px 0px;}
+ .tc1 {
+        width: 19.5%;
+        padding: 15px 0 0px 0;
+        float: left;
+        text-align: center;
+        font-size: 14px;
+		height:80px;
+}
+.tc2 {
+        width: 25%;
+        padding: 30px 0 20px 0;
+        float: left;
+        font-size: 16px;
+    }
+.tc2-2{
+        width: 22%;
+        padding: 30px 0 19px 0;
+        float: left;
+        font-size: 15px;
+		color:#0088cc;
+		text-decoration:underline;
+		
+    }
+.tc3 {
+        width: 10%;
+        padding: 30px 0 16px 0;
+        float: left;
+        font-size: 15px;
+		text-align:center;
+		color:#0088cc;
+		text-decoration:underline;
+}
+.tc3 img{
+	padding-left:12px;
+	margin-bottom:6px;
+}
+.tc4 {
+    width: 23.5%;
+    float: left;
+    text-align: right;
+    font-size: 14px !important;
+    padding: 30px 0 0px 0px;
+}
+.tc5 {
+        width: 10%;
+        padding: 30px 0 16px 2.5%;
+        float: left;
+        font-size: 15px;
+		color:#0088cc;
+		text-decoration:underline;
+}
+ .main-table {
+    overflow: hidden;
+    float: left;
+    font-size: 16px;
+    width: 100%;
+    font-family: 'open_sansregular' !important;
+    border-bottom: solid 1px #d1d1d1;
+} 
+.edit{
+	padding-right:5px;
+}
+.edit-btn {
+	float:right;
+    display:block;
+    background:#fff;
+    color:#FFF!important;
+    width:40px;
+	height:38px;
+   /* -webkit-transition:all .4s ease-out;
+    transition:all .4s ease-out;
+	border-radius:3px;
+	border:1px solid #6aaf07; */
+    background-clip:padding-box;
+    text-align:center;
+	background-image: url(../images/edit1.png); 
+	background-repeat:no-repeat;
+	margin-right:5px !important;
+}
+a.edit-btn:hover { background-position:0 -38px;
+	/*-webkit-transition:all .4s ease-out;
+    transition:all .4s ease-out;*/
+	 }
+.del-btn {
+	float:right;
+    display:block;
+    background:#fff;
+    color:#FFF!important;
+    width:40px;
+	height:38px;
+   /* -webkit-transition:all .4s ease-out;
+    transition:all .4s ease-out;
+	border-radius:3px;
+	border:1px solid #6aaf07; */
+    background-clip:padding-box;
+    text-align:center;
+	background-image: url(../images/cross1.png); 
+	background-repeat:no-repeat;
+	
+}
+a.del-btn:hover { background-position:0 -38px;
+	/*-webkit-transition:all .4s ease-out;
+    transition:all .4s ease-out;*/
+	 }
+@media (max-width: 1199px) and (min-width: 0px){
+	.search-box{margin-left: 0px;}
+	.search-comp-content{padding:0 15px 100px 15px;}
+}
+
+/*end company search*/
