@@ -73,13 +73,65 @@ class ImportController extends Controller {
             if ($model->upload('uploads/import/')) {
                 if(Yii::$app->request->post('import_type')=='company'){
                     
+                    
                 }elseif (Yii::$app->request->post('import_type')=='event') {
                     
                 } else {
-                    
+                    exit(json_encode(['msgType' => 'ERR', 'msg' => 'Invalid import type']));
                 }
             }
         }
     }
+    
+    private function validateCompanyCSV() {
+        $attributeMapArray = [
+            'company name' => 'name',
+            'contact name' => 'contact_name',
+            'phone' => 'phone',
+            'email' => 'email',
+        ];
 
+        $attributes = $result = [];
+        $file = fopen("uploads/import/import.csv", "r");
+        $headerRow = fgetcsv($file);
+
+        if (!empty($headerRow)) {
+            $rowNo = 1;
+            $models = [];
+            while (!feof($file)) {
+                $rowNo++;
+                $model = new \backend\models\CompanyForm();
+                $model->scenario = 'create';
+                $dataRow = fgetcsv($file);
+
+                if (!empty($dataRow)) {
+                    foreach ($headerRow as $key => $value) {
+                        if (isset($attributeMapArray[$value])) {
+                            $attributes[$attributeMapArray[$value]] = trim($dataRow[$key]);
+                        } elseif(!empty ($value)) {
+                            fclose($file);
+                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column '.$key.'</b> <br>'];
+                        }
+                    }
+                    $model->attributes = $attributes;
+                   if (!$model->validate()) {//echo json_encode($model->getErrors());exit();
+                        fclose($file);
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \Component\GlobalFunction::modelErrorsToString($model->getErrors())];
+                    }
+                    $company = \common\models\Company::findOne(['name' => $model->name]);
+
+                    if (count($company) > 0) {
+                        $model->ma_id = $company->ma_id;
+                        $model->scenario = 'update';
+                    }
+                    array_push($models, $model);
+                }
+            }
+        }
+
+        fclose($file);
+        return ['result' => TRUE, 'models' => $models];
+    }
+    
+// end class
 }

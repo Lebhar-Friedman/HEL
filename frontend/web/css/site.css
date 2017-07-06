@@ -156,15 +156,16 @@ input{font-family: 'open_sansregular';}
 
 /*----------------------------------------------- layout header ---------------------------------------*/
 header{
-    display:block;
-    background:#FFF;
-    padding:19px 0px;
-    border-bottom:1px solid #34cab5;
-    margin-bottom:15px;
+    display: block;
+    background: #FFF;
+    padding: 5px 0px;
+    border-bottom: 1px solid #2aaae2;
+    margin-bottom: 15px;
 }
 .logo img{max-width:100%;}
 .header-nav{
     float:right;
+    padding-top: 13px;
 }
 .header-nav a{
     float:left;

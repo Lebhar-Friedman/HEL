@@ -137,7 +137,7 @@ h1{font-size:35px;}
 h2{font-size:22px;}
 h3{font-size:18px;}
 p{margin:0 !important; padding:0px  !important; font-family: 'open sans' !important;}
-/*a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'Open Sans', sans-serif;}*/
+a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'open_sansregular';}
 input{font-family: 'Open Sans', sans-serif;}
 @font-face {
     font-family: 'open_sanslight';
@@ -196,7 +196,88 @@ input{font-family: 'Open Sans', sans-serif;}
     font-weight: normal;
     font-style: normal;
 }
-/*-------------------------------------------- general end ----------------------*/
+/*-------------------------------------------- general end */
+
+/*-------------------------------------------- Layout (header, footer) ----------------------*/
+header{
+    display:block;
+    background:#FFF;
+    padding:5px 0px;
+    border-bottom:1px solid #2aaae2;
+    margin-bottom:15px;
+
+}
+.h-logo{margin-left:60px;}
+.logo img{max-width:100%;}
+.header-nav{
+    float:right;
+    padding-top: 13px;
+}
+.header-nav a{
+    float:left;
+    padding:11px 12px 12px 14px;
+    margin-left:5px !important;
+    font-size:17px;
+    line-height:17px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.header-nav a:hover, .header-nav a.active{
+    color:#FFF !important;
+    background:#34cab5;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav{
+    display:none;
+    color:#26bcc3;
+    font-size:20px;
+    line-height:20px;
+    text-align:center;
+    padding:15px 5px 5px 5px;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span{
+    cursor:pointer;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span:hover{
+    color:#000;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+footer{
+    display:block;
+    padding:30px 15px;
+    background:#2aaae2;
+    text-align:center;
+    font-size:16px;
+    line-height:16px;
+    color:#FFF;
+}
+footer .social-icon{
+    display:block;
+    padding-bottom:13px;
+}
+footer a{
+    display:inline-block;
+    margin-right:5px !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+footer a:hover{
+    opacity:0.7;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+/*-------------------------------------------- Layout end */
+
 
 /*-------------------------------------------- login ----------------------*/
 .login-container {
@@ -482,6 +563,29 @@ a.login-btn {
     color: #666666;
     font-size: 18px;
 }
-
 /*-------------------------------------------- login ends */
 
+/******************************************************************* Tablet (Media queries) ************************************/
+@media (max-width: 1000px) and (min-width: 768px){
+    .container{width:100% !important;}
+}
+
+/******************************************************************* Mobile (Media queries) ************************************/
+@media (max-width: 767px) and (min-width: 0px){
+    .header-nav{
+        width:100%;
+    }
+    .h-logo{margin-left:0px;}
+    .or-mrgn img{display:none;}
+    .or-mrgn{ margin-top:0px !important;}
+    .logo{display:block; text-align:center;}
+    .header-nav a{
+        width:100%;
+        text-align:center;
+        margin:0px 0px 5px 0px !important;
+    }
+    .middle-content{padding:15px;}
+    .mobile-nav{
+        display:block;
+    }
+}
