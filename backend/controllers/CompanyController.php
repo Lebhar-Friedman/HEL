@@ -43,6 +43,7 @@ class CompanyController extends Controller {
                 $retData['msg'] = $msg;
                 $retData['companyId']=(string) $company->_id;
                 Yii::$app->response->format = Response::FORMAT_JSON;
+                Yii::$app->getSession()->setFlash('success', 'New company has been added to datababse.');
                 return $retData;
             }
             return $this->render('detail', ['model' => $model]);
