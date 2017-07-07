@@ -98,14 +98,21 @@ class User extends ActiveRecord implements IdentityInterface {
                 ],
                 'value' => new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000)),
             ],
-            [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['user_id'],
-                ],
-                'value' => Counter::getAutoIncrementId(Counter::COUNTER_USER_ID),
-            ]
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->user_id = Counter::getAutoIncrementId(Counter::COUNTER_USER_ID);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

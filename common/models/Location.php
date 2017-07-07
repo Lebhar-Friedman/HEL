@@ -2,11 +2,7 @@
 
 namespace common\models;
 
-use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\mongodb\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
  * Location model
@@ -88,15 +84,22 @@ class Location extends ActiveRecord {
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
                 'value' => new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000)),
-            ],
-            [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['location_id'],
-                ],
-                'value' => Counter::getAutoIncrementId(Counter::COUNTER_LOCATION_ID),
             ]
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->location_id = Counter::getAutoIncrementId(Counter::COUNTER_LOCATION_ID);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

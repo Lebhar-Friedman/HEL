@@ -35,10 +35,10 @@ $baseUrl = Yii::$app->request->baseUrl;
         <header>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-5 col-sm-5">
-                        <div class="logo"><a href="#"><img src="images/logo.png" alt="" /></a></div>
+                    <div class="col-lg-2 col-md-5 col-sm-5">
+                        <div class="logo"><a href="#"><img src="<?= $baseUrl ?>/images/logo.png" alt="" /></a></div>
                     </div>
-                    <div class="col-lg-8 col-md-7 col-sm-7">
+                    <div class="col-lg-10 col-md-7 col-sm-7">
                         <div class="mobile-nav"><span class="glyphicon glyphicon-align-justify"></span></div>
                         <div class="clearfix">
                             <div class="header-nav clearfix">
@@ -64,7 +64,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         </header>
 
         <div class="container">
-            <?= Alert::widget() ?>
+            <div class="row"><?= Alert::widget() ?></div>
             <?= $content ?>
         </div>
 
