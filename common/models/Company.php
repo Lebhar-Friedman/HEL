@@ -70,15 +70,22 @@ class Company extends ActiveRecord {
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
                 'value' => new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000)),
-            ],
-            [
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['company_id'],
-                ],
-                'value' => Counter::getAutoIncrementId(Counter::COUNTER_COMPANY_ID),
             ]
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->company_id = Counter::getAutoIncrementId(Counter::COUNTER_COMPANY_ID);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

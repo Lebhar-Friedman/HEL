@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 $this->title = 'Import csv';
+$this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
 ?>
 
 
