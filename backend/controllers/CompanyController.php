@@ -15,9 +15,13 @@ class CompanyController extends Controller {
 
     public function actionIndex() {
         $query = Company::find();
+        $companySearch = urldecode(Yii::$app->request->get('name'));
+        if($companySearch !== ''){
+            $query=$query->where(['like','name', $companySearch]);
+        }
         $count = $query->count();
-
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (12)]);
+        
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $companies = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['name' => SORT_ASC])->all();
 
         return $this->render('index', ['companies' => $companies, 'pagination' => $pagination, 'total' => $count]);

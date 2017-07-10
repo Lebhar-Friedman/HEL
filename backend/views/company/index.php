@@ -9,7 +9,13 @@ use yii\widgets\LinkPager;
     <div class="search-comp-content">
         <div class="company-container">
             <div class="col-lg-2"></div>
-            <center><div class="row col-lg-8"><input type="text" class="search-box search-img" value="" 		 					placeholder="Search Term" /></div></center>
+            <center>
+                <div class="row col-lg-8">
+                    <form method="get" action="<?= BaseUrl::base().'/company' ?>">
+                        <input type="text" name="name" class="search-box search-img" value="" placeholder="Search Term" />
+                    </form>
+                </div>
+            </center>
 
             <div class="row ">
                 <div class="col-lg-6 col-md-4 col-sm-4">
