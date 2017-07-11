@@ -3,8 +3,7 @@ function logoChange(logo) {
     var preview = document.getElementById('logo_img');
     var reader = new FileReader();
     if (logo.value.length === 0) {
-        // get loaded data and render thumbnail.
-        preview.src = '../../../common/images/upload-logo.png';
+        preview.src = baseUrl+'images/upload-logo.png';
         return false;
     } else {
         reader.onload = function (e) {
@@ -12,7 +11,6 @@ function logoChange(logo) {
             preview.src = e.target.result;
         };
     }
-    // read the image file as a data URL.
     reader.readAsDataURL(logo.files[0]);
 }
 $(document).ready(function () {

@@ -36,7 +36,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 col-sm-5">
-                        <div class="logo"><a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a></div>
+                        <div class="logo"><a href="<?= $baseUrl?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a></div>
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-7">
                         <div class="mobile-nav"><span class="glyphicon glyphicon-align-justify"></span></div>

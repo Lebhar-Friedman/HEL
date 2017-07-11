@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <?php ActiveForm::end(); ?>
                     <div class="sign-in">
-                        Already have an account? <a href="#">Sign In</a>
+                        Already have an account? <a href="login">Sign In</a>
                     </div>
                 </div>
             </div>

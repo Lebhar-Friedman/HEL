@@ -55,7 +55,7 @@ class CompanyForm extends Model {
             if($image_name == ''){
                 $image_name=$this->logo->baseName;
             }
-            $this->logo->saveAs('../../common/uploads/' . $image_name . '.' . $this->logo->extension);
+            $this->logo->saveAs('uploads/' . $image_name . '.' . $this->logo->extension);
             return true;
         } else {
             return false;

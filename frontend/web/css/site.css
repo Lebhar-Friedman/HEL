@@ -496,18 +496,18 @@ footer a:hover{
     background-clip: padding-box;
     font-family: 'open_sansregular';
 }
-.signup-form{
+.forget-signup-form{
     max-width:300px;
     margin:0 auto;
 }
-.signup-form h1{
+.forget-signup-form h1{
     display:block;
     text-align:center;
     font-size:26px;
     line-height:37px;
     color:#29859c;
 }
-.signup-form h2{
+.forget-signup-form h2{
     display:block;
     text-align:center;
     font-size:18px;
@@ -555,3 +555,5 @@ footer a:hover{
     transition: all 0.3s ease;
 }
 /************** end forget password *************/
+
+

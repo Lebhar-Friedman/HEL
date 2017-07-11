@@ -2,6 +2,7 @@
 
 use yii\helpers\BaseUrl;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 
@@ -23,9 +24,9 @@ $baseUrl = BaseUrl::base();
     ?>
     <?php
     if (!isset($model->logo) || $model->logo === NULL || $model->logo === '') {
-        $logo_url = '../../../common/images/upload-logo.png';
+        $logo_url = Url::to('@web/images/upload-logo.png');
     } else {
-        $logo_url = '../../../common/uploads/' . $model->logo;
+        $logo_url = Url::to('@web/uploads/' . $model->logo);
     }
     ?>
     <div class="col-lg-12">
@@ -88,8 +89,9 @@ $baseUrl = BaseUrl::base();
                 </div>         
                 <div class="add-new-btn">
                     <?= Html::submitButton('Submit', ['class' => 'btn']) ?>
+                <!--<img src="<?php echo Url::to('@web/images/loader.gif') ?>" height="20px" width="20px" style='margin-top: 8px;margin-left: 50px;display:none;' class='loader' >-->
                 </div>
-            </div>
+            </div>         
         </div>
     </div>
     <?php $form->end(); ?>

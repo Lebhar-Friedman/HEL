@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
         <center>
             <div class="middle-content">
-                <div class="signup-form">
+                <div class="forget-signup-form">
                     <h1>Reset Password</h1>
                     <div>
                         <?= $form->field($model, 'password',['inputOptions'=> ['class'=> 'txtbx','placeholder' => 'Enter your new password']])->passwordInput(['autofocus' => true])->label(false) ?>
