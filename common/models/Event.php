@@ -8,8 +8,9 @@ use yii\mongodb\ActiveRecord;
  * Location model
  *
  * @property integer $_id
- * @property integer $event_id
+ * @property integer $event_id auto increment
  * @property string $title
+ * @property string $company
  * @property string $date_start
  * @property string $date_end
  * @property string $time_start
@@ -17,7 +18,7 @@ use yii\mongodb\ActiveRecord;
  * @property string $categories
  * @property string $sub_categories
  * @property string $locations
- * @property float $cost
+ * @property float $price
  * @property string $description
  * @property boolean $is_post
  * @property integer $created_at
@@ -37,6 +38,7 @@ class Event extends ActiveRecord {
         return ['_id',
             'event_id', // auto increment serial#
             'title', // 
+            'company',
             'date_start',
             'date_end',
             'time_start',
@@ -44,7 +46,7 @@ class Event extends ActiveRecord {
             'categories',
             'sub_categories',
             'locations',
-            'cost',
+            'price',
             'description',
             'is_post',
             'created_at',
@@ -59,14 +61,18 @@ class Event extends ActiveRecord {
         return [
             [['_id',
             'event_id', // auto increment serial#
-            'company', // 
-            'street',
-            'city',
-            'state',
-            'zip',
-            'contact_name',
-            'phone',
-            'email',
+            'title', // 
+            'company',
+            'date_start',
+            'date_end',
+            'time_start',
+            'time_end',
+            'categories',
+            'sub_categories',
+            'locations',
+            'price',
+            'description',
+            'is_post',
             'created_at',
             'updated_at'], 'safe'],
         ];
@@ -87,7 +93,7 @@ class Event extends ActiveRecord {
             ]
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -108,7 +114,6 @@ class Event extends ActiveRecord {
     public static function findEvent($id) {
         return static::findOne(['_id' => $id]);
     }
-
 
 // end class counter
 }

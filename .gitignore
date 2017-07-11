@@ -35,3 +35,4 @@ phpunit.phar
 /.vagrant
 /Backup/
 /common/uploads/
+/backend/web/uploads/

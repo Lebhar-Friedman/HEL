@@ -1,6 +1,6 @@
 <?php
 
-namespace Component;
+namespace components;
 
 use Yii;
 use app\common\models\Countries;
@@ -11,7 +11,7 @@ class GlobalFunction {
 
     public static function getUserRoles() {
         return [User::ROLE_ADMIN => 'Admin',
-            User::ROLE_AGENT => 'user',];
+            User::ROLE_USER => 'user',];
     }
 
 //    ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -203,6 +203,21 @@ class GlobalFunction {
             return $diff;
         }
         return $diff->format("%a");
+    }
+
+    public static function getLongLat($location) {
+        $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
+        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . rawurlencode($anAddress);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $json = curl_exec($curl);
+        curl_close($curl);echo $anAddress.'<br>'.$json;
+        $mapData = json_decode($json);
+        if ($mapData && $mapData->status == 'OK') {
+            return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
+        }
+        return FALSE;
     }
 
 // end class

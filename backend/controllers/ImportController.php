@@ -64,25 +64,25 @@ class ImportController extends Controller {
      */
     public function actionUploadCsv() {
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
-            echo json_encode(Yii::$app->request->post());
             $model = new \common\models\UploadForm();
             $model->load(Yii::$app->request->post());
             $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
-            $model->file->name = 'import.' . $model->file->extension;
+            $model->file->name = Yii::$app->request->post('import_type') . '.' . $model->file->extension;
 
             if ($model->upload('uploads/import/')) {
-                if(Yii::$app->request->post('import_type')=='company'){
-                    
-                    
-                }elseif (Yii::$app->request->post('import_type')=='event') {
-                    
+                if (Yii::$app->request->post('import_type') == 'company') {
+
+                    exit(json_encode(['msgType' => 'SUC', 'msg' => 'Companies Added Successfully.']));
+                } elseif (Yii::$app->request->post('import_type') == 'event') {
+                    $result = \backend\models\EventForm::saveCSV($model->file->name);
+                    exit($result);
                 } else {
                     exit(json_encode(['msgType' => 'ERR', 'msg' => 'Invalid import type']));
                 }
             }
         }
     }
-    
+
     private function validateCompanyCSV() {
         $attributeMapArray = [
             'company name' => 'name',
@@ -108,13 +108,13 @@ class ImportController extends Controller {
                     foreach ($headerRow as $key => $value) {
                         if (isset($attributeMapArray[$value])) {
                             $attributes[$attributeMapArray[$value]] = trim($dataRow[$key]);
-                        } elseif(!empty ($value)) {
+                        } elseif (!empty($value)) {
                             fclose($file);
-                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column '.$key.'</b> <br>'];
+                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . $key . '</b> <br>'];
                         }
                     }
                     $model->attributes = $attributes;
-                   if (!$model->validate()) {//echo json_encode($model->getErrors());exit();
+                    if (!$model->validate()) {//echo json_encode($model->getErrors());exit();
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \Component\GlobalFunction::modelErrorsToString($model->getErrors())];
                     }
@@ -132,6 +132,6 @@ class ImportController extends Controller {
         fclose($file);
         return ['result' => TRUE, 'models' => $models];
     }
-    
+
 // end class
 }
