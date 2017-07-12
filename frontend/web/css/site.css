@@ -556,4 +556,57 @@ footer a:hover{
 }
 /************** end forget password *************/
 
+/****************** Profile page *****************/
+.profile-content {
+    background: #fff none repeat scroll 0 0 padding-box;
+    border-radius: 6px;
+    display: block;
+    font-family: "open_sansregular";
+    margin-bottom: 15px;
+    padding: 0 15px 260px;
+}
+.profile-form{
+    margin:0 auto;
+    padding:0 100px;
+}
+.profile-form h2{
+    display:block;
+    text-align:center;
+    font-size:30px;
+    line-height:25px;
+    color:#000;
+    padding:30px 0px 65px 0px !important;
+    font-family: 'open_sansregular';
+}
+.profile-name {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px 15px 10px 20px;
+    /* line-height: 20px;
+     padding-bottom: 45px;*/
+
+}
+.profile-name-text {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px 15px 10px 20px;
+    /*line-height: 20px;
+    padding-bottom: 45px;*/
+}
+.participated {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px  0;
+    float:right;
+    /*line-height: 20px;
+    padding-bottom: 45px;*/
+}
+@media (max-width: 1199px) and (min-width: 0px){
+    .profile-form {padding: 0 20px;
+    }
+}
+/**************** End Profile page ***************/
 
