@@ -62,7 +62,7 @@ class EventForm extends Model {
             foreach ($models as $model) {
                 $locationForm = $model->location_models;
                 $location = \common\models\Location::findOne(['street' => $locationForm->street, 'city' => $locationForm->city, 'state' => $locationForm->state, 'zip' => $locationForm->zip]);
-                if (count($location)==0) {
+                if (count($location) == 0) {
                     $location = new \common\models\Location();
                 }
                 $location->attributes = $locationForm->attributes;
@@ -73,17 +73,13 @@ class EventForm extends Model {
                 }//echo '<br>' . json_encode($location->attributes);
                 $location->save();
                 $event = \common\models\Event::findOne(['title' => $model->title, 'company' => $model->company]);
-                if (count($event)==0) {
+                if (count($event) == 0) {
                     $event = new \common\models\Event();
                     $event->locations = [$location->attributes];
                 } else {
-                    $locationlist = $event->locations;
-                    array_push($locationlist, $location->attributes);
-                    $event->locations = $locationlist;
+                    $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
                 }
-                $event->attributes = $model->attributes;//echo var_dump($location->_id);exit;
-                
-
+                $event->attributes = $model->attributes;
                 if (!$event->save()) {
                     return json_encode(['msgType' => 'ERR', 'msg' => \Component\GlobalFunction::modelErrorsToString($event->getErrors()), 'validated' => 'CSV file validation failed.']);
                 }
@@ -142,6 +138,17 @@ class EventForm extends Model {
 
         fclose($file);
         return ['result' => TRUE, 'models' => $models];
+    }
+
+    public static function mergeEventLocations($eventLocations, $newLocation) {
+        foreach ($eventLocations as &$Location) {
+            if ($Location['location_id'] == $newLocation['location_id']) {
+                $Location = $newLocation;
+                return $eventLocations;
+            }
+        }
+        array_push($eventLocations, $newLocation);
+        return $eventLocations;
     }
 
 // end class
