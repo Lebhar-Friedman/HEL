@@ -48,13 +48,13 @@ $baseUrl = Yii::$app->request->baseUrl;
                                     <a href="<?= $baseUrl ?>/site/login">Log In</a>
                                 <?php } else {
                                     ?>
-                                    <a href="#">Upload</a>
-                                    <a href="<?= $baseUrl ?>/company">Companies</a>
+                                    <a href="<?= $baseUrl ?>/import" class="<?= (Yii::$app->controller->uniqueId=='import')? 'active': ''; ?>">Upload</a>
+                                    <a href="<?= $baseUrl ?>/company" class="<?= (Yii::$app->controller->uniqueId=='company')? 'active': ''; ?>">Companies</a>
                                     <a href="#">Locations</a>
-                                    <a href="#">Events</a>
+                                    <a href="<?= $baseUrl ?>/event" class="<?= (Yii::$app->controller->uniqueId=='event')? 'active': ''; ?>">Events</a>
                                     <a href="#">Categories</a>
                                     <a href="#">Admins</a>
-                                    <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
+                                    <a href="<?= $baseUrl ?>/site/logout" class="">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
                                 <?php } ?>
                             </div>
                         </div>

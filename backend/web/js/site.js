@@ -62,6 +62,12 @@ function getUrlVars() {
 //******************************************************* general functions end
 
 //************************** upload CSV ******************************
+function setcsvfilename(){
+    filename = $('#import').val().replace(/C:\\fakepath\\/i, '');
+    if(filename){
+        $('#filename').val(filename);
+    }
+}
 function importcsv() {
 //    $('#Loader').removeClass('hidden');
 
