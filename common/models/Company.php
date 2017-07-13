@@ -41,7 +41,9 @@ class Company extends ActiveRecord {
             'state',
             'zip',
             'created_at',
-            'updated_at'
+            'updated_at',
+            't_locations',
+             't_events'
         ];
     }
 
@@ -62,7 +64,9 @@ class Company extends ActiveRecord {
             'state',
             'zip',
             'created_at',
-            'updated_at'], 'safe'
+            'updated_at',
+            't_locations',
+            't_events'], 'safe'
             ]
         ];
     }

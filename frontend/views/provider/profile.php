@@ -10,7 +10,11 @@ if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['log
     
 }
 ?>
-
+<?php if(! is_array($company)){ ?>
+<p class="text-center"><b>Record Not found</b></p>    
+<?php 
+}else{
+?>
 <div class="col-lg-12">
     <div class="profile-content">
         <div class="profile-form">
@@ -113,3 +117,4 @@ if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['log
         </div>
     </div>
 </div>
+<?php } ?>

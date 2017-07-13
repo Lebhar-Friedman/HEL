@@ -2,10 +2,10 @@
 /* CSS Document */
 body{
     margin:0 auto !important;
-    font-family: 'helveticaneueregular' !important;
+    font-family: 'open sans' !important;
     font-size:15px;
     color:#000;
-	font-weight:bold;
+	/*font-weight:bold;*/
     /*word-break:break-all;*/
 }
 h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'helveticaneuebold' !important;}

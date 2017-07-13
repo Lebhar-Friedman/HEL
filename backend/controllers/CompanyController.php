@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\CompanyForm;
 use common\models\Company;
+use common\models\Location;
 use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -24,8 +25,17 @@ class CompanyController extends Controller {
 
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $companies = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['name' => SORT_ASC])->all();
-
-        return $this->render('index', ['companies' => $companies, 'pagination' => $pagination, 'total' => $count]);
+        $companies_arr=array();
+        foreach ($companies as $company){
+            $locations= Location::find()->where(['company'=> $company->name])->count();
+            $events= \common\models\Event::find()->where(['company'=> $company->name])->count();
+            $company['t_locations']=$locations;
+            $company['t_events']=$events;
+            $companies_arr[]=$company;
+        }
+//        echo '<pre>';
+//        print_r($companies_arr);exit;
+        return $this->render('index', ['companies' => $companies_arr, 'pagination' => $pagination, 'total' => $count]);
     }
 
     public function actionDetail($id = "") {
@@ -43,6 +53,7 @@ class CompanyController extends Controller {
                     $company->logo = $image_name . '.' . $model->logo->extension;
                     $model->logo = $company->logo;
                 }
+                $company->name= ucfirst($company->name);
                 $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
                 $retData['msgType'] === "SUC" ? $msg = "Company has been added successfully" : $msg = "Unable to store data this time";
                 $retData['msg'] = $msg;
@@ -61,6 +72,7 @@ class CompanyController extends Controller {
         $model = new CompanyForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+            $model->name= ucfirst($model->name);
             return ActiveForm::validate($model);
         }
     }
