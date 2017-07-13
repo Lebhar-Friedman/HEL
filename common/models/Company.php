@@ -36,6 +36,10 @@ class Company extends ActiveRecord {
             'phone',
             'email',
             'logo',
+            'street',
+            'city',
+            'state',
+            'zip',
             'created_at',
             'updated_at'
         ];
@@ -46,15 +50,20 @@ class Company extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['_id',
+                [['_id',
             'company_id', // auto increment serial#
             'name', //
             'contact_name',
             'phone',
             'email',
             'logo',
+            'street',
+            'city',
+            'state',
+            'zip',
             'created_at',
-            'updated_at'], 'safe'],
+            'updated_at'], 'safe'
+            ]
         ];
     }
 
@@ -73,7 +82,7 @@ class Company extends ActiveRecord {
             ]
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -94,5 +103,5 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-    
+
 }

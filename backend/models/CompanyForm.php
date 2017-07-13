@@ -14,19 +14,25 @@ class CompanyForm extends Model {
     public $phone;
     public $email;
     public $logo;
+    public $street;
+    public $city;
+    public $state;
+    public $zip;
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
             // username and password are both required
-            [['name', 'contact_name', 'phone', 'email'], 'required'],
+            [['name', 'contact_name', 'phone', 'email','street','city','state','zip'], 'required'],
             // string fields
-            [['name', 'contact_name'], 'string'],
+            [['name', 'contact_name','street','city','state','zip'], 'string'],
             // email validation
             ['email', 'email'],
             // image field
             [['logo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
+            
         ];
     }
 

@@ -14,8 +14,9 @@ $baseUrl = BaseUrl::base();
     $form = ActiveForm::begin([
                 'id' => 'companyForm',
                 'action' => $baseUrl . '/company/detail',
-//            'enableAjaxValidation' => true,
+                'enableAjaxValidation' => true,
                 'validateOnBlur' => true,
+                'validationUrl' => Yii::$app->urlManager->createUrl("company/company-validation"),
                 //'validateOnChange' => false,
                 //'enableClientValidation' => true,
                 'fieldConfig' => ['template' => "{input}{error}"],
@@ -84,6 +85,46 @@ $baseUrl = BaseUrl::base();
                     <div class="col-lg-7 col-md-7 col-sm-7">
                         <div>
                             <?= $form->field($model, 'email', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'email']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">Street:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'street', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Street']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">City:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'city', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'City']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">State:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'state', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'State']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">Zip:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'zip', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'zip code']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>         
