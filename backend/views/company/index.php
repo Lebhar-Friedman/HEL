@@ -1,11 +1,11 @@
 <?php
 
 use backend\components\CustomLinkPager;
-
 use yii\helpers\BaseUrl;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
+use yii\web\JqueryAsset;
 ?>
+<?php $this->registerJsFile('@web/js/company.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->title='Companies'; ?>
 <div class="col-lg-12">
     <div class="search-comp-content">
@@ -48,7 +48,10 @@ use yii\widgets\LinkPager;
                         <div class="tc2"><?= $company['name'] ?></div>
                         <div class="tc2-2"><?= $company['t_events'] ?></div>
                         <div class="tc3"><?= $company['t_locations'] ?><img src="<?= Url::to('@web/images/caution.png') ?>" alt="" /></div>
-                        <div class="tc4"><a href="#" class="del-btn "></a><a href="<?= BaseUrl::base() . '/company/detail?cid=' . $company['_id'] ?>" class="edit-btn "></a></div>
+                        <div class="tc4">
+                            <a href="javascript:;" onclick="deleteCompany('<?= $company['_id'] ?>',this)" class="del-btn "></a>
+                                <a href="<?= BaseUrl::base() . '/company/detail?cid=' . $company['_id'] ?>" class="edit-btn "></a>
+                        </div>
                     </div>
                 <?php } ?>
             </div>

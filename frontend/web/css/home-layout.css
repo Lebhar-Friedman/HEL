@@ -2,7 +2,7 @@
 /* CSS Document */
 body{
     margin:0 auto !important;
-    font-family: 'open sans' !important;
+    font-family: 'Helvetica neue' !important;
     font-size:15px;
     color:#000;
 	/*font-weight:bold;*/
@@ -20,6 +20,13 @@ img{vertical-align:middlel; max-width:100%;}
 input{font-family: 'helveticaneueregular';}
 
 
+@font-face {
+    font-family: 'helvetica-neue';
+    src: url('../fonts/helvetica-neue.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
 @font-face {
     font-family: 'helveticaneueregular';
     src: url('../fonts/helveticaneue-webfont.woff2') format('woff2'),

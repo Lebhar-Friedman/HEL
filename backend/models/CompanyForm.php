@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use yii\base\Model;
+use yii\helpers\BaseUrl;
 
 /**
  * Login form
@@ -18,6 +19,7 @@ class CompanyForm extends Model {
     public $city;
     public $state;
     public $zip;
+    public $c_id;
     /**
      * @inheritdoc
      */
