@@ -47,10 +47,30 @@ class CompanyController extends Controller {
         $model = new CompanyForm();
         if ($request->isPost && $request->isAjax) {
             $model->load($request->post());
+            if (isset($model->c_id) && $model->c_id !== NULL && $model->c_id !== '') { //update case
+                $company = Company::findOne($model->c_id);
+                $image_name = $company->logo;
+                $model->logo = UploadedFile::getInstance($model, 'logo');
+                if (isset($model->logo) && $model->logo !== NULL && !empty($model->logo)) {
+                    $image_name = $model->name . time();
+                    $model->upload($image_name);
+                    $image_name=$image_name .'.'. $model->logo->extension;
+                }
+                $company->attributes = $model->attributes;
+                $company->logo = $image_name;
+                $company->update() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
+                $retData['msgType'] === "SUC" ? $msg = "Company has been Updated successfully" : $msg = "Unable to Update Company data this time";
+                $retData['msg'] = $msg;
+//                $retData['msg']=$err;
+                $retData['companyId'] = (string) $company->_id;
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                Yii::$app->getSession()->setFlash('success', 'company has been Updated.');
+                return $retData;
+            }
             $model->logo = UploadedFile::getInstance($model, 'logo');
             $company = new Company();
             $company->attributes = $model->attributes;
-            $image_name = $company->name;
+            $image_name = $company->name . time();
             if (isset($model->logo) && $model->upload($image_name)) {
                 $company->logo = $image_name . '.' . $model->logo->extension;
                 $model->logo = $company->logo;
@@ -63,21 +83,25 @@ class CompanyController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             Yii::$app->getSession()->setFlash('success', 'New company has been added to datababse.');
             return $retData;
-        }else{
-//            $request=$request->get();
-//            $company_id=$request['cid'];
-//            $commpany= Company::find($company_id);
-            
+        } else {
+            $request = $request->get();
+            $company_id = $request['cid'];
+            $commpany = Company::findOne($company_id);
+            if (isset($commpany)) {
+                $model->attributes = $commpany->attributes;
+                $model->c_id = (string) $commpany->_id;
+            }
         }
         return $this->render('detail', ['model' => $model]);
     }
 
     public function actionDelete() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $request = Yii::$app->request->post();
+        $request = Yii::$app->request;
         if (!($request->isPost && $request->isAjax)) {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
+        $request = Yii::$app->request->post();
         $company_id = $request['cid'];
         $model = Company::findOne($company_id);
         $retData = array();

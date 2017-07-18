@@ -30,6 +30,7 @@ $(document).ready(function () {
                 if (r.msgType === 'SUC') {
                     window.location.href = baseUrl + 'company/detail?cid=' + r.companyId;
                 } else {
+                    toastr.error(r.msg);
 //                    $('#success-msg').show();
 //                    $('#loading').hide();
 //                    document.location.reload(true);
