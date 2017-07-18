@@ -7,6 +7,15 @@ use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 
 $baseUrl = BaseUrl::base();
+if (isset($model['c_id'])) {
+    $action = 'update';
+    $this->title = "Update Company";
+    $action_url=$baseUrl . '/company/detail';
+} else {
+    $action = 'create';
+    $this->title = "Add new Company";
+    $action_url=$baseUrl . '/company/update';
+}
 ?>
 <?php $this->registerJsFile('@web/js/company.js', ['depends' => [JqueryAsset::className()]]); ?>
 <div class="row">
@@ -14,8 +23,9 @@ $baseUrl = BaseUrl::base();
     $form = ActiveForm::begin([
                 'id' => 'companyForm',
                 'action' => $baseUrl . '/company/detail',
-//            'enableAjaxValidation' => true,
+                'enableAjaxValidation' => true,
                 'validateOnBlur' => true,
+                'validationUrl' => Yii::$app->urlManager->createUrl("company/company-validation"),
                 //'validateOnChange' => false,
                 //'enableClientValidation' => true,
                 'fieldConfig' => ['template' => "{input}{error}"],
@@ -32,7 +42,7 @@ $baseUrl = BaseUrl::base();
     <div class="col-lg-12">
         <div class="new-comp-content">
             <div class="signup-addnew-form">
-                <h2>Add New Company</h2>
+                <h2><?= $this->title ?></h2>
                 <div class="row">
                     <div class="col-lg-4 col-md-3 col-sm-3">
                         <div class="upload-img">
@@ -84,6 +94,47 @@ $baseUrl = BaseUrl::base();
                     <div class="col-lg-7 col-md-7 col-sm-7">
                         <div>
                             <?= $form->field($model, 'email', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'email']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">Street:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'street', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Street']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">City:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'city', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'City']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">State:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'state', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'State']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>         
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">Zip:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'zip', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'zip code']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'c_id')->hiddenInput(); ?>
                         </div>
                     </div>
                 </div>         
