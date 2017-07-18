@@ -13,7 +13,7 @@ use yii\mongodb\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Location extends ActiveRecord {
+class SubCategories extends ActiveRecord {
 
     /**
      * @inheritdoc
@@ -81,6 +81,8 @@ class Location extends ActiveRecord {
     public static function findSubCategory($id) {
         return static::findOne(['_id' => $id]);
     }
-
+    public static function SubCategoryList() {
+        return static::find()->all();
+    }
 // end class counter
 }

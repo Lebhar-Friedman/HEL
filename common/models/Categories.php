@@ -14,7 +14,7 @@ use yii\mongodb\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Category extends ActiveRecord {
+class Categories extends ActiveRecord {
 
     /**
      * @inheritdoc
@@ -85,6 +85,8 @@ class Category extends ActiveRecord {
         return static::findOne(['_id' => $id]);
     }
 
-
+    public static function CategoryList() {
+        return static::find()->all();
+    }
 // end class counter
 }
