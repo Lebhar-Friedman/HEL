@@ -54,6 +54,7 @@ class EventForm extends Model {
      *
      */
     public static function saveCSV($csv) {
+        \common\models\Event::$importEvents = [];
         $validate = \backend\models\EventForm::validateCSV($csv);
 //        echo json_encode($validate);
         if ($validate['result']) {
@@ -64,27 +65,18 @@ class EventForm extends Model {
                 $location = \common\models\Location::findOne(['street' => $locationForm->street, 'city' => $locationForm->city, 'state' => $locationForm->state, 'zip' => $locationForm->zip]);
                 if (count($location) == 0) {
                     $location = new \common\models\Location();
+                    $latlong = \components\GlobalFunction::getLongLat($locationForm);
+                    if ($latlong) {
+                        $location->latitude = $latlong['lat'];
+                        $location->longitude = $latlong['long'];
+                    }
                 }
                 $location->attributes = $locationForm->attributes;
-                $latlong = \components\GlobalFunction::getLongLat($location);
-                if ($latlong) {
-                    $location->latitude = $latlong['lat'];
-                    $location->longitude = $latlong['long'];
-                }//echo '<br>' . json_encode($location->attributes);
+                //echo '<br>' . json_encode($location->attributes);
                 $location->save();
-                $event = \common\models\Event::findOne(['title' => $model->title, 'company' => $model->company]);
-                if (count($event) == 0) {
-                    $event = new \common\models\Event();
-                    $event->locations = [$location->attributes];
-                } else {
-                    $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
-                }
-                $event->attributes = $model->attributes;
-                if (!$event->save()) {
-                    return json_encode(['msgType' => 'ERR', 'msg' => \Component\GlobalFunction::modelErrorsToString($event->getErrors()), 'validated' => 'CSV file validation failed.']);
-                }
+                self::saveCsvEvent($model, $location);
             }
-            return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.']);
+            return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents'=>\common\models\Event::$importEvents]);
         } else {
             return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
         }
@@ -121,11 +113,11 @@ class EventForm extends Model {
                     }
                     $locationModel->attributes = $locationAttributes;
                     $eventModel->attributes = $eventAttributes;
-                    if (!$locationModel->validate()) {//echo json_encode($model->getErrors());exit();
+                    if (!$locationModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];
                     }
-                    if (!$eventModel->validate()) {//echo json_encode($model->getErrors());exit();
+                    if (!$eventModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \components\GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow)];
                     }
@@ -149,6 +141,52 @@ class EventForm extends Model {
         }
         array_push($eventLocations, $newLocation);
         return $eventLocations;
+    }
+
+    public static function saveCsvEvent($eventModel, $location) {
+        $newEventDate = $eventModel->date_start;
+        $newStartEventDate = date('Y-m-d', strtotime($newEventDate . ' + 1 days'));
+        $newStartEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newStartEventDate) * 1000);
+        $newEndEventDate = date('Y-m-d', strtotime($newEventDate . ' - 1 days'));
+        $newEndEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEndEventDate) * 1000);
+
+        $newEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEventDate) * 1000);
+        $events = \common\models\Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
+                        ->andWhere(['OR', ['date_start' => $newStartEventDate], ['date_end' => $newEndEventDate]])->all();
+
+        if (count($events) > 0) {
+            foreach ($events as $event) {
+                $eventModel->date_start = $event->date_start;
+                $eventModel->date_end = $event->date_end;
+                if ($event->date_start->toDateTime() == $newStartEventDate->toDateTime()) {
+                    $eventModel->date_start = $newEventDate;
+                } else {
+                    $eventModel->date_end = $newEventDate;
+                }
+                $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
+                $event->attributes = $eventModel->attributes;
+                $event->save();
+                array_push(\common\models\Event::$importEvents, $event->_id);
+            }
+        } else {
+            $event = \common\models\Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
+                    ->andWhere(['<=', 'date_start', $newEventDate])
+                    ->andWhere(['>=', 'date_end', $newEventDate])
+                    ->one();
+            if (count($event) > 0) {
+                $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
+                $eventModel->date_start = $event->date_start;
+                $eventModel->date_end = $event->date_end;
+            } else {
+                $event = new \common\models\Event();
+                $event->locations = [$location->attributes];
+                $eventModel->date_start = $eventModel->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($eventModel->date_start) * 1000);
+            }
+            $event->attributes = $eventModel->attributes;
+            $event->save();
+            array_push(\common\models\Event::$importEvents, $event->_id);
+            
+        }
     }
 
 // end class

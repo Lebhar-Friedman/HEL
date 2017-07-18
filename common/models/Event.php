@@ -25,6 +25,8 @@ use yii\mongodb\ActiveRecord;
  * @property integer $updated_at
  */
 class Event extends ActiveRecord {
+    
+    public static $importEvents = [];
 
     /**
      * @inheritdoc
