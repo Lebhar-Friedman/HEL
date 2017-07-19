@@ -1,8 +1,37 @@
 <?php
-
 $baseUrl = Yii::$app->request->baseUrl;
 $this->title = 'Health Events';
 ?>
+<style>
+    #homelayout-header{
+        display: none;
+    }
+</style>
+<header>
+    <div class="container">
+        <div class="signUp-btns clearfix">
+            <?php
+            if (Yii::$app->user->isGuest) {
+                ?>
+                <a href="<?= $baseUrl ?>/site/signup" class="border">Sign Up</a>
+                <a href="<?= $baseUrl ?>/site/login">Log In</a>
+            <?php } else {
+                ?>
+                <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
+            <?php } ?>
+        </div>
+        <div class="logo-container">
+            <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" /></a></a>
+            <div class="logo-text">
+                Find free and low cost health <br />services at trusted stores near you
+            </div>
+            <div class="search-content">
+                <input type="text" class="search-txtbx" placeholder="Enter your zip code" value="<?= $zip_code ?>"/>
+                <a href="#" class="search-btn"></a>
+            </div>
+        </div>
+    </div>
+</header>
 <div class="company-content">
     <div class="container">
         <i>Find health events from companies like</i>

@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "yiisoft/yii2-mongodb": "^2.1",
-        "yiisoft/yii2-authclient": "^2.1"
+        "yiisoft/yii2-authclient": "^2.1",
+        "ip2location/ip2location-php": "8.*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
