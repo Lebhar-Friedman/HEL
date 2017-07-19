@@ -54,7 +54,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
                     <div class="events">Events Added</div>
                 </div>
                 <div class="col-lg-4 col-md-2 col-sm-6 col-xs-6">
-                    <div class="total-1">Total: 136</div>
+                    <div class="total-1">Total: <?= count($events)?></div>
                 </div>
             </div>
 

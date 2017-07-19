@@ -58,7 +58,7 @@ class ImportController extends Controller {
         $importEvents = \common\models\Values::getValue('import', 'events');
         $importEvents = $importEvents->value;
         if (!empty($importEvents)) {
-            $events = \common\models\Event::findAll(['_id' => $importEvents])->count();
+            $events = \common\models\Event::findAll(['_id' => $importEvents]);
         }
         return $this->render('index', ['events' => $events]);
     }
