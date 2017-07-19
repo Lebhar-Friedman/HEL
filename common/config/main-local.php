@@ -1,5 +1,6 @@
 <?php
 return [
+    'timeZone' => 'Asia/Karachi',
     'components' => [
 //        'db' => [
 //            'class' => 'yii\db\Connection',
