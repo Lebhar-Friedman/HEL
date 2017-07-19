@@ -52,7 +52,87 @@ class EventController extends Controller {
         $sub_categories = SubCategories::SubCategoryList();
         return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
     }
-
+    
+    public function actionDelete() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_id = $request['eid'];
+        $model = Event::findOne($event_id);
+        $retData = array();
+        if ($model && $model->delete()) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully deleted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not delete the event at this time.";
+        }
+        return $retData;
+    }
+    
+    public function actionDeleteSelected() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_ids = $request['eids'];
+        $retData = array();
+        if (Event::deleteAll(['_id'=>$event_ids])) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully deleted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not delete the event at this time.";
+        }
+        return $retData;
+    }
+    
+    public function actionPost() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_id = $request['eid'];
+        $model = Event::findOne($event_id);
+        $model->is_post = true;
+        $retData = array();
+        if ($model && $model->update()) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully posted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not post the event at this time.";
+        }
+        return $retData;
+    }
+    
+    public function actionPostSelected() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_ids = $request['eids'];
+        $retData = array();
+        if (Event::updateAll(['is_post'=>true],['_id'=>$event_ids])) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully posted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not post the event at this time.";
+        }
+        return $retData;
+    }
+    
+    
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
             $request = Yii::$app->request;
