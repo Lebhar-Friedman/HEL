@@ -17,8 +17,8 @@ class LocationForm extends Model {
     public $contact_name;
     public $phone;
 //    public $email;
-    public $latitude;
-    public $longitude;
+//    public $latitude;
+//    public $longitude;
 
     /**
      * @inheritdoc

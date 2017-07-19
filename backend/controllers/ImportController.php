@@ -54,7 +54,13 @@ class ImportController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        return $this->render('index');
+        $events = [];
+        $importEvents = \common\models\Values::getValue('import', 'events');
+        $importEvents = $importEvents->value;
+        if (!empty($importEvents)) {
+            $events = \common\models\Event::findAll(['_id' => $importEvents]);
+        }
+        return $this->render('index', ['events' => $events]);
     }
 
     /**

@@ -212,12 +212,21 @@ class GlobalFunction {
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $json = curl_exec($curl);
-        curl_close($curl);//echo $anAddress.'<br>'.$json;
+        curl_close($curl); //echo $anAddress.'<br>'.$json;
         $mapData = json_decode($json);
         if ($mapData && $mapData->status == 'OK') {
             return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
         }
         return FALSE;
+    }
+
+    public static function getDate($format, $mongoDate) {
+        $datetime = $mongoDate->toDateTime();
+        $datetime->setTimezone(new \DateTimeZone(\Yii::$app->timeZone));
+        if (empty($format)) {
+            $format = DATE_ATOM;
+        }
+        return $datetime->format($format);
     }
 
 // end class

@@ -111,4 +111,7 @@ class Company extends ActiveRecord {
     public function updateCompany($model) {
         
     }
+    public static function CompanyList() {
+        return static::find()->all();
+    }
 }
