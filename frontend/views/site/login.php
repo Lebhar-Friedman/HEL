@@ -10,6 +10,11 @@ use yii\web\View;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    body{
+        background: #eaeaea !important;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-lg-1"></div>

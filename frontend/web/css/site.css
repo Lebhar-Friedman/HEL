@@ -124,7 +124,7 @@ body{
     font-family: 'open_sansregular' !important;
     font-size:15px;
     color:#000;
-    background:#eaeaea !important;
+    background:white ;
     /*word-break:break-all;*/
 }
 h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'open_sansregular' !important;}
@@ -159,7 +159,7 @@ header{
     display: block;
     background: #FFF;
     padding: 5px 0px;
-    border-bottom: 1px solid #2aaae2;
+    /*border-bottom: 1px solid #2aaae2;*/
     margin-bottom: 15px;
 }
 .logo img{max-width:100%;}
