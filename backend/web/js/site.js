@@ -87,9 +87,9 @@ function importcsv() {
             success: function (data) {
                 if (data.msgType == 'SUC') {
                     Msg(data.msg);
-//                    setTimeout(function () {
-//                        location.reload();
-//                    }, 1300);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
                 } else {
                     Msg(data.msg, 'ERR');
                 }

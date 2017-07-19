@@ -20,6 +20,7 @@ class EventForm extends Model {
     public $location_models;
     public $price;
     public $description;
+    public static $importedEvents;
 
     /**
      * @inheritdoc
@@ -42,7 +43,7 @@ class EventForm extends Model {
             'event date' => 'date_start',
             'event start time' => 'time_start',
             'event end time' => 'time_end',
-            'price' => 'cost',
+            'price' => 'price',
             'health categories/themes' => 'categories',
             'health services/screenings' => 'sub_categories',
             'description' => 'description',
@@ -54,7 +55,7 @@ class EventForm extends Model {
      *
      */
     public static function saveCSV($csv) {
-        \common\models\Event::$importEvents = [];
+        self::$importedEvents = [];
         $validate = \backend\models\EventForm::validateCSV($csv);
 //        echo json_encode($validate);
         if ($validate['result']) {
@@ -76,7 +77,8 @@ class EventForm extends Model {
                 $location->save();
                 self::saveCsvEvent($model, $location);
             }
-            return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents'=>\common\models\Event::$importEvents]);
+            \common\models\Values::saveValue('import', 'events', self::$importedEvents);
+            return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents' => self::$importedEvents]);
         } else {
             return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
         }
@@ -166,7 +168,7 @@ class EventForm extends Model {
                 $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
                 $event->attributes = $eventModel->attributes;
                 $event->save();
-                array_push(\common\models\Event::$importEvents, $event->_id);
+                array_push(self::$importedEvents, $event->_id);
             }
         } else {
             $event = \common\models\Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
@@ -184,8 +186,7 @@ class EventForm extends Model {
             }
             $event->attributes = $eventModel->attributes;
             $event->save();
-            array_push(\common\models\Event::$importEvents, $event->_id);
-            
+            array_push(self::$importedEvents, $event->_id);
         }
     }
 
