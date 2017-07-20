@@ -56,9 +56,11 @@ class ImportController extends Controller {
     public function actionIndex() {
         $events = [];
         $importEvents = \common\models\Values::getValue('import', 'events');
-        $importEvents = $importEvents->value;
-        if (!empty($importEvents)) {
-            $events = \common\models\Event::findAll(['_id' => $importEvents]);
+        if (count($importEvents) > 0) {
+            $importEvents = $importEvents->value;
+            if (!empty($importEvents)) {
+                $events = \common\models\Event::findAll(['_id' => $importEvents]);
+            }
         }
         return $this->render('index', ['events' => $events]);
     }
@@ -77,8 +79,8 @@ class ImportController extends Controller {
 
             if ($model->upload('uploads/import/')) {
                 if (Yii::$app->request->post('import_type') == 'company') {
-
-                    exit(json_encode(['msgType' => 'SUC', 'msg' => 'Companies Added Successfully.']));
+                    $result = \backend\models\EventForm::saveCSV($model->file->name);
+                    exit($result);
                 } elseif (Yii::$app->request->post('import_type') == 'event') {
                     $result = \backend\models\EventForm::saveCSV($model->file->name);
                     exit($result);
@@ -90,12 +92,7 @@ class ImportController extends Controller {
     }
 
     private function validateCompanyCSV() {
-        $attributeMapArray = [
-            'company name' => 'name',
-            'contact name' => 'contact_name',
-            'phone' => 'phone',
-            'email' => 'email',
-        ];
+
 
         $attributes = $result = [];
         $file = fopen("uploads/import/import.csv", "r");

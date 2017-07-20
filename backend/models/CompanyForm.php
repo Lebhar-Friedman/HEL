@@ -26,41 +26,24 @@ class CompanyForm extends Model {
      */
     public function rules() {
         return [
-            ['c_id','safe'],
+            ['c_id', 'safe'],
             // username and password are both required
-                [['name', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'required'],
+            [['name', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'required'],
             // string fields
             [['name', 'contact_name', 'street', 'city', 'state', 'zip'], 'string'],
             // email validation
             ['email', 'email'],
             // image field
             [['logo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-                ['name', 'validateCompanyName'],
+            ['name', 'validateCompanyName'],
 //            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
         ];
     }
 
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-    public function validatePassword($attribute, $params) {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-            if (!$user || $this->role != $user->role || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
-            }
-        }
-    }
-
     public function validateCompanyName($attribute, $params) {
-        if (isset($this->c_id) && !empty($this->c_id)){
+        if (isset($this->c_id) && !empty($this->c_id)) {
             $whereParams = ['AND', ['not', '_id', new \MongoDB\BSON\ObjectID($this->c_id)], ['name' => $this->name]];
-        }
-        else {
+        } else {
             $whereParams = ['name' => $this->name];
         }
         $model = Company::find()->andWhere($whereParams)->all();
@@ -82,6 +65,15 @@ class CompanyForm extends Model {
         } else {
             return false;
         }
+    }
+
+    public static function getCsvAttributeMapArray() {
+        return $attributeMapArray = [
+            'company name' => 'name',
+            'contact name' => 'contact_name',
+            'phone' => 'phone',
+            'email' => 'email',
+        ];
     }
 
 // end class
