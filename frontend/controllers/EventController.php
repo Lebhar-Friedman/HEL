@@ -11,15 +11,12 @@ namespace frontend\controllers;
 use common\models\Event;
 use yii\web\Controller;
 
-/**
- * Description of EventController
- *
- * @author zeeshan
- */
 class EventController extends Controller {
 
     public function actionIndex() {
         $query= Event::find();
+        
+        return $this->render('result');
     }
 
 }

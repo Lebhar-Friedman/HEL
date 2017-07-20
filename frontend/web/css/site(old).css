@@ -1,0 +1,612 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: "\e151";
+}
+
+a.desc:after {
+    content: "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view td {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    padding: 15px;
+    border: none;
+}
+
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
+}
+/*----------------------------------------------- general ---------------------------------------*/
+body{
+    margin:0 auto !important;
+    font-family: 'open_sansregular' !important;
+    font-size:15px;
+    color:#000;
+    background:#eaeaea !important;
+    /*word-break:break-all;*/
+}
+h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'open_sansregular' !important;}
+h1{font-size:35px;}
+h2{font-size:22px;font-family: 'open_sansregular';}
+h3{font-size:18px;}
+p{margin:0 ; padding:0px  ; font-family: 'open_sansregular' !important;}
+a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'open_sansregular';}
+a img{border:none;}
+/*a img:hover{opacity: 0.7; filter: alpha(opacity = 70);}*/
+input{font-family: 'open_sansregular';}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
+        url('../fonts/opensans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('../fonts/opensans-light-webfont.woff2') format('woff2'),
+        url('../fonts/opensans-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*----------------------------------------------- general end */
+
+/*----------------------------------------------- layout header ---------------------------------------*/
+header{
+    display: block;
+    background: #FFF;
+    padding: 5px 0px;
+    border-bottom: 1px solid #2aaae2;
+    margin-bottom: 15px;
+}
+.logo img{max-width:100%;}
+.header-nav{
+    float:right;
+    padding-top: 13px;
+}
+.header-nav a{
+    float:left;
+    padding:11px 12px 12px 14px;
+    margin-left:5px !important;
+    font-size:17px;
+    line-height:17px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.header-nav a:hover, .header-nav a.active{
+    color:#FFF !important;
+    background:#34cab5;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.mobile-nav{
+    display:none;
+    color:#26bcc3;
+    font-size:20px;
+    line-height:20px;
+    text-align:center;
+    padding:15px 5px 5px 5px;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span{
+    cursor:pointer;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+
+.mobile-nav span:hover{
+    color:#000;
+    -webkit-transition: all 0.3s ease; 
+    transition: all 0.3s ease; 
+}
+/*----------------------------------------------- layout footer ---------------------------------------*/
+footer{
+    display:block;
+    padding:30px 15px;
+    background:#34cab5;
+    text-align:center;
+    font-size:16px;
+    line-height:16px;
+    color:#FFF;
+}
+footer .social-icon{
+    display:block;
+    padding-bottom:13px;
+}
+footer a{
+    display:inline-block;
+    margin-right:5px !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+footer a:hover{
+    opacity:0.7;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+/*----------------------------------------------- layout  end */
+
+/*----------------------------------------------- Signup page ---------------------------------------*/
+.middle-content{
+    display:block;
+    background:#FFF;
+    padding:55px 15px 65px 15px;
+    margin-bottom:15px;
+    border-radius: 6px;
+    background-clip: padding-box;
+}
+.signup-form{
+    max-width:600px;
+    margin:0 auto;
+}
+.signup-form h1{
+    display:block;
+    text-align:center;
+    font-size:40px;
+    line-height:37px;
+}
+.signup-form h2{
+    display:block;
+    text-align:center;
+    font-size:26px;
+    line-height:25px;
+    padding:70px 0px 45px 0px !important;
+}
+.f-name-txtbx{
+    width:100%;
+    height:47px;
+    padding:0px 16px;
+    display:block;
+    border:1px solid #e3e3e3;
+    outline:none;
+    font-size:17px;
+    line-height:17px;
+    margin-bottom:25px;
+    color:#000;
+}
+.create-account{
+    display:block;
+    padding:10px 0px 29px 0px;
+}
+.create-account button{
+    display:block;
+    max-width:270px;
+    text-align:center;
+    margin:0 auto !important;
+    background:#0088cc;
+    font-size:17px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.create-account button:hover{
+    background:#333;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.btn-radius-0{
+    border-radius: 0px;
+}
+.sign-in{
+    display:block;
+    text-align:center;
+    font-size:17px;
+    line-height:17px;
+}
+.sign-in a{
+    font-size:17px;
+    line-height:17px;
+    color:#0088cc !important;
+}
+.sign-in a:hover{text-decoration:underline !important;}
+/*----------------------------------------------- Signup page  end */
+
+
+/**********************************************************************************************************************************************/
+/*----------------------------------------------- tablet screens ---------------------------------------*/
+@media (max-width: 1000px) and (min-width: 768px){
+    .container{width:100% !important;}
+}
+/*----------------------------------------------- tablet screens  end */
+
+/*----------------------------------------------- mobile screens ---------------------------------------*/
+@media (max-width: 767px) and (min-width: 0px){
+    /*..........................header */
+    .header-nav{
+        width:100%;
+    }
+    .logo{display:block; text-align:center;}
+    .header-nav a{
+        width:100%;
+        text-align:center;
+        margin:0px 0px 5px 0px !important;
+    }
+    .mobile-nav{
+        display:block;
+    }
+    /*..........................signup */
+    .middle-content{padding:15px;}
+    .signup-form h1{font-size:30px; line-height:30px;}
+    .signup-form h2{font-size:20px; line-height:20px; padding:25px 0px !important;}
+    .f-name-txtbx{margin-bottom:15px;}
+
+}
+/*----------------------------------------------- mobile  end */
+
+
+/******************Log In Page *******************/
+.login-form{
+    max-width:970px;
+    margin:0 auto;
+    margin-left:15px;
+}
+.login-form h1{
+    display:block;
+    text-align:center;
+    font-size:40px;
+    line-height:37px;
+}
+.left-colm{
+    margin-bottom:40px;
+    margin-top:50px;
+
+}
+
+.left-colm span{
+    display:block;
+    text-align:center;
+    font-size:26px;
+    line-height:30px;
+}
+.fb-signin{
+    margin-bottom:30px;
+
+}
+.fb-signin{
+    background:#4264a0 url(../images/fb.png) 15px center no-repeat  !important; 
+}
+.fb-signin a{
+    display:block;
+    margin:0 auto !important;
+    /*		background:#4264a0;
+    */		font-size:18px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 5px 17px 5px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.fb-signin a:hover{
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.gplus-signin{
+    background:#e3593b url(../images/gplus.png) 15px center no-repeat  !important; 
+
+}
+.gplus-signin a{
+    display:block;
+    margin:0 auto !important;
+    /*background:#e3593b;*/
+    font-size:18px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.gplus-signin a:hover{
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.or-mrgn{
+    margin-top:58px;
+    text-align:center;
+    margin-left:35px;
+    margin-right:30px;
+}
+.forgot{
+    display:block;
+    text-align:center;
+    font-size:17px;
+    line-height:35px;
+
+}
+.forgot a{
+    font-size:17px;
+    line-height:17px;
+    color:#0088cc !important;
+}
+.forgot a:hover{text-decoration:underline !important;}
+
+
+.email-input{
+    width:100%;
+    height:45px;
+    border:1px solid #dddddd;
+    outline:none;
+    padding:0px 65px 0px 19px;
+    font-family: 'open_sansregular' !important;
+    font-size:17px;
+    line-height:17px;
+    color:#000;
+    margin-bottom:24px;
+    background-clip: padding-box;
+}
+.email-icon{
+    background:url("../images/user-icon.png") right center no-repeat  #FFF;
+}
+.passowrd-icon{
+    background:url("../images/lock-icon.png") right center no-repeat  #FFF;
+}
+.login-account{
+    display:block;
+    padding:10px 0px 20px 0px;
+}
+.login-account button{
+    display:block;
+    text-align:center;
+    margin:0 auto !important;
+    background:#0088cc;
+    font-size:17px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    width: 100%;
+    border-radius: 0px !important;
+}
+.login a:hover{
+    background:#333;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+/***********privacy page************/
+.privacy-container h1,h3{
+    color: #34cab5;
+}
+.privacy-container h1{
+    margin-top: 20px !important;
+    margin-bottom: 50px !important;
+}
+.privacy-container h3{
+    margin-bottom: 5px !important;
+}
+.privacy-container p{
+    margin-bottom: 25px !important;
+}
+
+
+/*********************Forgot Password***************************/
+.middle-content{
+    display:block;
+    background:#FFF;
+    padding:55px 15px 65px 15px;
+    margin-bottom:15px;
+    border-radius: 6px;
+    background-clip: padding-box;
+    font-family: 'open_sansregular';
+}
+.forget-signup-form{
+    max-width:300px;
+    margin:0 auto;
+}
+.forget-signup-form h1{
+    display:block;
+    text-align:center;
+    font-size:26px;
+    line-height:37px;
+    color:#29859c;
+}
+.forget-signup-form h2{
+    display:block;
+    text-align:center;
+    font-size:18px;
+    line-height:25px;
+    padding:70px 0px 45px 0px !important;
+    font-family: 'open_sansregular';
+}
+
+
+.txtbx{
+    width:100%;
+    height:47px;
+    padding:0px 16px;
+    display:block;
+    border:1px solid #e3e3e3;
+    outline:none;
+    font-size:17px;
+    line-height:17px;
+    margin-bottom:50px;
+    margin-top:20px;
+    color:#000;
+}
+.submit{
+    display:block;
+    padding:10px 0px 29px 0px;
+
+}
+.submit button{
+    display:block;
+    border-radius:5px;
+    width: 270px;
+    text-align:center;
+    margin:0 auto !important;
+    background:#29859c;
+    font-size:17px;
+    line-height:17px;
+    color:#FFF !important;
+    padding:15px 10px 17px 10px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.submit button:hover{
+    background:#333;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+/************** end forget password *************/
+
+/****************** Profile page *****************/
+.profile-content {
+    background: #fff none repeat scroll 0 0 padding-box;
+    border-radius: 6px;
+    display: block;
+    font-family: "open_sansregular";
+    margin-bottom: 15px;
+    padding: 0 15px 260px;
+}
+.profile-form{
+    margin:0 auto;
+    padding:0 100px;
+}
+.profile-form h2{
+    display:block;
+    text-align:center;
+    font-size:30px;
+    line-height:25px;
+    color:#000;
+    padding:30px 0px 65px 0px !important;
+    font-family: 'open_sansregular';
+}
+.profile-name {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px 15px 10px 20px;
+    /* line-height: 20px;
+     padding-bottom: 45px;*/
+
+}
+.profile-name-text {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px 15px 10px 20px;
+    /*line-height: 20px;
+    padding-bottom: 45px;*/
+}
+.participated {
+    color: #000;
+    display: block;
+    font-size: 16px;
+    padding: 20px  0;
+    float:right;
+    /*line-height: 20px;
+    padding-bottom: 45px;*/
+}
+@media (max-width: 1199px) and (min-width: 0px){
+    .profile-form {padding: 0 20px;
+    }
+}
+/**************** End Profile page ***************/
+

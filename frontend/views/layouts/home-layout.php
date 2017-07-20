@@ -34,7 +34,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
         </script>
 
-        <header>
+        <header id="homelayout-header">
             <div class="container">
                 <div class="signUp-btns clearfix">
                     <?php
@@ -53,7 +53,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         Find free and low cost health <br />services at trusted stores near you
                     </div>
                     <div class="search-content">
-                        <input type="text" class="search-txtbx" placeholder="Enter your zip code" />
+                        <input type="text" class="search-txtbx" placeholder="Enter your zip code"/>
                         <a href="#" class="search-btn"></a>
                     </div>
                 </div>

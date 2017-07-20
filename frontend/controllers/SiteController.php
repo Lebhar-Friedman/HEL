@@ -75,27 +75,27 @@ class SiteController extends Controller {
 //        echo '<pre>';
 //        print_r($userAttributes);
 //        exit();
-        if(is_array($userAttributes['name'])){
-            $first_name=$userAttributes['name']['givenName'];
-            $last_name=$userAttributes['name']['familyName'];
+        if (is_array($userAttributes['name'])) {
+            $first_name = $userAttributes['name']['givenName'];
+            $last_name = $userAttributes['name']['familyName'];
             $user_email = $userAttributes['emails'][0]['value'];
-        }else{
+        } else {
             $user_email = $userAttributes['email'];
-            $first_name=$userAttributes['first_name'];
-            $last_name=$userAttributes['last_name'];
+            $first_name = $userAttributes['first_name'];
+            $last_name = $userAttributes['last_name'];
         }
         $user = User::find()->where(['username' => $userAttributes['id']])->one();
         if (!empty($user)) {
             Yii::$app->user->login($user);
         } else {
             $user = new User();
-            $user->first_name=$first_name;
-            $user->last_name=$last_name;
+            $user->first_name = $first_name;
+            $user->last_name = $last_name;
             $user->username = $userAttributes['id'];
             $user->email = $user_email;
             $user->setPassword('');
             $user->generateAuthKey();
-            $user->save() ;
+            $user->save();
             Yii::$app->user->login($user);
         }
     }
@@ -106,8 +106,20 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $this->layout='home-layout';
-        return $this->render('index');
+        $this->layout = 'home-layout';
+        $ip = Yii::$app->request->userIP;
+//        $ip = '72.229.28.185';
+
+        $countryCode = Yii::$app->ip2location->getCountryCode($ip);
+        $countryName = Yii::$app->ip2location->getCountryName($ip);
+        $regionName = Yii::$app->ip2location->getRegionName($ip);
+        $cityName = Yii::$app->ip2location->getCityName($ip);
+        $latitude = Yii::$app->ip2location->getLatitude($ip);
+        $longitude = Yii::$app->ip2location->getLongitude($ip);
+        $zipCode = Yii::$app->ip2location->getZIPCode($ip);
+        $areaCode = Yii::$app->ip2location->getAreaCode($ip);
+        
+        return $this->render('index', ['zip_code' => $zipCode]);
     }
 
     /**
@@ -172,7 +184,7 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
-    
+
     public function actionPrivacy() {
         return $this->render('privacy');
     }
@@ -185,10 +197,10 @@ class SiteController extends Controller {
     public function actionSignup() {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            $user =$model->signup();
-            if ($user){
+            $user = $model->signup();
+            if ($user) {
                 $email = $model->confirmationEmail($user);
-                if($email) {
+                if ($email) {
                     Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                 } else {
                     Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
