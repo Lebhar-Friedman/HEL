@@ -115,6 +115,8 @@ class EventForm extends Model {
                     }
                     $locationModel->attributes = $locationAttributes;
                     $eventModel->attributes = $eventAttributes;
+                    $eventModel->categories = explode(',', $eventModel->categories);
+                    $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
                     if (!$locationModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];
