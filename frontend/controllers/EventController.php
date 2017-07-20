@@ -22,7 +22,7 @@ class EventController extends Controller {
 //        echo '<pre>';
 //        print_r($events);
 //        exit;
-        return $this->render('result',['evenets'=> $events ,'zip_code'=> $zip_code, '$total_events'=> $total_events]);
+        return $this->render('result',['events'=> $events ,'zip_code'=> $zip_code, '$total_events'=> $total_events]);
     }
 
 }
