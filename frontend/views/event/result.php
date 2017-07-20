@@ -1,4 +1,5 @@
 <?php $this->registerCssFile('@web/css/results.css'); ?>
+<?php $img_url= yii\helpers\BaseUrl::base().'/images/'; ?>
 
 <!--<body class="reult-body">-->
     <div class="container">
@@ -6,10 +7,10 @@
             <div class="col-lg-4 col-md-4 col-sm-5">
                 <div class="search-result-content">
                     <div class="search-nav">
-                        <h1>Search <a href="#" class="nav-cros"><img src="images/crose-btn.png" alt="" /></a></h1>
+                        <h1>Search <a href="#" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
                         <div class="zip-code">
                             <span><b>Zip Code</b></span>
-                            <div><input type="text" class="zip-textbox" value="94903" /></div>
+                            <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" /></div>
                         </div>
                         <div class="zip-code">
                             <span><b>Keyword</b> (optional)</span>
@@ -50,13 +51,14 @@
                         </div>
                         <div><a href="#" class="go-btn">GO</a></div>
                     </div>
-                    <div class="add-box"><img src="images/result-img7.png" alt="" /></div>
+                    <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
 
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-7">
                 <div class="event-near">
-                    <h1>Events near 94903 <span>(by distance)</span> <a class="search-filter" href=""><img src="images/filter-btn.png" alt="" /></a></h1>
+                    <h1>Events near <?= $zip_code ?> <span>(by distance)</span> 
+                    <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
                     <i>Heart Health, Flu Shots</i>
                 </div>
                 <div class="multi-service">

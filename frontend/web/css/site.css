@@ -158,7 +158,7 @@ input{font-family: 'open_sansregular';}
 header{
     display: block;
     background: #FFF;
-    padding: 5px 0px;
+    padding: 0px 0px;
     /*border-bottom: 1px solid #2aaae2;*/
     margin-bottom: 15px;
 }

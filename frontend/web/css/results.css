@@ -37,10 +37,7 @@ input{font-family: 'helveticaneueregular';}
 
 }
 header{
-	display:block;
-	background:url(../images/banner-img.jpg) top center no-repeat;
-	background-size:cover;
-	padding:41px 0px 108px 0px;
+        margin-bottom: 0px !important;
 }
 .signUp-btns{
 	display:block;

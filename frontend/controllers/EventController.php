@@ -9,14 +9,20 @@
 namespace frontend\controllers;
 
 use common\models\Event;
+use Yii;
 use yii\web\Controller;
 
 class EventController extends Controller {
 
     public function actionIndex() {
-        $query= Event::find();
-        
-        return $this->render('result');
+        $zip_code = urldecode(Yii::$app->request->get('zipcode'));
+        $query= Event::find()->where(['locations.zip'=> $zip_code]);
+        $total_events=$query->count();
+        $events=$query->all();
+//        echo '<pre>';
+//        print_r($events);
+//        exit;
+        return $this->render('result',['evenets'=> $events ,'zip_code'=> $zip_code, '$total_events'=> $total_events]);
     }
 
 }
