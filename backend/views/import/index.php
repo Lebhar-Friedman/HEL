@@ -1,6 +1,8 @@
 <?php
 /* @var $this yii\web\View */
 
+use components\GlobalFunction;
+
 $this->title = 'Import csv';
 $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
 //print_r($events);
@@ -54,7 +56,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
                     <div class="events">Events Added</div>
                 </div>
                 <div class="col-lg-4 col-md-2 col-sm-6 col-xs-6">
-                    <div class="total-1">Total: <?= count($events)?></div>
+                    <div class="total-1">Total: <?= count($events) ?></div>
                 </div>
             </div>
 
@@ -75,10 +77,10 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
                         <div class="csv-table-row1 clearfix">
                             <div class="table-chk-h1"><a href="#" class="check-box1"></a></div>
                             <div class="table-title-h1"><?= $event->title ?></div>
-                            <div class="table-date-h1"><?= $event->date_start . '-' . $event->date_end ?></div>
-                            <div class="table-time-h1"><?= $event->time_start . '-' . $event->time_end ?></div>
-                            <div class="table-category-h1"><?= $event->categories ?></div>
-                            <div class="table-sub-cat-h1"><?= $event->sub_categories ?></div>
+                            <div class="table-date-h1"><?= GlobalFunction::getDate('d/m/Y', $event->date_start) . ' - ' . GlobalFunction::getDate('d/m/Y', $event->date_end) ?></div>
+                            <div class="table-time-h1"><?= $event->time_start . ' - ' . $event->time_end ?></div>
+                            <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
+                            <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
                                 <div class="tc-location"><?= count($event->locations) ?>
                                     <img src="images/caution.png" alt="" />
