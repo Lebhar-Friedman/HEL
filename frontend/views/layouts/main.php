@@ -49,7 +49,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 <?php
                                 if (Yii::$app->user->isGuest) {
                                     ?>
-                                    <a href="<?= $baseUrl ?>/site/signup" class="active">Sign Up</a>
+                                    <a href="<?= $baseUrl ?>/site/signup" class="border">Sign Up</a>
                                     <a href="<?= $baseUrl ?>/site/login">Log In</a>
                                 <?php } else {
                                     ?>

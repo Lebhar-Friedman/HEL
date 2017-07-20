@@ -26,8 +26,8 @@ $this->title = 'Health Events';
                 Find free and low cost health <br />services at trusted stores near you
             </div>
             <div class="search-content">
-                <input type="text" class="search-txtbx" placeholder="Enter your zip code" value="<?= $zip_code ?>"/>
-                <a href="#" class="search-btn"></a>
+                <input type="text" class="search-txtbx" placeholder="Enter your zip code" value="<?= $zip_code ?>" onkeyup="checkEnterPress(event,this.value)" id="zipcode_input"/>
+                <a href="javascript:;" onclick="getZipCodeForSearch()" class="search-btn"></a>
             </div>
         </div>
     </div>
