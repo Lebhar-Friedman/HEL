@@ -70,7 +70,6 @@ class SiteController extends Controller {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
         $model->role = \common\models\User::ROLE_ADMIN;
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -90,7 +89,6 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

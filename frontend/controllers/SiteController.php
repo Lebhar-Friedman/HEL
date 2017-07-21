@@ -110,14 +110,14 @@ class SiteController extends Controller {
         $ip = Yii::$app->request->userIP;
 //        $ip = '72.229.28.185';
 
-        $countryCode = Yii::$app->ip2location->getCountryCode($ip);
-        $countryName = Yii::$app->ip2location->getCountryName($ip);
-        $regionName = Yii::$app->ip2location->getRegionName($ip);
-        $cityName = Yii::$app->ip2location->getCityName($ip);
-        $latitude = Yii::$app->ip2location->getLatitude($ip);
-        $longitude = Yii::$app->ip2location->getLongitude($ip);
+//        $countryCode = Yii::$app->ip2location->getCountryCode($ip);
+//        $countryName = Yii::$app->ip2location->getCountryName($ip);
+//        $regionName = Yii::$app->ip2location->getRegionName($ip);
+//        $cityName = Yii::$app->ip2location->getCityName($ip);
+//        $latitude = Yii::$app->ip2location->getLatitude($ip);
+//        $longitude = Yii::$app->ip2location->getLongitude($ip);
         $zipCode = Yii::$app->ip2location->getZIPCode($ip);
-        $areaCode = Yii::$app->ip2location->getAreaCode($ip);
+//        $areaCode = Yii::$app->ip2location->getAreaCode($ip);
         
         return $this->render('index', ['zip_code' => $zipCode]);
     }

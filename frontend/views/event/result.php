@@ -2,9 +2,25 @@
 
 use common\functions\GlobalFunctions;
 use yii\helpers\BaseUrl;
+use yii\web\JqueryAsset;
 
 $this->registerCssFile('@web/css/results.css');
+$this->registerCssFile('@web/css/chosen.min.css');
+$this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 ?>
+<style>
+    .chosen-choices{
+        min-height: 45px;
+        display: block;
+        border: 1px solid #dbdbdb;
+        background: #FFF;
+        padding-top: 7px !important;
+        background-image: none !important;
+    }
+    .chosen-container-multi .chosen-choices li.search-field input[type=text]{
+        /*color: #000 !important;*/
+    }
+</style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
 <!--<body class="reult-body">-->
@@ -13,26 +29,38 @@ $this->registerCssFile('@web/css/results.css');
         <div class="col-lg-4 col-md-4 col-sm-5">
             <div class="search-result-content">
                 <div class="search-nav">
-                    <h1>Search <a href="#" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
-                    <div class="zip-code">
-                        <span><b>Zip Code</b></span>
-                        <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" /></div>
-                    </div>
-                    <div class="zip-code">
-                        <span><b>Keyword</b> (optional)</span>
-                        <div class="optional">
-                            <div class="full-shot">Flu shots <a href="#">X</a></div>
+                    <form action="<?= BaseUrl::base() ?>/event" method="post">
+
+                        <input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                        <h1>Search <a href="#" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
+                        <div class="zip-code">
+                            <span><b>Zip Code</b></span>
+                            <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" /></div>
                         </div>
-                    </div>
-                    <div class="zip-code">
-                        <span><b>Sort By</b></span>
+                        <div class="zip-code">
+                            <span><b>Keyword</b> (optional)</span>
+                            <div class="optional1">
+                                <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]">
+                                    <?php foreach (GlobalFunctions::getCategories() as $category) { ?>
+                                        <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="zip-code">
+                            <span><b>Sort By</b></span>
+                            <div>
+                                <select  class="zip-textbox" name="sortBy">
+                                    <option>Closest</option>
+                                    <option>Soonest</option>
+                                </select>
+                            </div>
+                        </div>
                         <div>
-                            <select  class="zip-textbox">
-                                <option>Closest</option>
-                            </select>
+                            <!--<a href="#" class="go-btn">GO</a>-->
+                            <input type="submit" class="btn go-btn" value="Go">
                         </div>
-                    </div>
-                    <div><a href="#" class="go-btn">GO</a></div>
+                    </form>
                     <h1>Filters</h1>
                     <div class="filter-box">
                         <span></span>Diabetes Care
@@ -71,7 +99,7 @@ $this->registerCssFile('@web/css/results.css');
                 <div class="multi-service">
                     <h1><?= sizeof($event['categories']) === 1 ? $event['categories'][0] : 'Multiple Services' ?></h1>
                     <h2>Jun 1 - 10</h2>
-                    <span><?= empty($event['price']) ? 'Free' : '$'.$event['price'] ?></span>
+                    <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
                     <div class="clearfix">
                         <?php foreach ($event['sub_categories'] as $sub_category) { ?>
                             <div class="table-cust">
@@ -87,7 +115,7 @@ $this->registerCssFile('@web/css/results.css');
                 </div>
             <?php } ?>
             <div class="map-content">
-                <img src="images/result-img3.png" alt="" />
+                <img src="<?= $img_url ?>result-img3.png" alt="" />
                 <a href="#" class="view-all-btn">View all event locations</a>
             </div>
             <div class="email-content">

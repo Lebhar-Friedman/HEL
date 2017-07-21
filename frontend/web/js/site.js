@@ -1,3 +1,4 @@
+$('.html-multi-chosen-select').chosen({placeholder_text_multiple:'Keywords'});
 function checkEnterPress(e, input_value) {
     var code = (e.keyCode ? e.keyCode : e.which);
     if (code === 13) { //Enter keycode
