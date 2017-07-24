@@ -87,12 +87,12 @@ class CompanyForm extends Model {
         if ($validate['result']) {
             $models = $validate['models'];
             foreach ($models as $model) {
+                $model->name = ucfirst($model->name);
                 $company = Company::findOne(['name' => $model->name]);
                 if (count($company) == 0) {
                     $company = new Company();
                 }
                 $company->attributes = $model->attributes;
-                $company->name = ucfirst($company->name);
                 $company->save();
                 array_push($importedCompanies, $company->_id);
             }
@@ -146,7 +146,6 @@ class CompanyForm extends Model {
         fclose($file);
         return ['result' => TRUE, 'models' => $models];
     }
-
 
 // end class
 }
