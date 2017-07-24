@@ -73,8 +73,80 @@ class CompanyForm extends Model {
             'contact name' => 'contact_name',
             'phone' => 'phone',
             'email' => 'email',
+            'street' => 'street',
+            'city' => 'city',
+            'state' => 'state',
+            'zip' => 'zip'
         ];
     }
+
+    public static function saveCSV($csv) {
+        $importedCompanies = [];
+        $validate = \backend\models\CompanyForm::validateCSV($csv);
+//        echo json_encode($validate);
+        if ($validate['result']) {
+            $models = $validate['models'];
+            foreach ($models as $model) {
+                $company = Company::findOne(['name' => $model->name]);
+                if (count($company) == 0) {
+                    $company = new Company();
+                }
+                $company->attributes = $model->attributes;
+                $company->name = ucfirst($company->name);
+                $company->save();
+                array_push($importedCompanies, $company->_id);
+            }
+            \common\models\Values::saveValue('import', 'companies', $importedCompanies);
+            return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Companies were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedCompanies' => $importedCompanies]);
+        } else {
+            return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
+        }
+    }
+
+    /**
+     * Validates the csv data of companies.
+     *
+     */
+    public static function validateCSV($csv) {
+        $companyAttributeMapArray = self::getCsvAttributeMapArray();
+        $companyAttributes = $result = [];
+        $file = fopen("uploads/import/" . $csv, "r");
+        $headerRow = array_map('trim', array_map('strtolower', fgetcsv($file))); //fgetcsv($file);
+        if (!empty($headerRow)) {
+            $rowNo = 1;
+            $models = [];
+            while (!feof($file)) {
+                $rowNo++;
+                $companyModel = new CompanyForm();
+                $dataRow = fgetcsv($file);
+                if (!empty($dataRow) && count(array_filter($dataRow))) {
+                    foreach ($headerRow as $key => $value) {
+                        if (isset($companyAttributeMapArray[$value])) {
+                            $companyAttributes[$companyAttributeMapArray[$value]] = trim($dataRow[$key]);
+                        } elseif (!empty($value)) {
+                            fclose($file);
+                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . $key . '</b> <br>'];
+                        }
+                    }
+                    $company = Company::findOne(['name' => $companyAttributes['name']]);
+                    if (count($company) > 0) {
+                        $companyModel->c_id = $company->_id;
+                    }
+                    $companyModel->attributes = $companyAttributes;
+
+                    if (!$companyModel->validate()) {
+                        fclose($file);
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \components\GlobalFunction::modelErrorsToString($companyModel->getErrors()), 'row' => json_encode($dataRow)];
+                    }
+                    array_push($models, $companyModel);
+                }
+            }
+        }
+
+        fclose($file);
+        return ['result' => TRUE, 'models' => $models];
+    }
+
 
 // end class
 }

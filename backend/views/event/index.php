@@ -64,10 +64,10 @@ $this->title = 'Events';
                             <select name="eventCategory">
                                 <option value="-1" selected="selected">Category</option>
                                 <option <?php
-                                    if ($_GET['eventCategory'] === 'Diabetes') {
-                                        echo "selected";
-                                    }
-                                    ?>>Diabetes</option>
+                                if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === 'Diabetes') {
+                                    echo "selected";
+                                }
+                                ?>>Diabetes</option>
                                 <option>Category 1</option>
                             </select>
                         </div>
@@ -75,10 +75,10 @@ $this->title = 'Events';
                             <select name="eventSubCategory">
                                 <option value="-1" selected="selected">Sub-Category</option>
                                 <option <?php
-                                    if ($_GET['eventSubCategory'] === 'Blood glucose') {
-                                        echo "selected";
-                                    }
-                                    ?>>Blood glucose</option>
+                                if (isset($_GET['eventSubCategory']) && $_GET['eventSubCategory'] === 'Blood glucose') {
+                                    echo "selected";
+                                }
+                                ?>>Blood glucose</option>
                                 <option>Category 1</option>
                             </select>
                         </div>
@@ -121,15 +121,15 @@ $this->title = 'Events';
                         ?>        
                         <div class="csv-table-row1 clearfix">
                             <div class="table-chk-h1">
-                                <input type="checkbox" id="<?=$event['_id'] ?>" name="checkEvent" onclick="parentUnselect(this)" />
-                                <label for="<?=$event['_id'] ?>"><span></span></label>
+                                <input type="checkbox" id="<?= $event['_id'] ?>" name="checkEvent" onclick="parentUnselect(this)" />
+                                <label for="<?= $event['_id'] ?>"><span></span></label>
 
                             </div>
                             <div class="table-title-h1"><?= $event['title'] ?></div>
                             <div class="table-date-h1"><?= $event['date_start'] ?> - <?= $event['date_end'] ?></div>
                             <div class="table-time-h1"><?= $event['time_start'] ?> - <?= $event['time_end'] ?></div>
-                            <div class="table-category-h1"><?= $event['categories'] ?></div>
-                            <div class="table-sub-cat-h1"><?= $event['sub_categories'] ?></div>
+                            <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
+                            <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
                                 <div class="tc-location"><?= sizeof($event['locations']); ?>
                                     <img src="<?= BaseUrl::base() ?>/images/caution.png" alt="" />
@@ -137,9 +137,10 @@ $this->title = 'Events';
                             </div>
                             <div class="table-cost-h1">Free</div>
                             <div class="table-blank-h1"><div class="flt-lft b-post-btn3 mrg-lftt">
-                                    <a href="javascript:;" onclick="postEvent('<?= $event['_id'] ?>',this)" >Post</a></div>
+                                    <a href="javascript:;" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a></div>
+                                <a href="<?= BaseUrl::base() . '/event/edit?eid=' . $event['_id'] ?>" class="edit1-btn "></a>
                                 <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn "></a>
-                                <a href="<?= BaseUrl::base() . '/event/edit?eid=' . $event['_id'] ?>" class="edit1-btn "></a> </div>
+                            </div>
                         </div> 
                     <?php } ?>
 

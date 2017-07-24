@@ -31,8 +31,8 @@ class Values extends ActiveRecord {
         return [
             '_id',
             'value_id',
-            'value_type',
             'name',
+            'value_type',
             'value',
             'created_at',
             'updated_at',
@@ -46,8 +46,8 @@ class Values extends ActiveRecord {
         return [
             [['_id',
             'value_id',
-            'value_type',
             'name',
+            'value_type',
             'value',], 'safe'],
         ];
     }
@@ -79,16 +79,15 @@ class Values extends ActiveRecord {
         }
     }
 
-    public static function saveValue($type, $name, $value) {
-        $model = Values::findOne(['value_type' => $type, 'name' => $name]);
+    public static function saveValue($name, $type, $value) {
+        $model = Values::findOne(['name' => $name]);
         if (count($model) > 0) {
-            $model->value = $value;
+            ;
         } else {
             $model = new Values();
-            $model->value_type = $type;
-            $model->name = $name;
-            $model->value = $value;
         }
+        $model->value_type = $type;
+        $model->value = $value;
 
         if ($model->save()) {
             return TRUE;
@@ -97,8 +96,8 @@ class Values extends ActiveRecord {
         }
     }
 
-    public static function getValue($type, $name) {
-        $value = Values::find(['value_type' => $type, 'name' => $name])->select(['value'])->one();
+    public static function getValueByName($name) {
+        $value = Values::find(['name' => $name])->one();
         return $value;
     }
 
