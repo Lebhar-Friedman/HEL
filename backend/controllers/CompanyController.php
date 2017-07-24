@@ -109,7 +109,7 @@ class CompanyController extends Controller {
         if ($model && $model->delete()) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Company successfully deleted";
-            unlink('uploads/' . $logo);
+            ($logo !== null || !empty($logo)) ? unlink('uploads/' . $logo): "";
         } else {
             $retData['msgType'] = "ERR";
             $retData['msg'] = "Can not delete the company at this time.";
