@@ -83,7 +83,7 @@ class CompanyController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             Yii::$app->getSession()->setFlash('success', 'New company has been added to datababse.');
             return $retData;
-        } else {
+        } else if($request->get('cid') !== NULL) {
             $request = $request->get();
             $company_id = $request['cid'];
             $commpany = Company::findOne($company_id);
