@@ -24,5 +24,16 @@ class GlobalFunctions {
             );
         return $categories;
     }
+    
+    public function getKeywords() {
+        $keywords=array(
+            array('value'=>1,'text'=>'Blood glucose'),
+            array('value'=>2,'text'=>'Heart'),
+            array('value'=>3,'text'=>'Cancer'),
+            array('value'=>4,'text'=>'Category 4'),
+            array('value'=>5,'text'=>'Category 5'),
+            );
+        return $keywords;
+    }
 
 }

@@ -41,9 +41,25 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                             <span><b>Keyword</b> (optional)</span>
                             <div class="optional1">
                                 <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]">
-                                    <?php foreach (GlobalFunctions::getCategories() as $category) { ?>
-                                        <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
-                                    <?php } ?>
+                                    <?php foreach (GlobalFunctions::getKeywords() as $category) { ?>
+                                        <?php
+                                        if (isset($ret_keywords) && !empty($ret_keywords)) {
+                                            foreach ($ret_keywords as $k) {
+                                                if ($k === $category['text']) {
+                                                    ?>
+                                                    <option value="<?= $category['text'] ?>" selected><?= $category['text'] ?></option>            
+                                                <?php } else { ?>
+                                                    <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        <?php } else { ?>
+                                            <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -57,33 +73,22 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                             </div>
                         </div>
                         <div>
-                            <!--<a href="#" class="go-btn">GO</a>-->
+                            <input type="submit" class="btn go-btn" value="Go">
+                        </div>
+                        <h1>Filters</h1>
+                        <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
+                            <div class="filter-box">
+                                <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
+                                <label><input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
+                                <?php } else { ?>
+                                    <label><input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+                        <div>
                             <input type="submit" class="btn go-btn" value="Go">
                         </div>
                     </form>
-                    <h1>Filters</h1>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box active">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div class="filter-box">
-                        <span></span>Diabetes Care
-                    </div>
-                    <div><a href="#" class="go-btn">GO</a></div>
                 </div>
                 <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
 
