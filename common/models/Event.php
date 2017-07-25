@@ -3,7 +3,7 @@
 namespace common\models;
 
 use yii\mongodb\ActiveRecord;
-
+use yii\helpers\ArrayHelper;
 /**
  * Location model
  *
@@ -115,6 +115,15 @@ class Event extends ActiveRecord {
      */
     public static function findEvent($id) {
         return static::findOne(['_id' => $id]);
+    }
+    public static function findEventLocationsIDs($id) {
+        $locations = static::findOne(['_id' => $id]); 
+        //array_column($locations, 'first_name');
+        $IDs = ArrayHelper::getColumn($locations->locations, function ($element) {
+                    return $element['_id'];
+                  });
+          var_dump($IDs);
+          return $IDs;
     }
 
 // end class counter
