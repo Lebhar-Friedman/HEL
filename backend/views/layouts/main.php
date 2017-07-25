@@ -50,7 +50,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                     ?>
                                     <a href="<?= $baseUrl ?>/import" class="<?= (Yii::$app->controller->uniqueId=='import')? 'active': ''; ?>">Upload</a>
                                     <a href="<?= $baseUrl ?>/company" class="<?= (Yii::$app->controller->uniqueId=='company')? 'active': ''; ?>">Companies</a>
-                                    <a href="#">Locations</a>
+                                    <a href="<?= $baseUrl ?>/location" class="<?= (Yii::$app->controller->uniqueId=='location')? 'active': ''; ?>">Locations</a>
                                     <a href="<?= $baseUrl ?>/event" class="<?= (Yii::$app->controller->uniqueId=='event')? 'active': ''; ?>">Events</a>
                                     <a href="#">Categories</a>
                                     <a href="#">Admins</a>
