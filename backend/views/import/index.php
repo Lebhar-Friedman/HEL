@@ -100,12 +100,26 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
             </div>    
         </div>
     </div>
-<?php } elseif (count($companies) > 0) {
+    <?php
+} elseif (count($companies) > 0) {
+    $this->registerJsFile('@web/js/company.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
     ?>
     <div class="row">
         <div class="col-lg-12">
 
             <div class="csv2-comp-content">
+                <div class="row ">
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+<!--                        <div class="flt-lft  b-post-btn2 mrg-rht"><a href="#">Bulk Post</a></div>
+                        <div class="flt-lft  b-del-btn2"><a href="#">Bulk Delete</a></div>-->
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-6 col-xs-6">
+                        <div class="events">Companies Added</div>
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-sm-6 col-xs-6">
+                        <div class="total-1">Total: <?= count($companies) ?></div>
+                    </div>
+                </div>
                 <div class="table-scroll">
                     <div class = "list-table">
                         <div class = "table-th">

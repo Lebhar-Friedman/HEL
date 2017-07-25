@@ -66,10 +66,14 @@ class EventForm extends Model {
                 $location = \common\models\Location::findOne(['street' => $locationForm->street, 'city' => $locationForm->city, 'state' => $locationForm->state, 'zip' => $locationForm->zip]);
                 if (count($location) == 0) {
                     $location = new \common\models\Location();
-                    $latlong = \components\GlobalFunction::getLongLat($locationForm);
+                }
+                if (empty($location->geometry)) {
+                    $latlong = \components\GlobalFunction::getLongLat($locationForm);//exit(print_r($latlong));
                     if ($latlong) {
-                        $location->latitude = $latlong['lat'];
-                        $location->longitude = $latlong['long'];
+                        $location->geometry = ['type' => 'Point',
+                            'coordinates' => [$latlong['long'],
+                                $latlong['lat']]
+                        ];
                     }
                 }
                 $location->attributes = $locationForm->attributes;
@@ -114,9 +118,11 @@ class EventForm extends Model {
                         }
                     }
                     $locationModel->attributes = $locationAttributes;
+                    $locationModel->company = ucfirst($locationModel->company);
                     $eventModel->attributes = $eventAttributes;
                     $eventModel->categories = explode(',', $eventModel->categories);
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
+                    $eventModel->company = ucfirst($eventModel->company);
                     if (!$locationModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];

@@ -19,6 +19,7 @@ use yii\mongodb\ActiveRecord;
  * @property string $email
  * @property double $latitude
  * @property double $longitude
+ * @property Object $geometry
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -43,8 +44,9 @@ class Location extends ActiveRecord {
             'contact_name',
             'phone',
 //            'email',
-            'latitude',
-            'longitude',
+//            'latitude',
+//            'longitude',
+            'geometry',
             'created_at',
             'updated_at',
         ];
@@ -65,8 +67,9 @@ class Location extends ActiveRecord {
             'contact_name',
             'phone',
 //            'email',
-            'latitude',
-            'longitude',
+//            'latitude',
+//            'longitude',
+            'geometry',
             'created_at',
             'updated_at'], 'safe'],
         ];
