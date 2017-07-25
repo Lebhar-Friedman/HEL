@@ -25,7 +25,8 @@ class Counter extends ActiveRecord {
     const COUNTER_SUB_CATEGORY_ID = 'subcategoryid';
     const COUNTER_COMPANY_ID = 'companyid';
     const COUNTER_EVENT_ID = 'eventid';
-    const COUNTER_LOCATION_ID = 'locationid';    
+    const COUNTER_LOCATION_ID = 'locationid';   
+    const COUNTER_VALUE_ID = 'valueid';   
 
     /**
      * @inheritdoc

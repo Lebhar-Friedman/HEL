@@ -11,6 +11,7 @@ class HomeAsset extends AssetBundle
         'css/home-layout.css',
     ];
     public $js = [
+        'js/site.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

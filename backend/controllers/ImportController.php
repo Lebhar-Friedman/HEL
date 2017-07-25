@@ -54,7 +54,22 @@ class ImportController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        return $this->render('index');
+        $companies = $events = [];
+        $lastImported = \common\models\Values::getValueByName('import');
+        if (count($lastImported) > 0) {
+            if (!empty($lastImported) && $lastImported->value_type == 'events') {
+                $events = \common\models\Event::findAll(['_id' => $lastImported->value]);
+            } elseif (!empty($lastImported) && $lastImported->value_type == 'companies') {
+                $companies = \common\models\Company::findAll(['_id' => $lastImported->value]);
+                foreach ($companies as &$company) {
+                    $totalLocations = \common\models\Location::find()->where(['company' => $company->name])->count();
+                    $totalEvents = \common\models\Event::find()->where(['company' => $company->name])->count();
+                    $company['t_locations'] = $totalLocations;
+                    $company['t_events'] = $totalEvents;
+                }
+            }
+        }
+        return $this->render('index', ['events' => $events, 'companies' => $companies]);
     }
 
     /**
@@ -71,8 +86,8 @@ class ImportController extends Controller {
 
             if ($model->upload('uploads/import/')) {
                 if (Yii::$app->request->post('import_type') == 'company') {
-
-                    exit(json_encode(['msgType' => 'SUC', 'msg' => 'Companies Added Successfully.']));
+                    $result = \backend\models\CompanyForm::saveCSV($model->file->name);
+                    exit($result);
                 } elseif (Yii::$app->request->post('import_type') == 'event') {
                     $result = \backend\models\EventForm::saveCSV($model->file->name);
                     exit($result);
@@ -81,56 +96,6 @@ class ImportController extends Controller {
                 }
             }
         }
-    }
-
-    private function validateCompanyCSV() {
-        $attributeMapArray = [
-            'company name' => 'name',
-            'contact name' => 'contact_name',
-            'phone' => 'phone',
-            'email' => 'email',
-        ];
-
-        $attributes = $result = [];
-        $file = fopen("uploads/import/import.csv", "r");
-        $headerRow = fgetcsv($file);
-
-        if (!empty($headerRow)) {
-            $rowNo = 1;
-            $models = [];
-            while (!feof($file)) {
-                $rowNo++;
-                $model = new \backend\models\CompanyForm();
-                $model->scenario = 'create';
-                $dataRow = fgetcsv($file);
-
-                if (!empty($dataRow)) {
-                    foreach ($headerRow as $key => $value) {
-                        if (isset($attributeMapArray[$value])) {
-                            $attributes[$attributeMapArray[$value]] = trim($dataRow[$key]);
-                        } elseif (!empty($value)) {
-                            fclose($file);
-                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . $key . '</b> <br>'];
-                        }
-                    }
-                    $model->attributes = $attributes;
-                    if (!$model->validate()) {//echo json_encode($model->getErrors());exit();
-                        fclose($file);
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \Component\GlobalFunction::modelErrorsToString($model->getErrors())];
-                    }
-                    $company = \common\models\Company::findOne(['name' => $model->name]);
-
-                    if (count($company) > 0) {
-                        $model->ma_id = $company->ma_id;
-                        $model->scenario = 'update';
-                    }
-                    array_push($models, $model);
-                }
-            }
-        }
-
-        fclose($file);
-        return ['result' => TRUE, 'models' => $models];
     }
 
 // end class

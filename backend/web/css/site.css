@@ -1113,7 +1113,7 @@ a.del-btn:hover { background-position:0 -38px;
 }
 .table-csv-list{
     display:block;
-    min-width:1060px;
+    min-width:1169px;
 }
 .csv-table-row{
     display:block;
@@ -1158,7 +1158,7 @@ a.check-box:hover { background-position:0 -22px;}
     padding:18px 5px;
 }
 .table-date-h{
-    width:16.5%;
+    width:15.5%;
     float:left;
     border-right:1px solid #fff;
     color:#fff;
@@ -1247,7 +1247,7 @@ a.check-box1:hover { background-position:0 -22px;}
     line-height:18px;
 }
 .table-date-h1{
-    width:16.5%;
+    width:15.5%;
     float:left;
     border-right:1px solid #c5c5c5;
     color:#000;
@@ -1315,7 +1315,7 @@ a.check-box1:hover { background-position:0 -22px;}
     padding:18px 5px;
 }
 .table-blank-h1{
-    width:15.4%;
+    width:16.4%;
     float:left;
     color:#000;
     padding:25px 0px;
@@ -1331,6 +1331,7 @@ a.check-box1:hover { background-position:0 -22px;}
     color:#FFF!important;
     width:40px;
     height:38px;
+    margin: 0 5px !important;
     background-clip:padding-box;
     text-align:center;
     background-image: url(../images/edit1.png); 
@@ -1346,7 +1347,6 @@ a.edit1-btn:hover { background-position:0 -38px;
     color:#FFF!important;
     width:40px;
     height:38px;
-    margin: 0 5px !important;
     background-clip:padding-box;
     text-align:center;
     background-image: url(../images/cross1.png); 
@@ -1366,7 +1366,7 @@ a.del1-btn:hover { background-position:0 -38px;}
     font-size:15px;
     line-height:8px;
     color:#0088cc !important;
-    padding:14px 18px ;
+    padding:14px 22px ;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     font-weight:bold;
@@ -1379,11 +1379,6 @@ a.del1-btn:hover { background-position:0 -38px;}
     transition: all 0.3s ease;
 }
 .mrg-lftt{margin-left:5px;}
-
-
-
-
-
 
 @media (max-width: 650px) and (min-width: 0px){
     /*.chose-file-btn {padding: 20px 15px;}*/

@@ -9,7 +9,11 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<style>
+    body{
+    background:#eaeaea !important;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-lg-1">
@@ -38,10 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <?= $form->field($model, 'password',['inputOptions'=>['placeholder'=>'Password','class'=>'f-name-txtbx']])->passwordInput()->label(false) ?>
+                            <?= $form->field($model, 'password', ['inputOptions' => ['placeholder' => 'Password', 'class' => 'f-name-txtbx']])->passwordInput()->label(false) ?>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <?= $form->field($model, 'confirm_password',['inputOptions'=>['placeholder'=>'Password','class'=>'f-name-txtbx']])->passwordInput()->label(false) ?>
+                            <?= $form->field($model, 'confirm_password', ['inputOptions' => ['placeholder' => 'Password', 'class' => 'f-name-txtbx']])->passwordInput()->label(false) ?>
                         </div>
                     </div>
                     <div class="create-account">
