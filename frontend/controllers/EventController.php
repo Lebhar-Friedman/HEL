@@ -12,70 +12,87 @@ use common\models\Event;
 use components\GlobalFunction;
 use Yii;
 use yii\web\Controller;
+use yii\web\Cookie;
 
 class EventController extends Controller {
 
     public function actionIndex() {
+//        $long = 74.329376;
+//        $lat = 31.582045;
+//        echo GlobalFunction::getZipFromLongLat($long, $lat);
+        $longitude;
+        $latitude;
         if (Yii::$app->request->get('zipcode') === NULL) {
+            
             $ip = Yii::$app->request->userIP;
             $ip = '103.7.78.171';
             $latitude = Yii::$app->ip2location->getLatitude($ip);
             $longitude = Yii::$app->ip2location->getLongitude($ip);
             $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+
+            $cookies = Yii::$app->request->cookies;
+
+            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+                $longitude = $cookie_long->value;
+                $latitude = $cookie_lat->value;
+                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+                $zip_code = $temp_zip ? $temp_zip : $zip_code;
+            }
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
             $longitude = $longlat['long'];
         }
-
-//        $whereParams = ['locations.zip' => $zip_code];
-
-        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-        $whereParams = ['AND', ['locations.zip' => $zip_code], ['date_end' => ['$gte' => $current_date]]];
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
             $keywords = Yii::$app->request->post('keywords');
             $sort_by = Yii::$app->request->post('sortBy');
             $filters = Yii::$app->request->post('filters');
             
-            $whereParams = ['AND', ['locations.zip' => $zip_code], ['date_end' => ['$gte' => $current_date]], ["locations.geometry" => ['$geoWithin' => ['$centerSphere' => [[74.329376, 31.582045], 50 / 3963.2]]]]];
+            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
+            $latitude = $longlat['lat'];
+            $longitude = $longlat['long'];
+            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+                $longitude = $cookie_long->value;
+                $latitude = $cookie_lat->value;
+                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+                $zip_code = $temp_zip ? $temp_zip : $zip_code;
+            }
+            
+            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters,$longitude,$latitude, $sort_by);
+            $total_events = sizeof($events_dist);
 
-            $query = Event::find()->andWhere($whereParams);
-            $keywords_params = [];
-            if (sizeof($keywords) > 0) {
-//            $whereParams = ['AND', ['OR',['categories' => $keywords, 'sub_categories' => $keywords ]], ['locations.zip' => $zip_code], ['date_end'=> ['$gte'=> $current_date]] ];
-                $query = $query->andWhere(['OR', ['categories' => $keywords], ['sub_categories' => $keywords]]);
-                $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-            }
-            if ($filters !== null) {
-                $query = $query->andWhere(['AND', ['categories' => $filters]]);
-                if (sizeof($keywords) > 0) {
-                    $keywords_params = ['AND', $keywords_params, ['categories' => ['$all' => $filters]]];
-                } else {
-//                    $keywords_params =['AND',['categories'=>$filters] ];
-//                    favouriteFoods: { "$in" : ["sushi"]} 
-                    $keywords_params = ['categories' => ['$all' => $filters]];
-                }
-            }
-            $total_events = $query->count();
-            $events = $query->all();
-            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters,$sort_by);
-            return $this->render('result', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by]);
         }
+        $events = $this->getEventsWithDistance($zip_code, null, null,$longitude,$latitude);
+        $total_events = sizeof($events);
 
-//        $query = Event::find()->andWhere($whereParams);
-        $query = Event::find()->andWhere($whereParams);
-        $total_events = $query->count();
-        $events = $query->all();
-        return $this->render('result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
+        return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
     }
 
-    public function getEventsWithDistance($zip_code, $keywords, $filters, $sort='Closest') {
+    public function actionSetLongLat() {
+
+        $long = Yii::$app->request->post('longitude');
+        $lat = Yii::$app->request->post('latitude');
+
+        $cookies = Yii::$app->response->cookies;
+        
+        $cookies->add(new Cookie([
+            'name' => 'longitude',
+            'value' => $long,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'latitude',
+            'value' => $lat,
+        ]));
+    }
+
+    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude,  $sort = 'Closest') {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+230 days"))) * 1000);
 
-        if (sizeof($keywords) > 0) {
+        if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
                 $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
@@ -83,7 +100,7 @@ class EventController extends Controller {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
                 $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
             }
-        } else if (sizeof($filters) > 0) {
+        } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
                 $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
@@ -99,7 +116,8 @@ class EventController extends Controller {
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
-                        "coordinates" => [74.329376, 31.582045]
+//                        "coordinates" => [74.329376, 31.582045]
+                        "coordinates" => [floatval($longitude), floatval($latitude)]
                     ],
                     "maxDistance" => 41 * 1609,
                     "spherical" => true,
@@ -108,9 +126,8 @@ class EventController extends Controller {
                 ],
             ],
                 ['$match' => $matchParams],
-                
-                [ '$sort'=> $sort === 'Soonest'? [ "event_id"=> 1, "distance"=> 1 ] : ["distance"=> 1 ] ]
-        ]);
+                ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+                ], ['allowDiskUse' => true]);
 
         return $events;
     }
