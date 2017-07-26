@@ -41,22 +41,12 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                             <span><b>Keyword</b> (optional)</span>
                             <div class="optional1">
                                 <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]">
-                                    <?php foreach (GlobalFunctions::getKeywords() as $category) { ?>
-                                        <?php
-                                        if (isset($ret_keywords) && !empty($ret_keywords)) {
-                                            foreach ($ret_keywords as $k) {
-                                                if ($k === $category['text']) {
-                                                    ?>
-                                                    <option value="<?= $category['text'] ?>" selected><?= $category['text'] ?></option>            
-                                                <?php } else { ?>
-                                                    <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
+                                    <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
+                                        <?php if (isset($ret_keywords) && !empty($ret_keywords)) { ?>
+                                            <option value="<?= $keyword['text'] ?>" <?= in_array($keyword['text'], $ret_keywords) ? 'selected' : '' ?> ><?= $keyword['text'] ?></option>
                                         <?php } else { ?>
-                                            <option value="<?= $category['text'] ?>"><?= $category['text'] ?></option>
-                                            <?php
+                                            <option value="<?= $keyword['text'] ?>"><?= $keyword['text'] ?></option>
+                                        <?php
                                         }
                                     }
                                     ?>
@@ -79,7 +69,7 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
                             <div class="filter-box">
                                 <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
-                                <label><input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
+                                    <label><input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
                                 <?php } else { ?>
                                     <label><input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
                                 <?php } ?>
@@ -115,7 +105,7 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                     <div class="location-text">
                         <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
                         <div class="text"><?= sizeof($event['locations']) ?> locations</div>
-                        <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance'])? round($event['distance'],1). 'm':'' ?> 
+                        <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                     </div>
                 </div>
             <?php } ?>
