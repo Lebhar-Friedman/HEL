@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\LoginForm;
 use common\models\User;
+use components\GlobalFunction;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -108,18 +109,20 @@ class SiteController extends Controller {
     public function actionIndex() {
         $this->layout = 'home-layout';
         $ip = Yii::$app->request->userIP;
-//        $ip = '72.229.28.185';
+        $ip = '72.229.28.185';
+        $zip_code = Yii::$app->ip2location->getZIPCode($ip);
 
-//        $countryCode = Yii::$app->ip2location->getCountryCode($ip);
-//        $countryName = Yii::$app->ip2location->getCountryName($ip);
-//        $regionName = Yii::$app->ip2location->getRegionName($ip);
-//        $cityName = Yii::$app->ip2location->getCityName($ip);
-//        $latitude = Yii::$app->ip2location->getLatitude($ip);
-//        $longitude = Yii::$app->ip2location->getLongitude($ip);
-        $zipCode = Yii::$app->ip2location->getZIPCode($ip);
-//        $areaCode = Yii::$app->ip2location->getAreaCode($ip);
-        
-        return $this->render('index', ['zip_code' => $zipCode]);
+        $cookies = Yii::$app->request->cookies;
+
+        if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+            $longitude = $cookie_long->value;
+            $longitude = $cookie_lat->value;
+            $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $longitude);
+            $zip_code = $temp_zip ? $temp_zip : $zip_code;
+            echo $temp_zip;
+        }
+
+        return $this->render('index', ['zip_code' => $zip_code]);
     }
 
     /**
