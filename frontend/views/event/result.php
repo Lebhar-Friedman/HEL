@@ -115,7 +115,7 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
                     <div class="location-text">
                         <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
                         <div class="text"><?= sizeof($event['locations']) ?> locations</div>
-                        <img src="<?= $img_url ?>map-marker.png" alt="" /> 1.2 m
+                        <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance'])? round($event['distance'],1). 'm':'' ?> 
                     </div>
                 </div>
             <?php } ?>

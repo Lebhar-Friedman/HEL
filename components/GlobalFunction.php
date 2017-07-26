@@ -219,6 +219,19 @@ class GlobalFunction {
         }
         return FALSE;
     }
+    public static function getLongLatFromZip($zip) {
+        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' .$zip;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $json = curl_exec($curl);
+        curl_close($curl); //echo $anAddress.'<br>'.$json;
+        $mapData = json_decode($json);
+        if ($mapData && $mapData->status == 'OK') {
+            return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
+        }
+        return FALSE;
+    }
 
     public static function getDate($format, $mongoDate) {
         $datetime = $mongoDate->toDateTime();

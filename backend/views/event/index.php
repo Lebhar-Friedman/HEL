@@ -5,6 +5,7 @@ use yii\helpers\BaseUrl;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\web\JqueryAsset;
+use components\GlobalFunction;
 ?>
 <?php
 //var_dump($events);
@@ -64,10 +65,10 @@ $this->title = 'Events';
                             <select name="eventCategory">
                                 <option value="-1" selected="selected">Category</option>
                                 <option <?php
-                                if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === 'Diabetes') {
-                                    echo "selected";
-                                }
-                                ?>>Diabetes</option>
+                                    if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === 'Diabetes') {
+                                        echo "selected";
+                                    }
+                                    ?>>Diabetes</option>
                                 <option>Category 1</option>
                             </select>
                         </div>
@@ -75,10 +76,10 @@ $this->title = 'Events';
                             <select name="eventSubCategory">
                                 <option value="-1" selected="selected">Sub-Category</option>
                                 <option <?php
-                                if (isset($_GET['eventSubCategory']) && $_GET['eventSubCategory'] === 'Blood glucose') {
-                                    echo "selected";
-                                }
-                                ?>>Blood glucose</option>
+                                    if (isset($_GET['eventSubCategory']) && $_GET['eventSubCategory'] === 'Blood glucose') {
+                                        echo "selected";
+                                    }
+                                    ?>>Blood glucose</option>
                                 <option>Category 1</option>
                             </select>
                         </div>
@@ -126,12 +127,12 @@ $this->title = 'Events';
 
                             </div>
                             <div class="table-title-h1"><?= $event['title'] ?></div>
-                            <div class="table-date-h1"><?= $event['date_start'] ?> - <?= $event['date_end'] ?></div>
+                            <div class="table-date-h1"><?= GlobalFunction::getDate('m/d/Y', $event['date_start']) ?> - <?= GlobalFunction::getDate('m/d/Y', $event['date_end']) ?></div>
                             <div class="table-time-h1"><?= $event['time_start'] ?> - <?= $event['time_end'] ?></div>
                             <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
-                                <div class="tc-location"><?= sizeof($event['locations']); ?>
+                                <div class="tc-location"><a href="<?= BaseUrl::base() . '/location?eid=' . $event['_id'] ?>"><?= sizeof($event['locations']); ?></a>
                                     <img src="<?= BaseUrl::base() ?>/images/caution.png" alt="" />
                                 </div>
                             </div>
@@ -143,24 +144,18 @@ $this->title = 'Events';
                             </div>
                         </div> 
                     <?php } ?>
-
-
-
-
-
-
                 </div> 
             </div>
-        </div>    
-    </div>
-</div>   
-
-
 <?php
 if (isset($pagination)) {
-    echo CustomLinkPager::widget([
-        'pagination' => $pagination,
-    ]);
+                echo LinkPager::widget([
+                    'pagination' => $pagination,
+                    'options' => ['class' => 'pagging clearfix'],
+                    'prevPageLabel' => '<img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/>',
+                    'nextPageLabel' => '<img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/>',
+                    'firstPageLabel' => '<img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/><img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/>',
+                    'lastPageLabel' => '<img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/><img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/>',
+                ]);
 }
 ?>
 </div>

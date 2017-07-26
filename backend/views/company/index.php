@@ -4,6 +4,7 @@ use backend\components\CustomLinkPager;
 use yii\helpers\BaseUrl;
 use yii\helpers\Url;
 use yii\web\JqueryAsset;
+use yii\widgets\LinkPager;
 ?>
 <?php $this->registerJsFile('@web/js/company.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->title='Companies'; ?>
@@ -58,8 +59,13 @@ use yii\web\JqueryAsset;
 
 <?php
 if (isset($pagination)) {
-    echo CustomLinkPager::widget([
+    echo LinkPager::widget([
         'pagination' => $pagination,
+        'options' => ['class' => 'pagging clearfix'],
+        'prevPageLabel' => '<img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/>',
+        'nextPageLabel' => '<img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/>',
+        'firstPageLabel' => '<img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/><img src="' . BaseUrl::base() . '/images/prev-btn.png" alt=""/>',
+        'lastPageLabel' => '<img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/><img src="' . BaseUrl::base() . '/images/next-btn.png" alt=""/>',
     ]);
 }
 ?>

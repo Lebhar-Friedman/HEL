@@ -3,10 +3,8 @@
 namespace backend\controllers;
 
 use backend\models\CompanyForm;
+use common\models\Location;
 use common\models\Event;
-use common\models\Company;
-use common\models\Categories;
-use common\models\SubCategories;
 use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -14,45 +12,20 @@ use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class EventController extends Controller {
+class LocationController extends Controller {
 
     public function actionIndex() {
-        $query = Event::find();
-        $eventTerm = urldecode(Yii::$app->request->get('eventTerm'));
-        $eventFrom = urldecode(Yii::$app->request->get('eventFrom'));
-        $eventTo = urldecode(Yii::$app->request->get('eventTo'));
-        $eventCompany = urldecode(Yii::$app->request->get('eventCompany'));
-        $eventCategory = urldecode(Yii::$app->request->get('eventCategory'));
-        $eventSubCategory = urldecode(Yii::$app->request->get('eventSubCategory'));
-        if($eventTerm !== ''){
-            $query->andWhere(['like','title', $eventTerm]);
-        }
-//        var_dump($eventFrom);
-//        var_dump(date('m/d/Y',strtotime($eventFrom)));
-//        if($eventFrom != ''){
-//            $query=$query->andWhere(['=','date_start', date('m/d/Y',strtotime($eventFrom))]);
-//        }
-//        if($eventTo != ''){
-//            $query=$query->andWhere(['=','date_end', date('m/d/Y',strtotime($eventTo))]);
-//        }
-        if($eventCompany !== '-1' && $eventCompany !== ''){
-            $query->andWhere(['=','company', $eventCompany]);
-        }
-        if($eventCategory !== '-1' && $eventCategory !== ''){
-            $query = $query->andWhere(['=','categories', $eventCategory]);
-        }
-        if($eventSubCategory !== '-1' && $eventSubCategory !== ''){
-            $query = $query->andWhere(['=','sub_categories', $eventSubCategory]);
-        }
-        $count = $query->count();
-        
+        $query = Location::find();
+        $eid = urldecode(Yii::$app->request->get('eid'));
+        if($eid !== ''){
+            $locationIDs = Event::findEventLocationsIDs($eid);
+            $query->andWhere(['in','_id', $locationIDs]);
+        }        
+        $count = $query->count();        
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
-        $events = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
-        
-        $companies = Company::CompanyList();
-        $categories = Categories::CategoryList();
-        $sub_categories = SubCategories::SubCategoryList();
-        return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
+        $locations = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
+        var_dump($locations);die;
+        return $this->render('index', ['locations' => $locations, 'pagination' => $pagination, 'total' => $count]);
     }
     
     public function actionDelete() {
@@ -62,15 +35,15 @@ class EventController extends Controller {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
         $request = Yii::$app->request->post();
-        $event_id = $request['eid'];
-        $model = Event::findOne($event_id);
+        $location_id = $request['lid'];
+        $model = Location::findOne($location_id);
         $retData = array();
         if ($model && $model->delete()) {
             $retData['msgType'] = "SUC";
-            $retData['msg'] = "Event successfully deleted";
+            $retData['msg'] = "Location successfully deleted";
         } else {
             $retData['msgType'] = "ERR";
-            $retData['msg'] = "Can not delete the event at this time.";
+            $retData['msg'] = "Can not delete the location at this time.";
         }
         return $retData;
     }
