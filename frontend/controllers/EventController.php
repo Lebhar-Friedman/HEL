@@ -70,6 +70,21 @@ class EventController extends Controller {
 
         return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
     }
+    
+    public function actionDetail(){
+        $query = Event::find();
+        $eid = urldecode(Yii::$app->request->get('eid'));
+        if($eid !== ''){
+            $query->andWhere(['=','_id', $eid]);
+        }        
+        $count = $query->count();  
+        
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
+        $event = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
+       // var_dump($event);die;
+        return $this->render('index', ['event' => $event, 'pagination' => $pagination, 'total' => $count]);
+    
+    }
 
     public function actionSetLongLat() {
 

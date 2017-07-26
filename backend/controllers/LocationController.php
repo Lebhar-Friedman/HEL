@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\CompanyForm;
 use common\models\Location;
 use common\models\Event;
+use common\models\Company;
 use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -17,15 +18,27 @@ class LocationController extends Controller {
     public function actionIndex() {
         $query = Location::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
+        $keyword = urldecode(Yii::$app->request->get('keyword'));
+        $company = urldecode(Yii::$app->request->get('company'));
         if($eid !== ''){
             $locationIDs = Event::findEventLocationsIDs($eid);
             $query->andWhere(['in','_id', $locationIDs]);
-        }        
+        }
+        if($keyword !== ''){
+            $query->orWhere(['like','street', $keyword]);
+            $query->orWhere(['like','city', $keyword]);
+            $query->orWhere(['like','state', $keyword]);
+            $query->orWhere(['like','zip', $keyword]);
+        }
+        if($company !== '-1' && $company !== ''){
+            $query->andWhere(['=','company', $company]);
+        }
         $count = $query->count();        
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $locations = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
-        var_dump($locations);die;
-        return $this->render('index', ['locations' => $locations, 'pagination' => $pagination, 'total' => $count]);
+        $companies = Company::CompanyList();
+        
+        return $this->render('index', ['locations' => $locations, 'companies'=>$companies, 'pagination' => $pagination, 'total' => $count]);
     }
     
     public function actionDelete() {

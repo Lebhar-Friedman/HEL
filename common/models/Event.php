@@ -122,7 +122,6 @@ class Event extends ActiveRecord {
         $IDs = ArrayHelper::getColumn($locations->locations, function ($element) {
                     return $element['_id'];
                   });
-          var_dump($IDs);
           return $IDs;
     }
 
