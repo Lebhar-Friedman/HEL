@@ -85,6 +85,7 @@ class Values extends ActiveRecord {
             ;
         } else {
             $model = new Values();
+            $model->name;
         }
         $model->value_type = $type;
         $model->value = $value;
