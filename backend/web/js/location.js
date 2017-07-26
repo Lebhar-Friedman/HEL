@@ -1,3 +1,8 @@
+$(document).ready(function(){
+   $('#company').change(function(){
+       this.form.submit();
+    });
+});
 function deleteLocation(locationID,element){
     if (! confirm("Are you sure?")) {
         return false;
@@ -24,6 +29,6 @@ function deleteLocation(locationID,element){
             }
         });
 }
-function editLocation(locationID,element){
+function searchLocation(locationID,element){
     
 }
