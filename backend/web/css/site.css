@@ -196,6 +196,10 @@ input{font-family: 'Open Sans', sans-serif;}
     font-weight: normal;
     font-style: normal;
 }
+.disableLink {
+   pointer-events: none;
+   cursor: default;
+}
 /*-------------------------------------------- general end */
 
 /*-------------------------------------------- Layout (header, footer) ----------------------*/
@@ -1554,6 +1558,8 @@ input[type="checkbox"]:checked + label span {
     /*background:url(check.png) 0 -22px top no-repeat;*/
     background-position: 0 -22px;
 }
+/*-------------------------------------------- Search Events end*/
+
 /***********************Search Location***************************/
 .location-table-row1 {
     display: block;
