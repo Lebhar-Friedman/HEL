@@ -107,22 +107,32 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+
         $this->layout = 'home-layout';
+        $zip_code = $this->getZipCodeFromCookies();
+        $zip_code = $zip_code === '' ? $this->getZipCodeFromIp() : $zip_code;
+
+        return $this->render('index', ['zip_code' => $zip_code]);
+    }
+
+    public function getZipCodeFromCookies() {
+
+        $zip_code = '';
+        $cookies = Yii::$app->request->cookies;
+        if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+            $longitude = $cookie_long->value;
+            $latitude = $cookie_lat->value;
+            $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+            $zip_code = $temp_zip ? $temp_zip : $zip_code;
+        }
+        return $zip_code;
+    }
+
+    public function getZipCodeFromIp() {
         $ip = Yii::$app->request->userIP;
         $ip = '72.229.28.185';
         $zip_code = Yii::$app->ip2location->getZIPCode($ip);
-
-        $cookies = Yii::$app->request->cookies;
-
-        if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
-            $longitude = $cookie_long->value;
-            $longitude = $cookie_lat->value;
-            $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $longitude);
-            $zip_code = $temp_zip ? $temp_zip : $zip_code;
-            echo $temp_zip;
-        }
-
-        return $this->render('index', ['zip_code' => $zip_code]);
+        return $zip_code;
     }
 
     /**

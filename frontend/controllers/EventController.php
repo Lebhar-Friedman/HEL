@@ -43,8 +43,8 @@ class EventController extends Controller {
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-            echo $latitude = $longlat['lat'];
-            echo $longitude = $longlat['long'];
+            $latitude = $longlat['lat'];
+            $longitude = $longlat['long'];
         }
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
@@ -105,13 +105,17 @@ class EventController extends Controller {
     }
 
     public function getZipLongLat() {
-        if (Yii::$app->request->isGet) {
-            $zip_code = Yii::$app->request->get('zipcode');
-        } else if (Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
+        } else if (Yii::$app->request->isGet) {
+            $zip_code = Yii::$app->request->get('zipcode');
         } else {
-            
+            $ip = Yii::$app->request->userIP;
+            $latitude = Yii::$app->ip2location->getLatitude($ip);
+            $longitude = Yii::$app->ip2location->getLongitude($ip);
+            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
         }
+        $longlat = GlobalFunction::getLongLatFromZip($zip_code);
     }
 
     public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $sort = 'Closest') {
