@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use common\models\Event;
+use common\models\Company;
 use components\GlobalFunction;
 use Yii;
 use yii\web\Controller;
@@ -74,12 +75,11 @@ class EventController extends Controller {
         if($eid !== ''){
             $query->andWhere(['=','_id', $eid]);
         }        
-        $count = $query->count();  
-        
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
-        $event = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
-       // var_dump($event);die;
-        return $this->render('index', ['event' => $event, 'pagination' => $pagination, 'total' => $count]);
+        $event = $query->one();
+        $company = Company::findCompanyByName($event['company']);
+        $companyEvents = Event::findCompanyEvents($company['name']);
+        //var_dump($companyEvents);die;
+        return $this->render('detail', ['event' => $event, 'company'=> $company, 'companyEvents'=>$companyEvents]);
     
     }
 
@@ -104,5 +104,4 @@ class EventController extends Controller {
         
         return $events;
     }
-
 }

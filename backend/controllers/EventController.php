@@ -27,14 +27,19 @@ class EventController extends Controller {
         if($eventTerm !== ''){
             $query->andWhere(['like','title', $eventTerm]);
         }
-//        var_dump($eventFrom);
-//        var_dump(date('m/d/Y',strtotime($eventFrom)));
-//        if($eventFrom != ''){
-//            $query=$query->andWhere(['=','date_start', date('m/d/Y',strtotime($eventFrom))]);
-//        }
-//        if($eventTo != ''){
-//            $query=$query->andWhere(['=','date_end', date('m/d/Y',strtotime($eventTo))]);
-//        }
+        
+        if($eventFrom != '' && $eventTo != ''){
+            $newEventFrom = new \MongoDB\BSON\UTCDateTime(strtotime($eventFrom) * 1000);
+            $newEventTo = new \MongoDB\BSON\UTCDateTime(strtotime($eventTo) * 1000);
+            $query=$query->andWhere(['between','date_start', $newEventFrom, $newEventTo]);
+        }else if($eventFrom != ''){
+            $newEventFrom = new \MongoDB\BSON\UTCDateTime(strtotime($eventFrom) * 1000);
+            $query->andWhere(['>=','date_start', $newEventFrom]);
+        }else if($eventTo != ''){
+            $newEventTo = new \MongoDB\BSON\UTCDateTime(strtotime($eventTo) * 1000);
+            $query->andWhere(['<=','date_start', $newEventTo]);
+        }
+        
         if($eventCompany !== '-1' && $eventCompany !== ''){
             $query->andWhere(['=','company', $eventCompany]);
         }

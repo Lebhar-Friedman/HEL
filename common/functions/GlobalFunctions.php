@@ -6,7 +6,7 @@ use common\models\Company;
 
 class GlobalFunctions {
 
-    public function getCompanyLogo($name) {
+    public static function getCompanyLogo($name) {
         $company = Company::findOne(['name' => $name]); //->where(['name'=> $name]);
         if ($company && $company->logo !== NULL) {
             return IMG_URL . $company->logo;
@@ -14,7 +14,7 @@ class GlobalFunctions {
         return \yii\helpers\BaseUrl::base().'/images/upload-logo.png';
     }
     
-    public function getCategories() {
+    public static function getCategories() {
         $categories=array(
             array('value'=>1,'text'=>'Diabetes'),
             array('value'=>2,'text'=>'Heart'),
@@ -25,7 +25,7 @@ class GlobalFunctions {
         return $categories;
     }
     
-    public function getKeywords() {
+    public static function getKeywords() {
         $keywords=array(
             array('value'=>1,'text'=>'Blood glucose'),
             array('value'=>2,'text'=>'Heart'),
