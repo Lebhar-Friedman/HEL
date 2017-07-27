@@ -12,7 +12,6 @@ use components\GlobalFunction;
 $this->registerJsFile('@web/js/event.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Events';
 ?>
-<div class="row">
 
     <div class="col-lg-12">
 
@@ -158,6 +157,5 @@ if (isset($pagination)) {
                 ]);
 }
 ?>
-</div>
 </div>
 </div>

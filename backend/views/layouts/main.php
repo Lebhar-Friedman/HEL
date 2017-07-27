@@ -33,12 +33,12 @@ $baseUrl = Yii::$app->request->baseUrl;
         </script>
 
         <header>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-2 col-md-5 col-sm-5">
+                    <div class="col-lg-4 col-md-5 col-sm-5 h-logo">
                         <div class="logo"><a href="#"><img src="<?= $baseUrl ?>/images/logo.png" alt="" /></a></div>
                     </div>
-                    <div class="col-lg-10 col-md-7 col-sm-7">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <div class="mobile-nav"><span class="glyphicon glyphicon-align-justify"></span></div>
                         <div class="clearfix">
                             <div class="header-nav clearfix">
@@ -53,8 +53,8 @@ $baseUrl = Yii::$app->request->baseUrl;
                                     <a href="<?= $baseUrl ?>/location" class="<?= (Yii::$app->controller->uniqueId=='location')? 'active': ''; ?>">Locations</a>
                                     <a href="<?= $baseUrl ?>/event" class="<?= (Yii::$app->controller->uniqueId=='event')? 'active': ''; ?>">Events</a>
                                     <a href="#">Categories</a>
-                                    <a href="#">Admins</a>
-                                    <a href="<?= $baseUrl ?>/site/logout" class="">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
+                                    <!--<a href="#">Admins</a>-->
+                                    <a href="<?= $baseUrl ?>/site/logout" class="">Logout</a>
                                 <?php } ?>
                             </div>
                         </div>
@@ -63,7 +63,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
         </header>
 
-        <div class="container">
+        <div class="container-fluid outer-container">
             <div class="row"><?= Alert::widget() ?></div>
             <?= $content ?>
         </div>

@@ -12,7 +12,6 @@ use components\GlobalFunction;
 $this->registerJsFile('@web/js/location.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Locations';
 ?>
-<div class="row">
 
     <div class="col-lg-12">
 
@@ -101,4 +100,3 @@ $this->title = 'Locations';
             </div>
         </div>
     </div>
-</div>
