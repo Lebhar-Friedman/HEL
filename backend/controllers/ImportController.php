@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 
 /**
  * Import controller
@@ -22,7 +21,7 @@ class ImportController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['upload-csv', 'index'],
+//                        'actions' => ['upload-csv', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
