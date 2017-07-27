@@ -5,6 +5,6 @@ include 'environment.php';
 if (ENV === "local") {
     define('IMG_URL', 'http://localhost/HEL/backend/web/uploads/');
 }else{
-    define('IMG_URL','will be defined for production environment');
+    define('IMG_URL','http://13.59.81.62/HEL/frontend/web/uploads/');
 }
 ?>
