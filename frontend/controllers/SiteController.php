@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\LoginForm;
 use common\models\User;
+use components\GlobalFunction;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -106,20 +107,32 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $this->layout = 'home-layout';
-        $ip = Yii::$app->request->userIP;
-//        $ip = '72.229.28.185';
 
-//        $countryCode = Yii::$app->ip2location->getCountryCode($ip);
-//        $countryName = Yii::$app->ip2location->getCountryName($ip);
-//        $regionName = Yii::$app->ip2location->getRegionName($ip);
-//        $cityName = Yii::$app->ip2location->getCityName($ip);
-//        $latitude = Yii::$app->ip2location->getLatitude($ip);
-//        $longitude = Yii::$app->ip2location->getLongitude($ip);
-        $zipCode = Yii::$app->ip2location->getZIPCode($ip);
-//        $areaCode = Yii::$app->ip2location->getAreaCode($ip);
-        
-        return $this->render('index', ['zip_code' => $zipCode]);
+        $this->layout = 'home-layout';
+        $zip_code = $this->getZipCodeFromCookies();
+        $zip_code = $zip_code === '' ? $this->getZipCodeFromIp() : $zip_code;
+
+        return $this->render('index', ['zip_code' => $zip_code]);
+    }
+
+    public function getZipCodeFromCookies() {
+
+        $zip_code = '';
+        $cookies = Yii::$app->request->cookies;
+        if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+            $longitude = $cookie_long->value;
+            $latitude = $cookie_lat->value;
+            $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+            $zip_code = $temp_zip ? $temp_zip : $zip_code;
+        }
+        return $zip_code;
+    }
+
+    public function getZipCodeFromIp() {
+        $ip = Yii::$app->request->userIP;
+        $ip = '72.229.28.185';
+        $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+        return $zip_code;
     }
 
     /**

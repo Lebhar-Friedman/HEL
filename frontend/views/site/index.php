@@ -23,10 +23,10 @@ $this->title = 'Health Events';
         <div class="logo-container">
             <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" /></a></a>
             <div class="logo-text">
-                Find free and low cost health <br />services at trusted stores near you
+                Find free and lost-cost health <br> services at trusted stores near you.
             </div>
             <div class="search-content">
-                <input type="text" class="search-txtbx" placeholder="Enter your zip code" value="<?= $zip_code ?>" onkeyup="checkEnterPress(event,this.value)" id="zipcode_input"/>
+                <input type="text" class="search-txtbx" placeholder="Enter your zip code" value="<?= $zip_code ?>" onkeyup="checkEnterPress(event, this.value)" id="zipcode_input"/>
                 <a href="javascript:;" onclick="getZipCodeForSearch()" class="search-btn"></a>
             </div>
         </div>
@@ -83,29 +83,38 @@ $this->title = 'Health Events';
         </div>
 
     </div>
-    <h1 class="from-h">From allergies to osteoperosis</h1>
+    <h1 class="from-h">Regular health care shouldn’t be a luxury</h1>
     <div class="row">
         <div class="col-lg-7 col-md-7 col-sm-7">
             <div class="health-care-text">
-                <span>Health care is experiencing a huge shift, bringing clinical services to your local retailer.</span>
+                <span>
+                    It’s no secret that millions of Americans are without health insurance, with millions more underinsured. Even with good coverage, you may find it difficult to afford doctor’s co-pays and the prescriptions you need.
+                </span>
 
-                <span>Drug stores, grocery stores, big box stores and even membership clubs now offer a wide range of health screenings, checkups and consultations, many of which are free.</span>
+                <span>
+                    It’s time to take your heath into your own hands!
+                </span>
 
-                <span>HealthEventsLive.com was developed to provide health-conscious consumers with comprehensive listings of every free and low-cost health service available at retail stores, hospitals, community centers and more — all in one place.
+                <span>
+                    HealthEventsLive.com gives you comprehensive, up-to-date listings of free health screenings and low-cost health services at trusted stores near you.  Check HealthEventsLive.com and keep your health in check!
                 </span>
             </div>
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5">
             <div class="debate-txt">
-                <span>Diabetes-related screenings</span>
-                <span>Heart health events</span>
-                <span>Cholesterol</span>
-                <span>Nutrition</span>
-                <span>Osteoporosis</span>
-                <span>Vaccinations and immunizations</span>
-                <span>Vision and hearing</span>
+                <h2 class="heading-blue">200,000+ events and growing every day<br>
+                    40, 000+ locations across the U.S.
+                </h2>
+                <span>Heart health</span>
+                <span>Diabetes</span>
+                <span>Immunizations & vaccinations</span>
+                <span>Lung health</span>
+                <span>Wellness & diet</span>
+                <span>Women’s health</span>
                 <span>Senior health</span>
-                <span>And much more!</span>
+                <span>Cancer screenings</span>
+                <span>Mental health</span>
+                <span>And more …</span>
                 <a href="#"><img src="<?= $baseUrl ?>/images/search-btn.png" alt="" />Find events near me!</a>
             </div>
         </div>

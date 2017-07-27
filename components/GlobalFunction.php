@@ -219,8 +219,9 @@ class GlobalFunction {
         }
         return FALSE;
     }
+
     public static function getLongLatFromZip($zip) {
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' .$zip;
+        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . $zip;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -233,6 +234,24 @@ class GlobalFunction {
         return FALSE;
     }
 
+    public static function getZipFromLongLat($long, $lat) {
+        $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . $lat . ',' . $long;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $json = curl_exec($curl);
+        curl_close($curl); //echo $anAddress.'<br>'.$json;
+        $mapData = json_decode($json);
+        if ($mapData && $mapData->status == 'OK') {
+            foreach ($mapData->results[0]->address_components as $component) {
+                if (in_array('postal_code', $component->types)) {
+                    return $component->long_name;
+                }
+            }
+        }
+        return FALSE;
+    }
+
     public static function getDate($format, $mongoDate) {
         $datetime = $mongoDate->toDateTime();
         $datetime->setTimezone(new \DateTimeZone(\Yii::$app->timeZone));
@@ -240,6 +259,20 @@ class GlobalFunction {
             $format = DATE_ATOM;
         }
         return $datetime->format($format);
+    }
+
+    public static function getEventDate($start, $end) {
+        $start_date = GlobalFunction::getDate('Y-m-d', $start);
+        $end_date = GlobalFunction::getDate('Y-m-d', $end);
+        $diff = GlobalFunction::dateDiff($start_date, $end_date, false);
+        if ($diff < 1) {
+            return GlobalFunction::getDate('M d', $start);
+        } else {
+            $start_month = explode('-', $start_date);
+            $end_month = explode('-', $end_date);
+            $start_month[1] != $end_month[1] ? $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('M d', $end) : $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('d', $end);
+            return $ret;
+        }
     }
 
 // end class

@@ -5,7 +5,7 @@ body{
     font-family: 'helveticaneueregular' !important;
     font-size:15px;
     color:#000;
-	font-weight:bold;
+	/*font-weight:bold;*/
     /*word-break:break-all;*/
 }
 h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'helveticaneuebold' !important;}
@@ -21,17 +21,18 @@ input{font-family: 'helveticaneueregular';}
 
 
 @font-face {
+    
     font-family: 'helveticaneueregular';
-    src: url('../fonts/helveticaneue-webfont.woff2') format('woff2'),
-         url('../fonts/helveticaneue-webfont.woff') format('woff');
+    src: url('../fonts/helvetica-light.ttf') format('ttf'),
+         url('../fonts/helvetica-light.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 
 }
 @font-face {
     font-family: 'helveticaneuebold';
-    src: url('../fonts/helveticaneuebd-webfont.woff2') format('woff2'),
-         url('../fonts/helveticaneuebd-webfont.woff') format('woff');
+    src: url('../fonts/helvetica-neue-bold.ttf') format('ttf'),
+         url('../fonts/helvetica-neue-bold.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 
@@ -550,7 +551,14 @@ footer{
 	display:none;
 }
 .search-filter{display:none; float:right; margin-top:-10px;}	
-.nav-cros{display:none; float:right; margin-top:3px !important;}	
+.nav-cros{display:none; float:right; margin-top:3px !important;}
+.heading-blue{
+    color: #1e5ba9;
+    padding-bottom: 20px !important;
+}
+.result-footer{
+    margin-top: 107px;
+}
 /***********************************************************************/
 @media (max-width: 1200px) and (min-width: 768px){
 	.container{width:100% !important;}

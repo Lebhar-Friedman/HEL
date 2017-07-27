@@ -29,7 +29,7 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                          ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                            ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
         </script>
@@ -65,7 +65,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         <?= $content ?>
         <!--</div>-->
 
-        <footer>
+<!--        <footer>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-7 col-sm-6"></div>
@@ -80,7 +80,27 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer>-->
+        
+            <div class="result-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="footer-logo">
+                                <a href="#"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="footer-right-side">
+                                <a href="#">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
+                                <span><img src="<?= yii\helpers\BaseUrl::base() ?>/images/result-img8.png" alt="" /></span>
+                                © Health Events Live.  All rights reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
 
         <?php $this->endBody() ?>
     </body>

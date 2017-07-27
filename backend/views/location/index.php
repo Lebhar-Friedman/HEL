@@ -12,7 +12,6 @@ use components\GlobalFunction;
 $this->registerJsFile('@web/js/location.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Locations';
 ?>
-<div class="row">
 
     <div class="col-lg-12">
 
@@ -20,26 +19,29 @@ $this->title = 'Locations';
 
             <div class ="row">
                 <form action="" method="get" name="search" enctype="multipart/form-data">
-                <div class =" col-lg-4 inbound-list-2">
-                    <div>
-                        <input type="text" class="search-box-1 search-img" placeholder="Search Term" name="keyword" value="<?php
-                            if (isset($_GET['keyword'])) { echo $_GET['keyword']; } ?>"/>
-                    </div>
-                </div>
-                <div class="col-lg-4 inbound-list-1">
-                    <select name="company" id="company">
-                        <option value="-1" selected="selected">Company</option>
-                        <?php foreach ($companies as $company) { ?>
-                            <option value='<?= $company['name'] ?>' <?php
-                            if (isset($_GET['company']) && $_GET['company'] === $company['name']) {
-                                echo "selected";
+                    <div class =" col-lg-4 inbound-list-2">
+                        <div>
+                            <input type="text" class="search-box-1 search-img" placeholder="Search Term" name="keyword" value="<?php
+                            if (isset($_GET['keyword'])) {
+                                echo $_GET['keyword'];
                             }
-                            ?>><?= $company['name'] ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
+                            ?>"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 inbound-list-1">
+                        <select name="company" id="company">
+                            <option value="-1" selected="selected">Company</option>
+                            <?php foreach ($companies as $company) { ?>
+                                <option value='<?= $company['name'] ?>' <?php
+                                if (isset($_GET['company']) && $_GET['company'] === $company['name']) {
+                                    echo "selected";
+                                }
+                                ?>><?= $company['name'] ?></option>
+                                    <?php } ?>
+                        </select>
+                    </div>
                 </form>
-                
+
             </div>
             <div class="row ">
                 <div >
