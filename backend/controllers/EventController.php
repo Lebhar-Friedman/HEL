@@ -16,7 +16,7 @@ use yii\web\UploadedFile;
 use yii\filters\AccessControl;
 
 class EventController extends Controller {
-    
+
     /**
      * @inheritdoc
      */
@@ -42,8 +42,8 @@ class EventController extends Controller {
         $eventCompany = urldecode(Yii::$app->request->get('eventCompany'));
         $eventCategory = urldecode(Yii::$app->request->get('eventCategory'));
         $eventSubCategory = urldecode(Yii::$app->request->get('eventSubCategory'));
-        if($eventTerm !== ''){
-            $query->andWhere(['like','title', $eventTerm]);
+        if ($eventTerm !== '') {
+            $query->andWhere(['like', 'title', $eventTerm]);
         }
 //        var_dump($eventFrom);
 //        var_dump(date('m/d/Y',strtotime($eventFrom)));
@@ -53,26 +53,26 @@ class EventController extends Controller {
 //        if($eventTo != ''){
 //            $query=$query->andWhere(['=','date_end', date('m/d/Y',strtotime($eventTo))]);
 //        }
-        if($eventCompany !== '-1' && $eventCompany !== ''){
-            $query->andWhere(['=','company', $eventCompany]);
+        if ($eventCompany !== '-1' && $eventCompany !== '') {
+            $query->andWhere(['company' => $eventCompany]);
         }
-        if($eventCategory !== '-1' && $eventCategory !== ''){
-            $query = $query->andWhere(['=','categories', $eventCategory]);
+        if ($eventCategory !== '-1' && $eventCategory !== '') {
+            $query = $query->andWhere(['categories' => $eventCategory]);
         }
-        if($eventSubCategory !== '-1' && $eventSubCategory !== ''){
-            $query = $query->andWhere(['=','sub_categories', $eventSubCategory]);
+        if ($eventSubCategory !== '-1' && $eventSubCategory !== '') {
+            $query = $query->andWhere(['sub_categories' => $eventSubCategory]);
         }
         $count = $query->count();
-        
+
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $events = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
-        
+
         $companies = Company::CompanyList();
         $categories = Categories::CategoryList();
         $sub_categories = SubCategories::SubCategoryList();
         return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
     }
-    
+
     public function actionDelete() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -92,7 +92,7 @@ class EventController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionDeleteSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -102,7 +102,7 @@ class EventController extends Controller {
         $request = Yii::$app->request->post();
         $event_ids = $request['eids'];
         $retData = array();
-        if (Event::deleteAll(['_id'=>$event_ids])) {
+        if (Event::deleteAll(['_id' => $event_ids])) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully deleted";
         } else {
@@ -111,7 +111,7 @@ class EventController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionPost() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -132,7 +132,7 @@ class EventController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionPostSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -142,7 +142,7 @@ class EventController extends Controller {
         $request = Yii::$app->request->post();
         $event_ids = $request['eids'];
         $retData = array();
-        if (Event::updateAll(['is_post'=>true],['_id'=>$event_ids])) {
+        if (Event::updateAll(['is_post' => true], ['_id' => $event_ids])) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully posted";
         } else {
@@ -151,34 +151,23 @@ class EventController extends Controller {
         }
         return $retData;
     }
-    
-    
+
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
-            $request = Yii::$app->request;
-            $model = new CompanyForm();
-            if ($request->isPost && $request->isAjax) {
-                $model->load($request->post());
-                $model->logo = UploadedFile::getInstance($model, 'logo');
-                $company = new Company();
-                $company->attributes = $model->attributes;
+            $event = Event::findOne(['_id' => $id]);
+            $model = NULL;
 
-                $image_name = rand(100, 5000);
-                if (isset($model->logo) && $model->upload($image_name)) {
-                    $company->logo = $image_name . '.' . $model->logo->extension;
-                    $model->logo = $company->logo;
+            if (count($event) > 0) {
+                $request = Yii::$app->request;
+                $model = new CompanyForm();
+                $model->attributes = $model->attributes;
+
+                if ($request->isPost && $request->isAjax) {
+                    $model->load($request->post());
                 }
-                $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
-                $retData['msgType'] === "SUC" ? $msg="Company has been added successfully" : $msg="Unable to store data this time";
-                $retData['msg'] = $msg;
-                $retData['companyId']=(string) $company->_id;
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                Yii::$app->getSession()->setFlash('success', 'New company has been added to datababse.');
-                return $retData;
             }
             return $this->render('detail', ['model' => $model]);
-        }
-        else {
+        } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
     }
