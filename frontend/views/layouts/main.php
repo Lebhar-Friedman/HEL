@@ -87,7 +87,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8">
                 <div class="footer-right-side">
-                    <a href="#">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
+                    <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
                     <span><img src="<?= yii\helpers\BaseUrl::base() ?>/images/result-img8.png" alt="" /></span>
                     © Health Events Live.  All rights reserved.
                 </div>

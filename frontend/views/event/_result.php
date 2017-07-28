@@ -44,7 +44,7 @@ if (isset($ret_sort)) {
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
-    <div class="event-near mobile-event-near">
+    <div class="event-near " id="event_near">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
             <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
         <i>Heart Health, Flu Shots</i>

@@ -43,7 +43,7 @@ function searchResult(form_data) {
         $("#loader").hide();
         $("#overlay").hide();
     });
-    
+
     $.pjax.reload({
         url: baseUrl + 'event/index',
         container: '#result-view',
@@ -55,3 +55,24 @@ function searchResult(form_data) {
 
 }
 
+$(document).ready(function () {
+
+    function checkWidth() {
+        if ($(window).width() < 767) {
+            $('#event_near').addClass('mobile-event-near');
+        } else {
+            $('#event_near').removeClass('mobile-event-near');
+        }
+    }
+    checkWidth();
+    $(window).resize(checkWidth);
+
+    $(".mobile-event-near").click(function () {
+        $('.search-result-content').show();
+    });
+
+});
+
+function closeNav() {
+    $('.search-result-content').hide();
+}

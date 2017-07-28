@@ -83,10 +83,15 @@ class EventController extends Controller {
 
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $event = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
-        // var_dump($event);die;
+        
         return $this->render('index', ['event' => $event, 'pagination' => $pagination, 'total' => $count]);
     }
 
+    public function actionDirectory() {
+        
+        return $this->render('directory');
+        
+    }
     public function actionSetLongLat() {
 
         $long = Yii::$app->request->post('longitude');
