@@ -32,7 +32,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
         </script>
 
-        <header>
+        <!--<header>-->
             <div class="result-header">
                 <div class="container">
                     <div class="row">
@@ -41,7 +41,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
                             </div>
                             <div class="display-on-mobile mobile-logo">
-                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
+                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo3.png" alt="" /></a>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-7  col-xs-6">
@@ -60,33 +60,8 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                 </div>
             </div>
-            <!--            <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-5 col-sm-5">
-                                    <div class="logo">
-                                        <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <div class="mobile-nav"><span class="glyphicon glyphicon-align-justify"></span></div>
-                                    <div class="clearfix">
-                                        <div class="header-nav clearfix">
-                                            <a href="<?= $baseUrl ?>/site/index">Home</a>
-            <?php
-            if (Yii::$app->user->isGuest) {
-                ?>
-                                                    <a href="<?= $baseUrl ?>/site/login">Log In</a>
-                                                    <a href="<?= $baseUrl ?>/site/signup" class="active">Sign Up</a>
-            <?php } else {
-                ?>
-                                                    <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
-            <?php } ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-        </header>
+            
+        <!--</header>-->
 
         <div class="container1">
             <?= Alert::widget() ?>
@@ -102,24 +77,24 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             Copyright © 2017 Health Events Live Plus-->
 
-            <div class="result-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="footer-logo">
-                                <a href="#"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="footer-right-side">
-                                <a href="#">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
-                                <span><img src="<?= yii\helpers\BaseUrl::base() ?>/images/result-img8.png" alt="" /></span>
-                                © Health Events Live.  All rights reserved.
-                            </div>
-                        </div>
-                    </div>
+<div class="result-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="footer-logo">
+                    <a href="#"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
                 </div>
             </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="footer-right-side">
+                    <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
+                    <span><img src="<?= yii\helpers\BaseUrl::base() ?>/images/result-img8.png" alt="" /></span>
+                    © Health Events Live.  All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <!--</footer>-->
 
 

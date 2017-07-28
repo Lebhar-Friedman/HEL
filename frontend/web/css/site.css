@@ -139,15 +139,15 @@ input{font-family: 'open_sansregular';}
 
 @font-face {
     font-family: 'open_sansregular';
-    src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
-        url('../fonts/opensans-regular-webfont.woff') format('woff');
+    src: url('../fonts/helvetica-neue.ttf') format('ttf'),
+        url('../fonts/helvetica-neue.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'open_sanslight';
-    src: url('../fonts/opensans-light-webfont.woff2') format('woff2'),
-        url('../fonts/opensans-light-webfont.woff') format('woff');
+    src: url('../fonts/helvetica-light.ttf') format('ttf'),
+        url('../fonts/helvetica-light.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 }
@@ -994,7 +994,7 @@ footer a:hover{
     .hide-on-mobile{display:none;}
     .display-on-mobile{display:block;}
     .mobile-logo{display:block; padding-top:25px;}
-    .mobile-logo img{max-width:210px;}
+    /*.mobile-logo img{max-width:210px;}*/
     .result-sign-up{padding:12px 0px 10px 0px;}
     .result-sign-up a{padding:12px 18px;}
     .search-result-content{
