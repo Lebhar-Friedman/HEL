@@ -138,7 +138,7 @@ $this->title = 'Events';
                             <div class="table-cost-h1">Free</div>
                             <div class="table-blank-h1"><div class="flt-lft b-post-btn3 mrg-lftt">
                                     <a href="javascript:;" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a></div>
-                                <a href="<?= BaseUrl::base() . '/event/edit?eid=' . $event['_id'] ?>" class="edit1-btn "></a>
+                                <a href="<?= BaseUrl::base() . '/event/detail?id=' . $event['_id'] ?>" class="edit1-btn "></a>
                                 <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn "></a>
                             </div>
                         </div> 

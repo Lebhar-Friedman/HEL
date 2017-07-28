@@ -154,19 +154,21 @@ class EventController extends Controller {
 
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
-            $event = Event::findOne(['_id' => $id]);
-            $model = NULL;
+            $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
+            $model = $locations = NULL;
 
             if (count($event) > 0) {
                 $request = Yii::$app->request;
-                $model = new CompanyForm();
-                $model->attributes = $model->attributes;
+                $model = new \backend\models\EventForm();
+                $model->attributes = $event->attributes;
+                $model->eid = $event->_id;
+                $locations = \common\models\Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
 
                 if ($request->isPost && $request->isAjax) {
                     $model->load($request->post());
                 }
             }
-            return $this->render('detail', ['model' => $model]);
+            return $this->render('detail', ['model' => $model, 'locations' => $locations]);
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
