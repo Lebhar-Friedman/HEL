@@ -36,7 +36,7 @@ $baseUrl = Yii::$app->request->baseUrl;
 
             <div class ="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 upload-btn-2">
-                    <a href="javascript:;" onclick="window.history.go(-1); return false;"><img src="<?= $baseUrl ?>/images/shape3.png"></a>
+                    <a href="javascript:;" onclick="window.history.go(-1); return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
                 </div>
                 <div class ="col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-1">
