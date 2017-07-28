@@ -36,7 +36,7 @@ $baseUrl = Yii::$app->request->baseUrl;
 
             <div class ="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 upload-btn-2">
-                    <a href="#"><img src="<?= $baseUrl ?>/images/shape 3.png"></a>
+                    <a href="javascript:;" onclick="window.history.go(-1); return false;"><img src="<?= $baseUrl ?>/images/shape3.png"></a>
                 </div>
                 <div class ="col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-1">
@@ -81,7 +81,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <strong>Categories:</strong>
                 </div>
                 <div class="col-lg-10 ">
-                    <?= !empty($model->categories) ? implode(',', $model->categories) : '' ?>
+                    <?= !empty($model->categories) ? implode(', ', $model->categories) : '' ?>
                 </div>
             </div>
             <div class ="row mrgd">
@@ -89,7 +89,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <strong>Sub-Categories:</strong>
                 </div>
                 <div class="col-lg-10 ">
-                    <?= !empty($model->sub_categories) ? implode(',', $model->sub_categories) : '' ?>
+                    <?= !empty($model->sub_categories) ? implode(', ', $model->sub_categories) : '' ?>
                 </div>
             </div>
             <div class ="row mrgd">
