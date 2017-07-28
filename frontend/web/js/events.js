@@ -37,9 +37,11 @@ function searchResult(form_data) {
 
     $(document).on('pjax:send', function () {
         $("#loader").show();
+        $("#overlay").show();
     });
     $(document).on('pjax:complete', function () {
         $("#loader").hide();
+        $("#overlay").hide();
     });
     
     $.pjax.reload({

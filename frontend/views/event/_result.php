@@ -6,6 +6,33 @@ use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 ?>
 
+<style>
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    /*cursor: pointer;*/
+}
+#loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+</style>
+<div id="overlay" >
+    <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
+</div>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
 <?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
@@ -15,6 +42,7 @@ if (isset($ret_sort)) {
     $ret_sort == 'Soonest' ? $sortBy= 'date' : $sortBy= 'distance';
 }
 ?>
+
 <div class="col-lg-8 col-md-8 col-sm-7">
     <div class="event-near mobile-event-near">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
