@@ -7,7 +7,7 @@ use yii\web\JqueryAsset;
 
 $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
-$this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile('@web/js/chosen.jquery.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
 ?>
 <style>
@@ -21,6 +21,9 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
     }
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         /*color: #000 !important;*/
+    }
+    .chosen-container{
+        width: 100% !important;
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>

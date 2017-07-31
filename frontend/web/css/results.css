@@ -22,20 +22,31 @@ input{font-family: 'helveticaneueregular';}
 
 @font-face {
     font-family: 'helveticaneueregular';
+    src: url('../fonts/helvetica-light.ttf') format("truetype");
+}
+
+/*@font-face {
+    font-family: 'helveticaneueregular';
     src: url('../fonts/helvetica-light.ttf') format('ttf'),
          url('../fonts/helvetica-light.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 
-}
-@font-face {
+}*/
+/*@font-face {
     font-family: 'helveticaneuebold';
     src: url('../fonts/helvetica-neue-bold.ttf') format('ttf'),
          url('../fonts/helvetica-neue-bold.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 
+}*/
+
+@font-face {
+    font-family: "helveticaneuebold";
+    src: url("../fonts/helvetica-neue-bold.ttf") format("truetype");
 }
+
 header{
         margin-bottom: 0px !important;
 }
