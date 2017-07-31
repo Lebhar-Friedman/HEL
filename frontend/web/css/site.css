@@ -168,6 +168,9 @@ input{font-family: 'helveticaneueregular';}
 /*----------------------------------------------- general end */
 
 /*----------------------------------------------- layout header ---------------------------------------*/
+.result-logo a img{
+    padding-top:20px;
+}
 header{
     display: block;
     background: #FFF;

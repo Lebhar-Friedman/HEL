@@ -34,12 +34,17 @@ use yii\widgets\Pjax;
     <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
 </div>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
-
 <?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
+
 <?php
 $sortBy='distance';
 if (isset($ret_sort)) {
     $ret_sort == 'Soonest' ? $sortBy= 'date' : $sortBy= 'distance';
+}
+if(isset($ret_filters)){
+    $filters=$ret_filters;
+}else{
+//    $filters='as';
 }
 ?>
 
@@ -47,7 +52,7 @@ if (isset($ret_sort)) {
     <div class="event-near " id="event_near">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
             <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
-        <i>Heart Health, Flu Shots</i>
+            <i> Heart Health, Flu Shots</i>
     </div>
     <?php foreach ($events as $event) { ?>
         <div class="multi-service">

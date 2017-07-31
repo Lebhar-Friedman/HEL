@@ -7,7 +7,7 @@ use yii\web\JqueryAsset;
 
 $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
-$this->registerJsFile('@web/js/chosen.jquery.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
 ?>
 <style>
@@ -90,7 +90,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters]); ?>
         <?php } else { ?>
             <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]); ?>
         <?php } ?>
