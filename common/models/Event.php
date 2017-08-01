@@ -124,6 +124,8 @@ class Event extends ActiveRecord {
                   });
           return $IDs;
     }
-
+    public static function findCompanyEvents($company) {
+        return static::findAll(['company' => $company]);
+    }
 // end class counter
 }

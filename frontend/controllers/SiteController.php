@@ -16,7 +16,7 @@ use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use const YII_ENV_TEST;
-
+use \yii\helpers\ArrayHelper;
 /**
  * Site controller
  */
@@ -29,7 +29,7 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup','save-event'],
                 'rules' => [
                         [
                         'actions' => ['signup'],
@@ -37,7 +37,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                         [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','save-event'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -290,5 +290,26 @@ class SiteController extends Controller {
                     'model' => $model,
         ]);
     }
-
+    public function actionSaveEvent() {
+        $userID = Yii::$app->user->id;
+        $eid    = Yii::$app->request->post('eid');
+        $retData =array();
+        $user = User::find()->where(['_id' => $userID])->one();
+        if (!empty($user)) {
+            if(isset($user->saved_events) && !ArrayHelper::isIn($eid , $user->saved_events)){
+                $user->saved_events = ArrayHelper::merge($user->saved_events, [$eid]);
+            }
+            else{
+                $user->saved_events = [$eid];
+            }
+            $user->save();
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event saved successfully!";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Login is required!";    
+        }
+       
+        exit(json_encode($retData));
+    }
 }

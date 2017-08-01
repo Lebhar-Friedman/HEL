@@ -14,6 +14,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use common\functions\GlobalFunctions;
 
 class EventController extends Controller {
 
@@ -45,16 +46,21 @@ class EventController extends Controller {
         if ($eventTerm !== '') {
             $query->andWhere(['like', 'title', $eventTerm]);
         }
-//        var_dump($eventFrom);
-//        var_dump(date('m/d/Y',strtotime($eventFrom)));
-//        if($eventFrom != ''){
-//            $query=$query->andWhere(['=','date_start', date('m/d/Y',strtotime($eventFrom))]);
-//        }
-//        if($eventTo != ''){
-//            $query=$query->andWhere(['=','date_end', date('m/d/Y',strtotime($eventTo))]);
-//        }
-        if ($eventCompany !== '-1' && $eventCompany !== '') {
-            $query->andWhere(['company' => $eventCompany]);
+        
+        if($eventFrom != '' && $eventTo != ''){
+            $newEventFrom = new \MongoDB\BSON\UTCDateTime(strtotime($eventFrom) * 1000);
+            $newEventTo = new \MongoDB\BSON\UTCDateTime(strtotime($eventTo) * 1000);
+            $query=$query->andWhere(['between','date_start', $newEventFrom, $newEventTo]);
+        }else if($eventFrom != ''){
+            $newEventFrom = new \MongoDB\BSON\UTCDateTime(strtotime($eventFrom) * 1000);
+            $query->andWhere(['>=','date_start', $newEventFrom]);
+        }else if($eventTo != ''){
+            $newEventTo = new \MongoDB\BSON\UTCDateTime(strtotime($eventTo) * 1000);
+            $query->andWhere(['<=','date_start', $newEventTo]);
+        }
+        
+        if($eventCompany !== '-1' && $eventCompany !== ''){
+            $query->andWhere(['=','company', $eventCompany]);
         }
         if ($eventCategory !== '-1' && $eventCategory !== '') {
             $query = $query->andWhere(['categories' => $eventCategory]);
@@ -68,7 +74,7 @@ class EventController extends Controller {
         $events = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
 
         $companies = Company::CompanyList();
-        $categories = Categories::CategoryList();
+        $categories = GlobalFunctions::getCategories();
         $sub_categories = SubCategories::SubCategoryList();
         return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
     }
@@ -154,21 +160,19 @@ class EventController extends Controller {
 
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
-            $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
-            $model = $locations = NULL;
+            $event = Event::findOne(['_id' => $id]);
+            $model = NULL;
 
             if (count($event) > 0) {
                 $request = Yii::$app->request;
-                $model = new \backend\models\EventForm();
-                $model->attributes = $event->attributes;
-                $model->eid = $event->_id;
-                $locations = \common\models\Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
+                $model = new CompanyForm();
+                $model->attributes = $model->attributes;
 
                 if ($request->isPost && $request->isAjax) {
                     $model->load($request->post());
                 }
             }
-            return $this->render('detail', ['model' => $model, 'locations' => $locations]);
+            return $this->render('detail', ['model' => $model]);
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
