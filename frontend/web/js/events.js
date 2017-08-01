@@ -52,4 +52,3 @@ function searchResult(form_data) {
     });
 
 }
-

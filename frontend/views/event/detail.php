@@ -10,6 +10,7 @@ $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = $event['title'];
 ?>
+<?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
 <style>
     .chosen-choices{
         min-height: 45px;
@@ -34,7 +35,7 @@ $this->title = $event['title'];
                         <h2><?=GlobalFunction::getDate('M d', $event['date_start'])?> - <?=GlobalFunction::getDate('d', $event['date_end'])?></h2>
                     <?=$event['time_start']?> - <?=$event['time_end']?> 
                     <div class="save-share-btn clearfix">
-                    	<a href="#"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                    	<a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>',this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <a href="#"><img src="<?= $img_url ?>share-icon.png" alt="" />SHARE</a>
                     </div>
                     <div class="clearfix">

@@ -14,6 +14,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use common\functions\GlobalFunctions;
 
 class EventController extends Controller {
 
@@ -73,7 +74,7 @@ class EventController extends Controller {
         $events = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
 
         $companies = Company::CompanyList();
-        $categories = Categories::CategoryList();
+        $categories = GlobalFunctions::getCategories();
         $sub_categories = SubCategories::SubCategoryList();
         return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
     }

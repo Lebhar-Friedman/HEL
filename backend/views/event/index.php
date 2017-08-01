@@ -63,6 +63,7 @@ $this->title = 'Events';
                         <div class="cntl-table-td-con-type ">
                             <select name="eventCategory">
                                 <option value="-1" selected="selected">Category</option>
+                                
                                 <option <?php
                                     if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === 'Diabetes') {
                                         echo "selected";
