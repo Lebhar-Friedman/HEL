@@ -39,14 +39,18 @@ return [
             'database' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'IP2Location' . DIRECTORY_SEPARATOR . 'IP2LOCATION-LITE-DB9.BIN',
             'mode' => 'FILE_IO',
         ],
-    /*
-      'urlManager' => [
-      'enablePrettyUrl' => true,
-      'showScriptName' => false,
-      'rules' => [
-      ],
-      ],
-     */
+        'assetManager' => [
+            'bundles' => [
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyC9m6ZyxIkBWWbr9Iztnn-XTW-yZO4Zp7c',
+                        'libraries' => 'places',
+                        'v' => '3.exp',
+                        'sensor' => 'false'
+                    ]
+                ]
+            ]
+        ],
     ],
     'params' => $params,
 ];

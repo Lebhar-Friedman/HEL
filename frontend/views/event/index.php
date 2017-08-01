@@ -22,6 +22,9 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         /*color: #000 !important;*/
     }
+    .chosen-container{
+        width: 100% !important;
+    }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
@@ -87,7 +90,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters]); ?>
         <?php } else { ?>
             <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]); ?>
         <?php } ?>
