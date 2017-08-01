@@ -158,17 +158,24 @@ class EventController extends Controller {
             $model = $locations = NULL;
 
             if (count($event) > 0) {
+                $categories = \common\functions\GlobalFunctions::getCategoryList();
+                $subCategories = \common\functions\GlobalFunctions::getCategoryList();
                 $request = Yii::$app->request;
                 $model = new \backend\models\EventForm();
                 $model->attributes = $event->attributes;
                 $model->eid = $event->_id;
+                $model->date_start = \components\GlobalFunction::getDate('m/d/Y', $model->date_start);
+                $model->date_end = \components\GlobalFunction::getDate('m/d/Y', $model->date_end);
                 $locations = \common\models\Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
 
-                if ($request->isPost && $request->isAjax) {
+                if ($request->isPost) {
                     $model->load($request->post());
+                    if ($model->saveEvent()) {
+                        Yii::$app->getSession()->setFlash('success', 'Event has been updated successfully.');
+                    }
                 }
             }
-            return $this->render('detail', ['model' => $model, 'locations' => $locations]);
+            return $this->render('detail', ['model' => $model, 'locations' => $locations, 'categories' => $categories, 'subCategories' => $subCategories]);
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }

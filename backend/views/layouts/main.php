@@ -64,7 +64,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         </header>
 
         <div class="container-fluid outer-container">
-            <div class="row"><?= Alert::widget() ?></div>
+            <div class="col-lg-12"><?= Alert::widget() ?></div>
             <?= $content ?>
         </div>
 

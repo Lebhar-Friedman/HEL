@@ -1,3 +1,12 @@
+$(document).ready(function () {
+    $(".chosen-select").chosen();
+    $('#edit_btn_event').click(function () {
+        showEventForm();
+    });
+    $('#cancel_btn_event').click(function () {
+        showEventDetail();
+    });    
+});
 function selectAll() {
     if ($("#check_all").is(':checked')) {
         $('.table-chk-h1 input:checkbox').prop('checked', true);
@@ -124,4 +133,18 @@ function postSelectedEvent(eventID, element) {
             toastr.error('Internal server error');
         }
     });
+}
+
+function showEventForm() {
+    $('#detailEvent').hide();
+    $('#edit_btn_event').hide();
+    $('#editEvent').show();
+    $('#cancel_btn_event').show();
+}
+function showEventDetail() {
+    $('form')[0].reset();
+    $('#editEvent').hide();
+    $('#cancel_btn_event').hide();
+    $('#detailEvent').show();
+    $('#edit_btn_event').show();
 }

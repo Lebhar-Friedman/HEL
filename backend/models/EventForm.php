@@ -199,6 +199,22 @@ class EventForm extends Model {
             array_push(self::$importedEvents, $event->_id);
         }
     }
+    
+    public function saveEvent(){
+        if ($this->validate()) {
+            $event = \common\models\Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
+            $event->attributes = $this->attributes;
+            $event->date_start = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_start) * 1000);
+            $event->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_end) * 1000);
+            
+            if ($event->update() !== FALSE) {
+                return TRUE;
+            } else {
+                $this->errors = $event->errors;
+                return FALSE;
+            }
+        }
+    }
 
 // end class
 }

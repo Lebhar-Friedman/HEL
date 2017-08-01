@@ -5,7 +5,6 @@ use yii\helpers\BaseUrl;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\web\JqueryAsset;
-use components\GlobalFunction;
 ?>
 <?php
 //var_dump($events);
@@ -40,7 +39,8 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
                 <div class ="col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-1">
-                    <a href="#">Edit</a>
+                    <a id="edit_btn_event" href="javascript:;" style="display: <?= ($model->hasErrors()) ? 'none' : 'block' ?>">Edit</a>
+                    <a id="cancel_btn_event" href="javascript:;" style="display: <?= ($model->hasErrors()) ? 'block' : 'none' ?>">Cancel</a>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-3">
                     <a href="#" ><?= $model->is_post ? 'Unpublish' : 'Publish' ?></a>
@@ -52,62 +52,150 @@ $baseUrl = Yii::$app->request->baseUrl;
             <br>
             <br>
 
-            <div class ="row mrgd">            
-                <div class="col-lg-2 ">
-                    <STRONG>Dates:</STRONG>
+            <div id="detailEvent" style="display: <?= ($model->hasErrors()) ? 'none' : 'block' ?>">
+                <div class ="row mrgd">            
+                    <div class="col-lg-2 ">
+                        <STRONG>Dates:</STRONG>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= $model->date_start . ' - ' . $model->date_end ?>
+                    </div>
                 </div>
-                <div class="col-lg-10 ">
-                    <?= GlobalFunction::getDate('m/d/Y', $model->date_start) . ' - ' . GlobalFunction::getDate('m/d/Y', $model->date_end) ?>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Time:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= $model->time_start . ' - ' . $model->time_end ?>
+                    </div>
                 </div>
-            </div>
-            <div class ="row mrgd">
-                <div class="col-lg-2 ">
-                    <strong>Time:</strong>
+                <div class ="row mrgd">
+                    <div class="col-lg-2  ">
+                        <strong>Event Title:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= $model->title ?>
+                    </div>
                 </div>
-                <div class="col-lg-10 ">
-                    <?= $model->time_start . ' - ' . $model->time_end ?>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Categories:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= !empty($model->categories) ? implode(', ', $model->categories) : '' ?>
+                    </div>
                 </div>
-            </div>
-            <div class ="row mrgd">
-                <div class="col-lg-2  ">
-                    <strong>Event Title:</strong>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Sub-Categories:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= !empty($model->sub_categories) ? implode(', ', $model->sub_categories) : '' ?>
+                    </div>
                 </div>
-                <div class="col-lg-10 ">
-                    <?= $model->title ?>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Cost:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= !empty($model->price) ? '&dollar;' . $model->price : 'Free' ?>
+                    </div>
                 </div>
-            </div>
-            <div class ="row mrgd">
-                <div class="col-lg-2 ">
-                    <strong>Categories:</strong>
-                </div>
-                <div class="col-lg-10 ">
-                    <?= !empty($model->categories) ? implode(', ', $model->categories) : '' ?>
-                </div>
-            </div>
-            <div class ="row mrgd">
-                <div class="col-lg-2 ">
-                    <strong>Sub-Categories:</strong>
-                </div>
-                <div class="col-lg-10 ">
-                    <?= !empty($model->sub_categories) ? implode(', ', $model->sub_categories) : '' ?>
-                </div>
-            </div>
-            <div class ="row mrgd">
-                <div class="col-lg-2 ">
-                    <strong>Cost:</strong>
-                </div>
-                <div class="col-lg-10 ">
-                    <?= !empty($model->price) ? $model->price : 'Free' ?>
+
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Description:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= !empty($model->description) ? $model->description : 'Free' ?>
+                    </div>
                 </div>
             </div>
 
-            <div class ="row mrgd">
-                <div class="col-lg-2 ">
-                    <strong>Description:</strong>
+            <div id="editEvent" style="display: <?= ($model->hasErrors()) ? 'block' : 'none' ?>">
+                <?php
+                $form = yii\widgets\ActiveForm::begin([
+                            'fieldConfig' => ['template' => "{input}{error}"],
+                            'options' => ['enctype' => 'multipart/form-data']
+                ]);
+                ?>
+                <div class ="row mrgd">            
+                    <div class="col-lg-2 ">
+                        <STRONG>Dates:</STRONG>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <div class="col-lg-6" style="padding-left: 0px;">
+                            <?= $form->field($model, 'date_start', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'From']])->textInput()->label(false); ?>
+                        </div>
+                        <div class="col-lg-6 " style="padding-right: 0px;">        
+                            <?= $form->field($model, 'date_end', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-10 ">
-                    <?= !empty($model->description) ? $model->description : 'Free' ?>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Time:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <div class="col-lg-6" style="padding-left: 0px;">
+                            <?= $form->field($model, 'time_start', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'From']])->textInput()->label(false); ?>
+                        </div>
+                        <div class="col-lg-6 " style="padding-right: 0px;"> 
+                            <?= $form->field($model, 'time_end', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
                 </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2  ">
+                        <strong>Event Title:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <?= $form->field($model, 'title', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '']])->textInput()->label(false); ?>
+                    </div>
+                </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Categories:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <?= $form->field($model, 'categories', ['inputOptions' => ['class' => 'chosen-select txetbx', 'multiple' => true, 'data-placeholder' => 'Choose Tags', 'style' => 'height:44px;']])->dropDownList($categories)->label(false); ?>
+                    </div>
+                </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Sub-Categories:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7 ">
+                        <?= $form->field($model, 'sub_categories', ['inputOptions' => ['class' => 'chosen-select txetbx', 'multiple' => true, 'data-placeholder' => 'Choose Tags', 'style' => 'height:44px;']])->dropDownList($subCategories)->label(false); ?>
+                    </div>
+                </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Cost:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <?= $form->field($model, 'price', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '0']])->textInput()->label(false); ?>
+                    </div>
+                </div>
+
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Description:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= $form->field($model, 'description', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '', 'style' => 'height: 140px;']])->textarea()->label(false); ?>
+                    </div>
+                </div>
+                <div class ="row mrgnd">
+                    <center>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 save-btn-1">
+                            <?= \yii\helpers\Html::submitButton('Submit', ['id' => 'btnSubmit', 'class' => 'hidden']) ?>
+                            <a href="javascript:void(0);"  onclick="$('#btnSubmit').click()">Save</a>
+                        </div> 
+                    </center>
+                </div>
+
+                <?php $form->end(); ?>
             </div>
         </div>
     </div>
@@ -145,7 +233,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <div class="table-category-h1-50"><?= $location->street . ', ' . $location->city . ', ' . $location->state . ', ' . $location->zip ?></div>
                             <div class="table-blank-h1-60">
                                 <a href="<?= BaseUrl::base() . '/location/detail?id=' . $location['_id'] ?>" class="edit1-btn-6 "></a>
-                                <img  src="<?= $baseUrl ?>/images/alert.png">
+                                <!--<img  src="<?= $baseUrl ?>/images/alert.png">-->
                                 <a href="javascript:;" onclick="deleteLocation('<?= $location['_id'] ?>', this)" class="del1-btn-6 "></a> </div>                    
                         </div>
                     <?php } ?>

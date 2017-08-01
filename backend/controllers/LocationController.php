@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
 use yii\filters\AccessControl;
 
 class LocationController extends Controller {
-    
+
     /**
      * @inheritdoc
      */
@@ -38,27 +38,27 @@ class LocationController extends Controller {
         $eid = urldecode(Yii::$app->request->get('eid'));
         $keyword = urldecode(Yii::$app->request->get('keyword'));
         $company = urldecode(Yii::$app->request->get('company'));
-        if($eid !== ''){
+        if ($eid !== '') {
             $locationIDs = Event::findEventLocationsIDs($eid);
-            $query->andWhere(['in','_id', $locationIDs]);
+            $query->andWhere(['in', '_id', $locationIDs]);
         }
-        if($keyword !== ''){
-            $query->orWhere(['like','street', $keyword]);
-            $query->orWhere(['like','city', $keyword]);
-            $query->orWhere(['like','state', $keyword]);
-            $query->orWhere(['like','zip', $keyword]);
+        if ($keyword !== '') {
+            $query->orWhere(['like', 'street', $keyword]);
+            $query->orWhere(['like', 'city', $keyword]);
+            $query->orWhere(['like', 'state', $keyword]);
+            $query->orWhere(['like', 'zip', $keyword]);
         }
-        if($company !== '-1' && $company !== ''){
-            $query->andWhere(['company'=> $company]);
+        if ($company !== '-1' && $company !== '') {
+            $query->andWhere(['company' => $company]);
         }
-        $count = $query->count();        
+        $count = $query->count();
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
         $locations = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
         $companies = Company::CompanyList();
-        
-        return $this->render('index', ['locations' => $locations, 'companies'=>$companies, 'pagination' => $pagination, 'total' => $count]);
+
+        return $this->render('index', ['locations' => $locations, 'companies' => $companies, 'pagination' => $pagination, 'total' => $count]);
     }
-    
+
     public function actionDelete() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -78,7 +78,7 @@ class LocationController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionDeleteSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -88,7 +88,7 @@ class LocationController extends Controller {
         $request = Yii::$app->request->post();
         $event_ids = $request['eids'];
         $retData = array();
-        if (Event::deleteAll(['_id'=>$event_ids])) {
+        if (Event::deleteAll(['_id' => $event_ids])) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully deleted";
         } else {
@@ -97,7 +97,7 @@ class LocationController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionPost() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -118,7 +118,7 @@ class LocationController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionPostSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -128,7 +128,7 @@ class LocationController extends Controller {
         $request = Yii::$app->request->post();
         $event_ids = $request['eids'];
         $retData = array();
-        if (Event::updateAll(['is_post'=>true],['_id'=>$event_ids])) {
+        if (Event::updateAll(['is_post' => true], ['_id' => $event_ids])) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully posted";
         } else {
@@ -137,34 +137,28 @@ class LocationController extends Controller {
         }
         return $retData;
     }
-    
-    
+
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
-            $request = Yii::$app->request;
-            $model = new CompanyForm();
-            if ($request->isPost && $request->isAjax) {
-                $model->load($request->post());
-                $model->logo = UploadedFile::getInstance($model, 'logo');
-                $company = new Company();
-                $company->attributes = $model->attributes;
+            $location = Location::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
+            $model = $locations = NULL;
 
-                $image_name = rand(100, 5000);
-                if (isset($model->logo) && $model->upload($image_name)) {
-                    $company->logo = $image_name . '.' . $model->logo->extension;
-                    $model->logo = $company->logo;
+            if (count($location) > 0) {
+                $request = Yii::$app->request;
+                $model = new \backend\models\LocationForm();
+                $model->attributes = $location->attributes;
+                $model->id = $location->_id;
+
+                if ($request->isPost) {
+                    $model->load($request->post());
+                    if ($model->saveLocation()) {
+                        $location->attributes = $model->attributes;
+                        Yii::$app->getSession()->setFlash('success', 'Location has been updated successfully.');
+                    }
                 }
-                $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
-                $retData['msgType'] === "SUC" ? $msg="Company has been added successfully" : $msg="Unable to store data this time";
-                $retData['msg'] = $msg;
-                $retData['companyId']=(string) $company->_id;
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                Yii::$app->getSession()->setFlash('success', 'New company has been added to datababse.');
-                return $retData;
             }
-            return $this->render('detail', ['model' => $model]);
-        }
-        else {
+            return $this->render('detail', ['detail' => $location, 'model' => $model,]);
+        } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
     }
