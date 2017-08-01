@@ -2,33 +2,41 @@
 
 use common\functions\GlobalFunctions;
 use components\GlobalFunction;
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\InfoWindow;
+use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 ?>
 
 <style>
-#overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 2;
-    /*cursor: pointer;*/
-}
-#loader{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 50px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-}
+    #overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2;
+        /*cursor: pointer;*/
+    }
+    #loader{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 50px;
+        color: white;
+        transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+    }
+    #gmap0-map-canvas{
+        width: 100% !important;
+        height: 275px !important;
+    }
 </style>
 <div id="overlay" >
     <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
@@ -37,14 +45,13 @@ use yii\widgets\Pjax;
 <?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
 
 <?php
-$sortBy='distance';
+$sortBy = 'distance';
+$filters = array();
 if (isset($ret_sort)) {
-    $ret_sort == 'Soonest' ? $sortBy= 'date' : $sortBy= 'distance';
+    $ret_sort == 'Soonest' ? $sortBy = 'date' : $sortBy = 'distance';
 }
-if(isset($ret_filters)){
-    $filters=$ret_filters;
-}else{
-//    $filters='as';
+if (isset($ret_filters)) {
+    $filters = $ret_filters;
 }
 ?>
 
@@ -52,7 +59,14 @@ if(isset($ret_filters)){
     <div class="event-near " id="event_near">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
             <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
-            <i> Heart Health, Flu Shots</i>
+        <i> </i>
+        <?php if (sizeof($filters) > 0) { ?>
+            <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
+                <?php foreach ($filters as $filter) { ?>
+                    <option value="<?= $filter ?>" selected ><?= $filter ?></option>
+                <?php } ?>
+            </select>
+        <?php } ?>
     </div>
     <?php foreach ($events as $event) { ?>
         <div class="multi-service">
@@ -76,6 +90,7 @@ if(isset($ret_filters)){
     <div class="map-content">
         <img src="<?= $img_url ?>result-img3.png" alt="" />
         <a href="#" class="view-all-btn">View all event locations</a>
+        
     </div>
     <div class="email-content">
         <div class="row">
