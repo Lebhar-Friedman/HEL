@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     .result-header{
         background: #FFF !important;
         margin-bottom: 15px !important;
+        border-bottom: 1px solid #2aaae2;
     }
 </style>
 <div class="container">

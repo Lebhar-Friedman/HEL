@@ -130,7 +130,7 @@ class SiteController extends Controller {
 
     public function getZipCodeFromIp() {
         $ip = Yii::$app->request->userIP;
-        $ip = '72.229.28.185';
+//        $ip = '72.229.28.185';
         $zip_code = Yii::$app->ip2location->getZIPCode($ip);
         return $zip_code;
     }

@@ -88,6 +88,11 @@ class EventController extends Controller {
     
     }
 
+    public function actionDirectory() {
+        
+        return $this->render('directory');
+        
+    }
     public function actionSetLongLat() {
 
         $long = Yii::$app->request->post('longitude');
@@ -126,20 +131,20 @@ class EventController extends Controller {
         if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
+                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
             } else {
-                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code], ['categories' => ['$all' => $filters]]];
+                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]]];
             }
         } else {
-            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['locations.zip' => $zip_code]];
+            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([

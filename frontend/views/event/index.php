@@ -22,6 +22,9 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         /*color: #000 !important;*/
     }
+    .chosen-container{
+        width: 100% !important;
+    }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
@@ -34,7 +37,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
                     <form action="<?= BaseUrl::base() ?>/event" method="post" id="events_search_form">
 
                         <input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                        <h1>Search <a href="#" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
+                        <h1>Search <a href="javascript:;" onclick="closeNav()" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
                         <div class="zip-code">
                             <span><b>Zip Code</b></span>
                             <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" /></div>
@@ -87,7 +90,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters]); ?>
         <?php } else { ?>
             <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]); ?>
         <?php } ?>

@@ -9,6 +9,7 @@ use yii\base\Model;
  */
 class EventForm extends Model {
 
+    public $eid;
     public $title;
     public $company;
     public $date_start;
@@ -20,6 +21,7 @@ class EventForm extends Model {
     public $location_models;
     public $price;
     public $description;
+    public $is_post;
     public static $importedEvents;
 
     /**
@@ -30,7 +32,7 @@ class EventForm extends Model {
             // username and password are both required
             [['title', 'company', 'description'], 'required'],
             // safe fields
-            [['price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
+            [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
         ];
@@ -68,7 +70,7 @@ class EventForm extends Model {
                     $location = new \common\models\Location();
                 }
                 if (empty($location->geometry)) {
-                    $latlong = \components\GlobalFunction::getLongLat($locationForm);//exit(print_r($latlong));
+                    $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
                     if ($latlong) {
                         $location->geometry = ['type' => 'Point',
                             'coordinates' => [$latlong['long'],

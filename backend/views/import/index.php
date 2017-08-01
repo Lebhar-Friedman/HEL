@@ -95,7 +95,7 @@ if (count($events) > 0) {
                             <div class="table-cost-h1"><?= (!empty($event->price)) ? '&dollar;' . $event->price : 'Free' ?></div>
                             <div class="table-blank-h1">
                                 <div class="flt-lft b-post-btn3 mrg-lftt"><a href="javascript:;" onclick="postEvent('<?= $event->_id ?>', this)" class="<?= ($event->is_post) ? 'disableLink' : 'n' ?>">Post</a></div>
-                                <a href="<?= \yii\helpers\BaseUrl::base() . '/event/edit?eid=' . $event['_id'] ?>" class="edit1-btn"></a> 
+                                <a href="<?= \yii\helpers\BaseUrl::base() . '/event/detail?id=' . $event['_id'] ?>" class="edit1-btn"></a> 
                                 <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             </div>
                         </div>
