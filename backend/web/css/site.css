@@ -1224,6 +1224,7 @@ a.check-box:hover { background-position:0 -22px;}
     padding:18px 5px;
 }
 .csv-table-row1{
+    word-wrap: break-word;
     display:block;
     font-family: 'helveticaneueregular' !important;
     border-bottom:1px solid #c5c5c5;
