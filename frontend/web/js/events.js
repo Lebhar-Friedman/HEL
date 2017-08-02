@@ -97,15 +97,16 @@ function closeNav() {
 
 
 
-function openModal() {
-//    alert('Hello');
-//    var url='evet/display-map';
-//    var despId=12;
-//    var $modal = jQuery('.modal');
-//    
-//    var data = { despId: despId};
-//    $modal.load(baseUrl + url, data, function () {
-//        
-//    }
-//    );
+function openModal(event) {
+    var url = baseUrl + 'event/display-map';
+    var $modal = $("<div>");
+    $modal.append(event);
+    $modal.load(url, {events: event}, function () {
+        $('#myModal').modal('show');
+        $('#myModal').on('shown.bs.modal', function () {
+            window.dispatchEvent(new Event('resize'));
+        });
+    });
+    $modal.appendTo('body');
 }
+

@@ -95,7 +95,9 @@ class EventController extends Controller {
     }
     
     public function actionDisplayMap() {
-        return $this->renderPartial('_map-modal');
+        $events = Yii::$app->request->post('events');
+//        $events = json_decode($events);
+        return $this->renderAjax('_map-modal',['events' => $events]);
         
     }
     public function actionSetLongLat() {

@@ -37,6 +37,9 @@ use yii\widgets\Pjax;
         /*cursor: pointer !important;*/
 
     }
+    .gm-style-mtc {
+        display: none !important;
+    }
 
 </style>
 <div id="overlay" >
@@ -71,7 +74,7 @@ if (isset($ret_filters)) {
     </div>
     <?php foreach ($events as $event) { ?>
         <div class="multi-service">
-            <h1><?= sizeof($event['categories']) === 1 ? $event['categories'][0] : 'Multiple Services' ?></h1>
+            <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 )? $event['sub_categories'][0].' Screenings' : 'Multiple Services' ?></h1>
             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
             <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
             <div class="clearfix">
@@ -90,7 +93,7 @@ if (isset($ret_filters)) {
     <?php } ?>
     <?php if (sizeof($events) > 0) { ?>
         <div class="map-content">
-            <a href="javascript:;" onclick="openModal()" class="view-all-btn" style="z-index: 9999">View all event locations</a>
+            <a href="javascript:;" onclick='openModal(<?php echo json_encode($events); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
             <?php
             $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
             $map = new Map([
