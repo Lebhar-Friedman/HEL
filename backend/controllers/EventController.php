@@ -165,7 +165,7 @@ class EventController extends Controller {
 
             if (count($event) > 0) {
                 $categories = \common\functions\GlobalFunctions::getCategoryList();
-                $subCategories = \common\functions\GlobalFunctions::getCategoryList();
+                $subCategories = \common\functions\GlobalFunctions::getSubCategoryList();
                 $request = Yii::$app->request;
                 $model = new \backend\models\EventForm();
                 $model->attributes = $event->attributes;

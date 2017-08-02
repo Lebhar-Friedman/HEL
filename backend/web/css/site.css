@@ -41,7 +41,7 @@ a.asc:after, a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'helveticaneueregular';
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -122,7 +122,7 @@ a.desc:after {
 /*-------------------------------------------- general ----------------------*/
 body{
     margin:0 auto !important;
-    font-family: 'open sans' !important;
+    font-family: 'helveticaneueregular' !important;
     background:#eaeaea !important;
     font-size:15px;
     color:#000;
@@ -131,14 +131,14 @@ body{
 h1,h2,h3{margin:0  !important;
          padding:0px  !important; 
          /*color:#000;*/
-         font-family: 'Open Sans' !important;
+         font-family: 'helveticaneueregular' !important;
 }
 h1{font-size:35px;}
 h2{font-size:22px;}
 h3{font-size:18px;}
-p{margin:0 !important; padding:0px  !important; font-family: 'open sans' !important;}
-a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'open_sansregular';}
-input{font-family: 'Open Sans', sans-serif;}
+p{margin:0 !important; padding:0px  !important; font-family: 'helveticaneueregular' !important;}
+a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'helveticaneueregular';}
+input{font-family: 'helveticaneueregular', sans-serif;}
 
 @font-face {
     font-family: 'helveticaneueregular';
@@ -409,7 +409,7 @@ a.login-btn {
     font-size:18px;
     line-height:18px;
     color:#000000;
-    font-family: 'open sans' !important;
+    font-family: 'helveticaneueregular' !important;
     /*position:fixed;*/
     bottom:0px;
     width:100%;
@@ -615,7 +615,7 @@ a.login-btn {
     margin-bottom:15px;
     border-radius: 6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .signup-addnew-form{
     max-width:600px;
@@ -628,7 +628,7 @@ a.login-btn {
     line-height:25px;
     color:#000;
     padding:70px 0px 45px 0px !important;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .upload-img {
     display: block;
@@ -647,7 +647,7 @@ a.login-btn {
     border:1px solid #0088cc;
     padding:14px 22px;
     border-radius:4px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .upload-logo label:hover{
     cursor: pointer;
@@ -755,7 +755,7 @@ a.login-btn {
     margin-bottom:15px;
     border-radius: 6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .add-new-btn2 a{
     display:block;
@@ -782,13 +782,13 @@ a.login-btn {
     float: right;
     padding-top: 25px;
     font-size:16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 
 }
 
 .list-table {
     width: 100%;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
     overflow: hidden;
 }
 .table-th {
@@ -869,7 +869,7 @@ a.login-btn {
     float: left;
     font-size: 16px;
     width: 100%;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border-bottom: solid 1px #d1d1d1;
 } 
 .edit{
@@ -936,7 +936,7 @@ a.del-btn:hover { background-position:0 -38px;
     border-top-right-radius:6px;
     border-top-left-radius:6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .csv2-comp-content{
     display:block;
@@ -946,7 +946,7 @@ a.del-btn:hover { background-position:0 -38px;
     border-bottom-right-radius:6px;
     border-bottom-left-radius:6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .mrg-rht{margin-right:20px;}
 .upload{
@@ -960,7 +960,7 @@ a.del-btn:hover { background-position:0 -38px;
     line-height:10px;
     color:#000;
     padding:45px 0px 25px 0px !important;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .upload h4{
     display:block;
@@ -969,7 +969,7 @@ a.del-btn:hover { background-position:0 -38px;
     line-height:25px;
     color:#000;
     margin-bottom:35px !important;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .upload-btn a {
     background: #0088cc none repeat scroll 0 0;
@@ -1015,7 +1015,7 @@ a.del-btn:hover { background-position:0 -38px;
     background-clip: padding-box;
     -webkit-transition: all 0.4s ease; 
     transition: all 0.4s ease;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .res-upload-content a:hover{
     -webkit-transition: all 0.4s ease; 
@@ -1031,7 +1031,7 @@ a.del-btn:hover { background-position:0 -38px;
     line-height:16px;
     color:#676767;
     padding:0px 0px 0px 140px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border-radius: 2px;
     background-clip: padding-box;
 }
@@ -1039,7 +1039,7 @@ a.del-btn:hover { background-position:0 -38px;
 .inbound-list select {
     width: 93%;
     font-size: 16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border: #d8d8d8 solid 1px;
     height:44px;
     color:#7e7e7e;
@@ -1082,7 +1082,7 @@ a.del-btn:hover { background-position:0 -38px;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     border:2px solid #0088cc;
-    font-family: 'open_sansbold' !important;
+    font-family: 'helveticaneuebold' !important;
 }
 .b-post-btn2 a:hover{
     background:#333;
@@ -1102,7 +1102,7 @@ a.del-btn:hover { background-position:0 -38px;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     border:2px solid #0088cc;
-    font-family: 'open_sansbold' !important;
+    font-family: 'helveticaneuebold' !important;
 }
 .b-del-btn2 a:hover{
     background:#333;
@@ -1114,7 +1114,7 @@ a.del-btn:hover { background-position:0 -38px;
     text-align:center;
     padding-top: 10px;
     font-size:30px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 
 }
 .total-1 {
@@ -1122,7 +1122,7 @@ a.del-btn:hover { background-position:0 -38px;
     text-align:right;
     padding-top: 25px;
     font-size:16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .table-scroll {
     display: block;
@@ -1134,7 +1134,7 @@ a.del-btn:hover { background-position:0 -38px;
 }
 .csv-table-row{
     display:block;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     text-align:center;
     font-size:15px;
     line-height:14px;
@@ -1225,7 +1225,7 @@ a.check-box:hover { background-position:0 -22px;}
 }
 .csv-table-row1{
     display:block;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border-bottom:1px solid #c5c5c5;
     text-align:center;
     font-size:15px;
@@ -1423,7 +1423,7 @@ a.del1-btn:hover { background-position:0 -38px;}
 /********************** Search Events ********************/
 .s-events {
     display: block;
-    font-family: "open_sansregular";
+    font-family: 'helveticaneueregular';
     font-size: 30px;
     padding-top: 5px; 
     text-align: center;
@@ -1459,7 +1459,7 @@ a.del1-btn:hover { background-position:0 -38px;}
     font-size: 16px;
     height: 44px;
     margin:30px 0;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     width:100%;
     min-width:1060px;
 }
@@ -1576,7 +1576,7 @@ input[type="checkbox"]:checked + label span {
 /***********************Search Location***************************/
 .location-table-row1 {
     display: block;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border-bottom: 1px solid #c5c5c5;
     text-align: center;
     font-size: 15px;
@@ -1592,14 +1592,14 @@ input[type="checkbox"]:checked + label span {
     border-bottom-right-radius:6px;
     border-bottom-left-radius:6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 
 .inbound-list-1 select{
 
     width:55%;
     font-size: 16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border: #d8d8d8 solid 1px;
     height: 44px;
     color: #7e7e7e;
@@ -1610,7 +1610,7 @@ input[type="checkbox"]:checked + label span {
 .inbound-list-2 select {
     width: 93%;
     font-size: 16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
     border: #d8d8d8 solid 1px;
     height: 44px;
     color: #7e7e7e;
@@ -1781,7 +1781,7 @@ input[type="checkbox"]:checked + label span {
     text-align: right;
     padding-right: 15px;
     font-size: 16px;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .search-box-1{
     width: 98%;
@@ -1799,7 +1799,7 @@ input[type="checkbox"]:checked + label span {
     line-height: 16px;
     border-radius: 3px;
     background-clip: padding-box;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 
 
 }
@@ -1834,7 +1834,7 @@ a.del1-btn-1:hover { background-position:0 -38px;}
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 .save-btn-1 a {
     background: #0088cc none repeat scroll 0 0;
@@ -1936,7 +1936,7 @@ a.del1-btn-1:hover { background-position:0 -38px;}
     border-bottom-right-radius:6px;
     border-bottom-left-radius:6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';	
+    font-family: 'helveticaneueregular';	
 }
 .table-chk-h-22
 {
@@ -2149,7 +2149,7 @@ a.edit1-btn-65:hover { background-position:0 -38px;}
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     background-clip: padding-box;
-    font-family: 'open_sansregular';
+    font-family: 'helveticaneueregular';
 }
 
 .upload-btn-2 a {
@@ -2179,7 +2179,7 @@ a.edit1-btn-65:hover { background-position:0 -38px;}
     line-height: 10px;
     color: #000;
     padding: 45px 99px 33px 0px !important;
-    font-family: 'open_sansregular' !important;
+    font-family: 'helveticaneueregular' !important;
 }
 .upload-btn-3 a {
     background: #0088cc none repeat scroll 0 0;

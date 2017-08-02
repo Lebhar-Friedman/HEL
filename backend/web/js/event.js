@@ -1,11 +1,20 @@
 $(document).ready(function () {
     $(".chosen-select").chosen();
+    $(".datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+    });
+    $("#eventform-date_end").datepicker('option', 'minDate', $("#eventform-date_start").val());
+    $("#eventform-date_start").datepicker('option', 'onSelect', function () {
+        $("#eventform-date_end").datepicker('option', 'minDate', $("#eventform-date_start").val());
+    });
+
     $('#edit_btn_event').click(function () {
         showEventForm();
     });
     $('#cancel_btn_event').click(function () {
         showEventDetail();
-    });    
+    });
 });
 function selectAll() {
     if ($("#check_all").is(':checked')) {
@@ -19,7 +28,7 @@ function parentUnselect(element) {
         $('#check_all').prop('checked', false);
     }
 }
-function deleteEvent(eventID, element, redirect) {    
+function deleteEvent(eventID, element, redirect) {
     if (!confirm("Are you sure, you want to delete this event?")) {
         return false;
     }
@@ -36,7 +45,9 @@ function deleteEvent(eventID, element, redirect) {
                     $(element).closest('.csv-table-row1').remove();
                 });
                 if (redirect) {
-                    setTimeout(function(){window.location.href = baseUrl + '' + redirect;},2000);                    
+                    setTimeout(function () {
+                        window.location.href = baseUrl + '' + redirect;
+                    }, 2000);
                 }
             } else {
                 toastr.error(r.msg);

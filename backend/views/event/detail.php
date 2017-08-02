@@ -9,9 +9,23 @@ use yii\web\JqueryAsset;
 <?php
 //var_dump($events);
 $this->registerJsFile('@web/js/event.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile('@web/js/location.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Events';
 $baseUrl = Yii::$app->request->baseUrl;
 ?>
+<style>
+    .date_seperater{
+        position: absolute;
+        top: 8px;
+        left: 49.5%;
+    }
+    .alerts{
+        min-width: 24px;
+        height: 38px;
+        float: left;
+        padding: 13px 0px;
+    }
+</style>
 <?php if (empty($model)) { ?>
     <div class="col-lg-12">
         <div class="csv-comp-content-1">
@@ -125,10 +139,11 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-7">
                         <div class="col-lg-6" style="padding-left: 0px;">
-                            <?= $form->field($model, 'date_start', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'From']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_start', ['inputOptions' => ['class' => 'datepicker txetbx ', 'placeholder' => 'From']])->textInput()->label(false); ?>
                         </div>
+                        <span class="date_seperater">-</span>
                         <div class="col-lg-6 " style="padding-right: 0px;">        
-                            <?= $form->field($model, 'date_end', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_end', ['inputOptions' => ['class' => 'datepicker txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>
@@ -140,6 +155,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="col-lg-6" style="padding-left: 0px;">
                             <?= $form->field($model, 'time_start', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'From']])->textInput()->label(false); ?>
                         </div>
+                        <span class="date_seperater">-</span>
                         <div class="col-lg-6 " style="padding-right: 0px;"> 
                             <?= $form->field($model, 'time_end', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
                         </div>
@@ -225,7 +241,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="table-blank-h-77"></div>
                     </div>
                     <?php foreach ($locations as $location) { ?>
-                        <div class="csv-table-row1 event-table-row1 clearfix">
+                        <div class="csv-table-row1 event-table-row1 location-table-row1 clearfix">
                             <div class="table-chk-h1-10"><?= $location->location_id ?></div>
                             <div class="table-title-h1-20"><?= $location->company ?></div>
                             <div class="table-date-h1-30"><?= $location->contact_name ?></div>
@@ -233,7 +249,9 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <div class="table-category-h1-50"><?= $location->street . ', ' . $location->city . ', ' . $location->state . ', ' . $location->zip ?></div>
                             <div class="table-blank-h1-60">
                                 <a href="<?= BaseUrl::base() . '/location/detail?id=' . $location['_id'] ?>" class="edit1-btn-6 "></a>
-                                <!--<img  src="<?= $baseUrl ?>/images/alert.png">-->
+                                <span class="alerts">
+                                    <!--<img  src="<?= $baseUrl ?>/images/alert.png">-->
+                                </span>
                                 <a href="javascript:;" onclick="deleteLocation('<?= $location['_id'] ?>', this)" class="del1-btn-6 "></a> </div>                    
                         </div>
                     <?php } ?>
