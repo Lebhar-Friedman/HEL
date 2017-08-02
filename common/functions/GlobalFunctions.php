@@ -70,5 +70,14 @@ class GlobalFunctions {
         }
         return $list;
     }
+    
+    public static function getSubCategoryList() {
+        $array = self::getSubcategories();
+        $list = [];
+        foreach ($array as $value) {
+            $list[$value['text']] = $value['text'];
+        }
+        return $list;
+    }
 
 }
