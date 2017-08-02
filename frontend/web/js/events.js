@@ -93,10 +93,19 @@ function closeNav() {
     $('.search-result-content').hide();
 }
 
-//    $('.html-multi-chosen-select').chosen().change(function (event) {
-//        console.log('change', event, $(event.target).val());
-//    });
-//
-//    $('.search-choice-close').onclick = function () {
-////        alert('hiiii');
+
+
+
+
+function openModal() {
+//    alert('Hello');
+//    var url='evet/display-map';
+//    var despId=12;
+//    var $modal = jQuery('.modal');
+//    
+//    var data = { despId: despId};
+//    $modal.load(baseUrl + url, data, function () {
+//        
 //    }
+//    );
+}
