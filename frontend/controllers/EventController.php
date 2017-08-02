@@ -93,6 +93,11 @@ class EventController extends Controller {
         return $this->render('directory');
         
     }
+    
+    public function actionDisplayMap() {
+        return $this->renderPartial('_map-modal');
+        
+    }
     public function actionSetLongLat() {
 
         $long = Yii::$app->request->post('longitude');

@@ -33,10 +33,11 @@ use yii\widgets\Pjax;
         transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
     }
-    #gmap0-map-canvas{
-        width: 100% !important;
-        height: 275px !important;
+    a .marker_info{
+        /*cursor: pointer !important;*/
+
     }
+
 </style>
 <div id="overlay" >
     <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
@@ -87,11 +88,45 @@ if (isset($ret_filters)) {
             </div>
         </div>
     <?php } ?>
-    <div class="map-content">
-        <img src="<?= $img_url ?>result-img3.png" alt="" />
-        <a href="#" class="view-all-btn">View all event locations</a>
-        
-    </div>
+    <?php if (sizeof($events) > 0) { ?>
+        <div class="map-content">
+            <a href="javascript:;" onclick="openModal()" class="view-all-btn" style="z-index: 9999">View all event locations</a>
+            <?php
+            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
+            $map = new Map([
+                'center' => $coord,
+                'zoom' => 8,
+                'width' => '100%',
+                'height' => '275',
+                'scrollwheel' => false,
+            ]);
+            $map->setName('gmap');
+            foreach ($events as $event) {
+                foreach ($event['locations'] as $location) {
+                    $long_lat = $location['geometry']['coordinates'];
+                    $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
+                    $marker = new Marker([
+                        'position' => $coord,
+                        'title' => $event['title'],
+                        'animation' => 'google.maps.Animation.DROP',
+                        'visible' => 'true',
+                    ]);
+                    $marker->attachInfoWindow(
+                            new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
+                    );
+
+
+//                $marker->setName('abc');   //to set Info window default open
+//                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
+//            google.maps.event.trigger(abc, 'click');});");
+
+                    $map->addOverlay($marker);
+                }
+            }
+            echo $map->display();
+            ?>
+        </div>
+    <?php } ?>
     <div class="email-content">
         <div class="row">
             <div class="col-lg-6 col-md-8">
@@ -159,5 +194,8 @@ if (isset($ret_filters)) {
         </div>
     </div>
 </div>
+
+
+
 
 <?php Pjax::end() ?>
