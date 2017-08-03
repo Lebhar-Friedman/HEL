@@ -73,6 +73,10 @@ class EventController extends Controller {
 
         return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
     }
+    
+    public function actionMoreEvents() {
+        return $this->renderAjax('_more-events');
+    }
 
     public function actionDetail() {
         $query = Event::find();

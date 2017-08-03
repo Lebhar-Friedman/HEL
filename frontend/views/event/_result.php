@@ -74,7 +74,7 @@ if (isset($ret_filters)) {
     </div>
     <?php foreach ($events as $event) { ?>
         <div class="multi-service">
-            <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 )? $event['sub_categories'][0].' Screenings' : 'Multiple Services' ?></h1>
+            <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
             <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
             <div class="clearfix">
@@ -113,6 +113,7 @@ if (isset($ret_filters)) {
                         'title' => $event['title'],
                         'animation' => 'google.maps.Animation.DROP',
                         'visible' => 'true',
+//                        'icon' => $img_url.'map-marker.png',
                     ]);
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
@@ -142,63 +143,7 @@ if (isset($ret_filters)) {
         </div>
 
     </div>
-    <div class="event-near">
-        <h1>More health events</h1>
-    </div>
-    <div class="multi-service">
-        <h1>Multiple Services</h1>
-        <h2>Jun 1 - 10</h2>
-        <span>FREE</span>
-        <div class="clearfix">
-            <div class="table-cust">
-                <i>Flu Shots</i>
-                <i>Meningitis</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis A</i>
-                <i>MMR</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis B</i>
-                <i>Pnumonia</i>
-            </div>
-            <div class="table-cust">
-                <i>HPV</i>
-                <i>Shingles</i>
-            </div>
-
-        </div>
-        <div class="location-text">
-            <img src="images/result-img4.png" alt="" />
-            <div class="text">10 locations</div>
-            <img src="images/result-img1.png" alt="" /> 1.2 m
-        </div>
-    </div>
-    <div class="multi-service">
-        <h1>Vaccination Screenings</h1>
-        <h2>Jun 1 - 10</h2>
-        <span>$25 - $50</span>
-        <div class="clearfix">
-            <div class="table-cust">
-                <i>Flu Shots</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis A</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis B</i>
-            </div>
-
-        </div>
-        <div class="location-text">
-            <img src="images/result-img5.png" alt="" />
-            <div class="text">2 locations</div>
-            <img src="images/result-img1.png" alt="" /> 1.7 m
-        </div>
-    </div>
+    <?= $this->render('_more-events'); ?>
 </div>
-
-
-
 
 <?php Pjax::end() ?>

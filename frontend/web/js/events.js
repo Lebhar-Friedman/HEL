@@ -46,6 +46,10 @@ function searchResult(form_data) {
         $('.filters-multi-chosen-selected').chosen().change(function (event) {
             selectedFilters(event);
         });
+        
+        moreEvents(form_data);
+
+
     });
 
     $.pjax.reload({
@@ -93,10 +97,6 @@ function closeNav() {
     $('.search-result-content').hide();
 }
 
-
-
-
-
 function openModal(event) {
     var url = baseUrl + 'event/display-map';
     var $modal = $("<div>");
@@ -108,5 +108,10 @@ function openModal(event) {
         });
     });
     $modal.appendTo('body');
+}
+
+function moreEvents(form_data) {
+    var url = baseUrl + 'event/more-events';
+   $('#more_events').load(url);
 }
 
