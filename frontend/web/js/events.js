@@ -16,6 +16,7 @@ $(document).ready(function () {
     };
 
     var error_handler = function (err) {
+        console.log(err.message);
         if (err.code == 1) {
             console.log('Need your location for accurate results');
         }
@@ -42,6 +43,9 @@ function searchResult(form_data) {
     $(document).on('pjax:complete', function () {
         $("#loader").hide();
         $("#overlay").hide();
+        $('.filters-multi-chosen-selected').chosen().change(function (event) {
+            selectedFilters(event);
+        });
     });
 
     $.pjax.reload({
@@ -53,6 +57,18 @@ function searchResult(form_data) {
         timeout: 30000
     });
 
+}
+
+function selectedFilters(event) {
+    console.log($(event.target).val());
+    $('input[name^="filters"]').each(function () {
+        $(this).prop('checked', false);
+        if (jQuery.inArray($(this).val(), $(event.target).val()) !== -1) {
+            $(this).prop('checked', true);
+        }
+        ;
+    });
+    $('#events_search_form').submit();
 }
 
 $(document).ready(function () {
@@ -76,3 +92,21 @@ $(document).ready(function () {
 function closeNav() {
     $('.search-result-content').hide();
 }
+
+
+
+
+
+function openModal(event) {
+    var url = baseUrl + 'event/display-map';
+    var $modal = $("<div>");
+    $modal.append(event);
+    $modal.load(url, {events: event}, function () {
+        $('#myModal').modal('show');
+        $('#myModal').on('shown.bs.modal', function () {
+            window.dispatchEvent(new Event('resize'));
+        });
+    });
+    $modal.appendTo('body');
+}
+

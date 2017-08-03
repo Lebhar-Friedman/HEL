@@ -200,5 +200,27 @@ class EventForm extends Model {
         }
     }
 
+    public function saveEvent() {
+        if ($this->validate()) {
+            $event = \common\models\Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
+            $event->attributes = $this->attributes;
+            $event->date_start = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_start) * 1000);
+            $event->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_end) * 1000);
+            if (empty($event->categories)) {
+                $event->categories = [];
+            }
+            if (empty($event->sub_categories)) {
+                $event->sub_categories = [];
+            }
+
+            if ($event->update() !== FALSE) {
+                return TRUE;
+            } else {
+                $this->errors = $event->errors;
+                return FALSE;
+            }
+        }
+    }
+
 // end class
 }

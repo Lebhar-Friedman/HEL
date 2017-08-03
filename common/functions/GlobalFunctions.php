@@ -62,4 +62,22 @@ class GlobalFunctions {
         return $keywords;
     }
 
+    public static function getCategoryList() {
+        $array = self::getCategories();
+        $list = [];
+        foreach ($array as $value) {
+            $list[$value['text']] = $value['text'];
+        }
+        return $list;
+    }
+    
+    public static function getSubCategoryList() {
+        $array = self::getSubcategories();
+        $list = [];
+        foreach ($array as $value) {
+            $list[$value['text']] = $value['text'];
+        }
+        return $list;
+    }
+
 }

@@ -27,7 +27,7 @@ input{font-family: 'helveticaneueregular';}
     font-weight: normal;
     font-style: normal;
 
-}*/
+}
 /*@font-face {
     font-family: 'helveticaneuebold';
     src: url('../fonts/helvetica-neue-bold.ttf') format('truetype');
@@ -893,3 +893,20 @@ footer{
 	.result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}
 }
 
+.event-near .chosen-container .chosen-drop{
+    display: none !important;
+}
+.event-near .chosen-container .chosen-container-active .chosen-choices{
+    border: red !important;
+    box-shadow: none !important;
+}
+.event-near .chosen-container .chosen-choices .search-field input{
+    display: none !important;
+}
+.event-near .chosen-container .chosen-choices {
+ border: none !important;
+ background-color: transparent !important;
+}
+.event-near .chosen-container-active .chosen-choices{
+    box-shadow: none !important;
+}

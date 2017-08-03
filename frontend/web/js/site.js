@@ -20,11 +20,10 @@ $(document).ready(function () {
         "hideMethod": "fadeOut"
     };// alerts end
 
-
 });
 //***************************************************************** $(document).ready end *************************************
 $('.html-multi-chosen-select').chosen({placeholder_text_multiple:'Keywords'});
-$('.html-multi-chosen-select').chosen({placeholder_text_multiple: 'Keywords'});
+//$('.html-multi-chosen-select').chosen({placeholder_text_multiple: 'Keywords'});
 
 $(document).ready(function () {
 //    $(".html-multi-chosen-select").chosen().change(alert());
