@@ -71,12 +71,17 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
                             <input type="submit" class="btn go-btn" value="Go">
                         </div>
                         <h1>Filters</h1>
+                        <?php $i=0; ?>
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
+                            <?php $i++; ?>
                             <div class="filter-box">
                                 <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
-                                    <label><input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
+                                <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
+                                    <!--<input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>-->
+                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                                 <?php } else { ?>
-                                    <label><input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>"> <?= $filter['text'] ?></label>
+                                    <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
+                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                                 <?php } ?>
                             </div>
                         <?php } ?>
@@ -99,7 +104,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-10 col-md-10">
             <div class="add-box2">
-                <img src="images/result-img6.png" alt=""  />
+                <img src="<?= $img_url ?>result-img6.png" alt=""  />
             </div>
         </div>
     </div>
