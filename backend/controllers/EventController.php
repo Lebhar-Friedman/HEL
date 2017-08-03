@@ -75,7 +75,7 @@ class EventController extends Controller {
 
         $companies = Company::CompanyList();
         $categories = GlobalFunctions::getCategories();
-        $sub_categories = SubCategories::SubCategoryList();
+        $sub_categories = GlobalFunctions::getSubcategories();
         return $this->render('index', ['events' => $events, 'companies' => $companies, 'categories' => $categories, 'sub_categories' => $sub_categories, 'pagination' => $pagination, 'total' => $count]);
     }
 

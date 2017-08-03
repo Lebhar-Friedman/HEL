@@ -14,7 +14,7 @@ class GlobalFunctions {
         return \yii\helpers\BaseUrl::base() . '/images/upload-logo.png';
     }
 
-    public function getCategories() {
+    public static function getCategories() {
         $categories = array(
             array('value' => 1, 'text' => 'Diabetes Care'),
             array('value' => 2, 'text' => 'Heart Health'),
@@ -28,7 +28,7 @@ class GlobalFunctions {
         return $categories;
     }
 
-    public function getSubcategories() {
+    public static function getSubcategories() {
         $sub_categories = array();
         $temp = array(
             'Blood Glucose', 'Cholesterol', 'Flu',
@@ -49,7 +49,7 @@ class GlobalFunctions {
         return $sub_categories;
     }
 
-    public function getKeywords() {
+    public static function getKeywords() {
         $cats = GlobalFunctions::getCategories();
         $sub_cats = GlobalFunctions::getSubcategories();
         $keywords = array();
