@@ -1,10 +1,10 @@
+
 $(document).ready(function () {
     var userPosition = function (position) {
         $.ajax({
             url: baseUrl + '/event/set-long-lat',
             type: 'post',
             data: {longitude: position.coords.longitude, latitude: position.coords.latitude},
-
             success: function (r) {
                 console.log("Long lat has been set");
             },
