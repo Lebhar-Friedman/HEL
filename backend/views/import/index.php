@@ -89,7 +89,7 @@ if (count($events) > 0) {
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
                                 <div class="tc-location"><?= count($event->locations) ?>
-                                    <img src="images/caution.png" alt="" />
+                                    <!--<img src="images/caution.png" alt="" />-->
                                 </div>
                             </div>
                             <div class="table-cost-h1"><?= (!empty($event->price)) ? '&dollar;' . $event->price : 'Free' ?></div>

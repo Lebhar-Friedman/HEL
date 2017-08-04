@@ -136,7 +136,7 @@ $this->title = 'Events';
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
                                 <div class="tc-location"><a href="<?= BaseUrl::base() . '/location?eid=' . $event['_id'] ?>"><?= sizeof($event['locations']); ?></a>
-                                    <img src="<?= BaseUrl::base() ?>/images/caution.png" alt="" />
+                                    <!--<img src="<?= BaseUrl::base() ?>/images/caution.png" alt="" />-->
                                 </div>
                             </div>
                             <div class="table-cost-h1">Free</div>
