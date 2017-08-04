@@ -101,8 +101,8 @@ function openModal(event) {
     var url = baseUrl + 'event/display-map';
     var $modal = $("<div>");
     $modal.append(event);
+    $('#myModal').modal('show');
     $modal.load(url, {events: event}, function () {
-        $('#myModal').modal('show');
         $('#myModal').on('shown.bs.modal', function () {
             window.dispatchEvent(new Event('resize'));
         });

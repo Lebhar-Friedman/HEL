@@ -679,3 +679,9 @@ footer{
 
 }
 
+.custom-text{
+    font-size: 20px;
+    line-height: 25px;
+    margin-top: 15px;
+}
+

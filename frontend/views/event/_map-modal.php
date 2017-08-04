@@ -15,6 +15,7 @@ use yii\helpers\BaseUrl;
         display: none !important;
     }
 </style>
+<?php $img_url = BaseUrl::base() . '/images/'; ?>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg"> 
@@ -46,7 +47,7 @@ use yii\helpers\BaseUrl;
                                 'title' => $event['title'],
                                 'animation' => 'google.maps.Animation.DROP',
                                 'visible' => 'true',
-//                                'icon' => $baseUrl . 'images/map-marker.png',
+                                'icon' => $img_url . 'custom-marker.png',
                             ]);
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
@@ -55,6 +56,10 @@ use yii\helpers\BaseUrl;
                             ?>
                         <?php } ?>
                     <?php } ?>
+                    <?php
+                    $map->center = $map->getMarkersCenterCoordinates();
+                    $map->zoom = $map->getMarkersFittingZoom() - 1;
+                    ?>
                     <?php echo $map->display(); ?>
                 </div>
             </div>

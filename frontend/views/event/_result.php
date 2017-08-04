@@ -113,11 +113,11 @@ if (isset($ret_filters)) {
                         'title' => $event['title'],
                         'animation' => 'google.maps.Animation.DROP',
                         'visible' => 'true',
-//                        'icon' => $img_url.'map-marker.png',
+                        'icon' => $img_url.'custom-marker.png',
                     ]);
-                    $marker->attachInfoWindow(
-                            new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
-                    );
+//                    $marker->attachInfoWindow(
+//                            new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
+//                    );
 
 
 //                $marker->setName('abc');   //to set Info window default open
@@ -127,6 +127,9 @@ if (isset($ret_filters)) {
                     $map->addOverlay($marker);
                 }
             }
+//            $map->center = $map->getMarkersCenterCoordinates();
+//            $map->zoom = $map->getMarkersFittingZoom() - 1;
+
             echo $map->display();
             ?>
         </div>

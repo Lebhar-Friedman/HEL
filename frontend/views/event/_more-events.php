@@ -1,35 +1,33 @@
-<?php ?>
-<div id="more_events">
-    <div class="event-near">
-        <h1>More health events</h1>
-    </div>
-    <div class="multi-service">
-        <h1>Multiple Services</h1>
-        <h2>Jun 1 - 10</h2>
-        <span>FREE</span>
-        <div class="clearfix">
-            <div class="table-cust">
-                <i>Flu Shots</i>
-                <i>Meningitis</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis A</i>
-                <i>MMR</i>
-            </div>
-            <div class="table-cust">
-                <i>Hepititis B</i>
-                <i>Pnumonia</i>
-            </div>
-            <div class="table-cust">
-                <i>HPV</i>
-                <i>Shingles</i>
-            </div>
+<?php
 
-        </div>
-        <div class="location-text">
-            <img src="images/result-img4.png" alt="" />
-            <div class="text">10 locations</div>
-            <img src="images/result-img1.png" alt="" /> 1.2 m
-        </div>
-    </div>
+use common\functions\GlobalFunctions;
+use components\GlobalFunction;
+use yii\helpers\BaseUrl;
+?>
+<?php $img_url = BaseUrl::base() . '/images/'; ?>
+<div id="more_events">
+    <?php if (isset($more_events) && sizeof($more_events) > 0) { ?>
+        <?php foreach ($more_events as $event) { ?>
+            <div class="event-near">
+                <h1>More health events</h1>
+            </div>
+            <div class="multi-service">
+                <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
+                <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
+                <div class="clearfix">
+                    <?php foreach ($event['sub_categories'] as $sub_category) { ?>
+                        <div class="table-cust">
+                            <i><?= $sub_category ?></i>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div class="location-text">
+                    <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
+                    <div class="text"><?= sizeof($event['locations']) ?> locations</div>
+                    <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
+                </div>
+            </div>
+        <?php } ?>
+    <?php } ?>
 </div>
