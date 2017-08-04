@@ -115,9 +115,6 @@ if (isset($ret_filters)) {
                         'visible' => 'true',
                         'icon' => $img_url.'custom-marker.png',
                     ]);
-//                    $marker->attachInfoWindow(
-//                            new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
-//                    );
 
 
 //                $marker->setName('abc');   //to set Info window default open
