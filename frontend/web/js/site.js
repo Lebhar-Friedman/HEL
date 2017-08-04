@@ -75,3 +75,11 @@ function saveEvent(eventID,element){
             }
         });
 }
+interval = setInterval(function () {
+    if ($('g').length > 0) {
+        $('.at-icon-wrapper').css({'overflow': 'initial', 'height': 'initial', 'width': 'initial', 'padding': '0px'});
+        $('.addthis_inline_share_toolbox').css({'clear': 'none'});
+        $('span.at-icon-wrapper').html('<a href="#" style="margin-right: 0px !important;"><img src="'+image_url+'share-icon.png" alt="" />SHARE</a>');
+        clearInterval(interval);
+    }
+}, 100);

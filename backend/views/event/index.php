@@ -8,7 +8,7 @@ use yii\web\JqueryAsset;
 use components\GlobalFunction;
 ?>
 <?php
-//var_dump($events);
+//var_dump($sub_categories);die;
 $this->registerJsFile('@web/js/event.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Events';
 ?>
@@ -57,30 +57,33 @@ $this->title = 'Events';
                                         echo "selected";
                                     }
                                     ?>><?= $company['name'] ?></option>
-                                        <?php } ?>
+                                        <?php } ?>                                
+
                             </select>
                         </div>
                         <div class="cntl-table-td-con-type ">
                             <select name="eventCategory">
                                 <option value="-1" selected="selected">Category</option>
-                                
+                                <?php foreach ($categories as $category) { ?>
                                 <option <?php
-                                    if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === 'Diabetes') {
+                                    if (isset($_GET['eventCategory']) && $_GET['eventCategory'] === $category['text']) {
                                         echo "selected";
                                     }
-                                    ?>>Diabetes</option>
-                                <option>Category 1</option>
+                                    ?>><?=$category['text']?></option>
+                                <?php } ?>
+                                
                             </select>
                         </div>
                         <div class="cntl-table-td-con-type ">
                             <select name="eventSubCategory">
                                 <option value="-1" selected="selected">Sub-Category</option>
+                                <?php foreach ($sub_categories as $sub_category) { ?>
                                 <option <?php
-                                    if (isset($_GET['eventSubCategory']) && $_GET['eventSubCategory'] === 'Blood glucose') {
+                                    if (isset($_GET['eventSubCategory']) && $_GET['eventSubCategory'] === $sub_category['text']) {
                                         echo "selected";
                                     }
-                                    ?>>Blood glucose</option>
-                                <option>Category 1</option>
+                                    ?>><?=$sub_category['text']?></option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="search-butn">

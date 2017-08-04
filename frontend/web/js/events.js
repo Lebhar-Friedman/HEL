@@ -1,10 +1,10 @@
+
 $(document).ready(function () {
     var userPosition = function (position) {
         $.ajax({
             url: baseUrl + '/event/set-long-lat',
             type: 'post',
             data: {longitude: position.coords.longitude, latitude: position.coords.latitude},
-
             success: function (r) {
                 console.log("Long lat has been set");
             },
@@ -46,6 +46,10 @@ function searchResult(form_data) {
         $('.filters-multi-chosen-selected').chosen().change(function (event) {
             selectedFilters(event);
         });
+        
+        moreEvents(form_data);
+
+
     });
 
     $.pjax.reload({
@@ -93,19 +97,21 @@ function closeNav() {
     $('.search-result-content').hide();
 }
 
-
-
-
-
-function openModal() {
-//    alert('Hello');
-//    var url='evet/display-map';
-//    var despId=12;
-//    var $modal = jQuery('.modal');
-//    
-//    var data = { despId: despId};
-//    $modal.load(baseUrl + url, data, function () {
-//        
-//    }
-//    );
+function openModal(event) {
+    var url = baseUrl + 'event/display-map';
+    var $modal = $("<div>");
+    $modal.append(event);
+    $('#myModal').modal('show');
+    $modal.load(url, {events: event}, function () {
+        $('#myModal').on('shown.bs.modal', function () {
+            window.dispatchEvent(new Event('resize'));
+        });
+    });
+    $modal.appendTo('body');
 }
+
+function moreEvents(form_data) {
+    var url = baseUrl + 'event/more-events';
+   $('#more_events').load(url);
+}
+

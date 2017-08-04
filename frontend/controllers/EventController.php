@@ -8,8 +8,9 @@
 
 namespace frontend\controllers;
 
-use common\models\Event;
+use common\functions\GlobalFunctions;
 use common\models\Company;
+use common\models\Event;
 use components\GlobalFunction;
 use Yii;
 use yii\web\Controller;
@@ -23,6 +24,7 @@ class EventController extends Controller {
 //        $long = 74.329376;
 //        $lat = 31.582045;
 //        echo GlobalFunction::getZipFromLongLat($long, $lat);
+
         $longitude;
         $latitude;
         if (Yii::$app->request->get('zipcode') === NULL) {
@@ -63,41 +65,47 @@ class EventController extends Controller {
                 $zip_code = $temp_zip ? $temp_zip : $zip_code;
             }
 
-            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $sort_by);
+            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude,50,0, $sort_by);
             $total_events = sizeof($events_dist);
 
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by]);
         }
-        $events = $this->getEventsWithDistance($zip_code, null, null, $longitude, $latitude);
+        $events = $this->getEventsWithDistance($zip_code, null, null, $longitude, $latitude,50,0);
         $total_events = sizeof($events);
 
         return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
     }
 
+    public function actionMoreEvents() {
+        $z_lng_lat = $this->getZipLongLat();
+        $events = $this->getEventsWithDistance($z_lng_lat['zip_code'], null, null, $z_lng_lat['longitude'], $z_lng_lat['latitude'],200,40);
+        return $this->renderAjax('_more-events', ['more_events' => $events]);
+    }
+
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
-        if($eid !== ''){
-            $query->andWhere(['=','_id', $eid]);
-        }        
+        if ($eid !== '') {
+            $query->andWhere(['=', '_id', $eid]);
+        }
         $event = $query->one();
         $company = Company::findCompanyByName($event['company']);
         $companyEvents = Event::findCompanyEvents($company['name']);
         //var_dump($companyEvents);die;
-        return $this->render('detail', ['event' => $event, 'company'=> $company, 'companyEvents'=>$companyEvents]);
-    
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents]);
     }
 
     public function actionDirectory() {
-        
+
         return $this->render('directory');
-        
     }
-    
+
     public function actionDisplayMap() {
-        return $this->renderPartial('_map-modal');
-        
+        $events = Yii::$app->request->post('events');
+//        $events = json_decode($events);
+        return $this->renderAjax('_map-modal', ['events' => $events]);
     }
+
     public function actionSetLongLat() {
 
         $long = Yii::$app->request->post('longitude');
@@ -118,38 +126,43 @@ class EventController extends Controller {
     public function getZipLongLat() {
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
-        } else if (Yii::$app->request->isGet) {
+        } else if (Yii::$app->request->get('zipcode') !== NULL) {
             $zip_code = Yii::$app->request->get('zipcode');
+        } else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
+            $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
+            return ['zip_code' => $zip_code, 'longitude' => $coordinates['longitude'], 'latitude' => $coordinates['latitude']];
         } else {
             $ip = Yii::$app->request->userIP;
             $latitude = Yii::$app->ip2location->getLatitude($ip);
             $longitude = Yii::$app->ip2location->getLongitude($ip);
             $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+            return ['zip_code' => $zip_code, 'longitude' => $latitude, 'latitude' => $longitude];
         }
         $longlat = GlobalFunction::getLongLatFromZip($zip_code);
+        return ['zip_code' => $zip_code, 'longitude' => $longlat['lat'], 'latitude' => $longlat['long']];
     }
 
-    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $sort = 'Closest') {
+    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance =50 , $min_distance =0, $sort = 'Closest') {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+230 days"))) * 1000);
 
         if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
+                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
             } else {
                 $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]]];
             }
         } else {
-            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]] ];
+            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
@@ -160,7 +173,8 @@ class EventController extends Controller {
 //                        "coordinates" => [74.329376, 31.582045]
                         "coordinates" => [floatval($longitude), floatval($latitude)]
                     ],
-                    "maxDistance" => 50 * 1609,
+                    "maxDistance" => intval($max_distance) * 1609,
+                    "minDistance" => intval($min_distance) * 1609,
                     "spherical" => true,
                     "distanceField" => "distance",
                     "distanceMultiplier" => 0.000621371
@@ -172,4 +186,5 @@ class EventController extends Controller {
 
         return $events;
     }
+
 }

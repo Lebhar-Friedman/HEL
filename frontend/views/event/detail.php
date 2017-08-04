@@ -11,6 +11,7 @@ $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset
 $this->title = $event['title'];
 ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
+
 <style>
     .chosen-choices{
         min-height: 45px;
@@ -36,8 +37,9 @@ $this->title = $event['title'];
                     <?=$event['time_start']?> - <?=$event['time_end']?> 
                     <div class="save-share-btn clearfix">
                     	<a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>',this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
-                        <a href="#"><img src="<?= $img_url ?>share-icon.png" alt="" />SHARE</a>
+                        <div class="addthis_inline_share_toolbox"></div>
                     </div>
+                    
                     <div class="clearfix">
                     	<?php
                         foreach ($event['categories'] as $category):
@@ -169,4 +171,12 @@ $this->title = $event['title'];
             </div>
         </div> 
     </div>
-    
+ 
+<script type="text/javascript">
+var addthis_share = {
+   url: "<?= Yii::$app->request->absoluteUrl?>",
+   title: "<?=$event['title']?>",
+   description: "<?=$event['description']?>",
+   media: "<?=Yii::$app->urlManager->hostInfo.GlobalFunctions::getCompanyLogo($company['name'])?>"
+}
+</script>

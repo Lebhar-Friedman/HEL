@@ -3,6 +3,9 @@
 namespace common\functions;
 
 use common\models\Company;
+use Yii;
+use yii\helpers\BaseUrl;
+use const IMG_URL;
 
 class GlobalFunctions {
 
@@ -11,10 +14,10 @@ class GlobalFunctions {
         if ($company && $company->logo !== NULL) {
             return IMG_URL . $company->logo;
         }
-        return \yii\helpers\BaseUrl::base() . '/images/upload-logo.png';
+        return BaseUrl::base() . '/images/upload-logo.png';
     }
 
-    public function getCategories() {
+    public static function getCategories() {
         $categories = array(
             array('value' => 1, 'text' => 'Diabetes Care'),
             array('value' => 2, 'text' => 'Heart Health'),
@@ -28,7 +31,7 @@ class GlobalFunctions {
         return $categories;
     }
 
-    public function getSubcategories() {
+    public static function getSubcategories() {
         $sub_categories = array();
         $temp = array(
             'Blood Glucose', 'Cholesterol', 'Flu',
@@ -38,9 +41,9 @@ class GlobalFunctions {
             'Asthma', 'Nutrition', 'Osteoperosis', 'COPD	Beauty	Women\'s Health',
             'Smoking Cessastion', 'Vision', 'Lung Health', 'Hearing', 'Smoking Cessassion', 'Sun Care',
             'Weight', 'Dental', 'Allergies', 'Foot care', 'Headaches', 'Kids', 'Chiropractic', 'Skin Care',
-            'Body fat/ Weight','Osteoperosis', 'Alzheimers','Healthy Aging', 'Anxiety','Alzheimers', 'Bipolar',
-            'Memory Screening', 'Depression','Senior Immunizations', 'Psychosis','Hearing', 'PTSD','Work Health',
-            'Memory Screening','Alcohol/Substance Abuse','Smoking Cessation','Parent',
+            'Body fat/ Weight', 'Osteoperosis', 'Alzheimers', 'Healthy Aging', 'Anxiety', 'Alzheimers', 'Bipolar',
+            'Memory Screening', 'Depression', 'Senior Immunizations', 'Psychosis', 'Hearing', 'PTSD', 'Work Health',
+            'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
         );
 
         foreach ($temp as $key => $sub_cat) {
@@ -49,7 +52,7 @@ class GlobalFunctions {
         return $sub_categories;
     }
 
-    public function getKeywords() {
+    public static function getKeywords() {
         $cats = GlobalFunctions::getCategories();
         $sub_cats = GlobalFunctions::getSubcategories();
         $keywords = array();
@@ -70,7 +73,7 @@ class GlobalFunctions {
         }
         return $list;
     }
-    
+
     public static function getSubCategoryList() {
         $array = self::getSubcategories();
         $list = [];
@@ -78,6 +81,25 @@ class GlobalFunctions {
             $list[$value['text']] = $value['text'];
         }
         return $list;
+    }
+
+    public static function getCookiesOfLngLat() {
+
+        $cookies = Yii::$app->request->cookies;
+        if (($cookie = $cookies->get('language')) !== NULL) {
+            $language = $cookie->value;
+        }
+        if ($cookies->has('longitude') && ($cookies->has('latitude'))) {
+            $lng = $cookies->getValue('longitude',FALSE);
+            $lat = $cookies->getValue('latitude',FALSE);
+            if($lng == FALSE || $lat == FALSE){
+                return FALSE;
+            }else{
+                return ['longitude' => $lng, 'latitude' => $lat];
+            }
+        }else{
+            return FALSE;
+        }
     }
 
 }

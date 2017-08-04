@@ -52,36 +52,37 @@ $this->title = 'Health Events';
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="health-box">
                 <span><img src="<?= $baseUrl ?>/images/search-img.png" alt="" /></span>
-                Search for health <br />services near you
+                More access to   <br />quality health care
             </div>
+            <p class="custom-text text-justify">
+                Who says health care has to be so complex? Health clinics are now open in 
+                many of your favorite local stores — and the doctor is ready to see you.  
+                Take advantage of a wide range of free and low-cost health services right 
+                in the heart of your community.
+            </p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="health-box">
                 <span><img src="<?= $baseUrl ?>/images/timmer.png" alt="" /></span>
-                Save time <br />& money
+                Save money and time  <br />with ease
             </div>
+            <p class="custom-text text-justify">
+                Not only are many health services available for free, but it’s as easy as 
+                walking into a store you already know and trust. Combine it with a shopping 
+                trip for prescriptions or groceries and double-up on the convenience. 
+            </p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="health-box">
                 <span><img src="<?= $baseUrl ?>/images/heart.png" alt="" class="margin-t" /></span>
                 Keep your whole <br />family healthy!
             </div>
+            <p class="custom-text text-justify">
+                Calling all patients, young and young-at-heart!  Health services include everything 
+                from checkups, health screenings, and shots to preventative care and support for chronic 
+                conditions. Everyone is welcome and anyone can benefit! 
+            </p>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="consider-text">
-                <span>Consider the convenience of being able to get a health screening on a weekend or during a lunch break, when you don’t necessarily have to worry about racing back to your job. Consider, too, that you can get your blood pressure tested at the same place you buy your groceries. Or, you can check up on your glucose levels while picking up a prescription. Two birds, one stone, no extra trips.</span>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="consider-text">
-                Common health services are now more accessible and affordable than ever, and that means you don’t have to feel pressured to put them off any longer. But how do you find out which retailer is holding what health event when, especially when so many different places are participating?
-
-                <div class="margin-t">That’s where Health Events Live can help!</div>
-            </div>
-        </div>
-
     </div>
     <h1 class="from-h">Regular health care shouldn’t be a luxury</h1>
     <div class="row">
