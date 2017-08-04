@@ -29,7 +29,7 @@ use yii\helpers\BaseUrl;
                     $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
                     $map = new Map([
                         'center' => $coord,
-                        'zoom' => 4,
+                        'zoom' => 8,
                         'width' => '100%',
                         'height' => '400',
 //                        'scrollwheel' => false,
@@ -46,6 +46,7 @@ use yii\helpers\BaseUrl;
                                 'title' => $event['title'],
                                 'animation' => 'google.maps.Animation.DROP',
                                 'visible' => 'true',
+//                                'icon' => $baseUrl . 'images/map-marker.png',
                             ]);
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
@@ -54,7 +55,7 @@ use yii\helpers\BaseUrl;
                             ?>
                         <?php } ?>
                     <?php } ?>
-<?php echo $map->display(); ?>
+                    <?php echo $map->display(); ?>
                 </div>
             </div>
         </div>
