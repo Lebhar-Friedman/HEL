@@ -57,13 +57,15 @@ if (isset($ret_sort)) {
 if (isset($ret_filters)) {
     $filters = $ret_filters;
 }
-if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
-    $user_lng = $coordinates['longitude'];
-    $user_lat = $coordinates['latitude'];
-} else {
-    $user_lng = $longitude;
-    $user_lat = $latitude;
-}
+//if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
+//    $user_lng = $coordinates['longitude'];
+//    $user_lat = $coordinates['latitude'];
+//} else {
+//    $user_lng = $longitude;
+//    $user_lat = $latitude;
+//}
+$user_lng = $longitude;
+$user_lat = $latitude;
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
@@ -99,11 +101,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
     <?php } ?>
     <?php if (sizeof($events) > 0) { ?>
-    <div class="map-content">
+        <div class="map-content">
             <a href="javascript:;" onclick='openModal(<?php echo json_encode($events); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
             <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
-            $coord = new LatLng(['lat' => intval($user_lat) , 'lng' => intval($user_lng) ]);
+            $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
             $map = new Map([
                 'center' => $coord,
                 'zoom' => 8,
