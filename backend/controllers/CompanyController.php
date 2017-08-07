@@ -87,7 +87,7 @@ class CompanyController extends Controller {
             $model->logo = UploadedFile::getInstance($model, 'logo');
             $company = new Company();
             $company->attributes = $model->attributes;
-            $image_name = $company->name . time();
+            $image_name = str_replace(' ','_',$model->name . time());
             if (isset($model->logo) && $model->upload($image_name)) {
                 $company->logo = $image_name . '.' . $model->logo->extension;
                 $model->logo = $company->logo;
