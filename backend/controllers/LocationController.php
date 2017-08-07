@@ -153,6 +153,7 @@ class LocationController extends Controller {
                     $model->load($request->post());
                     if ($model->saveLocation()) {
                         $location->attributes = $model->attributes;
+                        Event::updateLocationInEvents($location);
                         Yii::$app->getSession()->setFlash('success', 'Location has been updated successfully.');
                     }
                 }
