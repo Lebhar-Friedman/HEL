@@ -99,8 +99,12 @@ class EventController extends Controller {
     }
 
     public function actionDirectory() {
-
-        return $this->render('directory');
+        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+        $query = Event::find();
+        $query = $query->where(['AND', ['date_end' => ['$gte' => $current_date]],['is_post' => true]]);
+        $total_events = $query->count();
+        $events = $query->all();
+        return $this->render('directory',['events' => $events]);
     }
 
     public function actionDisplayMap() {
@@ -153,20 +157,20 @@ class EventController extends Controller {
         if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date], ['is_post' => true]]];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
+                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date], ['is_post' => true]]];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
             } else {
-                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]]];
+                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]], ['is_post' => true]];
             }
         } else {
-            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]]];
+            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([

@@ -1,5 +1,5 @@
-<div class="privacy-container">
-    <h1>Terms and privacy</h1>
+<div class="container privacy-container">
+    <h1>Privacy</h1>
     <h3>Why sell your miles</h3>
     <p>
         Apart from cashing out and being paid same day, here are some other reasons:<br>
