@@ -138,6 +138,27 @@ class EventController extends Controller {
         }
         return $retData;
     }
+    
+    public function actionUnpost() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_id = $request['eid'];
+        $model = Event::findOne($event_id);
+        $model->is_post = FALSE;
+        $retData = array();
+        if ($model && $model->update()) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully unposted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not post the event at this time.";
+        }
+        return $retData;
+    }
 
     public function actionPostSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;

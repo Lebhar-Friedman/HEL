@@ -944,15 +944,15 @@ input[type="checkbox"]:checked + label.oper{
     color: black;
 }
 input[type="checkbox"]:hover + label.oper:hover{
-/*                    color: grey;
-                    content:'Staff';*/
+    /*                    color: grey;
+                        content:'Staff';*/
     /*background: url('../images/cust-check-bx-hover.png') no-repeat;*/
 
 }
 input[type="checkbox"]:checked + label.oper:before {
     content: "\00a0";
     background: url('../images/cust-check-bx-hover.png') no-repeat;
-    
+
 }
 
 /*end of check boxes*/
@@ -1032,6 +1032,7 @@ input[type="checkbox"]:checked + label.oper:before {
     line-height:16px;
     color:#010101;
     text-align:left;
+    cursor: pointer;
 }
 .profile-event-text span{
     float:right;
@@ -1095,3 +1096,83 @@ input[type="checkbox"]:checked + label.oper:before {
     }
 
 }
+/********************************* Provider Events**************************************/
+.event-margin-r{margin-right:19px;}
+.event-img-box{text-align:right; display:block; margin-top:-16px;margin-bottom: 10px;}
+.event-multi-service{
+    display:block;
+    padding:30px 10px 12px 0px;
+    border-bottom:1px solid #ccc;
+    color:#333333;
+    font-size:16px;
+    line-height:16px;
+    position:relative;
+    margin-right:19px;
+}
+.event-multi-service h1{
+    display:block;
+    font-size:25px;
+    line-height:24px;
+    color:#1e5ba9;
+    padding-bottom:14px !important;
+}
+.event-multi-service h2{
+    display:block;
+    font-size:24px;
+    line-height:22px;
+    color:#333333;
+    padding-bottom:16px !important;
+    font-weight:bold;
+    font-family: 'helveticaneueregular' !important;
+}
+.event-multi-service span{
+    display:block;
+    font-size:19px;
+    line-height:17px;
+    padding-bottom:20px;
+}
+.event-multi-service i{
+    display:block;
+    padding-bottom:17px;
+}
+.event-location-text{
+    width:146px;
+    position:absolute;
+    top:93px;
+    right:0px;
+    font-size:17px;
+    line-height:15px;
+    color:#9b9b9b;	
+}
+.margin-t-footer{margin-top:40px;}
+@media (max-width: 767px) and (min-width: 478px){
+    .event-img-box{display:none;}
+    .location-text{font-size:14px;}
+    .location-text .text{padding:4px 0px;}
+    .event-location-text{
+        width:80px;
+        top:80px; font-size:15px; line-height:15px;
+    }
+    .event-margin-r, .event-multi-service{margin-right:-15px;}
+    .search-filter{margin:-10px 0px 0px 7px !important; }
+    .event-multi-service{
+        padding:25px 20px 15px 5px;	
+    }
+    .event-multi-service h1, .multi-service h1{font-size:18px; line-height:20px;}
+    .event-multi-service h2, .multi-service h2{font-size:14px; line-height:14px; padding-bottom:10px !important;}
+    .event-multi-service span, .multi-service span{font-size:14px; line-height:14px; padding-bottom:22px;}
+    .event-multi-service i, .multi-service i{font-size:12px; line-height:12px; padding-bottom:12px;}
+    .margin-t-footer{margin-top:20px;}
+}
+@media (max-width: 478px) and (min-width: 0px){
+/*    .full-on-mobile{width:100% !important;}
+    .mobile-logo{text-align:center;}
+
+    .multi-service{padding-right:0px !important;}
+    .table-cust{width:70px;}*/
+    .clearfix .table-cust:nth-child(4n+0)  i {display:inline-block; width:63px;}
+/*    .multi-service h1, .multi-service h2, .multi-service span{padding-right:95px !important;}
+    .result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}*/
+}
+/********************************* Provider Events end */
+
