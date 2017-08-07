@@ -71,17 +71,24 @@ class EventController extends Controller {
             $events_dist = $this->getEventsWithDistance($z_lng_lat['zip_code'], $keywords, $filters, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 50, 0, $sort_by);
             $total_events = sizeof($events_dist);
 
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude']]);
         }
+        $z_lng_lat = $this->getZipLongLat();
+        $longitude = $z_lng_lat['longitude'];
+        $latitude = $z_lng_lat['latitude'];
         $events = $this->getEventsWithDistance($zip_code, null, null, $longitude, $latitude, 50, 0);
         $total_events = sizeof($events);
 
-        return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]);
+        return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude]);
     }
 
     public function actionMoreEvents() {
         $z_lng_lat = $this->getZipLongLat();
-        $events = $this->getEventsWithDistance($z_lng_lat['zip_code'], null, null, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 200, 40);
+        $events = $this->getEventsWithDistance($z_lng_lat['zip_code'], null, null, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 200, 50);
+//        $updated_events[];
+//        foreach ($events as $event){
+//            $temp = $event;
+//        }
         return $this->renderAjax('_more-events', ['more_events' => $events]);
     }
 
@@ -94,16 +101,14 @@ class EventController extends Controller {
         $event = $query->one();
         $company = Company::findCompanyByName($event['company']);
         $companyEvents = Event::findCompanyEvents($company['name']);
-        //var_dump($companyEvents);die;
+        
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents]);
     }
 
     public function actionDirectory() {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $query = Event::find();
-        $query = $query->where(['AND', ['date_end' => ['$gte' => $current_date]],['is_post' => true]]);
-        $total_events = $query->count();
-        $events = $query->all();
+        $events = $query->where(['AND', ['date_end' => ['$gte' => $current_date]],['is_post' => true]])->all();
         return $this->render('directory',['events' => $events]);
     }
 
@@ -133,7 +138,7 @@ class EventController extends Controller {
     public function getZipLongLat() {
         if (Yii::$app->request->isPost && !empty(Yii::$app->request->post('zipcode'))) {
             $zip_code = Yii::$app->request->post('zipcode');
-        } else if (Yii::$app->request->get('zipcode') !== NULL) {
+        } else if (Yii::$app->request->isGet && !empty (Yii::$app->request->get('zipcode')) ) {
             $zip_code = Yii::$app->request->get('zipcode');
         } else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
