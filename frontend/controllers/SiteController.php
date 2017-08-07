@@ -17,6 +17,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use const YII_ENV_TEST;
 use \yii\helpers\ArrayHelper;
+
 /**
  * Site controller
  */
@@ -29,7 +30,7 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','save-event'],
+                'only' => ['logout', 'signup', 'save-event'],
                 'rules' => [
                         [
                         'actions' => ['signup'],
@@ -37,7 +38,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                         [
-                        'actions' => ['logout','save-event'],
+                        'actions' => ['logout', 'save-event'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -197,9 +198,13 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
-
+    
     public function actionPrivacy() {
         return $this->render('privacy');
+    }
+
+    public function actionTerms() {
+        return $this->render('terms');
     }
 
     /**
@@ -290,16 +295,16 @@ class SiteController extends Controller {
                     'model' => $model,
         ]);
     }
+
     public function actionSaveEvent() {
         $userID = Yii::$app->user->id;
-        $eid    = Yii::$app->request->post('eid');
-        $retData =array();
+        $eid = Yii::$app->request->post('eid');
+        $retData = array();
         $user = User::find()->where(['_id' => $userID])->one();
         if (!empty($user)) {
-            if(isset($user->saved_events) && !ArrayHelper::isIn($eid , $user->saved_events)){
+            if (isset($user->saved_events) && !ArrayHelper::isIn($eid, $user->saved_events)) {
                 $user->saved_events = ArrayHelper::merge($user->saved_events, [$eid]);
-            }
-            else{
+            } else {
                 $user->saved_events = [$eid];
             }
             $user->save();
@@ -307,9 +312,10 @@ class SiteController extends Controller {
             $retData['msg'] = "Event saved successfully!";
         } else {
             $retData['msgType'] = "ERR";
-            $retData['msg'] = "Login is required!";    
+            $retData['msg'] = "Login is required!";
         }
-       
+
         exit(json_encode($retData));
     }
+
 }

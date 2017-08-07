@@ -64,23 +64,6 @@ $baseUrl = Yii::$app->request->baseUrl;
         <?= Alert::widget() ?>
         <?= $content ?>
         <!--</div>-->
-
-<!--        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-7 col-sm-6"></div>
-                    <div class="col-lg-4 col-md-5 col-sm-5">
-                        <div class="footer-nav">
-                            <span><a href="#">Dairectory</a></span>
-                            <span><a href="#">Sitemap</a></span>
-                            <span><a href="#">Terms</a></span>
-                            <span><a href="#">Privacy</a></span>
-                        </div>
-                        © Health Events Live.  All rights reserved.
-                    </div>
-                </div>
-            </div>
-        </footer>-->
         
             <div class="result-footer">
                 <div class="container">
@@ -92,7 +75,10 @@ $baseUrl = Yii::$app->request->baseUrl;
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="footer-right-side">
-                                <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     <a href="#">Sitemap</a>  &bull;   <a href="#">Terms</a>  &bull;   <a href="#">Privacy</a>
+                                <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     
+                                <a href="#">Sitemap</a>  &bull;   
+                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms'?>">Terms</a>  &bull;   
+                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/privacy'?>">Privacy</a>
                                 <span></span>
                                 © Health Events Live.  All rights reserved.
                             </div>

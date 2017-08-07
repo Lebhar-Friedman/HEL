@@ -395,6 +395,7 @@ footer{
     font-size:16px;
     line-height:16px;
     position:relative;
+    cursor: pointer;
 }
 .multi-service h1{
     display:block;

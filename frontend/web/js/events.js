@@ -115,3 +115,6 @@ function moreEvents(form_data) {
    $('#more_events').load(url);
 }
 
+function event_detail(event_id){
+    window.location = baseUrl+'event/detail?eid='+event_id;
+}
