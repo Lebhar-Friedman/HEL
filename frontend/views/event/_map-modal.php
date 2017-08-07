@@ -16,6 +16,7 @@ use yii\helpers\BaseUrl;
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg"> 
@@ -37,7 +38,7 @@ use yii\helpers\BaseUrl;
                     ]);
                     $map->setName('fullmap');
                     ?>
-                    <?php foreach ($events as $event) { ?>
+                    <?php foreach ($events as $event) {  ?>
                         <?php foreach ($event['locations'] as $location) { ?>
                             <?php
                             $long_lat = $location['geometry']['coordinates'];
@@ -49,8 +50,9 @@ use yii\helpers\BaseUrl;
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
+                            $content = "<a class='marker-info' href='" .BaseUrl::base() . "/event/detail?eid=" .(string)$event['_id']. "'>" . $event['title'] . "</a>";
                             $marker->attachInfoWindow(
-                                    new InfoWindow(['content' => '<a  href="' . BaseUrl::base() . '/event" class="marker_info">' . $event['title'] . '</a>'])
+                                    new InfoWindow(['content' => $content])
                             );
                             $map->addOverlay($marker);
                             ?>

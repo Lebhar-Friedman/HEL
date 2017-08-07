@@ -118,6 +118,8 @@ class EventController extends Controller {
     public function actionDisplayMap() {
         $events = Yii::$app->request->post('events');
 //        $events = json_decode($events);
+//        echo '<pre>';
+//        print_r($events);        exit();
         return $this->renderAjax('_map-modal', ['events' => $events]);
     }
 
