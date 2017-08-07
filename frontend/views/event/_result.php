@@ -82,7 +82,7 @@ $user_lat = $latitude;
         <?php } ?>
     </div>
     <?php foreach ($events as $event) { ?>
-        <div class="multi-service">
+        <div class="multi-service" onclick="event_detail('<?= (string) $event['_id'] ?>')">
             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
             <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
