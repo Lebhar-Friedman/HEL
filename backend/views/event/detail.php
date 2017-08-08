@@ -200,7 +200,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <strong>Description:</strong>
                     </div>
                     <div class="col-lg-10 ">
-                        <?= $form->field($model, 'description', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '', 'style' => 'height: 140px;']])->textarea()->label(false); ?>
+                        <?= $form->field($model, 'description', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '', 'style' => 'height: 140px;padding-top: 9px;']])->textarea()->label(false); ?>
                     </div>
                 </div>
                 <div class ="row mrgnd">

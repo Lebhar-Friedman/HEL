@@ -70,6 +70,7 @@ class LocationController extends Controller {
         $model = Location::findOne($location_id);
         $retData = array();
         if ($model && $model->delete()) {
+            Event::deleteLocationFromEvents($model);
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Location successfully deleted";
         } else {

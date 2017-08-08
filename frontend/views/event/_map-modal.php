@@ -34,7 +34,7 @@ use yii\helpers\BaseUrl;
                         'zoom' => 8,
                         'width' => '100%',
                         'height' => '400',
-//                        'scrollwheel' => false,
+//                        'fullscreenControl' => true,
                     ]);
                     $map->setName('fullmap');
                     ?>
