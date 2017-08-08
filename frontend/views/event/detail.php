@@ -4,12 +4,25 @@ use common\functions\GlobalFunctions;
 use yii\helpers\BaseUrl;
 use yii\web\JqueryAsset;
 use components\GlobalFunction;
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\InfoWindow;
+use dosamigos\google\maps\overlays\Marker;
 
 $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = $event['title'];
+if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
+    $user_lng = $coordinates['longitude'];
+    $user_lat = $coordinates['latitude'];
+} else {
+    $user_lng = $longitude;
+    $user_lat = $latitude;
+}
+
 ?>
+<?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
 
 <style>
@@ -36,7 +49,19 @@ $this->title = $event['title'];
                         <h2><?=GlobalFunction::getDate('M d', $event['date_start'])?> - <?=GlobalFunction::getDate('d', $event['date_end'])?></h2>
                     <?=$event['time_start']?> - <?=$event['time_end']?> 
                     <div class="save-share-btn clearfix">
+                        <?php
+                        if(isset(Yii::$app->user->identity->_id)){ 
+                        ?>
                     	<a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>',this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <?php
+                        }else{
+                            \yii\helpers\Url::remember(Yii::$app->request->absoluteUrl);
+                        ?>
+                        <a href="<?=BaseUrl::base()?>/site/save-event?eid=<?=$event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <?php    
+                        }
+                        ?>
+                        
                         <div class="addthis_inline_share_toolbox"></div>
                     </div>
                     
@@ -101,21 +126,66 @@ $this->title = $event['title'];
             <div class="col-lg-10">
             	<div class="map2-content">
                 	<h1>Other locations nearby for this event</h1>
-                    <img src="<?= $img_url ?>map-img.png" alt="" />
+<!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
+                    <?php if (sizeof($event) > 0) { ?>
+    <div class="map-content">
+            <a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
+            <?php
+//            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
+            $coord = new LatLng(['lat' => intval($user_lat) , 'lng' => intval($user_lng) ]);
+            $map = new Map([
+                'center' => $coord,
+                'zoom' => 8,
+                'width' => '100%',
+                'height' => '275',
+                'scrollwheel' => false,
+            ]);
+            $map->setName('gmap');
+            
+                foreach ($event['locations'] as $location) {
+                    $long_lat = $location['geometry']['coordinates'];
+                    $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
+                    $marker = new Marker([
+                        'position' => $coord,
+                        'title' => $event['title'],
+                        'animation' => 'google.maps.Animation.DROP',
+                        'visible' => 'true',
+                        'icon' => $img_url . 'custom-marker.png',
+                    ]);
+
+
+//                $marker->setName('abc');   //to set Info window default open
+//                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
+//            google.maps.event.trigger(abc, 'click');});");
+
+                    $map->addOverlay($marker);
+                }
+            
+            $map->center = $map->getMarkersCenterCoordinates();
+            $map->zoom = $map->getMarkersFittingZoom() - 1;
+
+            echo $map->display();
+            ?>
+        </div>
+    <?php } ?>
                 </div>
             </div>
         </div>
         <div class="row">
         	<div class="col-lg-1"></div>
           	<div class="col-lg-7 col-md-8 col-sm-8">
-            	<div class="other-event">Other events here</div>
+            	<?php
+                if(!empty($companyEvents)){ 
+                ?>
+                    <div class="other-event">Other events here</div>
+                
                 <div class="multi-service2">
                 <?php
                 foreach ($companyEvents as $companyEvent):
                 ?>
                     <h1>Multiple Services<?=$companyEvent['title']?></h1>
                     <h2><?=GlobalFunction::getDate('M d', $companyEvent['date_start'])?> - <?=GlobalFunction::getDate('d', $companyEvent['date_end'])?></h2>
-                    <span><?php if(isset($companyEvent['price'])){echo "$".$companyEvent['price'];}?></span>
+                    <span><?php if(isset($companyEvent['price']) && $companyEvent['price'] !==''){echo "$".$companyEvent['price'];}else {echo "Free";}?></span>
                     <div class="clearfix">
                         <?php
                         foreach ($companyEvent['sub_categories'] as $companySubCategories):
@@ -140,6 +210,9 @@ $this->title = $event['title'];
                     endforeach;
                     ?>
                 </div>
+                <?php
+                }
+                ?>
                 <div class="email-content">
                 	
                 	<div class="row">
