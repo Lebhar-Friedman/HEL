@@ -912,7 +912,9 @@ footer{
     box-shadow: none !important;
 }
 
-
+.marker-info{
+    color: blue !important;
+}
 
 /*Check boxes style*/
 input[type="checkbox"] {

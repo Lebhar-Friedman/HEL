@@ -96,6 +96,7 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
+        
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
         }
@@ -118,6 +119,8 @@ class EventController extends Controller {
     public function actionDisplayMap() {
         $events = Yii::$app->request->post('events');
 //        $events = json_decode($events);
+//        echo '<pre>';
+//        print_r($events);        exit();
         return $this->renderAjax('_map-modal', ['events' => $events]);
     }
 

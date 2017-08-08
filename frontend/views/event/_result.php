@@ -66,6 +66,7 @@ if (isset($ret_filters)) {
 //}
 $user_lng = $longitude;
 $user_lat = $latitude;
+$temp_events= array();
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
@@ -101,10 +102,14 @@ $user_lat = $latitude;
                 </div>
             </div>
         </a>
+    <?php $temp_events[]=['_id' => (string)$event['_id'],'locations' => $event['locations'], 'title'=>$event['title'] ]; ?>
     <?php } ?>
+    <?php for($i=0; $i< sizeof($temp_events) ; $i++){
+        $temp_events[$i]['_id'] = (string)$temp_events[$i]['_id'];
+    } ?>
     <?php if (sizeof($events) > 0) { ?>
         <div class="map-content">
-            <a href="javascript:;" onclick='openModal(<?php echo json_encode($events); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
+            <a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events,JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
             <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
@@ -136,8 +141,8 @@ $user_lat = $latitude;
                     $map->addOverlay($marker);
                 }
             }
-//            $map->center = $map->getMarkersCenterCoordinates();
-//            $map->zoom = $map->getMarkersFittingZoom() - 1;
+            $map->center = $map->getMarkersCenterCoordinates();
+            $map->zoom = $map->getMarkersFittingZoom() - 1;
 
             echo $map->display();
             ?>
