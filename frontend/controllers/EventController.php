@@ -96,6 +96,7 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
+        
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
         }
