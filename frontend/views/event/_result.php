@@ -102,7 +102,7 @@ $temp_events= array();
                 </div>
             </div>
         </a>
-    <?php $temp_events[]=$event;?>
+    <?php $temp_events[]=['_id' => (string)$event['_id'],'locations' => $event['locations'], 'title'=>$event['title'] ]; ?>
     <?php } ?>
     <?php for($i=0; $i< sizeof($temp_events) ; $i++){
         $temp_events[$i]['_id'] = (string)$temp_events[$i]['_id'];
@@ -141,8 +141,8 @@ $temp_events= array();
                     $map->addOverlay($marker);
                 }
             }
-//            $map->center = $map->getMarkersCenterCoordinates();
-//            $map->zoom = $map->getMarkersFittingZoom() - 1;
+            $map->center = $map->getMarkersCenterCoordinates();
+            $map->zoom = $map->getMarkersFittingZoom() - 1;
 
             echo $map->display();
             ?>
