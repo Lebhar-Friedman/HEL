@@ -42,8 +42,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
 <div class="container">
     	<div class="row">
-        	<div class="col-lg-1"></div>
-            <div class="col-lg-7 col-md-8 col-sm-8 col-xs-7">
+            <div class="col-lg-1 col-md-2 col-sm-2">
+                <a href="javascript:window.history.go(-1)" class="back-btn">&lt; Back</a>
+            </div>
+        	
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
             	<div class="senior-day-content">
                 	<h1><?=$event['title']?></h1>
                         <h2><?=GlobalFunction::getDate('M d', $event['date_start'])?> - <?=GlobalFunction::getDate('d', $event['date_end'])?></h2>
@@ -55,9 +58,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     	<a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>',this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
                         }else{
-                            \yii\helpers\Url::remember(Yii::$app->request->absoluteUrl);
+                            
                         ?>
-                        <a href="<?=BaseUrl::base()?>/site/save-event?eid=<?=$event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="<?=BaseUrl::base()?>/site/save-event?flg=y&eid=<?=$event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php    
                         }
                         ?>
@@ -237,7 +240,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             	<div class="cvs-text mobile-center">
                 	<img src="<?=GlobalFunctions::getCompanyLogo($company['name'])?>" alt="" />
                 	<div class="find-out-text">
-                    	<img src="<?= $img_url ?>result-detail-img2.png" alt="" />
+                    	<!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
                        	<h2>Find out more <br class="hide-on-mobile" />about CVS <br class="hide-on-mobile" />Pharmacies</h2>
                     </div>
                 </div>

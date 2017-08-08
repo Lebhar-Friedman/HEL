@@ -298,7 +298,11 @@ class SiteController extends Controller {
 
     public function actionSaveEvent() {
         $userID = Yii::$app->user->id;
-        $eid = Yii::$app->request->post('eid');
+        $eid = Yii::$app->request->get('eid');
+        if(Yii::$app->request->get('flg')){
+        return $this->redirect(Yii::$app->homeUrl.'event/detail?eid='.$eid);
+        }
+        
         $retData = array();
         $user = User::find()->where(['_id' => $userID])->one();
         if (!empty($user)) {
@@ -314,8 +318,9 @@ class SiteController extends Controller {
             $retData['msgType'] = "ERR";
             $retData['msg'] = "Login is required!";
         }
-
+        
         exit(json_encode($retData));
+        
     }
 
 }
