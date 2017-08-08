@@ -27,7 +27,7 @@ class ProviderController extends Controller {
         return $this->render('index', ['company' => $company, 'total_events' => $total_events]);
     }
 
-    public function actionEvents() {
+    public function actionEvents($id) {
         $name = trim(urldecode(Yii::$app->request->get('id')));
         $name = ucfirst(strtolower($name));
         $events = $total_events = NULL;

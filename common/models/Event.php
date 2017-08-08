@@ -127,5 +127,13 @@ class Event extends ActiveRecord {
     public static function findCompanyEvents($company) {
         return static::findAll(['company' => $company]);
     }
+    
+    public static function updateLocationInEvents($location){
+        $events = self::findAll(['locations._id'=>$location->_id]);
+        foreach ($events as $event) {
+            $event->locations = \backend\models\EventForm::mergeEventLocations($event->locations, $location->attributes);
+            $event->save();
+        }        
+    }
 // end class counter
 }

@@ -33,7 +33,7 @@ $baseUrl = Yii::$app->request->baseUrl;
 
         <div class ="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 uplooad-btn-2">
-                <a href="#"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
+                <a href="#" onclick="window.history.go(-1); return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
             </div>
 
             <div class ="col-lg-8 col-md-8 col-sm-6"></div>
@@ -68,6 +68,15 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-7 ">
                     <?= $detail->street ?> 
+                </div>
+            </div>
+            
+            <div class ="row mrgd">
+                <div class="col-lg-3 col-md-4 col-sm-5 ">
+                    <strong>City:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-7 ">
+                    <?= $detail->city ?> 
                 </div>
             </div>
 
@@ -130,6 +139,15 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-7 ">
                     <?= $form->field($model, 'street', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'Q-357 Dha phase 2 Lahore']])->textInput()->label(false); ?>
+                </div>
+            </div>
+            
+            <div class ="row mrgdd">
+                <div class="col-lg-3 col-md-4 col-sm-5 ">
+                    <strong>City:</strong>
+                </div>
+                <div class="col-lg-6 col-md-8 col-sm-7 ">
+                    <?= $form->field($model, 'city', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'Q-357 Dha phase 2 Lahore']])->textInput()->label(false); ?>
                 </div>
             </div>
 

@@ -103,6 +103,7 @@ function openModal(event) {
     $modal.append(event);
     $('#myModal').modal('show');
     $modal.load(url, {events: event}, function () {
+//        console.log(event);
         $('#myModal').on('shown.bs.modal', function () {
             window.dispatchEvent(new Event('resize'));
         });
@@ -115,3 +116,6 @@ function moreEvents(form_data) {
    $('#more_events').load(url);
 }
 
+function event_detail(event_id){
+    window.location = baseUrl+'event/detail?eid='+event_id;
+}

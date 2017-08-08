@@ -93,7 +93,8 @@ function deleteSelectedEvent() {
 
 }
 function postEvent(eventID, element) {
-    if (!confirm("Are you sure?")) {
+    actionText = $(element).text();
+    if (!confirm("Are you sure you  want to " + actionText + " this event?")) {
         return false;
     }
     $.ajax({
@@ -104,7 +105,9 @@ function postEvent(eventID, element) {
         success: function (r) {
             console.log(r);
             if (r.msgType === 'SUC') {
-                toastr.success(r.msg);
+                $(element).addClass('hidden');
+                $('#unpost-' + eventID).removeClass('hidden');
+                toastr.success(r.msg.replace('post', actionText));
             } else {
                 toastr.error(r.msg);
             }
@@ -115,6 +118,33 @@ function postEvent(eventID, element) {
         }
     });
 }
+function unpostEvent(eventID, element) {
+    actionText = $(element).text();
+    if (!confirm("Are you sure you  want to " + actionText + " this event?")) {
+        return false;
+    }
+    $.ajax({
+        url: baseUrl + 'event/unpost',
+        type: 'post',
+        data: {eid: eventID},
+        dataType: "json",
+        success: function (r) {
+            console.log(r);
+            if (r.msgType === 'SUC') {
+                $(element).addClass('hidden');
+                $('#post-' + eventID).removeClass('hidden');
+                toastr.success(r.msg.replace('unpost', actionText));
+            } else {
+                toastr.error(r.msg);
+            }
+        },
+        error: function ()
+        {
+            toastr.error('Internal server error');
+        }
+    });
+}
+
 function postSelectedEvent(eventID, element) {
     if (!confirm("Are you sure?")) {
         return false;

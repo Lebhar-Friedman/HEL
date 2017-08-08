@@ -98,9 +98,9 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude]); ?>
         <?php } else { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude]); ?>
         <?php } ?>
     </div>
     <div class="row">
