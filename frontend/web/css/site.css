@@ -220,6 +220,27 @@ header{
     -webkit-transition: all 0.3s ease; 
     transition: all 0.3s ease; 
 }
+.account_dd {
+    width: auto;
+    z-index: 9;
+    display: block;
+    position: absolute;
+    background-color: #fff;
+    color: #000;
+    border: #959695 solid 1px;
+    top: 64px;
+    right: 14px;
+}
+.account_dd a {
+    clear: both;
+    width: 100%;
+    min-width: 163px;
+    font-size: 20px;
+    display: block;
+    line-height: 18px;
+    padding: 10px;
+    color: #000;
+}
 /*----------------------------------------------- layout footer ---------------------------------------*/
 footer{
     display:block;

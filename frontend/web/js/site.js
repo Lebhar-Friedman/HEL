@@ -1,5 +1,22 @@
 //*************************************************************** functions on document load *********************************
 $(document).ready(function () {
+    
+    $(".show_menu").click(function () {
+        $(".account_dd").toggle({
+            duration: 500,
+        });
+    });
+    $('body').click(function (e) {
+        var target = $(e.target);
+        if (!target.is('.show_menu') && !target.is('.show_admin_menu') && target.closest('.show_admin_menu').length == 0) {
+            if ($('.account_dd').is(':visible'))
+                $('.account_dd').hide();
+            if ($('.account_dd_admin').is(':visible'))
+                $(".account_dd_admin").toggle({
+                    duration: 500,
+                });
+        }
+    });
 
     // settings for toster alerts
     toastr.options = {
@@ -19,11 +36,13 @@ $(document).ready(function () {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };// alerts end
-
+    
 });
 //***************************************************************** $(document).ready end *************************************
-$('.html-multi-chosen-select').chosen({placeholder_text_multiple:'Keywords'});
+if($('.html-multi-chosen-select').length>0){
+$('.html-multi-chosen-select').chosen({placeholder_text_multiple: 'Keywords'});
 //$('.html-multi-chosen-select').chosen({placeholder_text_multiple: 'Keywords'});
+}
 
 $(document).ready(function () {
 //    $(".html-multi-chosen-select").chosen().change(alert());
@@ -47,36 +66,36 @@ function getZipCodeForSearch() {
     zip_code = document.getElementById('zipcode_input').value;
     searchByzip(zip_code);
 }
-function searchByzip(zip_code){
-        window.location=baseUrl+'\event?zipcode='+zip_code;
+function searchByzip(zip_code) {
+    window.location = baseUrl + '\event?zipcode=' + zip_code;
 }
-function saveEvent(eventID,element){
+function saveEvent(eventID, element) {
 //    if (! confirm("Are you sure?")) {
 //        return false;
 //    }
     $.ajax({
-            url: baseUrl+'site/save-event',
-            type: 'get',
-            data: {eid:eventID},
-            dataType: "json",
-            success: function (r) {
-                if (r.msgType === 'SUC') {
-                    toastr.success(r.msg);
-                } else {
-                    toastr.error(r.msg);
-                }
-            },
-            error: function ()
-            {
-                toastr.error('Internal server error');
+        url: baseUrl + 'site/save-event',
+        type: 'get',
+        data: {eid: eventID},
+        dataType: "json",
+        success: function (r) {
+            if (r.msgType === 'SUC') {
+                toastr.success(r.msg);
+            } else {
+                toastr.error(r.msg);
             }
-        });
+        },
+        error: function ()
+        {
+            toastr.error('Internal server error');
+        }
+    });
 }
 interval = setInterval(function () {
     if ($('g').length > 0) {
         $('.at-icon-wrapper').css({'overflow': 'initial', 'height': 'initial', 'width': 'initial', 'padding': '0px'});
         $('.addthis_inline_share_toolbox').css({'clear': 'none'});
-        $('span.at-icon-wrapper').html('<a href="#" style="margin-right: 0px !important;"><img src="'+image_url+'share-icon.png" alt="" />SHARE</a>');
+        $('span.at-icon-wrapper').html('<a href="#" style="margin-right: 0px !important;"><img src="' + image_url + 'share-icon.png" alt="" />SHARE</a>');
         clearInterval(interval);
     }
 }, 100);
