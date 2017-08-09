@@ -142,7 +142,7 @@ class EventController extends Controller {
         ]));
     }
 
-    public function getZipLongLat() {
+    public static function getZipLongLat() {
         if (Yii::$app->request->isPost && !empty(Yii::$app->request->post('zipcode'))) {
             $zip_code = Yii::$app->request->post('zipcode');
         } else if (Yii::$app->request->isGet && !empty (Yii::$app->request->get('zipcode')) ) {

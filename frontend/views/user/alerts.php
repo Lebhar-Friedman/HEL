@@ -31,7 +31,7 @@ use yii\widgets\Pjax;
             <?php } ?>
             <div class="alert-text alert-with-save clearfix ">
                 <select class="alert_select"  style="width:70%;" name="alert" id="alert_select">
-                    <option value="0">Select Category for alert</option>
+                    <option value="0" class="text-center"> Select Category for alert </option>
                     <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
                         <?php if (isset($selected_alerts) && !empty($selected_alerts)) { ?>
                             <?php if (in_array($keyword['text'], $selected_alerts)) continue; ?> 

@@ -1,0 +1,67 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace backend\controllers;
+
+use common\models\Alerts;
+use common\models\Event;
+use yii\web\Controller;
+
+/**
+ * Description of CronController
+ *
+ * @author zeeshan
+ */
+class CronController extends Controller {
+
+    public function actionSendMailByAlerts() {
+
+        $alerts_objs = Alerts::find()->all();
+
+        foreach ($alerts_objs as $single_alert_obj) {
+            $user_id = $single_alert_obj['user_id'];
+            $alerts_array = $single_alert_obj['alerts'];
+
+            $events = $this->getEventsWithDistance($alerts_array, '74.329376', '31.582045');
+            echo "<pre>";
+            print_r(sizeof($events));
+        }
+    }
+
+    public function getEventsWithDistance($filters, $longitude, $latitude, $max_distance = 50, $min_distance = 0, $sort = 'Soonest') {
+        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+230 days"))) * 1000);
+
+        if (isset($filters) && sizeof($filters) > 0) {
+            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
+        }
+
+        $db = Event::getDb();
+        $events = $db->getCollection('event')->aggregate([
+                [
+                '$geoNear' => [
+                    "near" => [
+                        "type" => "Point",
+//                        "coordinates" => [74.329376, 31.582045]
+                        "coordinates" => [floatval($longitude), floatval($latitude)]
+                    ],
+                    "maxDistance" => intval($max_distance) * 1609,
+                    "minDistance" => intval($min_distance) * 1609,
+                    "spherical" => true,
+                    "distanceField" => "distance",
+                    "distanceMultiplier" => 0.000621371
+                ],
+            ],
+                ['$match' => $matchParams],
+                ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+                ], ['allowDiskUse' => true]);
+
+        return $events;
+    }
+
+}
