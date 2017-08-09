@@ -11,8 +11,8 @@ $baseUrl = Yii::$app->request->baseUrl;
 
 <div class="container alert-cust-container">
     <div class="profile-alert-nav clearfix">
-        <a href="#" class="active">Profile</a>
-        <a href="#">Alerts</a>
+        <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>" class="active">Profile</a>
+        <a href="<?= \yii\helpers\Url::to(['user/alerts']) ?>">Alerts</a>
     </div>
     <div class="profile-alert-container">
         <div class="cutomer-profile-content">
