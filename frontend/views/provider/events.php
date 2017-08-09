@@ -125,21 +125,23 @@ $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipc
             } else {
                 ?>
                 <?php foreach ($events as $event) { ?>
-                    <div class="event-multi-service">
-                        <h1><?= $event['title'] ?></h1>
-                        <h2><?= components\GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-                        <span><?= !empty($event->price) ? '&dollar;' . $event->price : 'Free' ?></span>
-                        <div class="clearfix">
-                            <?php foreach ($event['sub_categories'] as $sc) { ?>
-                                <div class="table-cust">
-                                    <i><?= $sc ?></i>
-                                </div>
-                            <?php } ?>
+                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
+                        <div class="event-multi-service">
+                            <h1><?= $event['title'] ?></h1>
+                            <h2><?= components\GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
+                            <span><?= !empty($event->price) ? '&dollar;' . $event->price : 'Free' ?></span>
+                            <div class="clearfix">
+                                <?php foreach ($event['sub_categories'] as $sc) { ?>
+                                    <div class="table-cust">
+                                        <i><?= $sc ?></i>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <div class="event-location-text">
+                                <img src="<?= $baseUrl ?>/images/result-img1.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?>
+                            </div>
                         </div>
-                        <div class="event-location-text">
-                            <img src="<?= $baseUrl ?>/images/result-img1.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?>
-                        </div>
-                    </div>
+                    </a>
                     <?php
                 }
             }
