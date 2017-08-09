@@ -9,7 +9,11 @@
 namespace frontend\controllers;
 
 use common\functions\GlobalFunctions;
+use common\models\Alerts;
+use Yii;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
+use yii\web\Response;
 
 /**
  * Description of UserController
@@ -26,11 +30,25 @@ class UserController extends Controller{
     }
     
     public function actionAlerts() {
-        $keywords=GlobalFunctions::getKeywords();
-        $alerts_list= array();
-        foreach ($keywords as $keyword){
-            array_push($alerts_list, $keyword['text']);
+        if ( Yii::$app->user->isGuest ) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
-        return $this->render("alerts",['alerts_list' => $alerts_list]);
+        $alerts_list=GlobalFunctions::getCategoryList();
+        $alerts = Alerts::find()->where(['user_id' => (string) Yii::$app->user->id ])->all();
+        
+        return $this->render("alerts",['selected_alerts' => $alerts]);
+    }
+    public function actionAddAlerts() {
+        $alert = Yii::$app->request->post('alert');
+        Alerts::addAlerts($alert);
+    }
+    public function actionDeleteAlert() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $alert = Yii::$app->request->post('alert');
+        if(Alerts::delAlert($alert)){
+            return ['msgType' => 'SUC', 'msg' => 'Alert successfully deleted'];
+        }else{
+            return ['msgType' => 'ERR', 'msg' => 'Unable to delete alert at this time'];
+        }
     }
 }

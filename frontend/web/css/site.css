@@ -1298,6 +1298,10 @@ footer a:hover{
 .pagging a img {
     margin-top:2px!important;
 }
+.alert_select{
+    width: 70%;
+    height: 50px;
+}
 @media (max-width: 767px) and (min-width: 0px){
     .alert-body{background:#f7f7f7;}
     .profile-alert-nav{padding:11px 0px; margin:0px 5px;}
@@ -1357,6 +1361,27 @@ footer a:hover{
                                                    line-height:12px;}
     .cutomer-profile-multi-service .location-text img{max-width:65px;}
     .cutomer-profile-multi-service  .location-text .text{padding:5px 0px;}
+    .alert-with-save{padding: 0px 5px !important; }
+    .alert-with-save a{ padding: 11px;}
 }
-
+.save-new-alert{
+    float:right;
+    padding:14px 28px 15px 28px;
+    font-size:20px;
+    line-height:20px;
+    background:#1e5ba9;
+    color:#FFF !important;
+    border-radius: 4px;
+    background-clip: padding-box;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.save-new-alert:hover{
+    background:#1e1e1e;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.alert-with-save{
+    padding: 15px 33px 15px 40px ;
+}
 /*end of alert and customer profile styleing*/ 
