@@ -56,15 +56,12 @@ function saveEvent(eventID,element){
 //    }
     $.ajax({
             url: baseUrl+'site/save-event',
-            type: 'post',
+            type: 'get',
             data: {eid:eventID},
             dataType: "json",
             success: function (r) {
                 if (r.msgType === 'SUC') {
                     toastr.success(r.msg);
-//                    $(element).closest('.main-table').hide(1000, function () {
-//                        $(element).closest('.main-table').remove();
-//                    });
                 } else {
                     toastr.error(r.msg);
                 }

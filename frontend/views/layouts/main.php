@@ -35,9 +35,10 @@ $baseUrl = Yii::$app->request->baseUrl;
 
         <!--<header>-->
         <div class="result-header">
-            <div class="container">
+             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                        
                         <div class="result-logo hide-on-mobile">
                             <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
                         </div>
@@ -61,7 +62,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
             </div>
         </div>
-
+        
         <!--</header>-->
 
         <div class="container1">

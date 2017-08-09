@@ -10,25 +10,60 @@ namespace frontend\controllers;
 
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
+use common\models\Company;
+use common\models\Event;
 use Yii;
+use yii\filters\AccessControl;
+use yii\helpers\BaseUrl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
+use const IMG_URL;
 
 /**
  * Description of UserController
  *
  * @author zeeshan
  */
-class UserController extends Controller{
+class UserController extends Controller {
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex() {
         
     }
-    
+
     public function actionProfile() {
-        return $this->render("profile");
+        $logoLinks = $events = [];
+        $events = Event::findAll(['_id' => \Yii::$app->user->identity->saved_events]);
+
+        foreach ($events as $event) {
+            $company = Company::findOne(['name' => $event->company]);
+            if (count($company) > 0 && !empty($company->logo)) {
+                $logoLinks[$event->event_id] = IMG_URL . $company['logo'];
+            } else {
+                $logoLinks[$event->event_id] = BaseUrl::base() . '/images/upload-logo.png';
+            }
+        }
+
+        return $this->render("profile", ['events' => $events, 'companyLogo' => $logoLinks]);
     }
-    
+
     public function actionAlerts() {
         if ( Yii::$app->user->isGuest ) {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
@@ -39,8 +74,13 @@ class UserController extends Controller{
         return $this->render("alerts",['selected_alerts' => $alerts]);
     }
     public function actionAddAlerts() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $alert = Yii::$app->request->post('alert');
-        Alerts::addAlerts($alert);
+        if(Alerts::addAlerts($alert)){
+            return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
+        }else{
+            return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list ' ];
+        }
     }
     public function actionDeleteAlert() {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -51,4 +91,5 @@ class UserController extends Controller{
             return ['msgType' => 'ERR', 'msg' => 'Unable to delete alert at this time'];
         }
     }
+
 }

@@ -135,5 +135,10 @@ class Event extends ActiveRecord {
             $event->save();
         }        
     }
+    
+    public static function deleteLocationFromEvents($location){
+        $db = self::getCollection();
+        $result = $db->update(['locations._id'=>$location->_id], ['$pull' => ['locations' => ['_id' => $location->_id]]], ['multi'=> true]);        
+    }
 // end class counter
 }

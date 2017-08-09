@@ -6,7 +6,7 @@ $(document).ready(function () {
 function saveAlert() {
     var selected_alert = $('#alert_select').val();
     if (selected_alert === '0') {
-        alert('Nothing selected');
+        alert('Select an alert');
     } else {
         $.ajax({
             url: baseUrl + 'user/add-alerts',

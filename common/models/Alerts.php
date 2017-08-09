@@ -65,16 +65,22 @@ class Alerts extends ActiveRecord {
             $alerts = $existing_entry->alerts;
             if (!in_array($updatable_alert, $alerts)) {
                 array_push($alerts, $updatable_alert);
+                $existing_entry->alerts = $alerts;
+                if ($existing_entry->save()) {
+                    return true;
+                }
             }
-            $existing_entry->alerts = $alerts;
-            $existing_entry->save();
+            return false;
         } else {
             $alert_obj = new Alerts();
             $alert_obj->user_id = $user_id;
             $alerts = array();
             array_push($alerts, $updatable_alert);
             $alert_obj->alerts = $alerts;
-            $alert_obj->save();
+            if ($alert_obj->save()) {
+                return true;
+            }
+            return false;
         }
     }
 
@@ -92,9 +98,9 @@ class Alerts extends ActiveRecord {
             }
             $existing_entry->alerts = $alerts_new;
             $existing_entry->save();
-            if($alerts_old == $alerts_new){
+            if ($alerts_old == $alerts_new) {
                 return FALSE;
-            }else{
+            } else {
                 return TRUE;
             }
         }
