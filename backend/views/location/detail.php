@@ -50,7 +50,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <strong>Store#:</strong>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-7   ">
-                    <?= $detail->location_id ?>
+                    <?= $detail->store_number ?>
                 </div>
             </div>
             <div class ="row mrgd">
