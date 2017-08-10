@@ -35,7 +35,7 @@ class UserController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    [
+                        [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,29 +65,36 @@ class UserController extends Controller {
     }
 
     public function actionAlerts() {
-        if ( Yii::$app->user->isGuest ) {
+        if (Yii::$app->user->isGuest) {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
-        $alerts_list=GlobalFunctions::getCategoryList();
-        $alerts = Alerts::find()->where(['user_id' => (string) Yii::$app->user->id ])->all();
-        
-        return $this->render("alerts",['selected_alerts' => $alerts]);
+        $alerts_list = GlobalFunctions::getCategoryList();
+//        $alerts = Alerts::find()->where(['user_id' => (string) Yii::$app->user->id])->all();
+        $alerts = Alerts::findOne(['user_id' => (string) Yii::$app->user->id]);
+
+        return $this->render("alerts", ['selected_alerts' => $alerts]);
     }
+
     public function actionAddAlerts() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $alert = Yii::$app->request->post('alert');
-        if(Alerts::addAlerts($alert)){
+        $zip_code = Yii::$app->request->post('zipcode');
+        $keywords = Yii::$app->request->post('keywords');
+        $sort_by = Yii::$app->request->post('sortBy');
+        $filters = Yii::$app->request->post('filters');
+
+        if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort_by])) {
             return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
-        }else{
-            return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list ' ];
+        } else {
+            return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];
         }
     }
+
     public function actionDeleteAlert() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $alert = Yii::$app->request->post('alert');
-        if(Alerts::delAlert($alert)){
+        if (Alerts::delAlert($alert)) {
             return ['msgType' => 'SUC', 'msg' => 'Alert successfully deleted'];
-        }else{
+        } else {
             return ['msgType' => 'ERR', 'msg' => 'Unable to delete alert at this time'];
         }
     }

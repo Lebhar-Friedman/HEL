@@ -34,6 +34,8 @@ $(document).on("submit", "#events_search_form", function (e) {
     searchResult(values);
 });
 
+
+
 function searchResult(form_data) {
 
     $(document).on('pjax:send', function () {
@@ -46,7 +48,7 @@ function searchResult(form_data) {
         $('.filters-multi-chosen-selected').chosen().change(function (event) {
             selectedFilters(event);
         });
-        
+
         moreEvents(form_data);
 
 
@@ -113,9 +115,59 @@ function openModal(event) {
 
 function moreEvents(form_data) {
     var url = baseUrl + 'event/more-events';
-   $('#more_events').load(url);
+    $('#more_events').load(url);
 }
 
-function event_detail(event_id){
-    window.location = baseUrl+'event/detail?eid='+event_id;
+function event_detail(event_id) {
+    window.location = baseUrl + 'event/detail?eid=' + event_id;
+}
+
+function add_new_alert() {
+//    var keywords = [];
+//    var filters = [];
+//    var zip_code = '';
+//
+//    $checked_filters = $('input[name="filters[]"]:checked');
+//    $checked_filters.each(function (index, data) {
+//        filters.push($(this).val());
+//    });
+//   
+//    $.each($("#keywords option:selected"), function () {
+//        keywords.push($(this).val());
+//    });
+//    
+//    
+//    
+//    console.log(filters);
+//    console.log(keywords);
+
+    var form_data = $("#events_search_form").serialize();
+    $.ajax({
+        url: baseUrl + '/user/add-alerts',
+        type: 'post',
+        data: form_data,
+        dataType: 'JSON',
+        success: function (r) {
+            console.log("Success function");
+        },
+        error: function (jqXHR, exception) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            console.log(msg);
+        }
+    });
 }

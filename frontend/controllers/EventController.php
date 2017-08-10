@@ -96,25 +96,25 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
-        
+
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
         }
-        
+
         $event = $query->one();
 //        var_dump($event);        die();
         $company = Company::findCompanyByName($event['company']);
         $companyEvents = Event::findCompanyEvents($company['name']);
         $z_lng_lat = $this->getZipLongLat();
-        
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude'=>$z_lng_lat['longitude'],'latitude'=>$z_lng_lat['latitude']]);
+
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude']]);
     }
 
     public function actionDirectory() {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $query = Event::find();
-        $events = $query->where(['AND', ['date_end' => ['$gte' => $current_date]],['is_post' => true]])->all();
-        return $this->render('directory',['events' => $events]);
+        $events = $query->where(['AND', ['date_end' => ['$gte' => $current_date]], ['is_post' => true]])->all();
+        return $this->render('directory', ['events' => $events]);
     }
 
     public function actionDisplayMap() {
@@ -143,22 +143,31 @@ class EventController extends Controller {
     }
 
     public static function getZipLongLat() {
+        $session = Yii::$app->session;
+
         if (Yii::$app->request->isPost && !empty(Yii::$app->request->post('zipcode'))) {
             $zip_code = Yii::$app->request->post('zipcode');
-        } else if (Yii::$app->request->isGet && !empty (Yii::$app->request->get('zipcode')) ) {
+        } else if (Yii::$app->request->isGet && !empty(Yii::$app->request->get('zipcode'))) {
             $zip_code = Yii::$app->request->get('zipcode');
         } else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
-            $zip_code == '' ? $zip_code ='' : '';
+            $zip_code == '' ? $zip_code = '' : '';
+            $session->set('lng', $coordinates['longitude']);
+            $session->set('lat', $coordinates['latitude']);
             return ['zip_code' => $zip_code, 'longitude' => $coordinates['longitude'], 'latitude' => $coordinates['latitude']];
         } else {
             $ip = Yii::$app->request->userIP;
             $latitude = Yii::$app->ip2location->getLatitude($ip);
             $longitude = Yii::$app->ip2location->getLongitude($ip);
             $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+
+            $session->set('lng', $longitude);
+            $session->set('lat', $latitude);
             return ['zip_code' => $zip_code, 'longitude' => $longitude, 'latitude' => $latitude];
         }
         $longlat = GlobalFunction::getLongLatFromZip($zip_code);
+        $session->set('lng', $longlat['long']);
+        $session->set('lat', $longlat['lat']);
         return ['zip_code' => $zip_code, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']];
     }
 
@@ -184,8 +193,8 @@ class EventController extends Controller {
         } else {
             $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
         }
-        if(!empty($company)){
-            array_push($matchParams, ['company'=>$company]);
+        if (!empty($company)) {
+            array_push($matchParams, ['company' => $company]);
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([

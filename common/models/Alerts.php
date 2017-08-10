@@ -61,8 +61,15 @@ class Alerts extends ActiveRecord {
 
     public static function addAlerts($updatable_alert) {
 
+        $session = Yii::$app->session;
         $user_id = (string) Yii::$app->user->id;
         $coordinates = array();
+
+        $zip_code = $updatable_alert['zip_code'];
+        $keywords = isset($updatable_alert['keywords']) ? $updatable_alert['keywords'] : array();
+        $filters = isset($updatable_alert['filters']) ? $updatable_alert['filters'] : array();
+        $sort = $updatable_alert['sort'];
+
         if (GlobalFunctions::getCookiesOfLngLat()) {
             $coordinates = GlobalFunctions::getCookiesOfLngLat();
         } else {
@@ -76,12 +83,16 @@ class Alerts extends ActiveRecord {
         $existing_entry = Alerts::findOne(['user_id' => $user_id]);
         if ($existing_entry) {
             $alerts = $existing_entry->alerts;
-            if (!in_array($updatable_alert, $alerts)) {
-                array_push($alerts, $updatable_alert);
-                $existing_entry->alerts = $alerts;
-                if ($existing_entry->save()) {
-                    return true;
-                }
+            $new_alert['_id'] = new \MongoDB\BSON\ObjectID();
+            $new_alert['zip_code'] = $zip_code;
+            $new_alert['keywords'] = $keywords;
+            $new_alert['filters'] = $filters;
+            $new_alert['longitude'] = $session->get('lng');
+            $new_alert['latitude'] = $session->get('lat');
+            $alerts[] = $new_alert;
+            $existing_entry->alerts = $alerts;
+            if ($existing_entry->save()) {
+                return true;
             }
             return false;
         } else {
@@ -101,21 +112,31 @@ class Alerts extends ActiveRecord {
     public static function delAlert($del_alert) {
         $user_id = (string) Yii::$app->user->id;
         $existing_entry = Alerts::findOne(['user_id' => $user_id]);
+
+        $alerts_old = $existing_entry->alerts;
+        $alerts_new = array();
+        $deleted =false;
+
         if ($existing_entry) {
-            $alerts_old = $existing_entry->alerts;
-            $alerts_new = array();
-            foreach ($alerts_old as $alert_old) {
-                if ($alert_old === $del_alert) {
+            foreach ($alerts_old as $single_alert_obj) {
+                if ((string)$single_alert_obj['_id'] === (string)$del_alert) {
+                    $deleted = true;
                     continue;
                 }
-                array_push($alerts_new, $alert_old);
+                array_push($alerts_new, $single_alert_obj);
             }
+//            foreach ($alerts_old as $alert_old) {
+//                if ($alert_old === $del_alert) {
+//                    continue;
+//                }
+//                array_push($alerts_new, $alert_old);
+//            }
             $existing_entry->alerts = $alerts_new;
             $existing_entry->save();
-            if ($alerts_old == $alerts_new) {
-                return FALSE;
-            } else {
+            if ($deleted) {
                 return TRUE;
+            } else {
+                return FLASE;
             }
         }
         return FALSE;
