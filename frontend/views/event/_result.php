@@ -157,7 +157,8 @@ $temp_events = array();
                 <?php if (Yii::$app->user->isGuest) { ?>
                     <div class="email-conatiner">
                         <input type="text" class="email-textbox" placeholder="Email" />
-                        <input type="submit" value="Go" class="submitbtn" />
+                        <!--<input type="submit" value="Go" class="submitbtn" />-->
+                        <a href="<?= BaseUrl::base()?>/user/add-alerts" class="submitbtn">Go</a>
                     </div>
                 <?php } else { ?>
                 <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert">Add alert</a>
