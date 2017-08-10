@@ -43,13 +43,13 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 <div class="container">
     	<div class="row">
             <div class="col-lg-1 col-md-2 col-sm-2">
-                <a href="javascript:window.history.go(-1)" class="back-btn">&lt; Back</a>
+                <a href="javascript:location.replace(document.referrer);" class="back-btn">&lt; Back</a>
             </div>
         	
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
             	<div class="senior-day-content">
                 	<h1><?=$event['title']?></h1>
-                        <h2><?=GlobalFunction::getDate('M d', $event['date_start'])?> - <?=GlobalFunction::getDate('d', $event['date_end'])?></h2>
+                        <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                     <?=$event['time_start']?> - <?=$event['time_end']?> 
                     <div class="save-share-btn clearfix">
                         <?php
@@ -87,7 +87,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         <?=$company['state']?>, <?=$company['zip']?><br />
                         <?=$company['phone']?><br />
                     </div>
-                    <span>More locations nearby</span>
+                    <a href="<?= \yii\helpers\Url::to(['provider/events', 'id' => $company['name']]); ?>"><span>More locations nearby</span></a>
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                     <?php if (sizeof($event) > 0) { ?>
     <div class="map-content">
-            <a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
+            <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
             $coord = new LatLng(['lat' => intval($user_lat) , 'lng' => intval($user_lng) ]);
@@ -155,7 +155,10 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         'visible' => 'true',
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
-
+                    $content = $location['street'].', '.$location['city'].', '.$location['state'].', '.$location['zip'];
+                            $marker->attachInfoWindow(
+                                    new InfoWindow(['content' => $content])
+                            );
 
 //                $marker->setName('abc');   //to set Info window default open
 //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
@@ -186,8 +189,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <?php
                 foreach ($companyEvents as $companyEvent):
                 ?>
-                    <h1>Multiple Services<?=$companyEvent['title']?></h1>
-                    <h2><?=GlobalFunction::getDate('M d', $companyEvent['date_start'])?> - <?=GlobalFunction::getDate('d', $companyEvent['date_end'])?></h2>
+                <a href="<?= BaseUrl::base() . '/event/detail?eid='. (string)$companyEvent['_id']?>">
+                    <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                    <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                     <span><?php if(isset($companyEvent['price']) && $companyEvent['price'] !==''){echo "$".$companyEvent['price'];}else {echo "Free";}?></span>
                     <div class="clearfix">
                         <?php
@@ -209,6 +213,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         endforeach;
                         ?>
                     </div>
+                </a>
                     <?php
                     endforeach;
                     ?>
@@ -241,7 +246,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 	<img src="<?=GlobalFunctions::getCompanyLogo($company['name'])?>" alt="" />
                 	<div class="find-out-text">
                     	<!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
-                       	<h2>Find out more <br class="hide-on-mobile" />about CVS <br class="hide-on-mobile" />Pharmacies</h2>
+                            <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>"><h2>Find out more <br class="hide-on-mobile" />about CVS <br class="hide-on-mobile" />Pharmacies</h2></a>
                     </div>
                 </div>
             </div>

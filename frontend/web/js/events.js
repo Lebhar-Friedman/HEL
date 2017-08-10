@@ -46,7 +46,7 @@ function searchResult(form_data) {
         $('.filters-multi-chosen-selected').chosen().change(function (event) {
             selectedFilters(event);
         });
-        
+        history.pushState(form_data, 'Events near to ', baseUrl + 'event/index');
         moreEvents(form_data);
 
 
