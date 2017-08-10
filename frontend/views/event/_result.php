@@ -4,10 +4,10 @@ use common\functions\GlobalFunctions;
 use components\GlobalFunction;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
-use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
+use function GuzzleHttp\json_encode;
 ?>
 
 <style>
@@ -66,7 +66,7 @@ if (isset($ret_filters)) {
 //}
 $user_lng = $longitude;
 $user_lat = $latitude;
-$temp_events= array();
+$temp_events = array();
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
@@ -83,7 +83,7 @@ $temp_events= array();
         <?php } ?>
     </div>
     <?php foreach ($events as $event) { ?>
-    <a href="<?= BaseUrl::base() . '/event/detail?eid='. (string)$event['_id']?>">
+        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -102,14 +102,16 @@ $temp_events= array();
                 </div>
             </div>
         </a>
-    <?php $temp_events[]=['_id' => (string)$event['_id'],'locations' => $event['locations'], 'title'=>$event['title'] ]; ?>
+        <?php $temp_events[] = ['_id' => (string) $event['_id'], 'locations' => $event['locations'], 'title' => $event['title']]; ?>
     <?php } ?>
-    <?php for($i=0; $i< sizeof($temp_events) ; $i++){
-        $temp_events[$i]['_id'] = (string)$temp_events[$i]['_id'];
-    } ?>
+    <?php
+    for ($i = 0; $i < sizeof($temp_events); $i++) {
+        $temp_events[$i]['_id'] = (string) $temp_events[$i]['_id'];
+    }
+    ?>
     <?php if (sizeof($events) > 0) { ?>
         <div class="map-content">
-            <a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events,JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
+            <a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
             <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
@@ -152,10 +154,14 @@ $temp_events= array();
         <div class="row">
             <div class="col-lg-6 col-md-8">
                 <h1>Alert me when more health events like this get added!</h1>
-                <div class="email-conatiner">
-                    <input type="text" class="email-textbox" placeholder="Email" />
-                    <input type="submit" value="Go" class="submitbtn" />
-                </div>
+                <?php if (Yii::$app->user->isGuest) { ?>
+                    <div class="email-conatiner">
+                        <input type="text" class="email-textbox" placeholder="Email" />
+                        <input type="submit" value="Go" class="submitbtn" />
+                    </div>
+                <?php } else { ?>
+                <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert">Add alert</a>
+                <?php } ?>
             </div>
         </div>
 

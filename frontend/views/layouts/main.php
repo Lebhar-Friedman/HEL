@@ -55,7 +55,11 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 <a href="<?= $baseUrl ?>/site/login">Log In</a>
                             <?php } else {
                                 ?>
-                                <a href="<?= $baseUrl ?>/site/logout" class="active">Logout (<?= Yii::$app->user->identity->first_name ?>)</a>
+                                <a class="active show_menu"><?= Yii::$app->user->identity->first_name ?></a>
+                                <div class="account_dd" style="display:none;">
+                                    <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>"><span class="account_dd_ico2"></span>My Account</a>
+                                    <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
+                                </div>
                             <?php } ?>
                         </div>
                     </div>
@@ -84,7 +88,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <div class="footer-logo">
-                            <a href="#"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
+                            <a href="<?= \yii\helpers\Url::to(['/']); ?>"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">

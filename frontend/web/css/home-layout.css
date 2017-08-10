@@ -42,6 +42,28 @@ input{font-family: 'helveticaneueregular';}
     src: url('../fonts/helvetica-neue-bold.ttf') format('truetype');
 
 }*/
+.account_dd {
+    width: auto;
+    z-index: 9;
+    display: block;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.56);
+    color: #000;
+    border: #000000 solid 1px;
+    top: 44px;
+    right: 0px;
+}
+.account_dd a {
+    clear: both;
+    width: 100%;
+    min-width: 163px;
+    font-size: 20px;
+    display: block;
+    line-height: 18px;
+    padding: 10px;
+    color: #000;
+}
+
 header{
     display:block;
     background:url(../images/banner-img.jpg) top center no-repeat;
@@ -51,6 +73,7 @@ header{
 .signUp-btns{
     display:block;
     padding-bottom:45px;
+    position: relative;
 }
 .signUp-btns a{
     float:right;

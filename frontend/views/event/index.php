@@ -48,7 +48,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
                         <div class="zip-code">
                             <span><b>Keyword</b> (optional)</span>
                             <div class="optional1">
-                                <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]">
+                                <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]" id="keywords">
                                     <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
                                         <?php if (isset($ret_keywords) && !empty($ret_keywords)) { ?>
                                             <option value="<?= $keyword['text'] ?>" <?= in_array($keyword['text'], $ret_keywords) ? 'selected' : '' ?> ><?= $keyword['text'] ?></option>
