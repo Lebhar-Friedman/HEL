@@ -1406,3 +1406,22 @@ footer a:hover{
     padding: 15px 33px 15px 40px ;
 }
 /*end of alert and customer profile styleing*/ 
+
+/*result page style*/
+.add-new-alert{
+    padding:14px 28px 15px 28px;
+    font-size:20px;
+    line-height:20px;
+    background:#1e5ba9;
+    color:#FFF !important;
+    border-radius: 4px;
+    background-clip: padding-box;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.add-new-alert:hover{
+    background:#1e1e1e;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+/*result page style*/

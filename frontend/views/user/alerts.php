@@ -21,26 +21,21 @@ use yii\widgets\Pjax;
     <div class="profile-alert-container">
         <div class="alert-container">
             <div class="alert-h">Alerts</div>
-            <?php foreach ($selected_alerts as $alert) { ?>
-                <?php foreach ($alert['alerts'] as $single_alert) { ?>
-                    <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
-                        <?= $single_alert ?>
-                        <a href="javascript:;" onclick="delete_alert('<?= addslashes($single_alert) ?>',<?= $id ?>)"><img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" /></a>
-                    </div>
-                <?php } ?>
-            <?php } ?>
-            <div class="alert-text alert-with-save clearfix ">
-                <select class="alert_select"  style="width:70%;" name="alert" id="alert_select">
-                    <option value="0">Select Category for alert</option>
-                    <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
-                        <?php if (isset($selected_alerts) && !empty($selected_alerts)) { ?>
-                            <?php if (in_array($keyword['text'], $selected_alerts)) continue; ?> 
-                        <?php } ?>
-                        <option value="<?= $keyword['text'] ?>"><?= $keyword['text'] ?></option>
+
+            <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
+                <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
+                    <?php
+                    foreach ($single_alert_obj['keywords'] as $value) {
+                        echo $value . ', ';
+                    }
+                    ?>
+                    <?php foreach ($single_alert_obj['filters'] as $filter) {?>
+                    <?= $filter . ', ' ?>
                     <?php } ?>
-                </select>
-                <a href="javascript:;" onclick="saveAlert()" class="save-new-alert">Save</a>
-            </div>
+                    <a href="javascript:;" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)"><img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" /></a>
+                </div>
+            <?php } ?>
+
         </div>
 
     </div>

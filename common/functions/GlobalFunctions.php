@@ -101,5 +101,15 @@ class GlobalFunctions {
             return FALSE;
         }
     }
+    
+    public static function sendEmail($html_file,$send_to,$subject,$arguments) {
+        return Yii::$app->mailer->compose(
+                                ['html' => $html_file], $arguments
+                        )
+                        ->setTo($send_to)
+                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                        ->setSubject($subject)
+                        ->send();
+    }
 
 }
