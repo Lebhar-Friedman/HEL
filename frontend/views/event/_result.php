@@ -160,7 +160,7 @@ $temp_events = array();
                         <input type="submit" value="Go" class="submitbtn" />
                     </div>
                 <?php } else { ?>
-                <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert">Add alert</a>
+                <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert">Add alert</a>
                 <?php } ?>
             </div>
         </div>

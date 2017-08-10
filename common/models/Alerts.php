@@ -87,6 +87,7 @@ class Alerts extends ActiveRecord {
             $new_alert['zip_code'] = $zip_code;
             $new_alert['keywords'] = $keywords;
             $new_alert['filters'] = $filters;
+            $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
             $alerts[] = $new_alert;
@@ -98,9 +99,15 @@ class Alerts extends ActiveRecord {
         } else {
             $alert_obj = new Alerts();
             $alert_obj->user_id = $user_id;
-            $alerts = array();
-            array_push($alerts, $updatable_alert);
-            $alert_obj->alerts = $alerts;
+            $new_alert['_id'] = new \MongoDB\BSON\ObjectID();
+            $new_alert['zip_code'] = $zip_code;
+            $new_alert['keywords'] = $keywords;
+            $new_alert['filters'] = $filters;
+            $new_alert['sort'] = $sort;
+            $new_alert['longitude'] = $session->get('lng');
+            $new_alert['latitude'] = $session->get('lat');
+            $alert_obj->alerts = array($new_alert);
+            
             $alert_obj->location = $coordinates;
             if ($alert_obj->save()) {
                 return true;
@@ -125,12 +132,6 @@ class Alerts extends ActiveRecord {
                 }
                 array_push($alerts_new, $single_alert_obj);
             }
-//            foreach ($alerts_old as $alert_old) {
-//                if ($alert_old === $del_alert) {
-//                    continue;
-//                }
-//                array_push($alerts_new, $alert_old);
-//            }
             $existing_entry->alerts = $alerts_new;
             $existing_entry->save();
             if ($deleted) {

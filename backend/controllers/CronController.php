@@ -22,21 +22,19 @@ use yii\web\Controller;
 class CronController extends Controller {
 
     public function actionSendMailOfAlerts() {
-        
+
         $alerts_objs = Alerts::find()->all();
 
-        foreach ($alerts_objs as $single_alert_obj) {
-            $user_id = $single_alert_obj['user_id'];
-            $alerts_array = $single_alert_obj['alerts'];
-
-            $events = $this->getEventsWithDistance($alerts_array, $single_alert_obj['location']['longitude'], $single_alert_obj['location']['latitude']);
-            echo "<pre>";
-            print_r(sizeof($events));
-            if (sizeof($events) > 0) {
-                $user = User::findOne($user_id);
-                if ( isset($user)) {
-                    $arguments =['events' => $events, 'user_name'=> $user->first_name];
-                    GlobalFunctions::sendEmail('upcoming-events', $user->email , 'Up-coming events ', $arguments);
+        foreach ($alerts_objs as $single_user_alerts) {
+            $user_id = $single_user_alerts['user_id'];
+            foreach ($single_user_alerts['alerts'] as $single_alert) {
+                $events = $this->getEventsWithDistance($single_alert['keywords'], $single_alert['filters'], $single_alert['longitude'], $single_alert['latitude'], $single_alert['sort']);
+                if (sizeof($events) > 0) {
+                    $user = User::findOne($user_id);
+                    if (isset($user)) {
+                        $arguments = ['events' => $events, 'user_name' => $user->first_name];
+                        GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
+                    }
                 }
             }
         }
