@@ -47,11 +47,11 @@ input{font-family: 'helveticaneueregular';}
     z-index: 9;
     display: block;
     position: absolute;
-    /*background-color: #fff;*/
+    background-color: rgba(0, 0, 0, 0.56);
     color: #000;
-    border: #959695 solid 1px;
-    top: 64px;
-    right: 14px;
+    border: #000000 solid 1px;
+    top: 44px;
+    right: 0px;
 }
 .account_dd a {
     clear: both;
@@ -73,6 +73,7 @@ header{
 .signUp-btns{
     display:block;
     padding-bottom:45px;
+    position: relative;
 }
 .signUp-btns a{
     float:right;

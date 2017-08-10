@@ -88,7 +88,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <div class="footer-logo">
-                            <a href="#"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
+                            <a href="<?= \yii\helpers\Url::to(['/']); ?>"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">

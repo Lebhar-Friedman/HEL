@@ -69,8 +69,8 @@ class SignupForm extends Model {
                                 ['html' => 'registration-confirmation-html'], ['user' => $user]
                         )
                         ->setTo($user->email)
-                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-                        ->setSubject('Signup Confirmation')
+                        ->setFrom(Yii::$app->params['supportEmail'])
+                        ->setSubject('Health Events Live Confirmation')
                         ->send();
     }
 
