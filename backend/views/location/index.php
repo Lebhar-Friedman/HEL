@@ -65,7 +65,7 @@ $this->title = 'Locations';
                 foreach ($locations as $location) {
                     ?> 
                     <div class="location-table-row1 clearfix">
-                        <div class="table-chk-h-a"><?= $location['location_id'] ?></div>
+                        <div class="table-chk-h-a"><?= $location['store_number'] ?></div>
                         <div class="table-title-h1-b"><?= $location['company'] ?></div>
                         <div class="table-date-h1-c"><?= $location['street'] ?></div>
                         <div class="table-time-h1-d"><?= $location['city'] ?></div>
