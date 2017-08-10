@@ -69,7 +69,6 @@ class UserController extends Controller {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
         $alerts_list = GlobalFunctions::getCategoryList();
-//        $alerts = Alerts::find()->where(['user_id' => (string) Yii::$app->user->id])->all();
         $alerts = Alerts::findOne(['user_id' => (string) Yii::$app->user->id]);
 
         return $this->render("alerts", ['selected_alerts' => $alerts]);

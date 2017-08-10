@@ -123,24 +123,6 @@ function event_detail(event_id) {
 }
 
 function add_new_alert() {
-//    var keywords = [];
-//    var filters = [];
-//    var zip_code = '';
-//
-//    $checked_filters = $('input[name="filters[]"]:checked');
-//    $checked_filters.each(function (index, data) {
-//        filters.push($(this).val());
-//    });
-//   
-//    $.each($("#keywords option:selected"), function () {
-//        keywords.push($(this).val());
-//    });
-//    
-//    
-//    
-//    console.log(filters);
-//    console.log(keywords);
-
     var form_data = $("#events_search_form").serialize();
     $.ajax({
         url: baseUrl + '/user/add-alerts',
@@ -148,7 +130,12 @@ function add_new_alert() {
         data: form_data,
         dataType: 'JSON',
         success: function (r) {
-            console.log("Success function");
+            if (r.msgType === "SUC") {
+                $('#add_alert').hide();
+                toastr.success(r.msg);
+            } else if (r.msgType === "ERR") {
+                toastr.error(r.msg);
+            }
         },
         error: function (jqXHR, exception) {
             var msg = '';
