@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\functions\GlobalFunctions;
 use Yii;
 use yii\mongodb\ActiveRecord;
 
@@ -11,6 +12,7 @@ use yii\mongodb\ActiveRecord;
  * @property integer $_id
  * @property string $user_id
  * @property string $alerts
+ * @property string $location
  */
 class Alerts extends ActiveRecord {
 
@@ -26,6 +28,7 @@ class Alerts extends ActiveRecord {
         return ['_id',
             'user_id',
             'alerts',
+            'location',
             'created_at',
             'updated_at',
         ];
@@ -59,6 +62,16 @@ class Alerts extends ActiveRecord {
     public static function addAlerts($updatable_alert) {
 
         $user_id = (string) Yii::$app->user->id;
+        $coordinates = array();
+        if (GlobalFunctions::getCookiesOfLngLat()) {
+            $coordinates = GlobalFunctions::getCookiesOfLngLat();
+        } else {
+            $ip = Yii::$app->request->userIP;
+            $latitude = Yii::$app->ip2location->getLatitude($ip);
+            $longitude = Yii::$app->ip2location->getLongitude($ip);
+            $coordinates['longitude'] = $longitude;
+            $coordinates['latitude'] = $latitude;
+        }
 
         $existing_entry = Alerts::findOne(['user_id' => $user_id]);
         if ($existing_entry) {
@@ -77,6 +90,7 @@ class Alerts extends ActiveRecord {
             $alerts = array();
             array_push($alerts, $updatable_alert);
             $alert_obj->alerts = $alerts;
+            $alert_obj->location = $coordinates;
             if ($alert_obj->save()) {
                 return true;
             }

@@ -8,8 +8,10 @@
 
 namespace backend\controllers;
 
+use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Event;
+use common\models\User;
 use yii\web\Controller;
 
 /**
@@ -27,9 +29,16 @@ class CronController extends Controller {
             $user_id = $single_alert_obj['user_id'];
             $alerts_array = $single_alert_obj['alerts'];
 
-            $events = $this->getEventsWithDistance($alerts_array, '74.329376', '31.582045');
+            $events = $this->getEventsWithDistance($alerts_array, $single_alert_obj['location']['longitude'], $single_alert_obj['location']['latitude']);
             echo "<pre>";
             print_r(sizeof($events));
+            if (sizeof($events) > 0) {
+                $user = User::findOne($user_id);
+                if ( isset($user)) {
+                    $arguments =['events' => $events, 'user_name'=> $user->first_name];
+                    GlobalFunctions::sendEmail('upcoming-events', $user->email , 'Up-coming events ', $arguments);
+                }
+            }
         }
     }
 
