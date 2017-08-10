@@ -107,7 +107,7 @@ class GlobalFunctions {
                                 ['html' => $html_file], $arguments
                         )
                         ->setTo($send_to)
-                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                        ->setFrom(Yii::$app->params['supportEmail'])
                         ->setSubject($subject)
                         ->send();
     }
