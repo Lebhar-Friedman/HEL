@@ -48,7 +48,7 @@ use function GuzzleHttp\json_encode;
     <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
 </div>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
-<?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
+<?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
 
 <?php
 $sortBy = 'distance';
