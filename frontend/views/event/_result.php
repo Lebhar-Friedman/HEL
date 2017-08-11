@@ -7,6 +7,7 @@ use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
+use yii\bootstrap\Alert;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
@@ -165,8 +166,8 @@ $temp_events = array();
                     <div class="email-conatiner">
                         <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
                         <!--<input type="submit" value="Go" class="submitbtn" />-->
-                        <a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>
-                        <!--<a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>-->
+                        <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
+                        <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
                     </div>
                 <?php } else { ?>
                     <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>

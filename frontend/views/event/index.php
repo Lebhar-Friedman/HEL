@@ -27,6 +27,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
     }
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         text-align: center !important;
+        font-size: initial;
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>

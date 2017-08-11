@@ -110,13 +110,29 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         
-//        $session = Yii::$app->session;
-//        if ($session->has('zipcode')){
-//            $keywords = $session->get('keywords');
-////            exit();
-////            return Yii::$app->runAction('event/index', ['param1'=>'value1', 'param2'=>'value2']);
-//            return $this->redirect(['event/','zipcode' => '123']);
-//        }
+        $session = Yii::$app->session;
+        if ($session->has('zipcode')){
+            $keywords = $session->get('keywords');
+            $filters = $session->get('filters');
+            $zip = $session->get('zip');
+            $sort = $session->get('sort');
+            $parameters =array();
+            if(!empty($zip)){
+               $temp =['zipcode' => $zip]; 
+               array_merge($parameters,$temp);
+            }
+            if(is_array($keywords)){
+                $temp_keywords= array();
+                foreach ($keywords as $keyword) {
+                    array_merge($temp_keywords,['keywords' => $keyword]);
+                }
+                array_merge($parameters,$temp_keywords);
+            }
+//            exit();
+//            return Yii::$app->runAction('event/index', ['param1'=>'value1', 'param2'=>'value2']);
+            
+            return $this->redirect(['event/']);
+        }
 
         $this->layout = 'home-layout';
         $zip_code = $this->getZipCodeFromCookies();
