@@ -35,7 +35,18 @@ class EventForm extends Model {
             [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
+            ['company', 'validateCompany']
         ];
+    }
+
+    public function validateCompany($attribute, $params) {
+        $this->company = ucfirst(strtolower(trim($this->company)));
+        $company = \common\models\Company::find()->andWhere(['name' => $this->company])->one();        //print_r($company);die;
+        if (count($company) > 0) {
+            ;
+        } else {
+            $this->addError($attribute, 'This Company (' . $this->company . ') does not exist.');
+        }
     }
 
     public static function getCsvAttributeMapArray() {
@@ -46,8 +57,8 @@ class EventForm extends Model {
             'event start time' => 'time_start',
             'event end time' => 'time_end',
             'price' => 'price',
-            'health categories/themes' => 'categories',
-            'health services/screenings' => 'sub_categories',
+            'categories' => 'categories',
+            'sub categories' => 'sub_categories',
             'description' => 'description',
         ];
     }
@@ -116,7 +127,7 @@ class EventForm extends Model {
                             $locationAttributes[$locationAttributeMapArray[$value]] = trim($dataRow[$key]);
                         } elseif (!empty($value)) {
                             fclose($file);
-                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . $key . '</b> <br>'];
+                            return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1) . '</b> <br>'];
                         }
                     }
                     $locationModel->attributes = $locationAttributes;

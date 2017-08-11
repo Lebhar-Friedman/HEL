@@ -20,7 +20,6 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = $longitude;
     $user_lat = $latitude;
 }
-
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
@@ -59,30 +58,14 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?=$event['time_start']?> - <?=$event['time_end']?> 
                     <div class="save-share-btn clearfix">
                         <?php
-                        if(isset(Yii::$app->user->identity->_id)){ 
+                    } else {
                         ?>
-                    	<a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>',this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="<?= BaseUrl::base() ?>/site/save-event?flg=y&eid=<?= $event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
-                        }else{
-                            
-                        ?>
-                        <a href="<?=BaseUrl::base()?>/site/save-event?flg=y&eid=<?=$event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
-                        <?php    
-                        }
-                        ?>
-                        
-                        <div class="addthis_inline_share_toolbox"></div>
-                    </div>
-                    
-                    <div class="clearfix">
-                    	<?php
-                        foreach ($event['categories'] as $category):
-                        ?>
-                        <div class="heart-text"><?=$category?></div>
-                        <?php
-                        endforeach;
-                        ?>
-                    </div>
+                    }
+                    ?>
+
+                    <div class="addthis_inline_share_toolbox"></div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
@@ -112,12 +95,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         foreach ($event['sub_categories'] as $sub_category):
                         ?>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                         	<i><?=$sub_category?></i>
-			</div>
+                            <i><?= $sub_category ?></i>
+                        </div>
                         <?php
-                        endforeach;
-                        ?>
-                    </div>
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </div>
@@ -147,27 +129,27 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
-            $coord = new LatLng(['lat' => intval($user_lat) , 'lng' => intval($user_lng) ]);
-            $map = new Map([
-                'center' => $coord,
-                'zoom' => 8,
-                'width' => '100%',
-                'height' => '275',
-                'scrollwheel' => false,
-            ]);
-            $map->setName('gmap');
-            
-                foreach ($event['locations'] as $location) {
-                    $long_lat = $location['geometry']['coordinates'];
-                    $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-                    $marker = new Marker([
-                        'position' => $coord,
-                        'title' => $event['title'],
-                        'animation' => 'google.maps.Animation.DROP',
-                        'visible' => 'true',
-                        'icon' => $img_url . 'custom-marker.png',
-                    ]);
-                    $content = $location['street'].', '.$location['city'].', '.$location['state'].', '.$location['zip'];
+                        $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
+                        $map = new Map([
+                            'center' => $coord,
+                            'zoom' => 8,
+                            'width' => '100%',
+                            'height' => '275',
+                            'scrollwheel' => false,
+                        ]);
+                        $map->setName('gmap');
+
+                        foreach ($event['locations'] as $location) {
+                            $long_lat = $location['geometry']['coordinates'];
+                            $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
+                            $marker = new Marker([
+                                'position' => $coord,
+                                'title' => $event['title'],
+                                'animation' => 'google.maps.Animation.DROP',
+                                'visible' => 'true',
+                                'icon' => $img_url . 'custom-marker.png',
+                            ]);
+                            $content = $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'];
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -223,11 +205,61 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         </div>
                         <?php
                         }
-                        endforeach;
+
+                        $map->center = $map->getMarkersCenterCoordinates();
+                        $map->zoom = $map->getMarkersFittingZoom() - 1;
+
+                        echo $map->display();
                         ?>
                     </div>
-                </a>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-7 col-md-8 col-sm-8">
+            <?php
+            if (!empty($companyEvents)) {
+                ?>
+                <div class="other-event">Other events here</div>
+
+                <div class="multi-service2">
                     <?php
+                    foreach ($companyEvents as $companyEvent):
+                        ?>
+                        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
+                            <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                            <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
+                            <span><?php
+                                if (isset($companyEvent['price']) && $companyEvent['price'] !== '') {
+                                    echo "$" . $companyEvent['price'];
+                                } else {
+                                    echo "Free";
+                                }
+                                ?></span>
+                            <div class="clearfix">
+                                <?php
+                                foreach ($companyEvent['sub_categories'] as $companySubCategories):
+                                    $i = 1;
+                                    if ($i <= 6) {
+                                        ?>
+                                        <div class="table-cust">
+                                            <i><?= $companySubCategories ?></i>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="table-cust show-on-mobile">
+                                            <i><?= $companySubCategories ?></i>
+                                        </div>
+                                        <?php
+                                    }
+                                endforeach;
+                                ?>
+                            </div>
+                        </a>
+                        <?php
                     endforeach;
                     ?>
                 </div>
@@ -262,10 +294,30 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                             <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>">Find out more <br class="hide-on-mobile" />about <?=$company['name']?> <br class="hide-on-mobile" /></a>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-10">
+
+                        <div class="email-conatiner">
+                            <input type="text" class="email-textbox" placeholder="Email" />
+                            <input type="submit" value="Go" class="submitbtn" />
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div> 
-    </div>
- 
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+            <div class="cvs-text mobile-center">
+                <img src="<?= GlobalFunctions::getCompanyLogo($company['name']) ?>" alt="" />
+                <div class="find-out-text">
+                <!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
+                    <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>"><h2>Find out more <br class="hide-on-mobile" />about CVS <br class="hide-on-mobile" />Pharmacies</h2></a>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
 <script type="text/javascript">
 var addthis_share = {
    url: "<?= Yii::$app->request->absoluteUrl?>",

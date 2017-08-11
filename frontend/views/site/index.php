@@ -17,11 +17,9 @@ $this->title = 'Health Events';
                 <a href="<?= $baseUrl ?>/site/login">Log In</a>
             <?php } else {
                 ?>
-                <a class="active show_menu"><?= Yii::$app->user->identity->first_name ?></a>
-                <div class="account_dd" style="display:none;">
-                    <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
-                    <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
-                </div>
+                <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
+                <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                <a class="active show_menu"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->first_name ?></a>
             <?php } ?>
         </div>
         <div class="logo-container">

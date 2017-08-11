@@ -1,20 +1,21 @@
 <?php
+/* @var $this View */
+/* @var $content string */
 
+use app\assets\AppAsset;
 use yii\helpers\Html;
+use yii\web\View;
 
-/* @var $this \yii\web\View view component instance */
-/* @var $message \yii\mail\MessageInterface the message being composed */
-/* @var $content string main view render result */
+//AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=<?= Yii::$app->charset ?>" />
-        <title><?= Html::encode($this->title) ?></title>
-        <?php $this->head() ?>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body>
+    <body style="-webkit-font-smoothing: antialiased;-webkit-text-size-adjust: none;width:100%!important;height:100%;margin:0;padding: 0;">
         <?php $this->beginBody() ?>
         <table class="head-wrap" bgcolor="#dcdcdc" style="width: 100%;">
             <tr>
@@ -32,11 +33,13 @@ use yii\helpers\Html;
                 <td></td>
             </tr>
         </table><!-- /HEADER -->
+
+
         <!-- BODY -->
         <table class="body-wrap" style="width: 100%;background: #f1f1f1;">
             <tr align="center">
                 <td></td>
-                <td><img src="<?= \yii\helpers\Url::base(TRUE)?>/images/logo.png" style="margin:20px 0 20px 0" /></td>
+                <td><img src="http://www.buymiles.com/images/email_logo.png" style="margin:20px 0 20px 0" /></td>
                 <td></td>        
             </tr>
 
@@ -44,11 +47,11 @@ use yii\helpers\Html;
                 <td></td>
                 <td class="container" bgcolor="#FFFFFF" style="border:#e5e5e5 solid 1px;display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;">
 
-                    <div class="content" style="padding: 0px;max-width: 600px;text-align: center; margin: 0 auto;display: block;min-height: 400px;">
-                        <table style="width: 100%;min-height: 1000px">
-                            <tr style="min-height: 1000px">
+                    <div class="content" style="padding: 0px;max-width: 600px;text-align: center; margin: 0 auto;display: block;">
+                        <table style="width: 100%;">
+                            <tr>
                                 <td>
-                                    <?= $content ?>         
+                                    <?php echo 'afsdasdfads'; ?>   
                                     <br /><br />
                                 </td>
                             </tr>
@@ -59,6 +62,16 @@ use yii\helpers\Html;
                 <td></td>
             </tr>
         </table><!-- /BODY -->
+        <table style="background-color:#f1f1f1" width="100%">
+            <tr>
+                <td align="center">
+                    <p style="margin-top:15px;">
+                        <a href="http://www.buymiles.com/privacy" style="color:#000; text-decoration:none; font-size:16px; padding-right:10px; border-right:solid 1px #000;font-family: roboto, Helvetica, Arial, sans-serif;"> Privacy Policy</a>
+                        <a href="http://www.buymiles.com/terms" style="color:#000; text-decoration:none; font-size:16px; padding-right:10px;font-family: roboto, Helvetica, Arial, sans-serif;">Terms and Conditions</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
         <!-- FOOTER -->
         <table class="footer-wrap" style="width: 100%;clear: both!important;height: 97px;background: #141414;">
             <tr>

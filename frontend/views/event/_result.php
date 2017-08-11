@@ -2,9 +2,12 @@
 
 use common\functions\GlobalFunctions;
 use components\GlobalFunction;
+use dosamigos\google\maps\Event;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
+use yii\bootstrap\Alert;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
@@ -46,7 +49,7 @@ use function GuzzleHttp\json_encode;
     <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
 </div>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
-<?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
+<?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
 
 <?php
 $sortBy = 'distance';
@@ -110,11 +113,11 @@ $temp_events = array();
     }
     ?>
     <?php if (sizeof($events) > 0) { ?>
-        <div class="map-content">
-            <a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>
+        <div class="map-content" >
+            <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
-//            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
+//            $coord = new LatLng(['lat' => intval($events[0]['locations'][0]['geometry']['coordinates'][1]), 'lng' => intval($events[0]['locations'][0]['geometry']['coordinates'][0])]);
             $map = new Map([
                 'center' => $coord,
                 'zoom' => 8,
@@ -135,7 +138,10 @@ $temp_events = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-
+                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . "'>" . $event['title'] . "</a>";
+                    $marker->attachInfoWindow(
+                            new InfoWindow(['content' => $content])
+                    );
 //                $marker->setName('abc');   //to set Info window default open
 //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
 //            google.maps.event.trigger(abc, 'click');});");
@@ -146,25 +152,28 @@ $temp_events = array();
             $map->center = $map->getMarkersCenterCoordinates();
             $map->zoom = $map->getMarkersFittingZoom() - 1;
 
+            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
+            $map->addEvent($map_event);
             echo $map->display();
             ?>
         </div>
     <?php } ?>
     <div class="email-content">
-        <div class="row">
+        <div class="row" id="add_alert">
             <div class="col-lg-6 col-md-8">
                 <h1>Alert me when more health events like this get added!</h1>
                 <?php if (Yii::$app->user->isGuest) { ?>
                     <div class="email-conatiner">
-                        <input type="text" class="email-textbox" placeholder="Email" />
-                        <input type="submit" value="Go" class="submitbtn" />
+                        <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
+                        <!--<input type="submit" value="Go" class="submitbtn" />-->
+                        <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
+                        <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
                     </div>
                 <?php } else { ?>
-                <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert">Add alert</a>
+                    <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
                 <?php } ?>
             </div>
         </div>
-
     </div>
     <?= $this->render('_more-events'); ?>
 </div>

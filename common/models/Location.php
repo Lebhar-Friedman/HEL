@@ -36,6 +36,7 @@ class Location extends ActiveRecord {
     public function attributes() {
         return ['_id',
             'location_id', // auto increment serial#
+            'store_number', // Number aloted to the store
             'company', // 
             'street',
             'city',
@@ -59,6 +60,7 @@ class Location extends ActiveRecord {
         return [
             [['_id',
             'location_id', // auto increment serial#
+            'store_number',
             'company', // 
             'street',
             'city',

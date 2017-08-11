@@ -243,7 +243,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <?php foreach ($locations as $location) { ?>
                         <div class="csv-table-row1 event-table-row1 location-table-row1 clearfix">
-                            <div class="table-chk-h1-10"><?= $location->location_id ?></div>
+                            <div class="table-chk-h1-10"><?= $location->store_number ?></div>
                             <div class="table-title-h1-20"><?= $location->company ?></div>
                             <div class="table-date-h1-30"><?= $location->contact_name ?></div>
                             <div class="table-time-h1-40"><?= $location->phone ?></div>
