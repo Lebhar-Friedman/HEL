@@ -23,6 +23,17 @@ class CronController extends Controller {
 
     public function actionSendMailOfAlerts() {
 
+
+//        var start = new Date();
+//        start . setHours(0, 0, 0, 0);
+//        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+230 days"))) * 1000);
+//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("tomorrow") - 1)) * 1000);
+//        print_r($current_date);
+//        print_r($last_date);
+
+
         $alerts_objs = Alerts::find()->all();
 
         foreach ($alerts_objs as $single_user_alerts) {
@@ -36,14 +47,18 @@ class CronController extends Controller {
                         GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
                     }
                 }
+                echo '<pre>';
+                print_r($events);
             }
         }
     }
 
     public function getEventsWithDistance($keywords, $filters, $longitude, $latitude, $max_distance = 50, $min_distance = 0, $sort = 'Closest') {
+
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+230 days"))) * 1000);
+//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+1 days"))) * 1000);
+//        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("tomorrow") - 1)) * 1000);
 
         if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
