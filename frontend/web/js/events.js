@@ -60,7 +60,8 @@ function searchResult(form_data) {
         replace: false,
         type: 'post',
         data: form_data,
-        timeout: 30000
+        timeout: 30000,
+        push: true
     });
 
 }
