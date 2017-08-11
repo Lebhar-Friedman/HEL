@@ -13,10 +13,11 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use const YII_ENV_TEST;
-use \yii\helpers\ArrayHelper;
+use function GuzzleHttp\json_encode;
 
 /**
  * Site controller
@@ -108,6 +109,14 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+        
+//        $session = Yii::$app->session;
+//        if ($session->has('zipcode')){
+//            $keywords = $session->get('keywords');
+////            exit();
+////            return Yii::$app->runAction('event/index', ['param1'=>'value1', 'param2'=>'value2']);
+//            return $this->redirect(['event/','zipcode' => '123']);
+//        }
 
         $this->layout = 'home-layout';
         $zip_code = $this->getZipCodeFromCookies();
@@ -198,13 +207,29 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
-    
+
     public function actionPrivacy() {
         return $this->render('privacy');
     }
 
     public function actionTerms() {
         return $this->render('terms');
+    }
+
+    public function actionAddAlertsSession() {
+
+        $zip_code = Yii::$app->request->post('zipcode');
+        $keywords = Yii::$app->request->post('keywords');
+        $filters = Yii::$app->request->post('filters');
+        $sort_by = Yii::$app->request->post('sortBy');
+        
+        $session = Yii::$app->session;
+        $session->set('zipcode', $zip_code);
+        $session->set('keywords', $keywords);
+        $session->set('filters',$filters);
+        $session->set('sort', $sort_by);
+        
+
     }
 
     /**
@@ -299,10 +324,10 @@ class SiteController extends Controller {
     public function actionSaveEvent() {
         $userID = Yii::$app->user->id;
         $eid = Yii::$app->request->get('eid');
-        if(Yii::$app->request->get('flg')){
-        return $this->redirect(Yii::$app->homeUrl.'event/detail?eid='.$eid);
+        if (Yii::$app->request->get('flg')) {
+            return $this->redirect(Yii::$app->homeUrl . 'event/detail?eid=' . $eid);
         }
-        
+
         $retData = array();
         $user = User::find()->where(['_id' => $userID])->one();
         if (!empty($user)) {
@@ -318,9 +343,8 @@ class SiteController extends Controller {
             $retData['msgType'] = "ERR";
             $retData['msg'] = "Login is required!";
         }
-        
+
         exit(json_encode($retData));
-        
     }
 
 }
