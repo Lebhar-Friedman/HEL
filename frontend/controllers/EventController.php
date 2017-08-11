@@ -135,18 +135,19 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
-
+        $error='';
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
+        }else{
+            $error = 'Record not found!';
         }
 
         $event = $query->one();
-//        var_dump($event);        die();
         $company = Company::findCompanyByName($event['company']);
         $companyEvents = Event::findCompanyEvents($company['name']);
         $z_lng_lat = $this->getZipLongLat();
-
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude']]);
+        
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'],'error'=>$error]);
     }
 
     public function actionDirectory() {
