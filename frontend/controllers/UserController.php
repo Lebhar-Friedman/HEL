@@ -87,7 +87,7 @@ class UserController extends Controller {
             return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];
         }
     }
-
+    
     public function actionDeleteAlert() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $alert = Yii::$app->request->post('alert');

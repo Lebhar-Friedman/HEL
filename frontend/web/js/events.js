@@ -1,5 +1,8 @@
 
 $(document).ready(function () {
+    $('.filters-multi-chosen-selected').chosen().change(function (event) {
+        selectedFilters(event);
+    });
     var userPosition = function (position) {
         $.ajax({
             url: baseUrl + '/event/set-long-lat',
@@ -156,6 +159,22 @@ function add_new_alert() {
                 msg = 'Uncaught Error.\n' + jqXHR.responseText;
             }
             console.log(msg);
+        }
+    });
+}
+
+function addAlertSession() {
+    var form_data = $("#events_search_form").serialize();
+    var email = $("#email").val();
+    $.ajax({
+        url: baseUrl + '/site/add-alerts-session',
+        type: 'post',
+        data: form_data,
+        success: function (r) {
+            location.href = baseUrl + "site/login?email=" + email;
+        },
+        error: function (jqXHR, exception) {
+            console.log('Internal server error');
         }
     });
 }

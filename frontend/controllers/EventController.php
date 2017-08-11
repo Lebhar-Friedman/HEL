@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use common\functions\GlobalFunctions;
+use common\models\Alerts;
 use common\models\Company;
 use common\models\Event;
 use components\GlobalFunction;
@@ -24,9 +25,47 @@ class EventController extends Controller {
 //        $long = 74.329376;
 //        $lat = 31.582045;
 //        echo GlobalFunction::getZipFromLongLat($long, $lat);
-
         $longitude;
         $latitude;
+        $session = Yii::$app->session;
+        if ($session->has('zipcode')) {
+            
+            $keywords = $session->get('keywords');
+            $filters = $session->get('filters');
+            $zip = $session->get('zip');
+            $sort = $session->get('sort');
+            
+            $session->remove('zipcode');
+            $session->remove('keywords');
+            $session->remove('filters');
+            $session->remove('sort');
+            
+            if (empty($zip)) {
+                $lng_lat = GlobalFunctions::getCookiesOfLngLat();
+                if ($lng_lat) {
+                    $longitude = $lng_lat['longitude'];
+                    $latitude = $lng_lat['latitude'];
+                } else {
+                    $ip = Yii::$app->request->userIP;
+                    $latitude = Yii::$app->ip2location->getLatitude($ip);
+                    $longitude = Yii::$app->ip2location->getLongitude($ip);
+                }
+            } else {
+                $lng_lat = GlobalFunction::getLongLatFromZip($zip);
+                $longitude = $lng_lat['long'];
+                $latitude = $lng_lat['lat'];
+            }
+            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
+                Yii::$app->getSession()->setFlash('success', 'Alert has been added');
+            }else{
+                Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
+            }
+            $events_dist = $this->getEventsWithDistance($zip, $keywords, $filters, $longitude, $latitude, 50, 0, $sort);
+            $total_events = sizeof($events_dist);
+
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort, 'longitude' => $longitude, 'latitude' => $latitude]);
+        }
+
         if (Yii::$app->request->get('zipcode') === NULL) {
 
             $ip = Yii::$app->request->userIP;
