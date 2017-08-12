@@ -160,19 +160,21 @@ $temp_events = array();
     <?php } ?>
     <div class="email-content">
         <div class="row" id="add_alert">
-            <div class="col-lg-6 col-md-8">
-                <h1>Alert me when more health events like this get added!</h1>
-                <?php if (Yii::$app->user->isGuest) { ?>
-                    <div class="email-conatiner">
-                        <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
-                        <!--<input type="submit" value="Go" class="submitbtn" />-->
-                        <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
-                        <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
-                    </div>
-                <?php } else { ?>
-                    <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
-                <?php } ?>
-            </div>
+            <?php if (!$alert_added) { ?>
+                <div class="col-lg-6 col-md-8">
+                    <h1>Alert me when more health events like this get added!</h1>
+                    <?php if (Yii::$app->user->isGuest) { ?>
+                        <div class="email-conatiner">
+                            <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
+                            <!--<input type="submit" value="Go" class="submitbtn" />-->
+                            <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
+                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
+                        </div>
+                    <?php } else { ?>
+                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <?= $this->render('_more-events'); ?>

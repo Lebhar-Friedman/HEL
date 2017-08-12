@@ -31,6 +31,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
+<?php $is_alert = isset($alert_added) ? $alert_added : FALSE ?>
 
 <!--<body class="reult-body">-->
 <div class="container">
@@ -99,9 +100,9 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added'=> $is_alert]); ?>
         <?php } else { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert]); ?>
         <?php } ?>
     </div>
     <div class="row">
