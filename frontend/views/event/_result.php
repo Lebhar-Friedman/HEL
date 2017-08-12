@@ -75,8 +75,8 @@ $temp_events = array();
 <div class="col-lg-8 col-md-8 col-sm-7">
     <div class="event-near " id="event_near" onclick="showNav()">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
-            <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
-        <i> </i>
+            <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
+        <!--<i> </i>-->
         <?php if (sizeof($filters) > 0) { ?>
             <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
                 <?php foreach ($filters as $filter) { ?>
@@ -152,8 +152,8 @@ $temp_events = array();
             $map->center = $map->getMarkersCenterCoordinates();
             $map->zoom = $map->getMarkersFittingZoom() - 1;
 
-            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
-            $map->addEvent($map_event);
+//            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
+//            $map->addEvent($map_event);
             echo $map->display();
             ?>
         </div>

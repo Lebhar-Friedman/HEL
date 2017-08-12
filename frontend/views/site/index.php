@@ -13,13 +13,13 @@ $this->title = 'Health Events';
             <?php
             if (Yii::$app->user->isGuest) {
                 ?>
-                <a href="<?= $baseUrl ?>/site/signup" class="border">Sign Up</a>
-                <a href="<?= $baseUrl ?>/site/login">Log In</a>
+                <a href="<?= $baseUrl ?>/site/signup" class="border" style="font-weight: bold;">Sign Up</a>
+                <a href="<?= $baseUrl ?>/site/login" style="font-weight: bold;">Log In</a>
             <?php } else {
                 ?>
                 <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
                 <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
-                <a class="active show_menu"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->first_name ?></a>
+                <a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>
             <?php } ?>
         </div>
         <div class="logo-container">

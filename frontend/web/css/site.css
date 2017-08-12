@@ -667,7 +667,7 @@ footer a:hover{
     font-size:18px;
     line-height:15px;
     color:#1e5ba9 !important;
-    font-family: 'helveticaneuebold' !important;
+    /*font-family: 'helveticaneuebold' !important;*/
     margin-left:2px !important;
     border-radius: 2px;
     background-clip: padding-box;
@@ -1425,3 +1425,228 @@ footer a:hover{
     transition: all 0.3s ease;
 }
 /*result page style*/
+
+/* _________________________ from jami */
+/* HOME / GENERAL */
+
+.health-h {
+   font-size: 40px;
+   text-align: center;
+   line-height: 50px;
+}
+
+.health-box {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+.health-box img {
+    max-width: 25%;
+}
+
+.custom-text,
+.health-care-text {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.text-justify {
+ text-align: left; /* just remove this class from the dom */  
+}
+
+.from-h {
+   font-size: 40px;
+   line-height: 50px;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.debate-txt span {
+    font-size: 18px;
+}
+
+.search-btn,
+.debate-txt a,
+.go-btn,
+.email-conatiner .submitbtn,
+.save-share-btn a {
+    background-color: #00c1ff;
+}
+
+.search-btn:hover,
+.debate-txt a:hover,
+.go-btn:hover,
+.email-conatiner .submitbtn:hover,
+.save-share-btn a:hover {
+    background-color: #1e5ba9 !important;
+}
+
+.debate-txt a {
+    max-width: 300px;
+}
+
+/* Move .debate-txt .heading-blue to the space below .health-care-text */ 
+
+.footer-right-side {
+    font-size: 14px
+}
+.footer-right-side a {
+    font-size: 14px;
+    display: inline-block;
+    padding-left: 20px;
+}
+.result-logo {
+  padding-left: 3px;    
+}
+
+.result-logo a img {
+    padding-top: 22px;
+}
+
+.result-sign-up {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* Remove bullet points in between footer items */
+
+.footer-logo img {
+    width: 200px;
+}
+
+/* SEARCH RESULTS */
+
+.event-near {
+    border-bottom: 1px solid #ededed;
+}
+
+.event-near h1 {
+    font-weight: bold;
+    padding-bottom: 29px !important;
+    font-size: 28px;
+}
+.event-near h1 span {
+    color: #999;
+    font-size: 20px;
+}
+
+.multi-service {
+    border-bottom: 1px solid #ededed;
+}
+
+.multi-service h1 {
+    font-weight: bold;
+    padding-bottom: 10px !important;
+    font-size: 26px;
+}
+.multi-service h2 {
+    font-size: 20px;
+    padding-bottom: 10px !important;
+}
+.multi-service span {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 12px;
+}
+.table-cust  {
+    width: auto;
+    padding-right: 40px;
+}
+
+.map-content {
+    border-bottom: 1px solid #ededed;
+}
+
+.email-content h1 {
+    line-height: 28px;
+}
+
+.search-nav h1 {
+    font-weight: bold;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 29px !important;
+    margin-bottom: 20px !important;
+}
+
+.search-nav span {
+    padding-top: 15px;
+    color: #666;
+}
+
+.location-text {
+    font-size: 14px;
+}
+.location-text img:last-child {
+    margin-right: 5px;
+    padding-bottom: 2px;
+}
+.location-text .text {
+    padding: 10px 0 6px 0;
+}
+
+
+/* Event page */
+.back-btn {
+    display: none; /*Remove the element and the columns from the dom, mamking the page full width */
+}
+
+.senior-day-content h1 {
+    font-size: 36px;
+    font-weight: bold;
+    padding-bottom: 14px !important;
+}
+.senior-day-content h2 {
+    padding-bottom: 14px !important;
+}
+
+.save-share-btn a {
+    font-size: 14px;
+    padding-top:8px;
+}
+
+.save-share-btn a img {
+    width: 20px;
+    margin-top: -2px;
+}
+
+.save-share-btn {
+    padding-top: 20px;
+}
+
+.cvs-text img {
+    width: 150px;
+}
+.free-health-content {
+    border-bottom: 1px solid #ededed;
+}
+.free-health-content h1 {
+    font-weight: bold;
+    padding-bottom: 10px !important;
+}
+.free-health-content h2 {
+    font-weight: normal;
+}
+
+.event-detail-text {
+    text-align: left;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.find-out-text {
+    display: block;
+    padding-top: 0;
+}
+
+.find-out-text h2 {
+    font-size: 16px;
+    line-height: 20px;
+    text-align: right;
+    display: block;
+}
+/*_______________________________*/

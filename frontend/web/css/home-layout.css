@@ -81,7 +81,7 @@ header{
     font-size:18px;
     line-height:17px;
     color:#FFF !important;
-    font-family: 'helveticaneuebold' !important;
+    /*font-family: 'helveticaneuebold' !important;*/
     margin-left:2px !important;
     border-radius: 2px;
     background-clip: padding-box;
