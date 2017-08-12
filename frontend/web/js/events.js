@@ -171,7 +171,7 @@ function addAlertSession() {
         type: 'post',
         data: form_data,
         success: function (r) {
-            location.href = baseUrl + "site/login?email=" + email;
+            location.href = baseUrl + "site/signup?email=" + email;
         },
         error: function (jqXHR, exception) {
             console.log('Internal server error');
