@@ -37,12 +37,16 @@ $(document).on("submit", "#events_search_form", function (e) {
     searchResult(values);
 });
 
-
+function closeNavOnMobile() {
+    if ($(window).width() < 767) {
+        closeNav();
+    }
+}
 
 function searchResult(form_data) {
 
     $(document).on('pjax:send', function () {
-        closeNav();
+        closeNavOnMobile();
         $("#loader").show();
         $("#overlay").show();
     });
@@ -98,12 +102,13 @@ $(document).ready(function () {
         $('.search-result-content').show();
     });
 
+
 });
 
 function closeNav() {
     $('.search-result-content').hide();
 }
-function showNav(){
+function showNav() {
     $('.search-result-content').show();
 }
 
