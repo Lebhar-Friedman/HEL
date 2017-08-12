@@ -94,7 +94,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
                         </div>
                     </form>
                 </div>
-                <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
+<!--                <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->
 
             </div>
         </div>
@@ -104,12 +104,12 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
             <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude]); ?>
         <?php } ?>
     </div>
-    <div class="row">
+<!--    <div class="row">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-10 col-md-10">
             <div class="add-box2">
                 <img src="<?= $img_url ?>result-img6.png" alt=""  />
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

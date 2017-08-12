@@ -650,11 +650,11 @@ footer{
 .free-health-content i{display:block; padding-bottom:35px;}
 .event-detail-text{
     display:block;
-    font-size:20px;
-    line-height:29px;
+    font-size:16px;
+    line-height:20px;
     color:#333333;
-    padding-bottom:70px;
-    text-align: justify;
+    padding-bottom:40px;
+    
 }
 .event-detail-text h1{
     display:block;
@@ -681,7 +681,7 @@ footer{
     color:#333333;
     font-size:26px;
     line-height:26px;
-    padding:45px 0px 27px 0px;
+    padding:27px 0px 27px 0px;
     border-bottom:1px solid #ccc;
 }
 .multi-service2{
