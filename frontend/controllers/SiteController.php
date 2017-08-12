@@ -111,7 +111,7 @@ class SiteController extends Controller {
     public function actionIndex() {
         
         $session = Yii::$app->session;
-        if ($session->has('zipcode')){
+        if ($session->has('zipcode') && !Yii::$app->user->isGuest){
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');

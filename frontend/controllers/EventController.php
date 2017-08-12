@@ -28,7 +28,7 @@ class EventController extends Controller {
         $longitude;
         $latitude;
         $session = Yii::$app->session;
-        if ($session->has('zipcode')) {
+        if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
             
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');

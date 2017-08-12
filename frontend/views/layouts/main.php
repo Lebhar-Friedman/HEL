@@ -27,18 +27,18 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                          ?>';
+            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                           ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
-            var image_url = '<?=  \yii\helpers\BaseUrl::base()?>/images/';
+            var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
         </script>
 
         <!--<header>-->
         <div class="result-header">
-             <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
-                        
+
                         <div class="result-logo hide-on-mobile">
                             <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
                         </div>
@@ -66,12 +66,14 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
             </div>
         </div>
-        
+
         <!--</header>-->
 
         <div class="container1">
-            <div id="alert_div">
-                <?= Alert::widget() ?>
+            <div class="container">
+                <div class="row" style="margin-left: 0px;">
+                    <?= Alert::widget() ?>
+                </div>
             </div>
             <?= $content ?>
         </div>
@@ -95,13 +97,13 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="footer-right-side">
-                                <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     
-                                <a href="#">Sitemap</a>  &bull;   
-                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms'?>">Terms</a>  &bull;   
-                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/privacy'?>">Privacy</a>
-                                <span></span>
-                                © Health Events Live.  All rights reserved.
-                            </div>
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/event/directory' ?>">Directory</a> &bull;     
+                            <a href="#">Sitemap</a>  &bull;   
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms' ?>">Terms</a>  &bull;   
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/site/privacy' ?>">Privacy</a>
+                            <span></span>
+                            © Health Events Live.  All rights reserved.
+                        </div>
                     </div>
                 </div>
             </div>
