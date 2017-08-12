@@ -264,6 +264,6 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         url: "<?= Yii::$app->request->absoluteUrl ?>",
         title: "<?= $event['title'] ?>",
         description: "<?= $event['description'] ?>",
-        media: "<?= Yii::$app->urlManager->hostInfo . GlobalFunctions::getCompanyLogo($company['name']) ?>"
+        media: "<?= GlobalFunctions::getCompanyLogo($company['name']) ?>"
     }
 </script>

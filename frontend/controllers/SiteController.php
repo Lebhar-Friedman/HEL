@@ -111,7 +111,7 @@ class SiteController extends Controller {
     public function actionIndex() {
         
         $session = Yii::$app->session;
-        if ($session->has('zipcode')){
+        if ($session->has('zipcode') && !Yii::$app->user->isGuest){
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');
@@ -170,7 +170,11 @@ class SiteController extends Controller {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+//        $session = Yii::$app->session;
+//        if ($session->has('signup_page')){
+//            $session->remove('signup_page');
+//            return $this->redirect(['site/signup','email'=>'hello']);
+//        }
         $model = new LoginForm();
         $model->role = User::ROLE_USER;
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -244,7 +248,7 @@ class SiteController extends Controller {
         $session->set('keywords', $keywords);
         $session->set('filters',$filters);
         $session->set('sort', $sort_by);
-        
+        $session->set('signup_page', 'Y');
 
     }
 

@@ -28,7 +28,7 @@ class EventController extends Controller {
         $longitude;
         $latitude;
         $session = Yii::$app->session;
-        if ($session->has('zipcode')) {
+        if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
             
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
@@ -63,7 +63,7 @@ class EventController extends Controller {
             $events_dist = $this->getEventsWithDistance($zip, $keywords, $filters, $longitude, $latitude, 50, 0, $sort);
             $total_events = sizeof($events_dist);
 
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort, 'longitude' => $longitude, 'latitude' => $latitude]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => TRUE]);
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
