@@ -68,8 +68,10 @@ $baseUrl = Yii::$app->request->baseUrl;
         <!--</header>-->
 
         <div class="container1">
-            <div id="alert_div">
-                <?= Alert::widget() ?>
+            <div class="container">
+                <div class="row" style="margin-left: 0px;">
+                    <?= Alert::widget() ?>
+                </div>
             </div>
             <?= $content ?>
         </div>

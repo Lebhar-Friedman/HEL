@@ -42,6 +42,7 @@ $(document).on("submit", "#events_search_form", function (e) {
 function searchResult(form_data) {
 
     $(document).on('pjax:send', function () {
+        closeNav();
         $("#loader").show();
         $("#overlay").show();
     });
@@ -101,6 +102,9 @@ $(document).ready(function () {
 
 function closeNav() {
     $('.search-result-content').hide();
+}
+function showNav(){
+    $('.search-result-content').show();
 }
 
 function openModal(event) {
@@ -171,7 +175,7 @@ function addAlertSession() {
         type: 'post',
         data: form_data,
         success: function (r) {
-            location.href = baseUrl + "site/login?email=" + email;
+            location.href = baseUrl + "site/signup?email=" + email;
         },
         error: function (jqXHR, exception) {
             console.log('Internal server error');

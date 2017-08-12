@@ -125,15 +125,15 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <?= $event['description'] ?>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="event-detail-img hide-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
-        </div>
+        <!--        <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="event-detail-img hide-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
+                </div>-->
     </div>
     <div class="row">
         <!--        	<div class="col-lg-1"></div>
                     <div class="col-lg-10">-->
         <div class="col-lg-12">
-            <div class="map2-content">
+            <div class="map2-content" id="#map">
                 <h1><?php
                     if (sizeof($event['locations']) > 1) {
                         echo "Locations";
@@ -143,8 +143,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     ?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0) { ?>
-                    <div class="map-content">
-                            <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
+                    <div class="map-content" >
+                                <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
                         <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
                         $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
@@ -197,10 +197,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 ?>
                 <div class="other-event">Other events at this location</div>
 
-                <div class="multi-service2">
-                    <?php
-                    foreach ($companyEvents as $companyEvent):
-                        ?>
+
+                <?php
+                foreach ($companyEvents as $companyEvent):
+                    ?> 
+                    <div class="multi-service2">
                         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
                             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -231,12 +232,10 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                                 endforeach;
                                 ?>
                             </div>
-                        </a>
-                        <?php
-                    endforeach;
-                    ?>
-                </div>
-                <?php
+                        </a> 
+                    </div>
+                    <?php
+                endforeach;
             }
             ?>
             <div class="email-content">
