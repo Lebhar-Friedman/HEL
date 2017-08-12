@@ -27,18 +27,18 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                          ?>';
+            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                            ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
-            var image_url = '<?=  \yii\helpers\BaseUrl::base()?>/images/';
+            var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
         </script>
 
         <!--<header>-->
         <div class="result-header">
-             <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
-                        
+
                         <div class="result-logo hide-on-mobile">
                             <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
                         </div>
@@ -51,22 +51,20 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <?php
                             if (Yii::$app->user->isGuest) {
                                 ?>
-                                <a href="<?= $baseUrl ?>/site/signup" class="border">Sign Up</a>
-                                <a href="<?= $baseUrl ?>/site/login">Log In</a>
+                                <a href="<?= $baseUrl ?>/site/signup" class="border" style="font-weight: bold;">Sign Up</a>
+                                <a href="<?= $baseUrl ?>/site/login" style="font-weight: bold;">Log In</a>
                             <?php } else {
                                 ?>
-                                <a class="active show_menu"><?= Yii::$app->user->identity->first_name ?></a>
-                                <div class="account_dd" style="display:none;">
-                                    <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>"><span class="account_dd_ico2"></span>My Account</a>
-                                    <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
-                                </div>
+                                <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
+                                <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                                <a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>
                             <?php } ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!--</header>-->
 
         <div class="container1">
@@ -95,13 +93,13 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="footer-right-side">
-                                <a href="<?= yii\helpers\BaseUrl::base() .'/event/directory' ?>">Directory</a> &bull;     
-                                <a href="#">Sitemap</a>  &bull;   
-                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms'?>">Terms</a>  &bull;   
-                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/privacy'?>">Privacy</a>
-                                <span></span>
-                                © Health Events Live.  All rights reserved.
-                            </div>
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/event/directory' ?>">Directory</a> &bull;     
+                            <a href="#">Sitemap</a>  &bull;   
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms' ?>">Terms</a>  &bull;   
+                            <a href="<?= yii\helpers\BaseUrl::base() . '/site/privacy' ?>">Privacy</a>
+                            <span></span>
+                            © Health Events Live.  All rights reserved.
+                        </div>
                     </div>
                 </div>
             </div>

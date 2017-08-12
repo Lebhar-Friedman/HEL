@@ -97,7 +97,9 @@ $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipc
                         </div>
                     </form>
                 </div>
-                <div class="add-box"><img src="<?= $baseUrl ?>/images/result-img7.png" alt="" /></div>
+                <div class="add-box">
+                    <!--<img src="<?= $baseUrl ?>/images/result-img7.png" alt="" />-->
+                </div>
 
             </div>
         </div>

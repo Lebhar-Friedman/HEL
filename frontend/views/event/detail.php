@@ -41,12 +41,12 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
 <div class="container">
     <div class="row">
-<!--            <div class="col-lg-1 col-md-2 col-sm-2">
-                <a href="javascript:location.replace(document.referrer);" class="back-btn">&lt; Back</a>
-            </div>
-        	<div class="col-lg-1"></div>
-            div class="col-lg-7 col-md-8 col-sm-8 col-xs-7">-->
-            <div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
+        <!--            <div class="col-lg-1 col-md-2 col-sm-2">
+                        <a href="javascript:location.replace(document.referrer);" class="back-btn">&lt; Back</a>
+                    </div>
+                        <div class="col-lg-1"></div>
+                    div class="col-lg-7 col-md-8 col-sm-8 col-xs-7">-->
+        <div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
             <div class="senior-day-content">
                 <h1><?= $event['title'] ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -86,16 +86,20 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?= $company['state'] ?>, <?= $company['zip'] ?><br />
                     <?= $company['phone'] ?><br />
                 </div>
-               <?php if(sizeof($event['locations'])> 1){ echo "<span>More locations nearby</span>";}?>
-                    <a href="#map">Show map</a>            </div>
+                <?php
+                if (sizeof($event['locations']) > 1) {
+                    echo "<span>More locations nearby</span>";
+                }
+                ?>
+                <a href="#map">Show map</a>            </div>
         </div>
     </div>
     <div class="row">
-<!--        	<div class="col-lg-1"></div>
-                <div class="col-lg-10">-->
-            <div class="col-lg-12">
+        <!--        	<div class="col-lg-1"></div>
+                        <div class="col-lg-10">-->
+        <div class="col-lg-12">
             <div class="free-health-content">
-                <h1>FREE Healthcare Services</h1>
+                <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
                 <h2>No appointment required!</h2>
                 <div class="row">
                     <?php
@@ -113,9 +117,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     </div>
     <div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
     <div class="row">
-<!--        	<div class="col-lg-1"></div>
-            <div class="col-lg-6 col-md-8 col-sm-8">-->
-            <div class="col-lg-8 col-md-9 col-sm-8">
+        <!--        	<div class="col-lg-1"></div>
+                    <div class="col-lg-6 col-md-8 col-sm-8">-->
+        <div class="col-lg-8 col-md-9 col-sm-8">
             <div class="event-detail-text">
                 <h1>Health event details</h1>
                 <?= $event['description'] ?>
@@ -126,11 +130,17 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
     </div>
     <div class="row">
-<!--        	<div class="col-lg-1"></div>
-            <div class="col-lg-10">-->
-            <div class="col-lg-12">
+        <!--        	<div class="col-lg-1"></div>
+                    <div class="col-lg-10">-->
+        <div class="col-lg-12">
             <div class="map2-content">
-                <h1><?php if(sizeof($event['locations'])> 1){ echo "Locations";}else{echo "Location";}?> for this event</h1>
+                <h1><?php
+                    if (sizeof($event['locations']) > 1) {
+                        echo "Locations";
+                    } else {
+                        echo "Location";
+                    }
+                    ?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0) { ?>
                     <div class="map-content">
@@ -180,12 +190,12 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
     </div>
     <div class="row">
-<!--        <div class="col-lg-1"></div>-->
+        <!--        <div class="col-lg-1"></div>-->
         <div class="col-lg-7 col-md-8 col-sm-8">
             <?php
             if (!empty($companyEvents)) {
                 ?>
-                <div class="other-event">Other events here</div>
+                <div class="other-event">Other events at this location</div>
 
                 <div class="multi-service2">
                     <?php
@@ -253,15 +263,24 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <img src="<?= GlobalFunctions::getCompanyLogo($company['name']) ?>" alt="" />
                 <div class="find-out-text">
                 <!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
-                           <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>">Find out more <br class="hide-on-mobile" />about <?=$company['name']?> <br class="hide-on-mobile" /></a>
-                    </div>
+                    <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
+                </div>
             </div>
         </div>
     </div> 
 </div>
 
 <script type="text/javascript">
+    var addthis_config = {
+        ui_offset_top: 8,
+        ui_offset_left: -9,
+    }
+    addthis_config.ui_email_note = '<?= $event['description'] ?>';
+    addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';
     var addthis_share = {
+        email_vars: {
+            note: "Our pharmacies will be holding grocery",
+        },
         url: "<?= Yii::$app->request->absoluteUrl ?>",
         title: "<?= $event['title'] ?>",
         description: "<?= $event['description'] ?>",

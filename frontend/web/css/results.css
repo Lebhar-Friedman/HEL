@@ -248,7 +248,7 @@ footer{
     font-size:18px;
     line-height:15px;
     color:#1e5ba9 !important;
-    font-family: 'helveticaneuebold' !important;
+    /*font-family: 'helveticaneuebold' !important;*/
     margin-left:2px !important;
     border-radius: 2px;
     background-clip: padding-box;
