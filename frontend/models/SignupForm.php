@@ -64,9 +64,9 @@ class SignupForm extends Model {
         }
     }
 
-    public function confirmationEmail($user) {
+    public function confirmationEmail($user, $url) {
         return Yii::$app->mailer->compose(
-                                ['html' => 'registration-confirmation-html'], ['user' => $user]
+                                ['html' => 'registration-confirmation-html'], ['user' => $user, 'url'=> $url]
                         )
                         ->setTo($user->email)
                         ->setFrom(Yii::$app->params['supportEmail'])

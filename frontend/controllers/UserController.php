@@ -76,10 +76,17 @@ class UserController extends Controller {
 
     public function actionAddAlerts() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $zip_code = Yii::$app->request->post('zipcode');
-        $keywords = Yii::$app->request->post('keywords');
-        $sort_by = Yii::$app->request->post('sortBy');
-        $filters = Yii::$app->request->post('filters');
+        if (Yii::$app->request->post('only_zip') !== NULL) {
+            $zip_code = Yii::$app->request->post('zipcode');
+            $keywords = array();
+            $filters = array();
+            $sort_by = 'Closest';
+        } else {
+            $zip_code = Yii::$app->request->post('zipcode');
+            $keywords = Yii::$app->request->post('keywords');
+            $sort_by = Yii::$app->request->post('sortBy');
+            $filters = Yii::$app->request->post('filters');
+        }
 
         if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort_by])) {
             return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
@@ -87,7 +94,7 @@ class UserController extends Controller {
             return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];
         }
     }
-    
+
     public function actionDeleteAlert() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $alert = Yii::$app->request->post('alert');

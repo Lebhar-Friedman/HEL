@@ -23,6 +23,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
+<?php $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]); ?>
 
 <style>
     .chosen-choices{
@@ -85,8 +86,10 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?= $company['street'] ?><br />
                     <?= $company['state'] ?>, <?= $company['zip'] ?><br />
                     <?= $company['phone'] ?><br />
+                    <input type="hidden" value="<?= $company['zip'] ?>" id="c_zipcode">
                 </div>
                 <?php
+                
                 if (sizeof($event['locations']) > 1) {
                     echo "<span>More locations nearby</span>";
                 }
@@ -133,7 +136,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         <!--        	<div class="col-lg-1"></div>
                     <div class="col-lg-10">-->
         <div class="col-lg-12">
-            <div class="map2-content" id="#map">
+            <div class="map2-content" id="map">
                 <h1><?php
                     if (sizeof($event['locations']) > 1) {
                         echo "Locations";
@@ -238,24 +241,29 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 endforeach;
             }
             ?>
-            <div class="email-content">
-                <div class="row">
-                    <div class="col-lg-11 col-md-12">
-                        <h1>Alert me when more health events added at this location!</h1>
-                        <div class="show-on-mobile">Alert me when healthcare events are added at CVS Pharmacy, 503 Wonder Lane</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 col-md-10">
-
-                        <div class="email-conatiner">
-                            <input type="text" class="email-textbox" placeholder="Email" />
-                            <input type="submit" value="Go" class="submitbtn" />
+            <?php if (!$alert_added) { ?>
+                <div class="email-content" id="add_alert">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-12">
+                            <h1>Alert me when more health events added at this location!</h1>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10">
+                            <div class="email-conatiner">
+                                <input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
+                                <?php if (Yii::$app->user->isGuest) { ?>
+                                    <input type="text" class="email-textbox" placeholder="Email" id="email"/>
+                                    <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Go</a>
+                                <?php } else { ?>
+                                    <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Go</a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
+                </div>
+            <?php } ?>
         </div>
         <div class="col-lg-offset-2 col-lg-3 col-md-4 col-sm-4">
             <div class="cvs-text mobile-center">
@@ -273,8 +281,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     var addthis_config = {
         ui_offset_top: 8,
         ui_offset_left: -9,
-        services_compact:'facebook,twitter,email',
-        services_exclude:'google_plusone_share,gmail,print,smiru,'
+        services_compact: 'facebook,twitter,email',
+        services_exclude: 'google_plusone_share,gmail,print,smiru,'
     }
     addthis_config.ui_email_note = '<?= $event['description'] ?>';
     addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';

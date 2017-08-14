@@ -187,3 +187,58 @@ function addAlertSession() {
         }
     });
 }
+
+function alertZipCodeSession(){
+    var zip_code = $("#c_zipcode").val();
+    var email = $("#email").val();
+    var event_id = $("#event_id").val();
+    $.ajax({
+        url: baseUrl + '/site/add-alerts-session',
+        type: 'post',
+        data:{zipcode:zip_code,only_zip:'y',event_id:event_id},
+        success: function (r) {
+            location.href = baseUrl + "site/signup?email=" + email;
+        },
+        error: function () {
+            console.log('Internal server error');
+        }
+    });
+}
+
+function alertZipCode(){
+    var zip_code = $("#c_zipcode").val();
+    var event_id = $("#event_id").val();
+    $.ajax({
+        url: baseUrl + '/user/add-alerts',
+        type: 'post',
+        data: {zipcode:zip_code,only_zip:'y',event_id:event_id},
+        dataType: 'JSON',
+        success: function (r) {
+            if (r.msgType === "SUC") {
+                $('#add_alert').hide();
+                toastr.success(r.msg);
+            } else if (r.msgType === "ERR") {
+                toastr.error(r.msg);
+            }
+        },
+        error: function (jqXHR, exception) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            console.log(msg);
+        }
+    });
+}
