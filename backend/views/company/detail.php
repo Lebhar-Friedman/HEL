@@ -58,6 +58,16 @@ if (isset($model['c_id'])) {
                 </div>
                 <div class="row row-margin-t">
                     <div class="col-lg-4 col-md-3 col-sm-3">
+                        <div class="school-name">Company Number:</div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div>
+                            <?= $form->field($model, 'company_number', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Company Name']])->textInput()->label(false); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-margin-top">
+                    <div class="col-lg-4 col-md-3 col-sm-3">
                         <div class="school-name">Company Name:</div>
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-7">

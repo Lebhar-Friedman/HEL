@@ -56,7 +56,7 @@ $this->title = 'Health Events Live: Home';
                 <span><img src="<?= $baseUrl ?>/images/search-img.png" alt="" /></span>
                 More access to   <br />quality health care
             </div>
-            <p class="custom-text text-justify">
+            <p class="custom-text">
                 Who says health care has to be so complex? Health clinics are now open in 
                 many of your favorite local stores — and the doctor is ready to see you.  
                 Take advantage of a wide range of free and low-cost health services right 
@@ -68,7 +68,7 @@ $this->title = 'Health Events Live: Home';
                 <span><img src="<?= $baseUrl ?>/images/timmer.png" alt="" /></span>
                 Save money and time  <br />with ease
             </div>
-            <p class="custom-text text-justify">
+            <p class="custom-text">
                 Not only are many health services available for free, but it’s as easy as 
                 walking into a store you already know and trust. Combine it with a shopping 
                 trip for prescriptions or groceries and double-up on the convenience. 
@@ -79,7 +79,7 @@ $this->title = 'Health Events Live: Home';
                 <span><img src="<?= $baseUrl ?>/images/heart.png" alt="" class="margin-t" /></span>
                 Keep your whole <br />family healthy!
             </div>
-            <p class="custom-text text-justify">
+            <p class="custom-text">
                 Calling all patients, young and young-at-heart!  Health services include everything 
                 from checkups, health screenings, and shots to preventative care and support for chronic 
                 conditions. Everyone is welcome and anyone can benefit! 
