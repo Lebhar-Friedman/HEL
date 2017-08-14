@@ -12,13 +12,13 @@ use yii\web\ForbiddenHttpException;
 class ProviderController extends Controller {
 
     public function actionIndex() {
-        $name = trim(urldecode(Yii::$app->request->get('id')));
-        $name = ucfirst(strtolower($name));
+        $companyNumber = trim(urldecode(Yii::$app->request->get('id')));
+//        $name = ucfirst(strtolower($name));
         try {
-            $company = Company::findOne(['name' => $name]);
+            $company = Company::findOne(['company_number' => $companyNumber]);
             $total_events = 0;
             if ($company !== NULL) {
-                $events = Event::find()->where(['company' => $company->name]);
+                $events = Event::find()->where(['company' => $company->company_number]);
                 $total_events = $events->count();
             }
         } catch (InvalidArgumentException $ex) {
@@ -28,14 +28,14 @@ class ProviderController extends Controller {
     }
 
     public function actionEvents($id) {
-        $name = trim(urldecode(Yii::$app->request->get('id')));
-        $name = ucfirst(strtolower($name));
+        $companyNumber = trim(urldecode(Yii::$app->request->get('id')));
+//        $name = ucfirst(strtolower($name));
         $events = [];
         $total_events = 0;
         try {
-            $company = Company::findOne(['name' => $name]);
+            $company = Company::findOne(['company_number' => $companyNumber]);
             if ($company !== NULL) {
-                $queryEvents = Event::find()->where(['company' => $company->name]);
+                $queryEvents = Event::find()->where(['company' => $company->company_number]);
                 $total_events = $queryEvents->count();
                 $events = $queryEvents->all();
 
