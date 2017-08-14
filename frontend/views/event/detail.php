@@ -88,6 +88,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?= $company['phone'] ?><br />
                 </div>
                 <?php
+                
                 if (sizeof($event['locations']) > 1) {
                     echo "<span>More locations nearby</span>";
                 }

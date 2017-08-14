@@ -110,9 +110,13 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-
+    
     public static function findCompanyByName($name) {
         return static::findOne(['name' => $name]);
+    }
+    
+    public static function findCompanyByNumber($companyNumber) {
+        return static::findOne(['company_number' => $companyNumber]);
     }
 
     public static function CompanyList() {

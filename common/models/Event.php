@@ -124,6 +124,9 @@ class Event extends ActiveRecord {
                   });
           return $IDs;
     }
+    public static function findCompanyEventsByNumber($company,$eid) {
+        return static::find()->andWhere(['company' => $company])->andWhere(['Not','_id',$eid])->all();
+    }
     public static function findCompanyEvents($company) {
         return static::findAll(['company' => $company]);
     }
