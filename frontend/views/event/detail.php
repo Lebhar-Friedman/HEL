@@ -129,7 +129,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 <!--        	<div class="col-lg-1"></div>
             <div class="col-lg-10">-->
             <div class="col-lg-12">
-            <div class="map2-content" id="#map">
+            <div class="map2-content" id="map">
                 <h1><?php if(sizeof($event['locations'])> 1){ echo "Locations";}else{echo "Location";}?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0) { ?>
