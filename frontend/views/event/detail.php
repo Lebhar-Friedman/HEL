@@ -86,6 +86,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?= $company['street'] ?><br />
                     <?= $company['state'] ?>, <?= $company['zip'] ?><br />
                     <?= $company['phone'] ?><br />
+                    <input type="hidden" value="<?= $company['zip'] ?>" id="c_zipcode">
                 </div>
                 <?php
                 
