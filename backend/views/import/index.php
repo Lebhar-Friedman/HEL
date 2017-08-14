@@ -145,7 +145,9 @@ if (count($events) > 0) {
                             <div class="tc1"><img src="<?= $logo_url ?>" alt=""  width="60px" /></div>
                             <div class="tc2"><?= $company['name'] ?></div>
                             <div class="tc2-2"><?= $company['t_events'] ?></div>
-                            <div class="tc3"><?= $company['t_locations'] ?><img src="<?= \yii\helpers\Url::to('@web/images/caution.png') ?>" alt="" /></div>
+                            <div class="tc3"><?= $company['t_locations'] ?>
+                                <!--<img src="<?= \yii\helpers\Url::to('@web/images/caution.png') ?>" alt="" />-->
+                            </div>
                             <div class="tc4">
                                 <a href="javascript:;" onclick="deleteCompany('<?= $company['_id'] ?>', this)" class="del-btn "></a>
                                 <a href="<?= \yii\helpers\BaseUrl::base() . '/company/detail?cid=' . $company['_id'] ?>" class="edit-btn "></a>
