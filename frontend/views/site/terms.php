@@ -1,37 +1,32 @@
 <?php 
 $this->title = 'Health Events Live: Terms';
 ?>
-<div class="container">
-    <p class="margin-t-20">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? 
-        Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem 
-        non blanditiis ex fugiat.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
+<div class="container privacy-container">
+    <h1>Terms</h1>
+    <h3>Lorem Ipsom</h3>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero tortor, accumsan non arcu eu, 
+        vulputate egestas orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis, mauris 
+        nec vestibulum dapibus, nisl velit pulvinar felis, ut pharetra sem orci ut nisl. Phasellus vitae varius tellus.
     </p>
-    <p class="margin-t-20">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
+    <h3>Lorem Ipsom</h3>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero tortor, accumsan non arcu eu, 
+        vulputate egestas orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis, mauris 
+        nec vestibulum dapibus, nisl velit pulvinar felis, ut pharetra sem orci ut nisl. Phasellus vitae varius tellus.
     </p>
-    <p class="margin-t-20">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
+    
+    <h3>Lorem Ipsom</h3>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero tortor, accumsan non arcu eu, 
+        vulputate egestas orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis, mauris 
+        nec vestibulum dapibus, nisl velit pulvinar felis, ut pharetra sem orci ut nisl. Phasellus vitae varius tellus.
     </p>
-    <p class="margin-t-20 margin-b-20">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa 
-        voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus 
-        perspiciatis quis?
+    
+    <h3>Lorem Ipsom</h3>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero tortor, accumsan non arcu eu, 
+        vulputate egestas orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis, mauris 
+        nec vestibulum dapibus, nisl velit pulvinar felis, ut pharetra sem orci ut nisl. Phasellus vitae varius tellus.
     </p>
 </div>

@@ -194,8 +194,8 @@ header{
 }
 .health-care-text{
     display:block;
-    font-size:20px;
-    line-height:25px;
+    font-size:16px;
+    line-height:20px;
     padding-left:30px;
 }
 .health-care-text span{
@@ -703,8 +703,8 @@ footer{
 }
 
 .custom-text{
-    font-size: 20px;
-    line-height: 25px;
+    font-size: 16px;
+    line-height: 20px;
     margin-top: 15px;
 }
 
