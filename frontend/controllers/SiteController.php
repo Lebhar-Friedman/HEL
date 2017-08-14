@@ -27,11 +27,12 @@ class SiteController extends Controller {
     /**
      * @inheritdoc
      */
+    public $referer_url;
     public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'save-event'],
+                'only' => ['logout', 'signup'],
                 'rules' => [
                         [
                         'actions' => ['signup'],
@@ -39,7 +40,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                         [
-                        'actions' => ['logout', 'save-event'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -258,17 +259,28 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionSignup() {
+        $session = Yii::$app->session;
+        $url ='';
+        if($session->get('url')){
+        $url = $session->get('url');
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             $user = $model->signup();
             if ($user) {
-                $email = $model->confirmationEmail($user);
+                $email = $model->confirmationEmail($user,$url);
                 if ($email) {
                     Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                 } else {
                     Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
                 }
-                return $this->goHome();
+                
+                if(!isset($url)){
+                    return $this->goHome();
+                }else{
+                    $session->remove('url');
+                    return $this->redirect($url);
+                }
             }
         }
 
@@ -277,7 +289,7 @@ class SiteController extends Controller {
         ]);
     }
 
-    public function actionConfirm($id, $key) {
+    public function actionConfirm($id, $key, $url) {
         $user = User::find()->where([
                     '_id' => new \MongoDB\BSON\ObjectID($id),
                     'auth_key' => $key,
@@ -291,7 +303,12 @@ class SiteController extends Controller {
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Failed!');
         }
-        return $this->goHome();
+        if(!isset($url)){
+            return $this->goHome();
+        }else{
+            return $this->redirect($url);
+        }
+        
     }
 
     /**
@@ -342,6 +359,12 @@ class SiteController extends Controller {
     }
 
     public function actionSaveEvent() {
+        if(!Yii::$app->user->id){
+            $session = Yii::$app->session;
+            $session->set('url', Yii::$app->request->referrer);
+            return $this->redirect(['site/signup']); 
+        }
+        
         $userID = Yii::$app->user->id;
         $eid = Yii::$app->request->get('eid');
         if (Yii::$app->request->get('flg')) {

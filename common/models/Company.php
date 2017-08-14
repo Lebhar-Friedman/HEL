@@ -10,6 +10,7 @@ use yii\mongodb\ActiveRecord;
  *
  * @property integer $_id
  * @property integer $company_id
+ * @property integer $company_number
  * @property string $name
  * @property string $contact_name
  * @property string $phone
@@ -31,6 +32,7 @@ class Company extends ActiveRecord {
     public function attributes() {
         return ['_id',
             'company_id', // auto increment serial#
+            'company_number',
             'name', //
             'contact_name',
             'phone',
@@ -43,7 +45,7 @@ class Company extends ActiveRecord {
             'created_at',
             'updated_at',
             't_locations',
-             't_events'
+            't_events'
         ];
     }
 
@@ -52,8 +54,9 @@ class Company extends ActiveRecord {
      */
     public function rules() {
         return [
-                [['_id',
+            [['_id',
             'company_id', // auto increment serial#
+            'company_number',
             'name', //
             'contact_name',
             'phone',
@@ -107,11 +110,18 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-    
+
     public static function findCompanyByName($name) {
         return static::findOne(['name' => $name]);
     }
+
     public static function CompanyList() {
         return static::find()->all();
     }
+    
+    public static function getNameByCompanyNumber($companyNumber) {
+        $company =  static::findOne(['company_number' => $companyNumber]);
+        return $company->name;
+    }
+
 }

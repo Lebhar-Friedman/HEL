@@ -130,17 +130,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 </div>-->
     </div>
     <div class="row">
-        <!--        	<div class="col-lg-1"></div>
-                    <div class="col-lg-10">-->
-        <div class="col-lg-12">
-            <div class="map2-content" id="#map">
-                <h1><?php
-                    if (sizeof($event['locations']) > 1) {
-                        echo "Locations";
-                    } else {
-                        echo "Location";
-                    }
-                    ?> for this event</h1>
+<!--        	<div class="col-lg-1"></div>
+            <div class="col-lg-10">-->
+            <div class="col-lg-12">
+            <div class="map2-content" id="map">
+                <h1><?php if(sizeof($event['locations'])> 1){ echo "Locations";}else{echo "Location";}?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0) { ?>
                     <div class="map-content" >
@@ -273,6 +267,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     var addthis_config = {
         ui_offset_top: 8,
         ui_offset_left: -9,
+        services_compact:'facebook,twitter,email',
+        services_exclude:'google_plusone_share,gmail,print,smiru,'
     }
     addthis_config.ui_email_note = '<?= $event['description'] ?>';
     addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';
