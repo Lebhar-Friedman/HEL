@@ -9,8 +9,8 @@ use const IMG_URL;
 
 class GlobalFunctions {
 
-    public static function getCompanyLogo($name) {
-        $company = Company::findOne(['name' => $name]); //->where(['name'=> $name]);
+    public static function getCompanyLogo($companyNumber) {
+        $company = Company::findOne(['company_number' => $companyNumber]); //->where(['name'=> $name]);
         if ($company && $company->logo !== NULL) {
             return IMG_URL . $company->logo;
         }

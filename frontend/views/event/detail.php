@@ -81,7 +81,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
             <div class="cvs-text">
-                <img src="<?= GlobalFunctions::getCompanyLogo($company['name']) ?>" alt="" />
+                <img src="<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>" alt="" />
                 <div class="margin-t">
                     <?= $company['street'] ?><br />
                     <?= $company['state'] ?>, <?= $company['zip'] ?><br />
@@ -267,7 +267,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
         <div class="col-lg-offset-2 col-lg-3 col-md-4 col-sm-4">
             <div class="cvs-text mobile-center">
-                <img src="<?= GlobalFunctions::getCompanyLogo($company['name']) ?>" alt="" />
+                <img src="<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>" alt="" />
                 <div class="find-out-text">
                 <!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
                     <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['company_number']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
@@ -293,6 +293,6 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         url: "<?= Yii::$app->request->absoluteUrl ?>",
         title: "<?= $event['title'] ?>",
         description: "<?= $event['description'] ?>",
-        media: "<?= GlobalFunctions::getCompanyLogo($company['name']) ?>"
+        media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
     }
 </script>
