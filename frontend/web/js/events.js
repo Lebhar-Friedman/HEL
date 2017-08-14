@@ -189,7 +189,7 @@ function addAlertSession() {
 }
 
 function alertZipCodeSession(){
-    var zip_code=5400;
+    var zip_code = $("#c_zipcode").val();
     var email = $("#email").val();
     var event_id = $("#event_id").val();
     $.ajax({
@@ -206,7 +206,7 @@ function alertZipCodeSession(){
 }
 
 function alertZipCode(){
-    var zip_code = 5400;
+    var zip_code = $("#c_zipcode").val();
     var event_id = $("#event_id").val();
     $.ajax({
         url: baseUrl + '/user/add-alerts',
