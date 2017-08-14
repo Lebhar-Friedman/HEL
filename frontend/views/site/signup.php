@@ -1,13 +1,20 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
+/* @var $this View */
+/* @var $form ActiveForm */
+/* @var $model SignupForm */
 
-use yii\helpers\Html;
+use frontend\models\SignupForm;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
+use yii\web\View;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
+
+$get_email = '';
+if (isset($_GET['email'])) {
+    $get_email = $_GET['email'];
+}
 ?>
 <style>
     body{
@@ -39,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <?= $form->field($model, 'email', ['inputOptions' => ['placeholder' => 'Email', 'class' => 'f-name-txtbx',]])->textInput(['autofocus' => true])->label(false) ?>
+                            <?= $form->field($model, 'email', ['inputOptions' => ['placeholder' => 'Email', 'class' => 'f-name-txtbx', 'value' => $get_email,]])->textInput(['autofocus' => true])->label(false) ?>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <?= $form->field($model, 'username', ['inputOptions' => ['placeholder' => 'Username', 'class' => 'f-name-txtbx',]])->textInput(['autofocus' => true])->label(false) ?>

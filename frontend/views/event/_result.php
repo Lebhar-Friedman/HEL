@@ -73,10 +73,10 @@ $temp_events = array();
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
-    <div class="event-near " id="event_near">
+    <div class="event-near " id="event_near" onclick="showNav()">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
-            <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
-        <i> </i>
+            <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
+        <!--<i> </i>-->
         <?php if (sizeof($filters) > 0) { ?>
             <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
                 <?php foreach ($filters as $filter) { ?>
@@ -152,27 +152,29 @@ $temp_events = array();
             $map->center = $map->getMarkersCenterCoordinates();
             $map->zoom = $map->getMarkersFittingZoom() - 1;
 
-            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
-            $map->addEvent($map_event);
+//            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
+//            $map->addEvent($map_event);
             echo $map->display();
             ?>
         </div>
     <?php } ?>
     <div class="email-content">
         <div class="row" id="add_alert">
-            <div class="col-lg-6 col-md-8">
-                <h1>Alert me when more health events like this get added!</h1>
-                <?php if (Yii::$app->user->isGuest) { ?>
-                    <div class="email-conatiner">
-                        <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
-                        <!--<input type="submit" value="Go" class="submitbtn" />-->
-                        <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
-                        <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
-                    </div>
-                <?php } else { ?>
-                    <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
-                <?php } ?>
-            </div>
+            <?php if (!$alert_added) { ?>
+                <div class="col-lg-6 col-md-8">
+                    <h1>Alert me when more health events like this get added!</h1>
+                    <?php if (Yii::$app->user->isGuest) { ?>
+                        <div class="email-conatiner">
+                            <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
+                            <!--<input type="submit" value="Go" class="submitbtn" />-->
+                            <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
+                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
+                        </div>
+                    <?php } else { ?>
+                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <?= $this->render('_more-events'); ?>
