@@ -34,7 +34,17 @@ $this->title = 'Health Events Live: Alerts';
                         <?php foreach ($single_alert_obj['filters'] as $filter) { ?>
                             <?= $filter . ', ' ?>
                         <?php } ?>
-                        <a href="javascript:;" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)"><img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" /></a>
+                        <?php if($single_alert_obj['zip_code'] !== null){
+                            echo 'Zip='.$single_alert_obj['zip_code'];
+                        }?>
+                        <?php
+                        if($single_alert_obj['sort'] !== null){
+                            echo ',Sort='.$single_alert_obj['sort'];
+                        }
+                        ?>
+                        <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
+                            <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
+                        </a>
                     </div>
                 <?php } ?>
             <?php } else { ?>

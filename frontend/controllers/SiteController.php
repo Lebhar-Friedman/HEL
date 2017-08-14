@@ -28,6 +28,7 @@ class SiteController extends Controller {
      * @inheritdoc
      */
     public $referer_url;
+
     public function behaviors() {
         return [
             'access' => [
@@ -110,28 +111,38 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        
+
         $session = Yii::$app->session;
-        if ($session->has('zipcode') && !Yii::$app->user->isGuest){
+        if($session->has('event_id') && !Yii::$app->user->isGuest){
+            
+            $event_id =$session->get('event_id');
+            $session->remove('zipcode');
+            $session->remove('keywords');
+            $session->remove('filters');
+            $session->remove('sort');
+            
+//            return Yii::$app->runAction(['evnt/detail','eid'=>$event_id]);
+            return $this->redirect(['event/detail','eid'=>$event_id,'alert_added'=>'y']);
+        }
+        if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
+            
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');
             $sort = $session->get('sort');
-            $parameters =array();
-            if(!empty($zip)){
-               $temp =['zipcode' => $zip]; 
-               array_merge($parameters,$temp);
-            }
-            if(is_array($keywords)){
-                $temp_keywords= array();
-                foreach ($keywords as $keyword) {
-                    array_merge($temp_keywords,['keywords' => $keyword]);
-                }
-                array_merge($parameters,$temp_keywords);
-            }
-//            exit();
-//            return Yii::$app->runAction('event/index', ['param1'=>'value1', 'param2'=>'value2']);
+            $parameters = array();
             
+            if (!empty($zip)) {
+                $temp = ['zipcode' => $zip];
+                array_merge($parameters, $temp);
+            }
+            if (is_array($keywords)) {
+                $temp_keywords = array();
+                foreach ($keywords as $keyword) {
+                    array_merge($temp_keywords, ['keywords' => $keyword]);
+                }
+                array_merge($parameters, $temp_keywords);
+            }
             return $this->redirect(['event/']);
         }
 
@@ -238,19 +249,27 @@ class SiteController extends Controller {
     }
 
     public function actionAddAlertsSession() {
-
-        $zip_code = Yii::$app->request->post('zipcode');
-        $keywords = Yii::$app->request->post('keywords');
-        $filters = Yii::$app->request->post('filters');
-        $sort_by = Yii::$app->request->post('sortBy');
-        
         $session = Yii::$app->session;
+        if (Yii::$app->request->post('only_zip') !== null) {
+            $zip_code = Yii::$app->request->post('zipcode');
+            $event_id = Yii::$app->request->post('event_id');
+            $keywords = array();
+            $filters = array();
+            $sort_by = 'Closest';
+//            $session->set('only_zip', 'y');
+            $session->set('event_id',$event_id);
+        } else {
+            $zip_code = Yii::$app->request->post('zipcode');
+            $keywords = Yii::$app->request->post('keywords');
+            $filters = Yii::$app->request->post('filters');
+            $sort_by = Yii::$app->request->post('sortBy');
+        }
+
         $session->set('zipcode', $zip_code);
         $session->set('keywords', $keywords);
-        $session->set('filters',$filters);
+        $session->set('filters', $filters);
         $session->set('sort', $sort_by);
         $session->set('signup_page', 'Y');
-
     }
 
     /**
@@ -260,24 +279,24 @@ class SiteController extends Controller {
      */
     public function actionSignup() {
         $session = Yii::$app->session;
-        $url ='';
-        if($session->get('url')){
-        $url = $session->get('url');
+        $url = '';
+        if ($session->get('url')) {
+            $url = $session->get('url');
         }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             $user = $model->signup();
             if ($user) {
-                $email = $model->confirmationEmail($user,$url);
+                $email = $model->confirmationEmail($user, $url);
                 if ($email) {
                     Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                 } else {
                     Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
                 }
-                
-                if(!isset($url)){
+
+                if (!isset($url)) {
                     return $this->goHome();
-                }else{
+                } else {
                     $session->remove('url');
                     return $this->redirect($url);
                 }
@@ -303,12 +322,11 @@ class SiteController extends Controller {
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Failed!');
         }
-        if(!isset($url)){
+        if (!isset($url)) {
             return $this->goHome();
-        }else{
+        } else {
             return $this->redirect($url);
         }
-        
     }
 
     /**
@@ -359,12 +377,12 @@ class SiteController extends Controller {
     }
 
     public function actionSaveEvent() {
-        if(!Yii::$app->user->id){
+        if (!Yii::$app->user->id) {
             $session = Yii::$app->session;
             $session->set('url', Yii::$app->request->referrer);
-            return $this->redirect(['site/signup']); 
+            return $this->redirect(['site/signup']);
         }
-        
+
         $userID = Yii::$app->user->id;
         $eid = Yii::$app->request->get('eid');
         if (Yii::$app->request->get('flg')) {
