@@ -270,7 +270,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <img src="<?= GlobalFunctions::getCompanyLogo($company['name']) ?>" alt="" />
                 <div class="find-out-text">
                 <!--<img src="<?= $img_url ?>result-detail-img2.png" alt="" />-->
-                    <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['name']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
+                    <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['company_number']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
                 </div>
             </div>
         </div>
