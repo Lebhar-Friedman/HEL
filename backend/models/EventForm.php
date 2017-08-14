@@ -11,7 +11,7 @@ class EventForm extends Model {
 
     public $eid;
     public $title;
-    public $company;
+    public $company; // company number
     public $date_start;
     public $date_end;
     public $time_start;
@@ -40,8 +40,8 @@ class EventForm extends Model {
     }
 
     public function validateCompany($attribute, $params) {
-        $this->company = ucfirst(strtolower(trim($this->company)));
-        $company = \common\models\Company::find()->andWhere(['name' => $this->company])->one();        //print_r($company);die;
+        $this->company = trim($this->company);
+        $company = \common\models\Company::find()->andWhere(['company_number' => $this->company])->one();        //print_r($company);die;
         if (count($company) > 0) {
             ;
         } else {
@@ -51,7 +51,7 @@ class EventForm extends Model {
 
     public static function getCsvAttributeMapArray() {
         return [// event attributes
-            'event company' => 'company',
+            'event company id' => 'company',
             'event title' => 'title',
             'event date' => 'date_start',
             'event start time' => 'time_start',
@@ -76,20 +76,19 @@ class EventForm extends Model {
 
             foreach ($models as $model) {
                 $locationForm = $model->location_models;
-                $location = \common\models\Location::findOne(['street' => $locationForm->street, 'city' => $locationForm->city, 'state' => $locationForm->state, 'zip' => $locationForm->zip]);
+                $location = \common\models\Location::findOne(['store_number' => $locationForm->store_number]);
                 if (count($location) == 0) {
                     $location = new \common\models\Location();
                 }
-                if (empty($location->geometry)) {
-                    $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
-                    if ($latlong) {
-                        $location->geometry = ['type' => 'Point',
-                            'coordinates' => [$latlong['long'],
-                                $latlong['lat']]
-                        ];
-                    }
+                $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
+                if ($latlong) {
+                    $location->geometry = ['type' => 'Point',
+                        'coordinates' => [$latlong['long'],
+                            $latlong['lat']]
+                    ];
                 }
                 $location->attributes = $locationForm->attributes;
+                \common\models\Event::updateLocationInEvents($location);
                 //echo '<br>' . json_encode($location->attributes);
                 $location->save();
                 self::saveCsvEvent($model, $location);
@@ -131,11 +130,11 @@ class EventForm extends Model {
                         }
                     }
                     $locationModel->attributes = $locationAttributes;
-                    $locationModel->company = ucfirst($locationModel->company);
+                    $locationModel->company = $locationModel->company; //ucfirst($locationModel->company);
                     $eventModel->attributes = $eventAttributes;
                     $eventModel->categories = explode(',', $eventModel->categories);
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
-                    $eventModel->company = ucfirst($eventModel->company);
+                    $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
                     if (!$locationModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];

@@ -34,7 +34,7 @@ class LocationForm extends Model {
 
     public function validateCompany($attribute, $params) {
         $this->company = ucfirst(strtolower(trim($this->company)));
-        $company = \common\models\Company::find()->andWhere(['name' => $this->company])->one();        //print_r($company);die;
+        $company = \common\models\Company::find()->andWhere(['company_number' => $this->company])->one();        //print_r($company);die;
         if (count($company) > 0) {
             ;
         } else {
@@ -48,7 +48,7 @@ class LocationForm extends Model {
     public static function getCsvAttributeMapArray() {
         return [// location attributes
             'store' => 'store_number',
-            'store name' => 'company',
+            'store company id' => 'company',
             'street address' => 'street',
             'city' => 'city',
             'state' => 'state',
