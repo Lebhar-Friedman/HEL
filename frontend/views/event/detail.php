@@ -81,12 +81,12 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         </div>
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
             <div class="cvs-text">
-                <img src="<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>" alt="" />
+                <img src="<?= GlobalFunctions::getCompanyLogo($event_location['company']) ?>" alt="" />
                 <div class="margin-t">
-                    <?= $company['street'] ?><br />
-                    <?= $company['state'] ?>, <?= $company['zip'] ?><br />
-                    <?= $company['phone'] ?><br />
-                    <input type="hidden" value="<?= $company['zip'] ?>" id="c_zipcode">
+                    <?= $event_location['street'] ?><br />
+                    <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?><br />
+                    <?= $event_location['phone'] ?><br />
+                    <input type="hidden" value="<?= $event_location['zip'] ?>" id="c_zipcode">
                 </div>
                 <?php
                 
