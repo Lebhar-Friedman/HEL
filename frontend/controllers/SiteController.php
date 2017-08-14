@@ -116,13 +116,8 @@ class SiteController extends Controller {
         if($session->has('event_id') && !Yii::$app->user->isGuest){
             
             $event_id =$session->get('event_id');
-            $session->remove('zipcode');
-            $session->remove('keywords');
-            $session->remove('filters');
-            $session->remove('sort');
-            
 //            return Yii::$app->runAction(['evnt/detail','eid'=>$event_id]);
-            return $this->redirect(['event/detail','eid'=>$event_id,'alert_added'=>'y']);
+            return $this->redirect(['event/detail','eid'=>$event_id,'alert_added'=>true]);
         }
         if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
             
