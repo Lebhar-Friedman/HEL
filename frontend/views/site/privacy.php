@@ -1,3 +1,4 @@
+<?php $this->title = 'Health Events Live: Privacy'; ?>
 <div class="container privacy-container">
     <h1>Privacy</h1>
     <h3>Why sell your miles</h3>

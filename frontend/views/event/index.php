@@ -9,6 +9,8 @@ $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
+
+$this->title = 'Health Events Live: Search Events';
 ?>
 <style>
     .chosen-choices{
@@ -48,7 +50,7 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
                             <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" /></div>
                         </div>
                         <div class="zip-code">
-                            <span><b>Keyword</b> (optional)</span>
+                            <span><b>Keyword</b></span>
                             <div class="optional1">
                                 <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]" id="keywords">
                                     <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>

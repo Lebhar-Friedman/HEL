@@ -32,8 +32,8 @@ $this->title = 'Locations';
                     <select name="company" id="company">
                         <option value="-1" selected="selected">Company</option>
                         <?php foreach ($companies as $company) { ?>
-                            <option value='<?= $company['name'] ?>' <?php
-                            if (isset($_GET['company']) && $_GET['company'] === $company['name']) {
+                            <option value='<?= $company['company_number'] ?>' <?php
+                            if (isset($_GET['company']) && $_GET['company'] === $company['company_number']) {
                                 echo "selected";
                             }
                             ?>><?= $company['name'] ?></option>
@@ -66,7 +66,7 @@ $this->title = 'Locations';
                     ?> 
                     <div class="location-table-row1 clearfix">
                         <div class="table-chk-h-a"><?= $location['store_number'] ?></div>
-                        <div class="table-title-h1-b"><?= $location['company'] ?></div>
+                        <div class="table-title-h1-b"><?= common\models\Company::getNameByCompanyNumber($location['company']) ?></div>
                         <div class="table-date-h1-c"><?= $location['street'] ?></div>
                         <div class="table-time-h1-d"><?= $location['city'] ?></div>
                         <div class="table-state-h1-e"><?= $location['state'] ?></div>

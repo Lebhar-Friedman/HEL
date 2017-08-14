@@ -3,7 +3,7 @@
 use yii\helpers\BaseUrl;
 
 $this->registerCssFile('@web/css/results.css');
-$this->title = 'Provider';
+$this->title = 'Health Events Live: Provider';
 $baseUrl = Yii::$app->request->baseUrl;
 
 if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['logo'])) {

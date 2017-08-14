@@ -8,7 +8,7 @@ $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 //$this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
 
-$this->title = 'Provider Events';
+$this->title = 'Health Events Live: Provider\'s event ';
 $baseUrl = Yii::$app->request->baseUrl;
 
 if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['logo'])) {
@@ -97,7 +97,9 @@ $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipc
                         </div>
                     </form>
                 </div>
-                <div class="add-box"><img src="<?= $baseUrl ?>/images/result-img7.png" alt="" /></div>
+                <div class="add-box">
+                    <!--<img src="<?= $baseUrl ?>/images/result-img7.png" alt="" />-->
+                </div>
 
             </div>
         </div>

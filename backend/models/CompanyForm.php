@@ -10,6 +10,7 @@ use yii\base\Model;
  */
 class CompanyForm extends Model {
 
+    public $company_number;
     public $name;
     public $contact_name;
     public $phone;
@@ -28,7 +29,7 @@ class CompanyForm extends Model {
         return [
             ['c_id', 'safe'],
             // username and password are both required
-            [['name', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'required'],
+            [['company_number', 'name', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'required'],
             // string fields
             [['name', 'contact_name', 'street', 'city', 'state', 'zip'], 'string'],
             // email validation
@@ -48,7 +49,7 @@ class CompanyForm extends Model {
         }
         $model = Company::find()->andWhere($whereParams)->all();
         if (count($model) > 0) {
-            $this->addError($attribute, 'This Company name is already taken');
+            $this->addError($attribute, 'This Company (' . $this->name . ') name is already taken');
         }
     }
 
@@ -69,6 +70,7 @@ class CompanyForm extends Model {
 
     public static function getCsvAttributeMapArray() {
         return $attributeMapArray = [
+            'company number' => 'company_number',
             'company name' => 'name',
             'contact name' => 'contact_name',
             'phone' => 'phone',
@@ -88,7 +90,7 @@ class CompanyForm extends Model {
             $models = $validate['models'];
             foreach ($models as $model) {
                 $model->name = ucfirst($model->name);
-                $company = Company::findOne(['name' => $model->name]);
+                $company = Company::findOne(['company_number' => $model->company_number]);
                 if (count($company) == 0) {
                     $company = new Company();
                 }

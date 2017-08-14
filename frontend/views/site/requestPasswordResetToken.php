@@ -5,7 +5,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
+$this->title = 'Health Events Live: Reset Password';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>

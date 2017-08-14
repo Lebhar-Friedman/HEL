@@ -73,9 +73,9 @@ $temp_events = array();
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
-    <div class="event-near " id="event_near">
+    <div class="event-near " id="event_near" onclick="showNav()">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> 
-            <a class="search-filter" href=""><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
+            <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></h1>
         <!--<i> </i>-->
         <?php if (sizeof($filters) > 0) { ?>
             <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
@@ -88,7 +88,7 @@ $temp_events = array();
     <?php foreach ($events as $event) { ?>
         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
             <div class="multi-service" >
-                <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                 <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
                 <div class="clearfix">

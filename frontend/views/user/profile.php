@@ -5,7 +5,7 @@ use components\GlobalFunction;
 use yii\helpers\BaseUrl;
 use yii\web\JqueryAsset;
 
-$this->title = 'profile';
+$this->title = 'Health Events Live: Profile';
 $baseUrl = Yii::$app->request->baseUrl;
 ?>
 

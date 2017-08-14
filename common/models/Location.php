@@ -9,6 +9,7 @@ use yii\mongodb\ActiveRecord;
  *
  * @property integer $_id
  * @property integer $location_id
+ * @property integer $store_number
  * @property string $company
  * @property string $street
  * @property string $city

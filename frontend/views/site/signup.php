@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\View;
 
-$this->title = 'Signup';
+$this->title = 'Health Events Live: Signup';
 $this->params['breadcrumbs'][] = $this->title;
 
 $get_email = '';
