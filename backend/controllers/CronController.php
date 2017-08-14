@@ -38,17 +38,19 @@ class CronController extends Controller {
 
         foreach ($alerts_objs as $single_user_alerts) {
             $user_id = $single_user_alerts['user_id'];
+            $events_to_send = array();
             foreach ($single_user_alerts['alerts'] as $single_alert) {
                 $events = $this->getEventsWithDistance($single_alert['keywords'], $single_alert['filters'], $single_alert['longitude'], $single_alert['latitude'], $single_alert['sort']);
                 if (sizeof($events) > 0) {
-                    $user = User::findOne($user_id);
-                    if (isset($user)) {
-                        $arguments = ['events' => $events, 'user_name' => $user->first_name];
-                        GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
-                    }
+                    $events_to_send[] = $events;
                 }
                 echo '<pre>';
                 print_r($events);
+            }
+            $user = User::findOne($user_id);
+            if (isset($user)) {
+                $arguments = ['events' => $events_to_send, 'user_name' => $user->first_name];
+                GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
             }
         }
     }
@@ -64,7 +66,7 @@ class CronController extends Controller {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['created-at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['created-at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true]];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
@@ -74,10 +76,10 @@ class CronController extends Controller {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true]];
             } else {
 //                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]], ['is_post' => true]];
-                $matchParams = ['AND', ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]], ['is_post' => true]];
+                $matchParams = ['AND', ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
             }
         } else {
 //            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];

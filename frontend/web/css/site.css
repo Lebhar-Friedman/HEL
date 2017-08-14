@@ -1323,6 +1323,16 @@ footer a:hover{
     width: 70%;
     height: 50px;
 }
+/*.single_alert{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.single_alert_img{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}*/
 @media (max-width: 767px) and (min-width: 0px){
     .alert-body{background:#f7f7f7;}
     .profile-alert-nav{padding:11px 0px; margin:0px 5px;}
@@ -1430,9 +1440,9 @@ footer a:hover{
 /* HOME / GENERAL */
 
 .health-h {
-   font-size: 40px;
-   text-align: center;
-   line-height: 50px;
+    font-size: 40px;
+    text-align: center;
+    line-height: 50px;
 }
 
 .health-box {
@@ -1451,12 +1461,12 @@ footer a:hover{
 }
 
 .text-justify {
- text-align: left; /* just remove this class from the dom */  
+    text-align: left; /* just remove this class from the dom */  
 }
 
 .from-h {
-   font-size: 40px;
-   line-height: 50px;
+    font-size: 40px;
+    line-height: 50px;
 }
 
 h2 {
@@ -1499,7 +1509,7 @@ h2 {
     padding-left: 20px;
 }
 .result-logo {
-  padding-left: 3px;    
+    padding-left: 3px;    
 }
 
 .result-logo a img {
