@@ -5,6 +5,7 @@ use components\GlobalFunction;
 use yii\helpers\BaseUrl;
 ?>
 <?php
+$this->title = 'Health Events Live: Directory';
 $img_url = BaseUrl::base() . 'images/'
 ?>
 <div class="container">

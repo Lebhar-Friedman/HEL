@@ -9,6 +9,8 @@ $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
+
+$this->title = 'Health Events Live: Search Events';
 ?>
 <style>
     .chosen-choices{

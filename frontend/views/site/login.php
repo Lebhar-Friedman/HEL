@@ -7,7 +7,7 @@ use yii\helpers\BaseUrl;
 use yii\helpers\Html;
 use yii\web\View;
 
-$this->title = 'Login';
+$this->title = 'Health Events Live: Login';
 $this->params['breadcrumbs'][] = $this->title;
 $get_email = '';
 if (isset($_GET['email'])) {

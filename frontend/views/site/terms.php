@@ -1,4 +1,6 @@
-<?php ?>
+<?php 
+$this->title = 'Health Events Live: Terms';
+?>
 <div class="container">
     <p class="margin-t-20">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? 

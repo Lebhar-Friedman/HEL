@@ -1,6 +1,6 @@
 <?php
 $baseUrl = Yii::$app->request->baseUrl;
-$this->title = 'Health Events';
+$this->title = 'Health Events Live: Home';
 ?>
 <style>
     #homelayout-header{
