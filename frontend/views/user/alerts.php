@@ -26,6 +26,9 @@ $this->title = 'Health Events Live: Alerts';
                 <div class="alert-h">Alerts</div>
                 <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
                     <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
+                        <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
+                            <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
+                        </a>
                         <?php
                         foreach ($single_alert_obj['keywords'] as $value) {
                             echo $value . ', ';
@@ -42,9 +45,7 @@ $this->title = 'Health Events Live: Alerts';
                             echo ',Sort='.$single_alert_obj['sort'];
                         }
                         ?>
-                        <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
-                            <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
-                        </a>
+                        
                     </div>
                 <?php } ?>
             <?php } else { ?>

@@ -30,17 +30,17 @@ class EventController extends Controller {
         $latitude;
         $session = Yii::$app->session;
         if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
-            
+
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');
             $sort = $session->get('sort');
-            
+
             $session->remove('zipcode');
             $session->remove('keywords');
             $session->remove('filters');
             $session->remove('sort');
-            
+
             if (empty($zip)) {
                 $lng_lat = GlobalFunctions::getCookiesOfLngLat();
                 if ($lng_lat) {
@@ -58,7 +58,7 @@ class EventController extends Controller {
             }
             if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
                 Yii::$app->getSession()->setFlash('success', 'Alert has been added');
-            }else{
+            } else {
                 Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
             }
             $events_dist = $this->getEventsWithDistance($zip, $keywords, $filters, $longitude, $latitude, 50, 0, $sort);
@@ -137,10 +137,32 @@ class EventController extends Controller {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
         $store_number = urldecode(Yii::$app->request->get('store_number'));
-        $error='';
+        $alert_added = false;
+        if (urldecode(Yii::$app->request->get('alert_added')) === true) {
+            
+            $alert_added = urldecode(Yii::$app->request->get('alert_added'));
+            
+            $keywords = $session->get('keywords');
+            $filters = $session->get('filters');
+            $zip = $session->get('zip');
+            $sort = $session->get('sort');
+            
+            $session->remove('zipcode');
+            $session->remove('keywords');
+            $session->remove('filters');
+            $session->remove('sort');
+            
+            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
+                Yii::$app->getSession()->setFlash('success', 'Alert has been added');
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
+            }
+            
+        }
+        $error = '';
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
-        }else{
+        } else {
             $error = 'Record not found!';
         }
         $event = $query->one();
@@ -155,8 +177,8 @@ class EventController extends Controller {
         
         $companyEvents = Event::findCompanyEventsByNumber($company['company_number'],$eid);
         $z_lng_lat = $this->getZipLongLat();
-        
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'],'error'=>$error]);
+
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'], 'error' => $error, 'alert_added' => $alert_added]);
     }
 
     public function actionDirectory() {

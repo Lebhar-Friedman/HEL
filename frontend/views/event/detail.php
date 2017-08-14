@@ -241,27 +241,29 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 endforeach;
             }
             ?>
-            <div class="email-content" id="add_alert">
-                <div class="row">
-                    <div class="col-lg-11 col-md-12">
-                        <h1>Alert me when more health events added at this location!</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 col-md-10">
-                        <div class="email-conatiner">
-                            <input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
-                            <?php if (Yii::$app->user->isGuest) { ?>
-                                <input type="text" class="email-textbox" placeholder="Email" id="email"/>
-                                <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Go</a>
-                            <?php } else { ?>
-                                <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Go</a>
-                            <?php } ?>
+            <?php if (!$alert_added) { ?>
+                <div class="email-content" id="add_alert">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-12">
+                            <h1>Alert me when more health events added at this location!</h1>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10">
+                            <div class="email-conatiner">
+                                <input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
+                                <?php if (Yii::$app->user->isGuest) { ?>
+                                    <input type="text" class="email-textbox" placeholder="Email" id="email"/>
+                                    <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Go</a>
+                                <?php } else { ?>
+                                    <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Go</a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
+                </div>
+            <?php } ?>
         </div>
         <div class="col-lg-offset-2 col-lg-3 col-md-4 col-sm-4">
             <div class="cvs-text mobile-center">
