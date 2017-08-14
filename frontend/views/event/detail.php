@@ -273,7 +273,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     var addthis_config = {
         ui_offset_top: 8,
         ui_offset_left: -9,
-        services_compact:'facebook,twiter,email',
+        services_compact:'facebook,twitter,email',
+        services_exclude:'google_plusone_share,gmail,print,smiru,'
     }
     addthis_config.ui_email_note = '<?= $event['description'] ?>';
     addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';
