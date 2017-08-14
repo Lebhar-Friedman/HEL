@@ -4,6 +4,8 @@ use common\functions\GlobalFunctions;
 use yii\helpers\BaseUrl;
 use yii\web\JqueryAsset;
 use yii\widgets\Pjax;
+
+$this->title = 'Health Events Live: Alerts';
 ?>
 <?php $this->registerCssFile('@web/css/chosen.min.css'); ?>
 <?php $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]); ?>
