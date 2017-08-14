@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Company;
+use common\models\Location;
 use common\models\Event;
 use components\GlobalFunction;
 use Yii;
@@ -135,16 +136,24 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
+        $store_number = urldecode(Yii::$app->request->get('store_number'));
         $error='';
         if ($eid !== '') {
             $query->andWhere(['_id' => $eid]);
         }else{
             $error = 'Record not found!';
         }
-
         $event = $query->one();
-        $company = Company::findCompanyByName($event['company']);
-        $companyEvents = Event::findCompanyEvents($company['name']);
+        
+        if($store_number===''){
+            $company_number = $event['locations'][0]['company'];
+        }else{
+            $company_number = Location::findCompanyByStoreNumber($store_number)['company'];
+        }
+            
+        $company = Company::findCompanyByNumber($company_number);
+        
+        $companyEvents = Event::findCompanyEventsByNumber($company['company_number'],$eid);
         $z_lng_lat = $this->getZipLongLat();
         
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'],'error'=>$error]);
