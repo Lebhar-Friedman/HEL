@@ -194,9 +194,9 @@ class EventController extends Controller {
         $company = Company::findCompanyByNumber($event['company']);
 
         $companyEvents = Event::findCompanyEventsByNumber($company_number, $eid);
-        $z_lng_lat = $this->getZipLongLat();
+//        $z_lng_lat = $this->getZipLongLat();
 
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'], 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
     }
 
     public function actionDirectory() {
