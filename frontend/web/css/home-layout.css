@@ -202,39 +202,6 @@ header{
     display:block;
     padding-bottom:20px;
 }
-.debate-txt{
-    display:block;
-    padding-left:20px;
-    font-size:22px;
-    line-height:20px;
-}
-.debate-txt span{
-    display:block;
-    background:url(../images/plus-icon.png) top left no-repeat;
-    padding:0px 0px 17px 27px;
-}
-.debate-txt a{
-    display:block;
-    max-width:345px;
-    text-align:center;
-    padding:17px 7px 13px 7px;
-    background:#00c1ff;
-    color:#FFF !important; 
-    font-size:20px;
-    line-height:20px;
-    font-family: 'helveticaneuebold' !important;
-    margin-top:25px !important;
-    border-radius: 4px;
-    background-clip: padding-box;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-}
-.debate-txt a:hover{
-    background:#000;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-}
-.debate-txt a img{vertical-align:middle; margin-right:20px;}
 footer{
     display:block;
     margin-top:107px;
@@ -580,13 +547,110 @@ footer{
 }
 .search-filter{display:none; float:right; margin-top:-10px;}	
 .nav-cros{display:none; float:right; margin-top:3px !important;}
+.result-footer{
+    margin-top: 107px;
+}
+
+/* HOME / GENERAL from jamie */
+
+.health-h {
+   font-size: 40px;
+   text-align: center;
+   line-height: 50px;
+}
+
+.health-box {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+.health-box img {
+    max-width: 25%;
+}
+
+.custom-text,
+.health-care-text {
+    font-size: 16px;
+    line-height: 22px;
+}
+.debate-txt{
+    display:block;
+    padding-left:20px;
+    font-size:22px;
+    line-height:20px;
+}
+.debate-txt span{
+    display:block;
+    background:url(../images/plus-icon.png) top left no-repeat;
+    padding:0px 0px 17px 27px;
+}
+.debate-txt a{
+    display:block;
+    max-width:345px;
+    text-align:center;
+    padding:17px 7px 13px 7px;
+    background:#00c1ff;
+    color:#FFF !important; 
+    font-size:20px;
+    line-height:20px;
+    font-family: 'helveticaneuebold' !important;
+    margin-top:25px !important;
+    border-radius: 4px;
+    background-clip: padding-box;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.debate-txt a:hover{
+    background:#000;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.debate-txt a img{vertical-align:middle; margin-right:20px;}
 .heading-blue{
     color: #1e5ba9;
     padding-bottom: 20px !important;
 }
-.result-footer{
-    margin-top: 107px;
+
+.text-justify {
+ text-align: left; /* just remove this class from the dom */  
 }
+
+.from-h {
+   font-size: 40px;
+   line-height: 50px;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.debate-txt span {
+    font-size: 18px;
+}
+
+.search-btn,
+.debate-txt a,
+.go-btn,
+.email-conatiner .submitbtn,
+.save-share-btn a {
+    background-color: #00c1ff;
+}
+
+.search-btn:hover,
+.debate-txt a:hover,
+.go-btn:hover,
+.email-conatiner .submitbtn:hover,
+.save-share-btn a:hover {
+    background-color: #1e5ba9 !important;
+}
+
+.debate-txt a {
+    max-width: 300px;
+}
+
+/* Move .debate-txt .heading-blue to the space below .health-care-text */ 
+/*__________________________________*/
 /***********************************************************************/
 @media (max-width: 1200px) and (min-width: 768px){
     .container{width:100% !important;}
