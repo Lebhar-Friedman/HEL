@@ -38,7 +38,7 @@ $this->title = 'Health Events Live: Alerts';
                             <?= $filter . ', ' ?>
                         <?php } ?>
                         <?php if($single_alert_obj['zip_code'] !== null){
-                            echo 'Zip='.$single_alert_obj['zip_code'];
+                            echo 'Events near '.$single_alert_obj['zip_code'];
                         }?>
                         <?php
                         if($single_alert_obj['sort'] !== null){
