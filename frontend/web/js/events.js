@@ -63,10 +63,10 @@ function searchResult(form_data) {
     });
 
     $.pjax.reload({
-        url: baseUrl + 'event/index',
+        url: baseUrl + 'event',
         container: '#result-view',
         replace: false,
-        type: 'post',
+        type: 'get',
         data: form_data,
         timeout: 30000,
         push: true

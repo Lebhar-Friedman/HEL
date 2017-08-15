@@ -43,7 +43,7 @@ $this->title = 'Health Events Live: Search Events';
                 <div class="search-nav">
                     <form action="<?= BaseUrl::base() ?>/event" method="post" id="events_search_form">
 
-                        <input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                        <!--<input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />-->
                         <h1>Search <a href="javascript:;" onclick="closeNav()" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
                         <div class="zip-code">
                             <span><b>Zip Code</b></span>
