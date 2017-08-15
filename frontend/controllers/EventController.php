@@ -68,26 +68,26 @@ class EventController extends Controller {
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
-
-            $ip = Yii::$app->request->userIP;
-//            $ip = '103.7.78.171';
-            $latitude = Yii::$app->ip2location->getLatitude($ip);
-            $longitude = Yii::$app->ip2location->getLongitude($ip);
-            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
-
-            $cookies = Yii::$app->request->cookies;
-
-            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
-                $longitude = $cookie_long->value;
-                $latitude = $cookie_lat->value;
-                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
-                $zip_code = $temp_zip ? $temp_zip : $zip_code;
-            }
+//
+//            $ip = Yii::$app->request->userIP;
+////            $ip = '103.7.78.171';
+//            $latitude = Yii::$app->ip2location->getLatitude($ip);
+//            $longitude = Yii::$app->ip2location->getLongitude($ip);
+//            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+//
+//            $cookies = Yii::$app->request->cookies;
+//
+//            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+//                $longitude = $cookie_long->value;
+//                $latitude = $cookie_lat->value;
+//                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+//                $zip_code = $temp_zip ? $temp_zip : $zip_code;
+//            }
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-            $latitude = $longlat['lat'];
-            $longitude = $longlat['long'];
+//            $latitude = $longlat['lat'];
+//            $longitude = $longlat['long'];
         }
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
@@ -95,18 +95,16 @@ class EventController extends Controller {
             $sort_by = Yii::$app->request->post('sortBy');
             $filters = Yii::$app->request->post('filters');
 
-            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-            $latitude = $longlat['lat'];
-            $longitude = $longlat['long'];
-            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
-                $longitude = $cookie_long->value;
-                $latitude = $cookie_lat->value;
-                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
-                $zip_code = $temp_zip ? $temp_zip : $zip_code;
-            }
+//            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
+//            $latitude = $longlat['lat'];
+//            $longitude = $longlat['long'];
+//            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
+//                $longitude = $cookie_long->value;
+//                $latitude = $cookie_lat->value;
+//                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
+//                $zip_code = $temp_zip ? $temp_zip : $zip_code;
+//            }
             $z_lng_lat = $this->getZipLongLat();
-//            echo '<pre>';
-//            print_r($z_lng_lat);exit;
 //            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude,50,0, $sort_by);
             $events_dist = $this->getEventsWithDistance($z_lng_lat['zip_code'], $keywords, $filters, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 50, 0, $sort_by);
             $total_events = sizeof($events_dist);
@@ -222,22 +220,23 @@ class EventController extends Controller {
             $zip_code = Yii::$app->request->post('zipcode');
         } else if (Yii::$app->request->isGet && !empty(Yii::$app->request->get('zipcode'))) {
             $zip_code = Yii::$app->request->get('zipcode');
-        } else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
-            $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
-            $zip_code == '' ? $zip_code = '' : '';
-            $session->set('lng', $coordinates['longitude']);
-            $session->set('lat', $coordinates['latitude']);
-            return ['zip_code' => $zip_code, 'longitude' => $coordinates['longitude'], 'latitude' => $coordinates['latitude']];
-        } else {
-            $ip = Yii::$app->request->userIP;
-            $latitude = Yii::$app->ip2location->getLatitude($ip);
-            $longitude = Yii::$app->ip2location->getLongitude($ip);
-            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
-
-            $session->set('lng', $longitude);
-            $session->set('lat', $latitude);
-            return ['zip_code' => $zip_code, 'longitude' => $longitude, 'latitude' => $latitude];
         }
+//         else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
+//            $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
+//            $zip_code == '' ? $zip_code = '' : '';
+//            $session->set('lng', $coordinates['longitude']);
+//            $session->set('lat', $coordinates['latitude']);
+//            return ['zip_code' => $zip_code, 'longitude' => $coordinates['longitude'], 'latitude' => $coordinates['latitude']];
+//        } else {
+//            $ip = Yii::$app->request->userIP;
+//            $latitude = Yii::$app->ip2location->getLatitude($ip);
+//            $longitude = Yii::$app->ip2location->getLongitude($ip);
+//            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
+//
+//            $session->set('lng', $longitude);
+//            $session->set('lat', $latitude);
+//            return ['zip_code' => $zip_code, 'longitude' => $longitude, 'latitude' => $latitude];
+//        }
         $longlat = GlobalFunction::getLongLatFromZip($zip_code);
         $session->set('lng', $longlat['long']);
         $session->set('lat', $longlat['lat']);
