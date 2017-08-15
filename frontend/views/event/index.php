@@ -47,7 +47,7 @@ $this->title = 'Health Events Live: Search Events';
                         <h1>Search <a href="javascript:;" onclick="closeNav()" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
                         <div class="zip-code">
                             <span><b>Zip Code</b></span>
-                            <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" /></div>
+                            <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" id="zip_code"/></div>
                         </div>
                         <div class="zip-code">
                             <span><b>Keyword</b></span>
