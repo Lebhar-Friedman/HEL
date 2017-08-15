@@ -21,7 +21,7 @@ if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['log
     <div class="container">
         <div class="mobile-profile-event-text">
             <img src="<?= $baseUrl ?>/images/profile-img5.png" alt="" />
-            <div class="text" onclick="window.location.href='<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->name]); ?>'">Events Participated
+            <div class="text" onclick="window.location.href='<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->company_number]); ?>'">Events Participated
                 <span><?= $total_events ?></span>
             </div>
         </div>
@@ -59,7 +59,7 @@ if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['log
                     <div class="contnet">
                         <div><img src="<?= $img_url ?>" alt="" /></div>
                         <div class="margin-t"><img src="<?= $baseUrl ?>/images/result-detail-img2.png" alt="" /></div>
-                        <div class="profile-event-text" onclick="window.location.href='<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->name]); ?>'">
+                        <div class="profile-event-text" onclick="window.location.href='<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->company_number]); ?>'">
                             Events
                             <div class="clearfix">Participated<span><?= $total_events ?></span></div>
                         </div>

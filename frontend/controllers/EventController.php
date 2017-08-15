@@ -168,17 +168,19 @@ class EventController extends Controller {
         $event = $query->one();
         
         if($store_number===''){
+            $event_location = $event['locations'][0];
             $company_number = $event['locations'][0]['company'];
         }else{
+            $event_location = Location::findCompanyByStoreNumber($store_number);
             $company_number = Location::findCompanyByStoreNumber($store_number)['company'];
         }
             
-        $company = Company::findCompanyByNumber($company_number);
+        $company = Company::findCompanyByNumber($event['company']);
         
-        $companyEvents = Event::findCompanyEventsByNumber($company['company_number'],$eid);
+        $companyEvents = Event::findCompanyEventsByNumber($company_number,$eid);
         $z_lng_lat = $this->getZipLongLat();
 
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'], 'error' => $error, 'alert_added' => $alert_added]);
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'], 'error' => $error, 'alert_added' => $alert_added, 'event_location'=> $event_location]);
     }
 
     public function actionDirectory() {
