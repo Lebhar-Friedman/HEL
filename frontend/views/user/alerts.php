@@ -43,7 +43,7 @@ $alerts = array();
                             <?php foreach ($single_alert_obj['filters'] as $filter) { ?>
                                 <?php array_push($alerts, $filter); ?>
                             <?php } ?>
-                            <?= implode(",", $alerts); ?>
+                            <?= implode(", ", $alerts); ?>
                             <?php
                             if ($single_alert_obj['zip_code'] !== null) {
                                 echo ' Events near ' . $single_alert_obj['zip_code'];
