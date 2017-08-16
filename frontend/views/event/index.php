@@ -18,7 +18,8 @@ $this->title = 'Health Events Live: Search Events';
         display: block;
         border: 1px solid #dbdbdb;
         background: #FFF;
-        padding-top: 7px !important;
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
         background-image: none !important;
     }
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
@@ -27,8 +28,10 @@ $this->title = 'Health Events Live: Search Events';
     .chosen-container{
         width: 100% !important;
     }
+    .chosen-container-multi .chosen-choices {padding:0 14px}
+    .chosen-container-multi .chosen-choices li.search-field {padding-top: 4px;}
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
-        text-align: center !important;
+        /*text-align: center !important;*/
         font-size: initial;
     }
 </style>
@@ -78,13 +81,13 @@ $this->title = 'Health Events Live: Search Events';
                             <input type="submit" class="btn go-btn" value="Go">
                         </div>
                         <h1>Filters</h1>
-                        <?php $i=0; ?>
+                        <?php $i = 0; ?>
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
                             <?php $i++; ?>
                             <div class="filter-box">
                                 <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
-                                <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
-                                    <!--<input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>-->
+                                    <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
+                                        <!--<input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>-->
                                     <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                                 <?php } else { ?>
                                     <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
@@ -102,17 +105,17 @@ $this->title = 'Health Events Live: Search Events';
             </div>
         </div>
         <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added'=> $is_alert]); ?>
+            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert]); ?>
         <?php } else { ?>
             <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert]); ?>
         <?php } ?>
     </div>
-<!--    <div class="row">
-        <div class="col-lg-1 col-md-1"></div>
-        <div class="col-lg-10 col-md-10">
-            <div class="add-box2">
-                <img src="<?= $img_url ?>result-img6.png" alt=""  />
+    <!--    <div class="row">
+            <div class="col-lg-1 col-md-1"></div>
+            <div class="col-lg-10 col-md-10">
+                <div class="add-box2">
+                    <img src="<?= $img_url ?>result-img6.png" alt=""  />
+                </div>
             </div>
-        </div>
-    </div>-->
+        </div>-->
 </div>
