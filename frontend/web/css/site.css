@@ -1052,7 +1052,7 @@ footer a:hover{
         left:0px;
         overflow:auto;
     }
-    .event-near h1{font-size:20px; line-height:20px;padding-bottom: 0px !important;}
+    .event-near h1{font-size:17px; line-height:20px;padding-bottom: 10px !important;}
     .event-near h1 span{font-size:16px; line-height:16px;}
     .event-near{
         padding:30px 28px 0px 28px;

@@ -980,9 +980,9 @@ footer{
     }
     /**************************************Result Detail*************************************/
     .show-on-mobile{display:block;}
-    .senior-day-content{padding:20px 0px; font-size:12px; margin-right:-15px;}
+    .senior-day-content{padding:20px 0px; font-size:13px; margin-right:-15px;}
     .senior-day-content h1{font-size:21px; line-height:20px; padding-bottom:14px !important;}
-    .senior-day-content h2{font-size:13px; line-height:12px; padding-bottom:6px !important;}
+    .senior-day-content h2{font-size:14px; line-height:12px; padding-bottom:6px !important;}
     .save-share-btn{padding:15px 0px;}
     .save-share-btn a{
         font-size:10px;
@@ -993,7 +993,7 @@ footer{
     .save-share-btn a img{max-width:20px; margin-right:5px;}
     .save-share-btn a:first-child img{max-width:13px; }
     .heart-text{width:100%; padding:0px 0px 10px 17px; font-size:11px; line-height:11px; background:url(../images/plus-icon2.png) top left no-repeat;}
-    .cvs-text{font-size:10px; line-height:14px;}
+    .cvs-text{font-size:11px; line-height:14px;}
     .cvs-text .margin-t{margin-top:5px;}
     .free-health-content{border:none; font-size:10px; line-height:10px; margin-bottom:0px;}
     .free-health-content h1{font-size:16px; line-height:15px; padding-bottom:8px !important;}
