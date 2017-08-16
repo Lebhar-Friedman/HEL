@@ -509,7 +509,7 @@ footer a:hover{
 
 /***********privacy page************/
 .privacy-container h1,h3{
-    color: #34cab5;
+    color: #1e5ba9;
 }
 .privacy-container{
     margin-bottom: 30px;
@@ -796,7 +796,7 @@ footer a:hover{
 .add-box img{max-width:100%;}
 .event-near{
     display:block;
-    padding:32px 10px 0px 30px;
+    padding:41px 10px 0px 30px;
     margin-left:-30px;
     color:#838383;
     font-size:29px;
@@ -1052,7 +1052,7 @@ footer a:hover{
         left:0px;
         overflow:auto;
     }
-    .event-near h1{font-size:20px; line-height:20px;padding-bottom: 0px !important;}
+    .event-near h1{font-size:17px; line-height:20px;padding-bottom: 10px !important;}
     .event-near h1 span{font-size:16px; line-height:16px;}
     .event-near{
         padding:30px 28px 0px 28px;

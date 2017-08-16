@@ -138,7 +138,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     </div>
                 </div>-->
     </div>
-    <div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
+    <!--<div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->
     <div class="row">
         <!--        	<div class="col-lg-1"></div>
                     <div class="col-lg-6 col-md-8 col-sm-8">-->
