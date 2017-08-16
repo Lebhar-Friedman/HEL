@@ -77,6 +77,21 @@ $user_lat = '12';
                     ?>
                 </div>
             </div>
+        <div class="free-health-content">
+                <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
+                <!--<h2>No appointment required!</h2>-->
+                <div class="row">
+                    <?php
+                    foreach ($event['sub_categories'] as $sub_category):
+                        ?>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <i><?= $sub_category ?></i>
+                        </div>
+                        <?php
+                    endforeach;
+                    ?>
+                </div>
+            </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
             <div class="cvs-text">
@@ -98,7 +113,7 @@ $user_lat = '12';
     <div class="row">
         <!--        	<div class="col-lg-1"></div>
                         <div class="col-lg-10">-->
-        <div class="col-lg-12">
+<!--        <div class="col-lg-12">
             <div class="free-health-content">
                 <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
                 <h2>No appointment required!</h2>
@@ -114,7 +129,7 @@ $user_lat = '12';
                     ?>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
     <div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
     <div class="row">
@@ -251,13 +266,13 @@ $user_lat = '12';
                     <div class="row">
                         <div class="col-lg-8 col-md-10">
                             <div class="email-conatiner">
-                                <input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
+                                
                                 <?php if (Yii::$app->user->isGuest) { ?>
                                     <input type="text" class="email-textbox" placeholder="Email" id="email"/>
-                                    <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Go</a>
+                                    <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Alert Me</a>
                                 <?php } else { ?>
-                                    <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Go</a>
-                                <?php } ?>
+                                    <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Alert Me</a>
+                                <?php } ?><input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
                             </div>
                         </div>
                     </div>
