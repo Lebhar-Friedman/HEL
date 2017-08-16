@@ -202,7 +202,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         }
 
                         $map->center = $map->getMarkersCenterCoordinates();
-                        $map->zoom = $map->getMarkersFittingZoom() - 1;
+                        $map->zoom = $map->getMarkersFittingZoom() +6;
 
                         echo $map->display();
                         ?>

@@ -470,7 +470,7 @@ footer{
 }
 .email-content{
     display:block;	
-    padding:40px 0px 60px 0px;
+    padding:0px 0px 60px 0px;
 }
 .email-content h1{
     display:block;
@@ -684,7 +684,7 @@ footer{
 }
 .cvs-text{
     display:block;
-    padding: 35px 0px 0px 0px;
+    padding: 20px 0px 0px 0px;
     text-align:right;
     font-size:18px;
     line-height:24px;
@@ -959,7 +959,7 @@ footer{
     .clearfix .table-cust:nth-child(4n+0){width:190px;}
     .clearfix .table-cust:nth-child(4n+0)  i {display:inline-block; width:81px;}
     .search-filter{display:block;}
-    .email-content{padding:65px 0px 20px 0px;}
+    .email-content{padding:0px 0px 20px 0px;}
     .mobile-border-none{border:none;}
     .add-box2{padding:0px; margin:0px -15px;}
     .result-footer{text-align:center; padding:17px 0px;}
