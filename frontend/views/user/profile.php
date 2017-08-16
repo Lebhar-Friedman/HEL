@@ -32,7 +32,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <?php foreach ($events as $event) { ?>
                         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
                             <div class="cutomer-profile-multi-service">
-                                <h1><?= count($event->categories) > 0 ? 'Multiple Services' : $event->categories[0] ?></h1>
+                                <h1><?= count($event->categories) == 1 ? $event->categories[0] . ' Screenings' : 'Multiple Services' ?></h1>
                                 <h2><?= components\GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                                 <span><?= !empty($event->price) ? '&dollar;' . $event->price : 'Free' ?></span>
                                 <div class="clearfix">
@@ -44,7 +44,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 </div>
 
                                 <div class="location-text">
-                                    <img src="<?= $companyLogo[$event->event_id] ?>" alt="" style="max-width: 88px;"/>
+                                    <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" alt="" style="max-width: 88px;"/>
                                     <div class="text">
                                         <!--<img src="<?= $baseUrl ?>/images/result-img1.png" alt="" /> 1.2 m-->
                                     </div>

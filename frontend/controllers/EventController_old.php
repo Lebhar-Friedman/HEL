@@ -11,8 +11,8 @@ namespace frontend\controllers;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Company;
-use common\models\Event;
 use common\models\Location;
+use common\models\Event;
 use components\GlobalFunction;
 use Yii;
 use yii\web\Controller;
@@ -21,7 +21,6 @@ use yii\web\Cookie;
 class EventController extends Controller {
 
     public function actionIndex() {
-        
 //        echo "<pre>";
 //        print_r(GlobalFunction::getDates());exit;
 //        $long = 74.329376;
@@ -84,27 +83,11 @@ class EventController extends Controller {
 //                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
 //                $zip_code = $temp_zip ? $temp_zip : $zip_code;
 //            }
-            $events_dist = array();
-            $keywords = Yii::$app->request->get('keywords');
-            $filters = Yii::$app->request->get('filters');
-            $sort_by = urldecode(Yii::$app->request->get('sortBy'));
-            Yii::$app->getSession()->setFlash('error', 'Must enter zip code');
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => null, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => null, 'latitude' => null]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
-            $keywords = Yii::$app->request->get('keywords'); //=== null ? array() : Yii::$app->request->get('keywords');
-            $filters = Yii::$app->request->get('filters');// === null ? array() : Yii::$app->request->get('filters');
-            $sort_by = urldecode(Yii::$app->request->get('sortBy'));
-            
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
             $longitude = $longlat['long'];
-            
-            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, 50, 0, $sort_by);
-            $total_events = sizeof($events_dist);
-
-            
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longitude, 'latitude' => $latitude]);
         }
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');
@@ -156,24 +139,25 @@ class EventController extends Controller {
         $store_number = urldecode(Yii::$app->request->get('store_number'));
         $alert_added = false;
         if (urldecode(Yii::$app->request->get('alert_added')) === true) {
-
+            
             $alert_added = urldecode(Yii::$app->request->get('alert_added'));
-
+            
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');
             $sort = $session->get('sort');
-
+            
             $session->remove('zipcode');
             $session->remove('keywords');
             $session->remove('filters');
             $session->remove('sort');
-
+            
             if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
                 Yii::$app->getSession()->setFlash('success', 'Alert has been added');
             } else {
                 Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
             }
+            
         }
         $error = '';
         if ($eid !== '') {
@@ -182,21 +166,21 @@ class EventController extends Controller {
             $error = 'Record not found!';
         }
         $event = $query->one();
-
-        if ($store_number === '') {
+        
+        if($store_number===''){
             $event_location = $event['locations'][0];
             $company_number = $event['locations'][0]['company'];
-        } else {
+        }else{
             $event_location = Location::findCompanyByStoreNumber($store_number);
             $company_number = Location::findCompanyByStoreNumber($store_number)['company'];
         }
-
+            
         $company = Company::findCompanyByNumber($event['company']);
+        
+        $companyEvents = Event::findCompanyEventsByNumber($company_number,$eid);
+        $z_lng_lat = $this->getZipLongLat();
 
-        $companyEvents = Event::findCompanyEventsByNumber($company_number, $eid);
-//        $z_lng_lat = $this->getZipLongLat();
-
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude'], 'error' => $error, 'alert_added' => $alert_added, 'event_location'=> $event_location]);
     }
 
     public function actionDirectory() {
@@ -238,7 +222,7 @@ class EventController extends Controller {
             $zip_code = Yii::$app->request->post('zipcode');
         } else if (Yii::$app->request->isGet && !empty(Yii::$app->request->get('zipcode'))) {
             $zip_code = Yii::$app->request->get('zipcode');
-        }
+            }
 //        } else if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 //            $zip_code = GlobalFunction::getZipFromLongLat($coordinates['longitude'], $coordinates['latitude']);
 //            $zip_code == '' ? $zip_code = '' : '';

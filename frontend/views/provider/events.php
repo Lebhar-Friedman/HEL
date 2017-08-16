@@ -42,7 +42,7 @@ $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipc
         <div class="col-lg-4 col-md-4 col-sm-5">
             <div class="search-result-content">
                 <div class="search-nav">
-                    <form action="<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->name]) ?>" method="post" id="events_search_form">
+                    <form action="<?= \yii\helpers\Url::to(['provider/events', 'id' => $company->company_number]) ?>" method="post" id="events_search_form">
                         <input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />
                         <h1>Search <a href="javascript:;" onclick="closeNav()" class="nav-cros"><img src="<?= $baseUrl ?>/images/crose-btn.png" alt="" /></a></h1>
                         <div class="zip-code">

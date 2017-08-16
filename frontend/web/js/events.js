@@ -33,6 +33,15 @@ $(document).ready(function () {
 
 $(document).on("submit", "#events_search_form", function (e) {
     e.preventDefault();
+    $('#zip_code').css("border","1px solid #dbdbdb");
+    var zipCode = $('#zip_code').val().length;
+    if(zipCode === 0){
+        $('#zip_code').css('border-color','red');
+//        $('.error').remove();
+//        $('#zip_code').parents('div').append("<p  class='error'>Must enter zip code</p>");
+        return false;
+    }
+    
     var values = $(this).serialize();
     searchResult(values);
 });
@@ -63,10 +72,10 @@ function searchResult(form_data) {
     });
 
     $.pjax.reload({
-        url: baseUrl + 'event/index',
+        url: baseUrl + 'event',
         container: '#result-view',
         replace: false,
-        type: 'post',
+        type: 'get',
         data: form_data,
         timeout: 30000,
         push: true
