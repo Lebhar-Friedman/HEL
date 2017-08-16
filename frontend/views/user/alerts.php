@@ -17,7 +17,7 @@ $this->title = 'Health Events Live: Alerts';
 <div class="container alert-cust-container">
 
     <div class="profile-alert-nav clearfix">
-        <a href="<?= BaseUrl::base() ?>/user/profile">Profile</a>
+        <a href="<?= yii\helpers\Url::to(['user/profile']) ?>">Saved Events</a>
         <a href="<?= BaseUrl::base() ?>/user/alerts" class="active">Alerts</a>
     </div>
     <div class="profile-alert-container">
