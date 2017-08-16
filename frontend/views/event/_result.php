@@ -168,10 +168,10 @@ $temp_events = array();
                             <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
                             <!--<input type="submit" value="Go" class="submitbtn" />-->
                             <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
-                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
+                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Alert Me</a>
                         </div>
                     <?php } else { ?>
-                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
+                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Alert Me</a>
                     <?php } ?>
                 </div>
             <?php } ?>
