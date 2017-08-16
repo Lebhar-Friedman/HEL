@@ -105,6 +105,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?><br />
                     <?= $event_location['phone'] ?><br />
                     <input type="hidden" value="<?= $event_location['zip'] ?>" id="c_zipcode">
+                    <input type="hidden" value="<?= $event_location['street'] ?>" id="c_street">
+                    <input type="hidden" value="<?= $event_location['city'] ?>" id="c_city">
+                    <input type="hidden" value="<?= $event_location['state'] ?>" id="c_state">
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
