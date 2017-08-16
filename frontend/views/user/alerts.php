@@ -12,7 +12,7 @@ $this->title = 'Health Events Live: Alerts';
 <?php $this->registerJsFile('@web/js/user.js', ['depends' => [JqueryAsset::className()]]); ?>
 
 <?php Pjax::begin(['id' => 'alerts-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
-<?php $id = 0; ?>
+<?php $id = 0; $alerts = array();?>
 
 <div class="container alert-cust-container">
 
@@ -31,20 +31,18 @@ $this->title = 'Health Events Live: Alerts';
                         </a>
                         <?php
                         foreach ($single_alert_obj['keywords'] as $value) {
-                            echo $value . ', ';
+//                            echo $value . ', ';
+                            array_push($alerts, $value);
                         }
                         ?>
                         <?php foreach ($single_alert_obj['filters'] as $filter) { ?>
-                            <?= $filter . ', ' ?>
+                            <?php array_push($alerts, $filter); ?>
                         <?php } ?>
+                        <?= implode(",",$alerts); ?>
                         <?php if($single_alert_obj['zip_code'] !== null){
-                            echo 'Events near '.$single_alert_obj['zip_code'];
+                            echo ' Events near '.$single_alert_obj['zip_code'];
                         }?>
-                        <?php
-                        if($single_alert_obj['sort'] !== null){
-                            echo ',Sort='.$single_alert_obj['sort'];
-                        }
-                        ?>
+                        
                         
                     </div>
                 <?php } ?>

@@ -79,7 +79,7 @@ $temp_events = array();
         <?php //if (sizeof($filters) > 0) { ?>
             <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
                 <?php //foreach ($filters as $filter) { ?>
-                    <!--<option value="<?= $filter ?>" selected ><?= $filter ?></option>-->
+                    <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
                 <?php //} ?>
             <!--</select>-->
         <?php // } ?>
