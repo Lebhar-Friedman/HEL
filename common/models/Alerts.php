@@ -113,6 +113,12 @@ class Alerts extends ActiveRecord {
             $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
+            $new_alert['type'] = $type;
+            if($type === "exact_location"){
+                $new_alert['street'] = $updatable_alert['street'];
+                $new_alert['city'] = $updatable_alert['city'];
+                $new_alert['state'] = $updatable_alert['state'];
+            }
             $alert_obj->alerts = array($new_alert);
             
             $alert_obj->location = $coordinates;

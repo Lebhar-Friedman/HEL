@@ -33,7 +33,7 @@ $alerts = array();
                             <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
                         </a>
                         <?php if ($single_alert_obj['type'] === "exact_location") { ?>
-                            <?= 'Events at '. $single_alert_obj['zip_code'] .', '. $single_alert_obj['street'] .', '. $single_alert_obj['city'] .', '.  $single_alert_obj['state']; ?>
+                            <?= 'Events at ' . $single_alert_obj['zip_code'] . ', ' . $single_alert_obj['street'] . ', ' . $single_alert_obj['city'] . ', ' . $single_alert_obj['state']; ?>
                         <?php } else { ?>
                             <?php
                             foreach ($single_alert_obj['keywords'] as $value) {
