@@ -58,13 +58,13 @@ $(document).ready(function () {
 
 function checkEnterPress(e, input_value) {
     var code = (e.keyCode ? e.keyCode : e.which);
-    if (code === 13 && input_value < 4) { //Enter keycode
+    if (code === 13 && input_value.length > 4) { //Enter keycode
         searchByzip(input_value);
     }
 }
 function getZipCodeForSearch() {
     zip_code = document.getElementById('zipcode_input').value;
-    if($('#zipcode_input').val().length === 0){
+    if($('#zipcode_input').val().length < 5 ){
         $('#zipcode_input').css("border","1px solid red");
         return false;
     }

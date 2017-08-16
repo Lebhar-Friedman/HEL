@@ -19,7 +19,7 @@ $this->title = 'Health Events Live: Home';
                 ?>
                 <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
                 <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
-                <a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>
+                <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
             <?php } ?>
         </div>
         <div class="logo-container">
@@ -101,13 +101,14 @@ $this->title = 'Health Events Live: Home';
                 <span>
                     HealthEventsLive.com gives you comprehensive, up-to-date listings of free health screenings and low-cost health services at trusted stores near you.  Check HealthEventsLive.com and keep your health in check!
                 </span>
-            </div>
+            <h2 class="heading-blue">200,000+ events and growing every day<br>
+                    40, 000+ locations across the U.S.
+                </h2></div>
+            
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5">
             <div class="debate-txt">
-                <h2 class="heading-blue">200,000+ events and growing every day<br>
-                    40, 000+ locations across the U.S.
-                </h2>
+                
                 <span>Heart health</span>
                 <span>Diabetes</span>
                 <span>Immunizations & vaccinations</span>

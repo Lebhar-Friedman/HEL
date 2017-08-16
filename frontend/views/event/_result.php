@@ -76,14 +76,13 @@ $temp_events = array();
     <div class="event-near " id="event_near" onclick="showNav()">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> </h1>
         <div style="width: 100%;display: inline-block;padding-bottom: 10px;"><a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></div>
-        <!--<i> </i>-->
-        <?php if (sizeof($filters) > 0) { ?>
-            <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
-                <?php foreach ($filters as $filter) { ?>
-                    <option value="<?= $filter ?>" selected ><?= $filter ?></option>
-                <?php } ?>
-            </select>
-        <?php } ?>
+        <?php //if (sizeof($filters) > 0) { ?>
+            <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
+                <?php //foreach ($filters as $filter) { ?>
+                    <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
+                <?php //} ?>
+            <!--</select>-->
+        <?php // } ?>
     </div>
     <?php foreach ($events as $event) { ?>
         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
@@ -124,6 +123,13 @@ $temp_events = array();
                 'width' => '100%',
                 'height' => '275',
                 'scrollwheel' => false,
+                'styles' => [
+                    "featureType" => "poi",
+                    "elementType" => "labels",
+                    "stylers" => [
+                        "visibility" => "off"
+                    ]
+                ],
             ]);
             $map->setName('gmap');
             foreach ($events as $event) {
@@ -150,7 +156,7 @@ $temp_events = array();
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom() - 1;
+            $map->zoom = $map->getMarkersFittingZoom() + 6;
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);
@@ -168,10 +174,10 @@ $temp_events = array();
                             <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
                             <!--<input type="submit" value="Go" class="submitbtn" />-->
                             <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
-                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Go</a>
+                            <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Alert Me</a>
                         </div>
                     <?php } else { ?>
-                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Go</a>
+                        <a href="javascript:;" onclick="add_new_alert()" class="add-new-alert" id="add_alert1i">Alert Me</a>
                     <?php } ?>
                 </div>
             <?php } ?>

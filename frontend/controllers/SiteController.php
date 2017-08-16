@@ -235,13 +235,13 @@ class SiteController extends Controller {
         return $this->render('about');
     }
 
-    public function actionPrivacy() {
-        return $this->render('privacy');
+    public function actionTermsPrivacy() {
+        return $this->render('terms-privacy');
     }
 
-    public function actionTerms() {
-        return $this->render('terms');
-    }
+//    public function actionTerms() {
+//        return $this->render('terms');
+//    }
 
     public function actionAddAlertsSession() {
         $session = Yii::$app->session;
