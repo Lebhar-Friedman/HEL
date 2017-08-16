@@ -225,11 +225,14 @@ function alertZipCodeSession(){
 
 function alertZipCode(){
     var zip_code = $("#c_zipcode").val();
+    var street = $("#c_street").val();
+    var city = $("#c_city").val();
+    var state = $("#c_state").val();
     var event_id = $("#event_id").val();
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',
-        data: {zipcode:zip_code,only_zip:'y',event_id:event_id},
+        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state},
         dataType: 'JSON',
         success: function (r) {
             if (r.msgType === "SUC") {

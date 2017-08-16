@@ -69,6 +69,7 @@ class Alerts extends ActiveRecord {
         $keywords = isset($updatable_alert['keywords']) ? $updatable_alert['keywords'] : array();
         $filters = isset($updatable_alert['filters']) ? $updatable_alert['filters'] : array();
         $sort = $updatable_alert['sort'];
+        $type = $updatable_alert['type'];
 
         if (GlobalFunctions::getCookiesOfLngLat()) {
             $coordinates = GlobalFunctions::getCookiesOfLngLat();
@@ -90,6 +91,12 @@ class Alerts extends ActiveRecord {
             $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
+            $new_alert['type'] = $type;
+            if($type === "exact_location"){
+                $new_alert['street'] = $updatable_alert['street'];
+                $new_alert['city'] = $updatable_alert['city'];
+                $new_alert['state'] = $updatable_alert['state'];
+            }
             $alerts[] = $new_alert;
             $existing_entry->alerts = $alerts;
             if ($existing_entry->save()) {
@@ -106,6 +113,12 @@ class Alerts extends ActiveRecord {
             $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
+            $new_alert['type'] = $type;
+            if($type === "exact_location"){
+                $new_alert['street'] = $updatable_alert['street'];
+                $new_alert['city'] = $updatable_alert['city'];
+                $new_alert['state'] = $updatable_alert['state'];
+            }
             $alert_obj->alerts = array($new_alert);
             
             $alert_obj->location = $coordinates;

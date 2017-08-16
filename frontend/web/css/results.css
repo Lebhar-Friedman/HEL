@@ -470,7 +470,7 @@ footer{
 }
 .email-content{
     display:block;	
-    padding:40px 0px 60px 0px;
+    padding:0px 0px 60px 0px;
 }
 .email-content h1{
     display:block;
@@ -684,7 +684,7 @@ footer{
 }
 .cvs-text{
     display:block;
-    padding: 35px 0px 0px 0px;
+    padding: 20px 0px 0px 0px;
     text-align:right;
     font-size:18px;
     line-height:24px;
@@ -959,7 +959,7 @@ footer{
     .clearfix .table-cust:nth-child(4n+0){width:190px;}
     .clearfix .table-cust:nth-child(4n+0)  i {display:inline-block; width:81px;}
     .search-filter{display:block;}
-    .email-content{padding:65px 0px 20px 0px;}
+    .email-content{padding:0px 0px 20px 0px;}
     .mobile-border-none{border:none;}
     .add-box2{padding:0px; margin:0px -15px;}
     .result-footer{text-align:center; padding:17px 0px;}
@@ -980,9 +980,9 @@ footer{
     }
     /**************************************Result Detail*************************************/
     .show-on-mobile{display:block;}
-    .senior-day-content{padding: 20px 0px 0px 0px; font-size:12px; margin-right:-15px;}
+    .senior-day-content{padding:20px 0px; font-size:13px; margin-right:-15px;}
     .senior-day-content h1{font-size:21px; line-height:20px; padding-bottom:14px !important;}
-    .senior-day-content h2{font-size:13px; line-height:12px; padding-bottom:6px !important;}
+    .senior-day-content h2{font-size:14px; line-height:12px; padding-bottom:6px !important;}
     .save-share-btn{padding:15px 0px;}
     .save-share-btn a{
         font-size:10px;
@@ -993,7 +993,7 @@ footer{
     .save-share-btn a img{max-width:20px; margin-right:5px;}
     .save-share-btn a:first-child img{max-width:13px; }
     .heart-text{width:100%; padding:0px 0px 10px 17px; font-size:11px; line-height:11px; background:url(../images/plus-icon2.png) top left no-repeat;}
-    .cvs-text{font-size:10px; line-height:14px;}
+    .cvs-text{font-size:11px; line-height:14px;}
     .cvs-text .margin-t{margin-top:5px;}
     .free-health-content{border:none; font-size:10px; line-height:10px; margin-bottom:0px;}
     .free-health-content h1{font-size:16px; line-height:15px; padding-bottom:8px !important;}
@@ -1093,6 +1093,10 @@ input[type="checkbox"]:checked + label.oper:before {
     content: "\00a0";
     background: url('../images/cust-check-bx-hover.png') no-repeat;
 
+}
+.chosen-container-multi .chosen-choices li.search-choice span {
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 /*end of check boxes*/

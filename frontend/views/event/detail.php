@@ -1,4 +1,5 @@
 <?php
+
 use common\functions\GlobalFunctions;
 use yii\helpers\BaseUrl;
 use yii\web\JqueryAsset;
@@ -13,11 +14,11 @@ $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = $event['title'];
 if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
-$user_lng = $coordinates['longitude'];
-$user_lat = $coordinates['latitude'];
+    $user_lng = $coordinates['longitude'];
+    $user_lat = $coordinates['latitude'];
 } else {
-$user_lng = '12';
-$user_lat = '12';
+    $user_lng = '12';
+    $user_lat = '12';
 }
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -35,6 +36,9 @@ $user_lat = '12';
     }
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         /*color: #000 !important;*/
+    }
+    .add-new-alert{
+        cursor: pointer;
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -54,13 +58,13 @@ $user_lat = '12';
                 <div class="save-share-btn clearfix">
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
-                    ?>
-                    <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
-                    <?php
+                        ?>
+                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <?php
                     } else {
-                    ?>
-                    <a href="<?= BaseUrl::base() ?>/site/save-event?flg=y&eid=<?= $event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
-                    <?php
+                        ?>
+                        <a href="<?= BaseUrl::base() ?>/site/save-event?flg=y&eid=<?= $event['_id'] ?>" ><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <?php
                     }
                     ?>
 
@@ -70,14 +74,14 @@ $user_lat = '12';
                 <div class="clearfix">
                     <?php
                     foreach ($event['categories'] as $category):
-                    ?>
-                    <div class="heart-text"><?= $category ?></div>
-                    <?php
+                        ?>
+                        <div class="heart-text"><?= $category ?></div>
+                        <?php
                     endforeach;
                     ?>
                 </div>
             </div>
-        <div class="free-health-content">
+            <div class="free-health-content">
                 <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
                 <!--<h2>No appointment required!</h2>-->
                 <div class="row">
@@ -101,10 +105,13 @@ $user_lat = '12';
                     <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?><br />
                     <?= $event_location['phone'] ?><br />
                     <input type="hidden" value="<?= $event_location['zip'] ?>" id="c_zipcode">
+                    <input type="hidden" value="<?= $event_location['street'] ?>" id="c_street">
+                    <input type="hidden" value="<?= $event_location['city'] ?>" id="c_city">
+                    <input type="hidden" value="<?= $event_location['state'] ?>" id="c_state">
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
-                echo "<span>More locations nearby</span>";
+                    echo "<span>More locations nearby</span>";
                 }
                 ?>
                 <a href="#map">Show map</a>            </div>
@@ -113,23 +120,23 @@ $user_lat = '12';
     <div class="row">
         <!--        	<div class="col-lg-1"></div>
                         <div class="col-lg-10">-->
-<!--        <div class="col-lg-12">
-            <div class="free-health-content">
-                <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
-                <h2>No appointment required!</h2>
-                <div class="row">
-                    <?php
-                    foreach ($event['sub_categories'] as $sub_category):
-                    ?>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <i><?= $sub_category ?></i>
+        <!--        <div class="col-lg-12">
+                    <div class="free-health-content">
+                        <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
+                        <h2>No appointment required!</h2>
+                        <div class="row">
+        <?php
+        foreach ($event['sub_categories'] as $sub_category):
+            ?>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <i><?= $sub_category ?></i>
+                                        </div>
+            <?php
+        endforeach;
+        ?>
+                        </div>
                     </div>
-                    <?php
-                    endforeach;
-                    ?>
-                </div>
-            </div>
-        </div>-->
+                </div>-->
     </div>
     <!--<div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->
     <div class="row">
@@ -152,57 +159,57 @@ $user_lat = '12';
             <div class="map2-content" id="map">
                 <h1><?php
                     if (sizeof($event['locations']) > 1) {
-                    echo "Locations";
+                        echo "Locations";
                     } else {
-                    echo "Location";
+                        echo "Location";
                     }
                     ?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0 && sizeof($event['locations']) > 0) { ?>
-                <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0] ?>
-                <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1] ?>
-                <div class="map-content" >
-                            <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
-                    <?php
+                    <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0] ?>
+                    <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1] ?>
+                    <div class="map-content" >
+                                <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
+                        <?php
 //            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
-                    $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
-                    $map = new Map([
-                    'center' => $coord,
-                    'zoom' => 8,
-                    'width' => '100%',
-                    'height' => '275',
-                    'scrollwheel' => false,
-                    ]);
-                    $map->setName('gmap');
+                        $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
+                        $map = new Map([
+                            'center' => $coord,
+                            'zoom' => 8,
+                            'width' => '100%',
+                            'height' => '275',
+                            'scrollwheel' => false,
+                        ]);
+                        $map->setName('gmap');
 
-                    foreach ($event['locations'] as $location) {
-                    $long_lat = $location['geometry']['coordinates'];
-                    $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-                    $marker = new Marker([
-                    'position' => $coord,
-                    'title' => $event['title'],
-                    'animation' => 'google.maps.Animation.DROP',
-                    'visible' => 'true',
-                    'icon' => $img_url . 'custom-marker.png',
-                    ]);
-                    $content = $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'];
-                    $marker->attachInfoWindow(
-                    new InfoWindow(['content' => $content])
-                    );
+                        foreach ($event['locations'] as $location) {
+                            $long_lat = $location['geometry']['coordinates'];
+                            $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
+                            $marker = new Marker([
+                                'position' => $coord,
+                                'title' => $event['title'],
+                                'animation' => 'google.maps.Animation.DROP',
+                                'visible' => 'true',
+                                'icon' => $img_url . 'custom-marker.png',
+                            ]);
+                            $content = $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'];
+                            $marker->attachInfoWindow(
+                                    new InfoWindow(['content' => $content])
+                            );
 
 //                $marker->setName('abc');   //to set Info window default open
 //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
 //            google.maps.event.trigger(abc, 'click');});");
 
-                    $map->addOverlay($marker);
-                    }
+                            $map->addOverlay($marker);
+                        }
 
-                    $map->center = $map->getMarkersCenterCoordinates();
-                    $map->zoom = $map->getMarkersFittingZoom() - 1;
+                        $map->center = $map->getMarkersCenterCoordinates();
+                        $map->zoom = $map->getMarkersFittingZoom() +6;
 
-                    echo $map->display();
-                    ?>
-                </div>
+                        echo $map->display();
+                        ?>
+                    </div>
                 <?php } ?>
             </div>
         </div>
@@ -265,15 +272,14 @@ $user_lat = '12';
                     </div>
                     <div class="row">
                         <div class="col-lg-8 col-md-10">
-                            <div class="email-conatiner">
-                                
-                                <?php if (Yii::$app->user->isGuest) { ?>
+                            <?php if (Yii::$app->user->isGuest) { ?>
+                                <div class="email-conatiner">   
                                     <input type="text" class="email-textbox" placeholder="Email" id="email"/>
                                     <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Alert Me</a>
-                                <?php } else { ?>
-                                    <a type="submit" onclick="alertZipCode()" value="Go" class="submitbtn" />Alert Me</a>
-                                <?php } ?><input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
-                            </div>
+                                </div>
+                            <?php } else { ?>
+                                <a type="btn" onclick="alertZipCode()" value="Go" class="add-new-alert" />Alert Me</a>
+                            <?php } ?><input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
                         </div>
                     </div>
 
