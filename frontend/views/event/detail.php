@@ -84,7 +84,7 @@ $user_lat = '12';
                     <?php
                     foreach ($event['sub_categories'] as $sub_category):
                         ?>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <i><?= $sub_category ?></i>
                         </div>
                         <?php
@@ -131,7 +131,7 @@ $user_lat = '12';
             </div>
         </div>-->
     </div>
-    <div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>
+    <!--<div class="event-detail-img show-on-mobile"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->
     <div class="row">
         <!--        	<div class="col-lg-1"></div>
                     <div class="col-lg-6 col-md-8 col-sm-8">-->
