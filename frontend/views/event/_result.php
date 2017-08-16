@@ -76,27 +76,26 @@ $temp_events = array();
     <div class="event-near " id="event_near" onclick="showNav()">
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> </h1>
         <div style="width: 100%;display: inline-block;padding-bottom: 10px;"><a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a></div>
-        <!--<i> </i>-->
-            <?php if (sizeof($filters) > 0) { ?>
-            <select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">
-                <?php foreach ($filters as $filter) { ?>
-                    <option value="<?= $filter ?>" selected ><?= $filter ?></option>
-            <?php } ?>
-            </select>
-    <?php } ?>
+        <?php //if (sizeof($filters) > 0) { ?>
+            <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
+                <?php //foreach ($filters as $filter) { ?>
+                    <!--<option value="<?= $filter ?>" selected ><?= $filter ?></option>-->
+                <?php //} ?>
+            <!--</select>-->
+        <?php // } ?>
     </div>
-<?php foreach ($events as $event) { ?>
+    <?php foreach ($events as $event) { ?>
         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                 <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
                 <div class="clearfix">
-    <?php foreach ($event['sub_categories'] as $sub_category) { ?>
+                    <?php foreach ($event['sub_categories'] as $sub_category) { ?>
                         <div class="table-cust">
                             <i><?= $sub_category ?></i>
                         </div>
-    <?php } ?>
+                    <?php } ?>
                 </div>
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
@@ -157,7 +156,7 @@ $temp_events = array();
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom() + 8;
+            $map->zoom = $map->getMarkersFittingZoom() + 6;
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);

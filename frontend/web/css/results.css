@@ -375,7 +375,6 @@ footer{
     margin-left:-30px;
     color:#838383;
     font-size:29px;
-    line-height:29px;
     border-bottom:1px solid #ccc;
 }
 .event-near h1{
@@ -1011,7 +1010,7 @@ footer{
     .multi-service2 h2{font-size:13px; line-height:13px; padding-bottom:9px !important;}
     .multi-service2 span{font-size:12px; line-height:12px; padding-bottom:20px;}
     .multi-service2 i{padding-bottom:10px;}
-    .multi-service2 .table-cust{width:54px !important;}
+    .multi-.event-nearservice2 .table-cust{width:54px !important;}
     .email-content{/*padding:25px 15px; margin:0px -15px;*/ border-bottom:1px solid #ccc; font-size:14px; line-height:19px; color:#252525;}
     .email-content h1{display:none;}
     .email-conatiner{margin-top:7px;}
