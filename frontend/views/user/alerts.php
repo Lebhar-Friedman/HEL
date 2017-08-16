@@ -12,7 +12,10 @@ $this->title = 'Health Events Live: Alerts';
 <?php $this->registerJsFile('@web/js/user.js', ['depends' => [JqueryAsset::className()]]); ?>
 
 <?php Pjax::begin(['id' => 'alerts-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
-<?php $id = 0; $alerts = array();?>
+<?php
+$id = 0;
+$alerts = array();
+?>
 
 <div class="container alert-cust-container">
 
@@ -29,21 +32,25 @@ $this->title = 'Health Events Live: Alerts';
                         <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
                             <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
                         </a>
-                        <?php
-                        foreach ($single_alert_obj['keywords'] as $value) {
-//                            echo $value . ', ';
-                            array_push($alerts, $value);
-                        }
-                        ?>
-                        <?php foreach ($single_alert_obj['filters'] as $filter) { ?>
-                            <?php array_push($alerts, $filter); ?>
+                        <?php if ($single_alert_obj['type'] === "exact_location") { ?>
+                            <?= 'Events at '. $single_alert_obj['zip_code'] .', '. $single_alert_obj['street'] .', '. $single_alert_obj['city'] .', '.  $single_alert_obj['state']; ?>
+                        <?php } else { ?>
+                            <?php
+                            foreach ($single_alert_obj['keywords'] as $value) {
+                                array_push($alerts, $value);
+                            }
+                            ?>
+                            <?php foreach ($single_alert_obj['filters'] as $filter) { ?>
+                                <?php array_push($alerts, $filter); ?>
+                            <?php } ?>
+                            <?= implode(",", $alerts); ?>
+                            <?php
+                            if ($single_alert_obj['zip_code'] !== null) {
+                                echo ' Events near ' . $single_alert_obj['zip_code'];
+                            }
+                            ?>
                         <?php } ?>
-                        <?= implode(",",$alerts); ?>
-                        <?php if($single_alert_obj['zip_code'] !== null){
-                            echo ' Events near '.$single_alert_obj['zip_code'];
-                        }?>
-                        
-                        
+
                     </div>
                 <?php } ?>
             <?php } else { ?>
