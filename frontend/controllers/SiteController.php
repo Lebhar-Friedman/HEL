@@ -253,6 +253,7 @@ class SiteController extends Controller {
             $sort_by = 'Closest';
 //            $session->set('only_zip', 'y');
             $session->set('event_id',$event_id);
+            $session->set('type','exact_location');
         } else {
             $zip_code = Yii::$app->request->post('zipcode');
             $keywords = Yii::$app->request->post('keywords');
@@ -265,6 +266,7 @@ class SiteController extends Controller {
         $session->set('filters', $filters);
         $session->set('sort', $sort_by);
         $session->set('signup_page', 'Y');
+        $session->set('type','search_base');
     }
 
     /**

@@ -34,8 +34,9 @@ class EventController extends Controller {
 
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
-            $zip = $session->get('zip');
+            $zip = $session->get('zipcode');
             $sort = $session->get('sort');
+            $type = $session->get('type');
 
             $session->remove('zipcode');
             $session->remove('keywords');
@@ -57,7 +58,7 @@ class EventController extends Controller {
                 $longitude = $lng_lat['long'];
                 $latitude = $lng_lat['lat'];
             }
-            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
+            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort,'type' => $type])) {
                 Yii::$app->getSession()->setFlash('success', 'Alert has been added');
             } else {
                 Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
