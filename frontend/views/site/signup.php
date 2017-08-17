@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\View;
 
-$this->title = 'Health Events Live: Signup';
+$this->title = 'Health Events Live: Sign up';
 $this->params['breadcrumbs'][] = $this->title;
 
 $get_email = '';
@@ -26,7 +26,6 @@ if (isset($_GET['email'])) {
         border-bottom: 1px solid #2aaae2;
     }
 </style>
-<div class="container">
     <div class="row">
         <div class="col-lg-1">
         </div>
@@ -72,4 +71,4 @@ if (isset($_GET['email'])) {
             </div>
         </div>
     </div>
-</div>
+
