@@ -47,7 +47,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <a class="active show_menu"><?= Yii::$app->user->identity->first_name ?></a>
                         <div class="account_dd" style="display:none;">
                             <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>"><span class="account_dd_ico2"></span>My Account</a>
-                            <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
+                            <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Log out</a>
                         </div>
                     <?php } ?>
                 </div>

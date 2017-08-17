@@ -24,7 +24,6 @@ if (isset($_GET['email'])) {
         border-bottom: 1px solid #2aaae2;
     }
 </style>
-<div class="container">
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
@@ -86,4 +85,4 @@ if (isset($_GET['email'])) {
             </div>
         </div>
     </div>
-</div>
+

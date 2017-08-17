@@ -53,7 +53,7 @@ $this->title = 'Health Events Live: Search Events';
                             <div><input type="text" class="zip-textbox" value="<?= $zip_code ?>" name="zipcode" id="zip_code"/></div>
                         </div>
                         <div class="zip-code">
-                            <span><b>Keyword</b></span>
+                            <span><b>Keywords</b></span>
                             <div class="optional1">
                                 <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]" id="keywords">
                                     <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
