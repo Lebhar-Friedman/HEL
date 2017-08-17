@@ -11,8 +11,8 @@ body{
 .container {
     padding-right: 20px !important;
     padding-left: 20px  !important;
-    }
-h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'helveticaneuebold' !important;}
+}
+h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'helveticaneueregular' !important;}
 h1{font-size:35px;}
 h2{font-size:22px;font-family: 'helveticaneueregular';}
 h3{font-size:18px;}
@@ -487,7 +487,7 @@ footer{
     width:85px;
     height:44px;
     font-size:19px;
-    line-height:16px;
+    line-height:40px;
     color:#FFF !important;
     background:#1e5ba9 ;
     border:none;
@@ -558,7 +558,7 @@ footer{
 
 .event-near h1 {
     font-weight: bold;
-    padding-bottom: 29px !important;
+    padding-bottom: 22px !important;
     font-size: 28px;
 }
 .event-near h1 span {
@@ -591,6 +591,7 @@ footer{
 
 .map-content {
     border-bottom: 1px solid #ededed;
+    margin-bottom: 40px;
 }
 
 .email-content h1 {
@@ -602,7 +603,7 @@ footer{
     font-size: 24px;
     color: #333;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 29px !important;
+    padding-bottom: 21px !important;
     margin-bottom: 20px !important;
 }
 
@@ -726,7 +727,7 @@ footer{
     line-height:20px;
     color:#333333;
     padding-bottom:40px;
-    
+
 }
 .event-detail-text h1{
     display:block;
@@ -865,6 +866,95 @@ footer{
     text-align: right;
     display: block;
 }
+/* HOME / GENERAL */
+
+.health-h {
+    font-size: 40px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.health-box {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+.health-box img {
+    max-width: 25%;
+}
+
+.custom-text,
+.health-care-text {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.text-justify {
+    text-align: left; /* just remove this class from the dom */  
+}
+
+.from-h {
+    font-size: 40px;
+    line-height: 50px;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.debate-txt span {
+    font-size: 18px;
+}
+
+.search-btn,
+.debate-txt a,
+.go-btn,
+.email-conatiner .submitbtn,
+.save-share-btn a {
+    background-color: #00c1ff;
+}
+
+.search-btn:hover,
+.debate-txt a:hover,
+.go-btn:hover,
+.email-conatiner .submitbtn:hover,
+.save-share-btn a:hover {
+    background-color: #1e5ba9 !important;
+}
+
+.debate-txt a {
+    max-width: 300px;
+}
+
+/* Move .debate-txt .heading-blue to the space below .health-care-text */ 
+
+.footer-right-side {
+    font-size: 14px
+}
+.footer-right-side a {
+    font-size: 14px;
+    display: inline-block;
+    padding-left: 20px;
+}
+.result-logo {
+    padding-left: 3px;    
+}
+
+.result-logo a img {
+    padding-top: 22px;
+}
+
+.result-sign-up {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* Remove bullet points in between footer items */
+
+.footer-logo img {
+    width: 200px;
+}
 /*_______________________________*/
 /***********************************************************************/
 @media (max-width: 1200px) and (min-width: 768px){
@@ -943,7 +1033,11 @@ footer{
         left:0px;
         overflow:auto;
     }
-    .event-near h1{font-size:20px; line-height:20px;padding-bottom: 0px !important;}
+    .event-near h1 {
+        font-size: 17px;
+        line-height: 20px;
+        padding-bottom: 10px !important;
+    }
     .event-near h1 span{font-size:16px; line-height:16px;}
     .event-near{
         padding:30px 28px 0px 28px;
@@ -1012,10 +1106,10 @@ footer{
     .multi-service2 i{padding-bottom:10px;}
     .multi-.event-nearservice2 .table-cust{width:54px !important;}
     .email-content{/*padding:25px 15px; margin:0px -15px;*/ border-bottom:1px solid #ccc; font-size:14px; line-height:19px; color:#252525;}
-    .email-content h1{display:none;}
+    .email-content h1{display:block;}
     .email-conatiner{margin-top:7px;}
-    .email-textbox{height:34px; font-size:13px; line-height:13px; padding:0px 70px 0px 12px;;}
-    .email-conatiner .submitbtn{width:60px; height:34px; font-size:14px;line-height:14px;}
+    /*.email-textbox{height:34px; font-size:13px; line-height:13px; padding:0px 70px 0px 12px;;}*/
+    /*.email-conatiner .submitbtn{width:60px; height:34px; font-size:14px;line-height:14px;}*/
     .mobile-center{text-align:center;}
     .find-out-text{max-width:215px; display:block; margin:0 auto;}
     .find-out-text h2{font-size:16px; line-height:22px;}
@@ -1025,7 +1119,7 @@ footer{
     .full-on-mobile{width:100% !important;}
     .mobile-logo{text-align:center;}
     .search-filter{margin-left:7px !important;}
-    .multi-service{padding-right:0px !important;}
+    .multi-service{padding: 25px 100px 8px 13px !important;}
     .table-cust{width:85px;}
     .multi-service h1, .multi-service h2, .multi-service span{padding-right:95px !important;}
     .result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}
@@ -1309,14 +1403,14 @@ input[type="checkbox"]:checked + label.oper:before {
     .margin-t-footer{margin-top:20px;}
 }
 @media (max-width: 478px) and (min-width: 0px){
-/*    .full-on-mobile{width:100% !important;}
-    .mobile-logo{text-align:center;}
-
-    .multi-service{padding-right:0px !important;}
-    .table-cust{width:70px;}*/
+    /*    .full-on-mobile{width:100% !important;}
+        .mobile-logo{text-align:center;}
+    
+        .multi-service{padding-right:0px !important;}
+        .table-cust{width:70px;}*/
     .clearfix .table-cust:nth-child(4n+0)  i {display:inline-block; width:63px;}
-/*    .multi-service h1, .multi-service h2, .multi-service span{padding-right:95px !important;}
-    .result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}*/
+    /*    .multi-service h1, .multi-service h2, .multi-service span{padding-right:95px !important;}
+        .result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}*/
 }
 /********************************* Provider Events end */
 
