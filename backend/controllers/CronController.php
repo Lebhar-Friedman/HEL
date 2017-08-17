@@ -41,7 +41,7 @@ class CronController extends Controller {
             $events_to_send = array();
             foreach ($single_user_alerts['alerts'] as $single_alert) {
                 if ($single_alert['type'] === "exact_location") {
-                    echo 'Alert on company location';
+//                    echo 'Alert on company location';
                     $events = $this->getEventsByLocation($single_alert['street'],$single_alert['city'],$single_alert['state'],$single_alert['zip_code']);
                     if (sizeof($events) > 0) {
                         $events_to_send[] = $events;
@@ -57,6 +57,8 @@ class CronController extends Controller {
             }
             $user = User::findOne($user_id);
             if (isset($user) && sizeof($events_to_send) > 0) {
+                echo "<pre>";
+                print_r($events_to_send);
                 $arguments = ['events' => $events_to_send, 'user_name' => $user->first_name];
                 GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
             }
