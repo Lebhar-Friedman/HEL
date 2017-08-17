@@ -57,6 +57,8 @@ class CronController extends Controller {
             }
             $user = User::findOne($user_id);
             if (isset($user) && sizeof($events_to_send) > 0) {
+                echo '<pre>';
+                print_r($events_to_send);exit;
                 $arguments = ['events' => $events_to_send, 'user_name' => $user->first_name];
                 GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
             }
