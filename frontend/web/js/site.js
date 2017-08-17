@@ -1,5 +1,24 @@
 //*************************************************************** functions on document load *********************************
 $(document).ready(function () {
+   $('a[href="#home"]').on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+     var hash = this.hash;
+     $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function(){
+        window.location.hash = hash;
+        $('#zipcode_input').focus()
+      });
+    } 
+  }); 
+  $('a[href="#map"]').on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+     var hash = this.hash;
+     $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function(){
+        window.location.hash = hash;
+      });
+    } 
+  }); 
     
     $(".show_menu").click(function () {
         $(".account_dd").toggle({

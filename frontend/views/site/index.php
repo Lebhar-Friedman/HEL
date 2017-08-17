@@ -8,7 +8,7 @@ $this->title = 'Health Events Live: Home';
     }
 </style>
 <header>
-    <div class="container">
+    <div class="container" id="home">
         <div class="signUp-btns clearfix">
             <?php
             if (Yii::$app->user->isGuest) {
@@ -119,7 +119,7 @@ $this->title = 'Health Events Live: Home';
                 <span>Cancer screenings</span>
                 <span>Mental health</span>
                 <span>And more …</span>
-                <a href="#"><img src="<?= $baseUrl ?>/images/search-btn.png" alt="" />Find events near me!</a>
+                <a href="#home"><img src="<?= $baseUrl ?>/images/search-btn.png" alt="" />Find events near me!</a>
             </div>
         </div>
     </div>

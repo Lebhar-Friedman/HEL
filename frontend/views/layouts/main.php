@@ -31,7 +31,8 @@ $baseUrl = Yii::$app->request->baseUrl;
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
-        </script>
+        </script>        <div class="result-header">
+
 
         <!--<header>-->
         <div class="result-header">
