@@ -40,19 +40,37 @@ class CronController extends Controller {
             $user_id = $single_user_alerts['user_id'];
             $events_to_send = array();
             foreach ($single_user_alerts['alerts'] as $single_alert) {
-                $events = $this->getEventsWithDistance($single_alert['keywords'], $single_alert['filters'], $single_alert['longitude'], $single_alert['latitude'], $single_alert['sort']);
-                if (sizeof($events) > 0) {
-                    $events_to_send[] = $events;
+                if ($single_alert['type'] === "exact_location") {
+                    echo 'Alert on company location';
+                    $events = $this->getEventsByLocation($single_alert['street'],$single_alert['city'],$single_alert['state'],$single_alert['zip_code']);
+                    if (sizeof($events) > 0) {
+                        $events_to_send[] = $events;
+                    }
+                } else {
+                    $events = $this->getEventsWithDistance($single_alert['keywords'], $single_alert['filters'], $single_alert['longitude'], $single_alert['latitude'], $single_alert['sort']);
+                    if (sizeof($events) > 0) {
+                        $events_to_send[] = $events;
+                    }
+                    echo "<pre>";
+                    print_r($events);
                 }
-                echo '<pre>';
-                print_r($events);
             }
             $user = User::findOne($user_id);
-            if (isset($user)) {
+            if (isset($user) && sizeof($events_to_send) > 0) {
                 $arguments = ['events' => $events_to_send, 'user_name' => $user->first_name];
                 GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
             }
         }
+    }
+    
+    
+  
+    public function getEventsByLocation($street, $city, $state, $zip) {
+        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+        $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+1 days"))) * 1000);
+        $query = Event::find();
+        $events = $query->andWhere(['AND',['locations.street' => $street],['locations.city' => $city],['locations.state' => $state], ['locations.zip' => $zip], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true] ]);
+        return $events;
     }
 
     public function getEventsWithDistance($keywords, $filters, $longitude, $latitude, $max_distance = 50, $min_distance = 0, $sort = 'Closest') {
