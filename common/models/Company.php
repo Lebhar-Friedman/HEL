@@ -110,11 +110,11 @@ class Company extends ActiveRecord {
     public static function findCompany($id) {
         return static::findOne(['_id' => $id]);
     }
-    
+
     public static function findCompanyByName($name) {
         return static::findOne(['name' => $name]);
     }
-    
+
     public static function findCompanyByNumber($companyNumber) {
         return static::findOne(['company_number' => $companyNumber]);
     }
@@ -122,10 +122,12 @@ class Company extends ActiveRecord {
     public static function CompanyList() {
         return static::find()->all();
     }
-    
+
     public static function getNameByCompanyNumber($companyNumber) {
-        $company =  static::findOne(['company_number' => $companyNumber]);
-        return $company->name;
+        $company = static::findOne(['company_number' => trim($companyNumber)]);
+        if (count($company) > 0) {
+            return $company->name;
+        }
     }
 
 }
