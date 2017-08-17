@@ -51,8 +51,8 @@ class CronController extends Controller {
                     if (sizeof($events) > 0) {
                         $events_to_send[] = $events;
                     }
-                    echo "<pre>";
-                    print_r($events);
+//                    echo "<pre>";
+//                    print_r($events);
                 }
             }
             $user = User::findOne($user_id);
@@ -71,7 +71,7 @@ class CronController extends Controller {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+1 days"))) * 1000);
         $query = Event::find();
-        $events = $query->andWhere(['AND',['locations.street' => $street],['locations.city' => $city],['locations.state' => $state], ['locations.zip' => $zip], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true] ]);
+        $events = $query->andWhere(['AND',['locations.street' => $street],['locations.city' => $city],['locations.state' => $state], ['locations.zip' => $zip], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true] ])->all();
         return $events;
     }
 
