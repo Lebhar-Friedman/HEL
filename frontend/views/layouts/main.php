@@ -31,7 +31,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
-        </script>        <div class="result-header">
+        </script>        
 
 
         <!--<header>-->
@@ -56,7 +56,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 <a href="<?= $baseUrl ?>/site/login" style="font-weight: bold;">Log In</a>
                             <?php } else {
                                 ?>
-                                <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
+                                <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Log out</a>
                                 <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
                                 <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
                             <?php } ?>
@@ -68,7 +68,7 @@ $baseUrl = Yii::$app->request->baseUrl;
 
         <!--</header>-->
 
-        <div class="container1">
+        <div class="container" style="min-height: 65vh;">
             <div class="container">
                 <div class="row" style="margin-left: 0px;">
                     <?= Alert::widget() ?>
@@ -76,7 +76,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             <?= $content ?>
         </div>
-
+</div>
         <!--<footer>-->
         <!--            <div class="social-icon">
                         <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>

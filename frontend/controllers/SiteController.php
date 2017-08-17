@@ -253,6 +253,7 @@ class SiteController extends Controller {
             $sort_by = 'Closest';
 //            $session->set('only_zip', 'y');
             $session->set('event_id',$event_id);
+            $session->set('type','exact_location');
         } else {
             $zip_code = Yii::$app->request->post('zipcode');
             $keywords = Yii::$app->request->post('keywords');
@@ -265,6 +266,7 @@ class SiteController extends Controller {
         $session->set('filters', $filters);
         $session->set('sort', $sort_by);
         $session->set('signup_page', 'Y');
+        $session->set('type','search_base');
     }
 
     /**
@@ -334,8 +336,7 @@ class SiteController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
+                //return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }

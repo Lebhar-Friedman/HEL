@@ -17,7 +17,7 @@
     <?php $event_links = array(); ?>
     <?php foreach ($events as $Single_array_events) { ?>
         <?php foreach ($Single_array_events as $event) { ?>
-            <?php if (in_array((string) $event['_id'], $event_links)) { ?>
+            <?php if (in_array((string)$event['_id'], $event_links)) { ?>
                 <?php continue; ?>
             <?php } ?>
             <tr style="text-align: center">

@@ -55,7 +55,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <h1><?= $event['title'] ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                 <?= $event['time_start'] ?> - <?= $event['time_end'] ?> 
-                <div class="save-share-btn clearfix">
+                <div class="save-share-btn clearfix" style="display:none">
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
                         ?>
