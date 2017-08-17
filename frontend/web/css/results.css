@@ -1325,7 +1325,7 @@ input[type="checkbox"]:checked + label.oper:before {
 }
 @media (max-width: 930px) and (min-width: 768px){
     .table-cust{width:90px;}
-    .event-near h1{font-size:25px; line-height:22px;}
+    /*.event-near h1{font-size:25px; line-height:22px;}*/
     .event-near h1 span{font-size:16px; line-height:16px;}
     .event-margin-r, .event-multi-service{margin-right:0px;}
     .event-near i{padding-bottom:20px !important; font-size:18px; line-height:16px;}
