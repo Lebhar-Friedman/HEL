@@ -584,7 +584,7 @@ footer a:hover{
     width: 270px;
     text-align:center;
     margin:0 auto !important;
-    background:#29859c;
+    background:#0088cc;
     font-size:17px;
     line-height:17px;
     color:#FFF !important;
@@ -593,7 +593,7 @@ footer a:hover{
     transition: all 0.3s ease;
 }
 .submit button:hover{
-    background:#333;
+    background:#00c1ff;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }

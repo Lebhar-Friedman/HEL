@@ -1,25 +1,25 @@
 //*************************************************************** functions on document load *********************************
 $(document).ready(function () {
-   $('a[href="#home"]').on('click', function(event) {
-    if (this.hash !== "") {
-      event.preventDefault();
-     var hash = this.hash;
-     $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function(){
-        window.location.hash = hash;
-        $('#zipcode_input').focus()
-      });
-    } 
-  }); 
-  $('a[href="#map"]').on('click', function(event) {
-    if (this.hash !== "") {
-      event.preventDefault();
-     var hash = this.hash;
-     $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function(){
-        window.location.hash = hash;
-      });
-    } 
-  }); 
-    
+    $('a[href="#home"]').on('click', function (event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function () {
+                window.location.hash = hash;
+                $('#zipcode_input').focus()
+            });
+        }
+    });
+    $('a[href="#map"]').on('click', function (event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({scrollTop: $(hash).offset().top}, 800, function () {
+                window.location.hash = hash;
+            });
+        }
+    });
+
     $(".show_menu").click(function () {
         $(".account_dd").toggle({
             duration: 500,
@@ -55,23 +55,24 @@ $(document).ready(function () {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };// alerts end
-    
+
 });
 //***************************************************************** $(document).ready end *************************************
-if($('.html-multi-chosen-select').length>0){
-$('.html-multi-chosen-select').chosen({placeholder_text_multiple: ' '});
+if ($('.html-multi-chosen-select').length > 0) {
+    $('.html-multi-chosen-select').chosen({placeholder_text_multiple: ' '});
 //$('.html-multi-chosen-select').chosen({placeholder_text_multiple: 'Keywords'});
 }
 
 $(document).ready(function () {
 //    $(".html-multi-chosen-select").chosen().change(alert());
+    if ($('.html-multi-chosen-select').length > 0) {
+        $('.html-multi-chosen-select').chosen().change(function (event) {
+            console.log('change', event, $(event.target).val());
+        });
 
-    $('.html-multi-chosen-select').chosen().change(function (event) {
-        console.log('change', event, $(event.target).val());
-    });
-
-    $('.search-choice-close').onclick = function () {
+        $('.search-choice-close').onclick = function () {
 //        alert('hiiii');
+        }
     }
 });
 
@@ -83,8 +84,8 @@ function checkEnterPress(e, input_value) {
 }
 function getZipCodeForSearch() {
     zip_code = document.getElementById('zipcode_input').value;
-    if($('#zipcode_input').val().length < 5 ){
-        $('#zipcode_input').css("border","1px solid red");
+    if ($('#zipcode_input').val().length < 5) {
+        $('#zipcode_input').css("border", "1px solid red");
         return false;
     }
     searchByzip(zip_code);

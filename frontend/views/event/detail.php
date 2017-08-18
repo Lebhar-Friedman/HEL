@@ -50,7 +50,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     </div>
                         <div class="col-lg-1"></div>
                     div class="col-lg-7 col-md-8 col-sm-8 col-xs-7">-->
-        <div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-7">
             <div class="senior-day-content">
                 <h1><?= $event['title'] ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>

@@ -43,7 +43,7 @@ class CompanyController extends Controller {
         $count = $query->count();
 
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => (10)]);
-        $companies = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['name' => SORT_ASC])->all();
+        $companies = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
         $companies_arr = array();
         foreach ($companies as $company) {
             $locations = Location::find()->where(['company' => $company->name])->count();

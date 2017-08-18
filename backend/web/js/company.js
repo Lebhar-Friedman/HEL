@@ -47,7 +47,7 @@ $(document).ready(function () {
 });
 
 function deleteCompany(companyID,element){
-    if (! confirm("Are you sure?")) {
+    if (! confirm("Are you sure, you want to delete this company?")) {
         return false;
     }
     $.ajax({
@@ -59,6 +59,7 @@ function deleteCompany(companyID,element){
                 console.log(r);
                 if (r.msgType === 'SUC') {
                     toastr.success(r.msg);
+                    $('#total').text($('#total').text()-1);
                     $(element).closest('.main-table').hide(1000, function () {
                         $(element).closest('.main-table').remove();
                     });

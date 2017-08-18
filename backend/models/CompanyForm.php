@@ -49,7 +49,7 @@ class CompanyForm extends Model {
         }
         $model = Company::find()->andWhere($whereParams)->all();
         if (count($model) > 0) {
-            $this->addError($attribute, 'This Company (' . $this->name . ') name is already taken');
+            $this->addError($attribute, 'This Company name (' . $this->name . ') already exist');
         }
     }
 

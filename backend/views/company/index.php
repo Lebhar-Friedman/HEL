@@ -25,7 +25,7 @@ use yii\widgets\LinkPager;
                     <div class="flt-lft  add-new-btn2"><a href="<?= BaseUrl::base() . '/company/detail'; ?>">Add New</a></div>
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-8">
-                    <div class="total">Total: <?= $total; ?></div>
+                    <div class="total">Total: <span id="total"><?= $total; ?></span></div>
                 </div>
             </div>
 

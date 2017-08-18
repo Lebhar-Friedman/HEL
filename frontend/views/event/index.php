@@ -103,14 +103,14 @@ $this->title = 'Health Events Live: Search Events';
                         <div>
                             <input type="submit" class="btn go-btn" value="Go">
                         </div>
-                        <h1>Filters</h1>
+<!--                        <h1>Filters</h1>
                         <?php $i = 0; ?>
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
                             <?php $i++; ?>
                             <div class="filter-box">
                                 <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
                                     <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
-                                        <!--<input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>-->
+                                        <input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>
                                     <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                                 <?php } else { ?>
                                     <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
@@ -120,7 +120,7 @@ $this->title = 'Health Events Live: Search Events';
                         <?php } ?>
                         <div>
                             <input type="submit" class="btn go-btn" value="Go">
-                        </div>
+                        </div>-->
                     </form>
                 </div>
 <!--                <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->

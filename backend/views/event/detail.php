@@ -116,6 +116,14 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <?= !empty($model->price) ? '&dollar;' . $model->price : 'Free' ?>
                     </div>
                 </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Company:</strong>
+                    </div>
+                    <div class="col-lg-10 ">
+                        <?= isset($companies[$model->company]) ? $companies[$model->company] : '' ?>
+                    </div>
+                </div>
 
                 <div class ="row mrgd">
                     <div class="col-lg-2 ">
@@ -192,6 +200,14 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-7">
                         <?= $form->field($model, 'price', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '0']])->textInput()->label(false); ?>
+                    </div>
+                </div>
+                <div class ="row mrgd">
+                    <div class="col-lg-2 ">
+                        <strong>Company:</strong>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-7">
+                        <?= $form->field($model, 'company', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '0']])->dropDownList($companies, ['prompt'=>'Select Company'])->label(false); ?>
                     </div>
                 </div>
 
