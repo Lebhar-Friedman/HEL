@@ -10,10 +10,7 @@ use yii\web\View;
 $this->title = 'Health Events Live: Welcome';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<style>
-    body{
-        background:#eaeaea !important;
-    }
+<style>    
     .result-header{
         background: #FFF !important;
         margin-bottom: 15px !important;
@@ -30,11 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <div class="row">
-    <div class="col-lg-1">
-    </div>
-    <div class="col-lg-10" style="min-height: 428px;justify-content: center;display: flex;align-items: center;">
+    <div class="col-lg-12" style="min-height: 428px;justify-content: center;display: flex;align-items: center;">
         <div class="middle-content text-center">
-            <h2>Thank you for signing up. Click <a href="<?= yii\helpers\Url::to(['/']) ?>">here</a> to start searching for health events.</h2>
+            <h1 style="font-size: 30px;">Thank you for signing up. Click <a href="<?= yii\helpers\Url::to(['/']) ?>">here</a> to start searching for health events.</h1>
 
         </div>
     </div>
