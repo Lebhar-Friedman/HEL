@@ -38,13 +38,13 @@ $baseUrl = Yii::$app->request->baseUrl;
 
             <div class ="col-lg-8 col-md-8 col-sm-6"></div>
             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 edit-btn-1">
-                <a id="edit_btn_location" href="javascript:;" style="display: <?=($model->hasErrors())? 'none':'block'?>">Edit</a>
-                <a id="cancel_btn_location" href="javascript:;" style="display: <?=($model->hasErrors())? 'block':'none'?>">Cancel</a>
+                <a id="edit_btn_location" href="javascript:;" style="display: <?= ($model->hasErrors()) ? 'none' : 'block' ?>">Edit</a>
+                <a id="cancel_btn_location" href="javascript:;" style="display: <?= ($model->hasErrors()) ? 'block' : 'none' ?>">Cancel</a>
             </div>
         </div> 
         <br>
         <br>
-        <div id="detailLocation" style="display: <?=($model->hasErrors())? 'none':'block'?>">
+        <div id="detailLocation" style="display: <?= ($model->hasErrors()) ? 'none' : 'block' ?>">
             <div class ="row mrgd">
                 <div class="col-lg-3 col-md-4 col-sm-5  ">
                     <strong>Store#:</strong>
@@ -58,7 +58,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <strong>Name:</strong>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-7   ">
-                    <?= $detail->company ?>
+                    <?= $companies[$detail->company] ?>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <?= $detail->street ?> 
                 </div>
             </div>
-            
+
             <div class ="row mrgd">
                 <div class="col-lg-3 col-md-4 col-sm-5 ">
                     <strong>City:</strong>
@@ -117,7 +117,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>            
         </div>
 
-        <div id="editLocation" style="display: <?=($model->hasErrors())? 'block':'none'?>">
+        <div id="editLocation" style="display: <?= ($model->hasErrors()) ? 'block' : 'none' ?>">
             <?php
             $form = yii\widgets\ActiveForm::begin([
                         'fieldConfig' => ['template' => "{input}{error}"],
@@ -126,10 +126,10 @@ $baseUrl = Yii::$app->request->baseUrl;
             ?>
             <div class ="row mrgdd">
                 <div class="col-lg-3 col-md-4 col-sm-5  ">
-                    <strong>Name:</strong>
+                    <strong>Company:</strong>
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-7   ">
-                    <?= $form->field($model, 'company', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'John Smith']])->textInput()->label(false); ?>
+                    <?= $form->field($model, 'company', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'John Smith']])->dropDownList($companies, ['prompt' => 'Select Company'])->label(false); ?>
                 </div>
             </div>
 
@@ -141,7 +141,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <?= $form->field($model, 'street', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => 'Q-357 Dha phase 2 Lahore']])->textInput()->label(false); ?>
                 </div>
             </div>
-            
+
             <div class ="row mrgdd">
                 <div class="col-lg-3 col-md-4 col-sm-5 ">
                     <strong>City:</strong>
@@ -190,7 +190,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             <div class ="row mrgnd">
                 <center>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 save-btn-1">
-                        <?= \yii\helpers\Html::submitButton('Submit', ['id'=>'btnSubmit', 'class' => 'hidden']) ?>
+                        <?= \yii\helpers\Html::submitButton('Submit', ['id' => 'btnSubmit', 'class' => 'hidden']) ?>
                         <a href="javascript:void(0);"  onclick="$('#btnSubmit').click()">Save</a>
                     </div> 
                 </center>

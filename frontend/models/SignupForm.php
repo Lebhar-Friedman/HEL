@@ -23,17 +23,16 @@ class SignupForm extends Model {
      */
     public function rules() {
         return [
-                [['username', 'first_name', 'last_name', 'email'], 'trim'],
-                [['username','first_name','last_name','email'], 'required'],
-                ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-                ['username', 'string', 'min' => 2, 'max' => 255],
-                ['email', 'email'],
-                ['email', 'string', 'max' => 255],
-                ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-                ['password', 'required'],
-                ['password', 'string', 'min' => 6],
-                [['password', 'confirm_password'], 'required', 'on' => 'create'],
-                [['confirm_password'], 'validateConfirmPassword'],
+            [['username', 'first_name', 'last_name', 'email'], 'trim'],
+            [['email', 'password', 'confirm_password'], 'required'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['password', 'string', 'min' => 6],
+            [['password', 'confirm_password'], 'required', 'on' => 'create'],
+            [['confirm_password'], 'validateConfirmPassword'],
         ];
     }
 
@@ -44,7 +43,7 @@ class SignupForm extends Model {
      */
     public function signup() {
         if (!$this->validate()) {
-            return null;
+            return FALSE;
         }
 
         $user = new User();
@@ -55,7 +54,7 @@ class SignupForm extends Model {
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->status = 0;
-        return $user->save() ? $user : null;
+        return $user->save() ? $user : FALSE;
     }
 
     public function validateConfirmPassword($attribute) {
@@ -66,11 +65,21 @@ class SignupForm extends Model {
 
     public function confirmationEmail($user, $url) {
         return Yii::$app->mailer->compose(
-                                ['html' => 'registration-confirmation-html'], ['user' => $user, 'url'=> $url]
+                                ['html' => 'registration-confirmation-html'], ['user' => $user, 'url' => $url]
                         )
                         ->setTo($user->email)
                         ->setFrom(Yii::$app->params['supportEmail'])
                         ->setSubject('Health Events Live Confirmation')
+                        ->send();
+    }
+    
+    public function welcomeEmail($user, $url) {
+        return Yii::$app->mailer->compose(
+                                ['html' => 'registration-welcome-html'], ['user' => $user, 'url' => $url]
+                        )
+                        ->setTo($user->email)
+                        ->setFrom(Yii::$app->params['supportEmail'])
+                        ->setSubject('Health Events Live Welcome')
                         ->send();
     }
 

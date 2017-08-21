@@ -29,6 +29,12 @@ class LoginForm extends Model {
             ['password', 'validatePassword'],
         ];
     }
+    
+    public function attributeLabels() {
+        return [
+            'username'=>'Email'
+        ];
+    }
 
     /**
      * Validates the password.
@@ -41,7 +47,7 @@ class LoginForm extends Model {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || $this->role != $user->role || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Incorrect emial or password.');
             }
         }
     }

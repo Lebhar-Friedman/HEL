@@ -584,7 +584,7 @@ footer a:hover{
     width: 270px;
     text-align:center;
     margin:0 auto !important;
-    background:#29859c;
+    background:#0088cc;
     font-size:17px;
     line-height:17px;
     color:#FFF !important;
@@ -593,7 +593,7 @@ footer a:hover{
     transition: all 0.3s ease;
 }
 .submit button:hover{
-    background:#333;
+    background:#00c1ff;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
@@ -670,8 +670,8 @@ footer a:hover{
 .result-sign-up a{
     float:right;
     padding:10px 30px 12px 30px;
-    font-size:12px;
-    line-height:0px;
+    font-size:18px;
+    line-height:15px;
     color:#1e5ba9 !important;
     /*font-family: 'helveticaneuebold' !important;*/
     margin-left:2px !important;

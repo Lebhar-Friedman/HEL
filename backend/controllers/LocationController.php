@@ -143,6 +143,11 @@ class LocationController extends Controller {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
             $location = Location::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
             $model = $locations = NULL;
+            $companies = Company::CompanyList();
+            $companyList = [];
+            foreach ($companies as $c) {
+                $companyList[$c->company_number]=$c->name;
+            }
 
             if (count($location) > 0) {
                 $request = Yii::$app->request;
@@ -159,7 +164,7 @@ class LocationController extends Controller {
                     }
                 }
             }
-            return $this->render('detail', ['detail' => $location, 'model' => $model,]);
+            return $this->render('detail', ['detail' => $location, 'model' => $model, 'companies' => $companyList]);
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }

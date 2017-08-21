@@ -63,7 +63,7 @@ if (isset($_GET['email'])) {
                                 <span>Already have an account</span>
                             </div>
                             <div>
-                                <?= $form->field($model, 'username', ['inputOptions' => ['class' => 'email-input email-icon', 'placeholder' => 'Username', 'value' => $get_email]])->textInput(['autofocus' => true])->label(FALSE) ?>
+                                <?= $form->field($model, 'username', ['inputOptions' => ['class' => 'email-input email-icon', 'placeholder' => 'Email', 'value' => $get_email]])->textInput(['autofocus' => true])->label(FALSE) ?>
                             </div>
                             <div>
                                 <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'email-input passowrd-icon', 'placeholder' => 'Password']])->passwordInput()->label(false) ?>
@@ -76,7 +76,7 @@ if (isset($_GET['email'])) {
                             </div>
                             <div class="sign-in">
                                 Don’t have an account? 
-                                <?= Html::a('Sign up', ['site/signup']) ?>
+                                <?= Html::a('Sign Up', ['site/signup']) ?>
                             </div>
                             <?php ActiveForm::end(); ?>
                         </div>

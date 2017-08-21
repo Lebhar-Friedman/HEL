@@ -183,6 +183,11 @@ class EventController extends Controller {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
             $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
             $model = $locations = NULL;
+            $companies = Company::CompanyList();
+            $companyList = [];
+            foreach ($companies as $c) {
+                $companyList[$c->company_number]=$c->name;
+            }
 
             if (count($event) > 0) {
                 $categories = \common\functions\GlobalFunctions::getCategoryList();
@@ -202,7 +207,7 @@ class EventController extends Controller {
                     }
                 }
             }
-            return $this->render('detail', ['model' => $model, 'locations' => $locations, 'categories' => $categories, 'subCategories' => $subCategories]);
+            return $this->render('detail', ['model' => $model, 'locations' => $locations, 'categories' => $categories, 'subCategories' => $subCategories, 'companies' => $companyList]);
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }

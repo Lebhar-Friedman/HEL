@@ -5,10 +5,12 @@ use components\GlobalFunction;
 use yii\helpers\BaseUrl;
 use yii\web\JqueryAsset;
 
-$this->registerCssFile('@web/css/results.css');
-$this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
+
+$this->registerCssFile('@web/css/results.css', ['depends' => frontend\assets\AppAsset::className()]);
+$this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\AppAsset::className()]);
+
 
 $this->title = 'Health Events Live: Search Events';
 ?>
@@ -33,6 +35,27 @@ $this->title = 'Health Events Live: Search Events';
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         /*text-align: center !important;*/
         font-size: initial;
+    }
+
+    /* NEW */
+    .chosen-container-multi 
+    .chosen-choices {
+        padding: 0 6px;
+    }
+    .chosen-container-multi 
+    .chosen-choices 
+    li.search-choice {
+        background: #fff;
+        border-radius: 2px;
+        box-shadow: none;
+        padding: 4px 24px 4px 8px;
+    }
+    .chosen-container-multi 
+    .chosen-choices 
+    li.search-choice 
+    .search-choice-close {
+        top: 9px;
+        right: 5px;
     }
 </style>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -80,14 +103,14 @@ $this->title = 'Health Events Live: Search Events';
                         <div>
                             <input type="submit" class="btn go-btn" value="Go">
                         </div>
-                        <h1>Filters</h1>
+<!--                        <h1>Filters</h1>
                         <?php $i = 0; ?>
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
                             <?php $i++; ?>
                             <div class="filter-box">
                                 <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
                                     <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
-                                        <!--<input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>-->
+                                        <input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>
                                     <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                                 <?php } else { ?>
                                     <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
@@ -97,7 +120,7 @@ $this->title = 'Health Events Live: Search Events';
                         <?php } ?>
                         <div>
                             <input type="submit" class="btn go-btn" value="Go">
-                        </div>
+                        </div>-->
                     </form>
                 </div>
 <!--                <div class="add-box"><img src="<?= $img_url ?>result-img7.png" alt="" /></div>-->
