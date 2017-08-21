@@ -128,9 +128,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <i><?= $sub_category ?></i>
-                                        </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                        <i><?= $sub_category ?></i>
+                                                    </div>
             <?php
         endforeach;
         ?>
@@ -171,14 +171,17 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <div class="map-content" >
                                 <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
                         <?php
-//            $coord = new LatLng(['lat' => 32.154377, 'lng' => 74.184227]);
                         $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
+                        $poic_styles='[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
+//                        $gmapStyler = '[{"stylers":[{"saturation":-100},{"gamma":1}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":50},{"gamma":0},{"hue":"#50a5d1"}]},{"featureType":"administrative.neighborhood","elementType":"labels.text.fill","stylers":[{"color":"#333333"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"weight":0.5},{"color":"#333333"}]},{"featureType":"transit.station","elementType":"labels.icon","stylers":[{"gamma":1},{"saturation":50}]}]';
+                        $gmapStyler = '[{"stylers":[{"saturation":-100},{"gamma":1}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":50},{"gamma":0},{"hue":"#50a5d1"}]},{"featureType":"administrative.neighborhood","elementType":"labels.text.fill","stylers":[{"color":"#333333"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"weight":0.5},{"color":"#333333"}]},{"featureType":"transit.station","elementType":"labels.icon","stylers":[{"gamma":1},{"saturation":50}]}]';
                         $map = new Map([
                             'center' => $coord,
                             'zoom' => 8,
                             'width' => '100%',
                             'height' => '275',
                             'scrollwheel' => false,
+                            'styles' => $poic_styles,
                         ]);
                         $map->setName('gmap');
 
@@ -205,7 +208,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                         }
 
                         $map->center = $map->getMarkersCenterCoordinates();
-                        $map->zoom = $map->getMarkersFittingZoom() +6;
+
+                        $map->zoom = $map->getMarkersFittingZoom() + 2;
 
                         echo $map->display();
                         ?>
