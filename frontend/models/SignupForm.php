@@ -72,5 +72,15 @@ class SignupForm extends Model {
                         ->setSubject('Health Events Live Confirmation')
                         ->send();
     }
+    
+    public function welcomeEmail($user, $url) {
+        return Yii::$app->mailer->compose(
+                                ['html' => 'registration-welcome-html'], ['user' => $user, 'url' => $url]
+                        )
+                        ->setTo($user->email)
+                        ->setFrom(Yii::$app->params['supportEmail'])
+                        ->setSubject('Health Events Live Welcome')
+                        ->send();
+    }
 
 }

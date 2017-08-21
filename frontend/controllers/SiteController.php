@@ -284,7 +284,7 @@ class SiteController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
             $user = $model->signup();
             if ($user) {
-                $email = $model->confirmationEmail($user, $url);
+                $email = $model->welcomeEmail($user, $url);
                 if ($email) {
                     Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                 } else {
