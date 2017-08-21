@@ -137,7 +137,8 @@ function openModal(event) {
 }
 
 function moreEvents(form_data) {
-    var url = baseUrl + 'event/more-events';
+    var zipCode = $('#zip_code').val();
+    var url = baseUrl + 'event/more-events?zip='+zipCode;
     $('#more_events').load(url);
 }
 

@@ -142,12 +142,21 @@ class EventController extends Controller {
     }
 
     public function actionMoreEvents() {
-        $z_lng_lat = $this->getZipLongLat();
-        $events = $this->getEventsWithDistance($z_lng_lat['zip_code'], null, null, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 200, 50);
+        
+//        $z_lng_lat = $this->getZipLongLat();
+        $zip_code = urldecode(Yii::$app->request->get('zip'));
+        $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
+        
+        $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 50);
 //        $updated_events[];
-//        foreach ($events as $event){
-//            $temp = $event;
-//        }
+//        print_r($events);
+        foreach ($events as $event){
+            $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+            
+            $score = $event['distance'] * GlobalFunction::dateDiff($current_date, $event['date_start']);
+//            echo "<pre>";
+//            print_r($score);
+        }
         return $this->renderAjax('_more-events', ['more_events' => $events]);
     }
 
