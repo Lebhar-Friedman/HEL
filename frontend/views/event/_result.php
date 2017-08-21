@@ -116,20 +116,16 @@ $temp_events = array();
             <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
+            $poic_styles='[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
 //            $coord = new LatLng(['lat' => intval($events[0]['locations'][0]['geometry']['coordinates'][1]), 'lng' => intval($events[0]['locations'][0]['geometry']['coordinates'][0])]);
             $map = new Map([
                 'center' => $coord,
-                'zoom' => 8,
+                'zoom' => 18,
+//                'maxZoom' => 16,
                 'width' => '100%',
                 'height' => '275',
                 'scrollwheel' => false,
-                'styles' => [
-                    "featureType" => "poi",
-                    "elementType" => "labels",
-                    "stylers" => [
-                        "visibility" => "off"
-                    ]
-                ],
+                'styles' => $poic_styles,
             ]);
             $map->setName('gmap');
             foreach ($events as $event) {
