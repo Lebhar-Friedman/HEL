@@ -35,12 +35,12 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                        [
+                    [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -113,20 +113,20 @@ class SiteController extends Controller {
     public function actionIndex() {
 
         $session = Yii::$app->session;
-        if($session->has('event_id') && !Yii::$app->user->isGuest){
-            
-            $event_id =$session->get('event_id');
+        if ($session->has('event_id') && !Yii::$app->user->isGuest) {
+
+            $event_id = $session->get('event_id');
 //            return Yii::$app->runAction(['evnt/detail','eid'=>$event_id]);
-            return $this->redirect(['event/detail','eid'=>$event_id,'alert_added'=>true]);
+            return $this->redirect(['event/detail', 'eid' => $event_id, 'alert_added' => true]);
         }
         if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
-            
+
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
             $zip = $session->get('zip');
             $sort = $session->get('sort');
             $parameters = array();
-            
+
             if (!empty($zip)) {
                 $temp = ['zipcode' => $zip];
                 array_merge($parameters, $temp);
@@ -252,8 +252,8 @@ class SiteController extends Controller {
             $filters = array();
             $sort_by = 'Closest';
 //            $session->set('only_zip', 'y');
-            $session->set('event_id',$event_id);
-            $session->set('type','exact_location');
+            $session->set('event_id', $event_id);
+            $session->set('type', 'exact_location');
         } else {
             $zip_code = Yii::$app->request->post('zipcode');
             $keywords = Yii::$app->request->post('keywords');
@@ -266,7 +266,7 @@ class SiteController extends Controller {
         $session->set('filters', $filters);
         $session->set('sort', $sort_by);
         $session->set('signup_page', 'Y');
-        $session->set('type','search_base');
+        $session->set('type', 'search_base');
     }
 
     /**
@@ -286,7 +286,8 @@ class SiteController extends Controller {
             if ($user) {
                 $email = $model->welcomeEmail($user, $url);
                 if ($email) {
-                    Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
+//                    Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
+                    return $this->render('signup-thankyou');
                 } else {
                     Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
                 }
