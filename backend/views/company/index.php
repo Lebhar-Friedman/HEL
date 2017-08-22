@@ -31,6 +31,7 @@ use yii\widgets\LinkPager;
 
             <div class="list-table">
                 <div class="table-th">
+                    <div class="table-cell-h col-company-no">Company#</div>
                     <div class="table-company">Company</div>
                     <div class="table-events">Events</div>
                     <div class="table-locations">Locations</div>
@@ -45,6 +46,7 @@ use yii\widgets\LinkPager;
                     }
                     ?>
                     <div class="main-table">
+                        <div class="tc0 col-company-no"><?= $company['company_number'] ?></div>
                         <div class="tc1"><img src="<?= $logo_url ?>" alt=""  width="60px" /></div>
                         <div class="tc2"><?= $company['name'] ?></div>
                         <div class="tc2-2"><?= $company['t_events'] ?></div>
