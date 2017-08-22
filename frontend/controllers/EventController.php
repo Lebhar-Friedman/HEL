@@ -21,7 +21,7 @@ use yii\web\Cookie;
 class EventController extends Controller {
 
     public function actionIndex() {
-        
+
 //        echo "<pre>";
 //        print_r(GlobalFunction::getDates());exit;
 //        $long = 74.329376;
@@ -58,7 +58,7 @@ class EventController extends Controller {
                 $longitude = $lng_lat['long'];
                 $latitude = $lng_lat['lat'];
             }
-            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort,'type' => $type])) {
+            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort, 'type' => $type])) {
                 Yii::$app->getSession()->setFlash('success', 'Alert has been added');
             } else {
                 Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
@@ -89,22 +89,22 @@ class EventController extends Controller {
             $keywords = Yii::$app->request->get('keywords');
             $filters = Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
-            Yii::$app->getSession()->setFlash('error', 'Must enter zip code');
+//            Yii::$app->getSession()->setFlash('error', 'Must enter zip code');
             return $this->render('index', ['events' => $events_dist, 'zip_code' => null, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => null, 'latitude' => null]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords'); //=== null ? array() : Yii::$app->request->get('keywords');
-            $filters = Yii::$app->request->get('filters');// === null ? array() : Yii::$app->request->get('filters');
+            $filters = Yii::$app->request->get('filters'); // === null ? array() : Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
-            
+
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
             $longitude = $longlat['long'];
-            
+
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, 50, 0, $sort_by);
             $total_events = sizeof($events_dist);
 
-            
+
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longitude, 'latitude' => $latitude]);
         }
         if (Yii::$app->request->isPost) {
@@ -142,22 +142,30 @@ class EventController extends Controller {
     }
 
     public function actionMoreEvents() {
-        
+
 //        $z_lng_lat = $this->getZipLongLat();
         $zip_code = urldecode(Yii::$app->request->get('zip'));
         $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
-        
+
         $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 50);
-//        $updated_events[];
-//        print_r($events);
-        foreach ($events as $event){
+        $events_with_score = array();
+        foreach ($events as $event) {
             $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-            
-            $score = $event['distance'] * GlobalFunction::dateDiff($current_date, $event['date_start']);
-//            echo "<pre>";
-//            print_r($score);
+            $current_date = GlobalFunction::getDate('Y-m-d', $current_date);
+            $end_date = GlobalFunction::getDate('Y-m-d', $event['date_end']);
+            $diff = GlobalFunction::dateDiff($end_date, $current_date, false);
+
+            $score['score'] = round($event['distance'] * $diff, 2);
+            $events_with_score[] = array_merge($event, $score);
         }
-        return $this->renderAjax('_more-events', ['more_events' => $events]);
+        if (sizeof($events_with_score) > 0) {
+            usort($events_with_score, function ($item1, $item2) {
+                if (abs(($item1['score'] - $item2['score'])/$item2['score']) < 0.00001)
+                    return 0;
+                return $item1['score'] < $item2['score'] ? -1 : 1;
+            });
+        }
+        return $this->renderAjax('_more-events', ['more_events' => $events_with_score]);
     }
 
     public function actionDetail() {

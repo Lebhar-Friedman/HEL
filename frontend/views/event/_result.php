@@ -160,6 +160,11 @@ $temp_events = array();
             ?>
         </div>
     <?php } ?>
+    <?php if(sizeof($events) < 1){ ?>
+    <div class="text-center email-content padding-top-50" style="padding-top:50px">
+        <h1 >No event found </h1>
+    </div>
+    <?php } ?>
     <div class="email-content">
         <div class="row" id="add_alert">
             <?php if (!$alert_added) { ?>
