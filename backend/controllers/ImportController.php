@@ -78,6 +78,7 @@ class ImportController extends Controller {
      */
     public function actionUploadCsv() {
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            ini_set("auto_detect_line_endings", true);
             $model = new \common\models\UploadForm();
             $model->load(Yii::$app->request->post());
             $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
