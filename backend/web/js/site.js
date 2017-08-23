@@ -113,3 +113,9 @@ function importcsv() {
 
 }
 
+function gotoURL(address,toHide,loader){
+    $(toHide).addClass('hidden');
+    $('#'+loader).removeClass('hidden');
+    window.location.href  = baseUrl+address;
+}
+
