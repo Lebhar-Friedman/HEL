@@ -26,7 +26,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
                     </div>
                     <div class="col-lg-4 inbound-list ">
                         <select id="import_type" name="import_type">
-                            <option value="company">Company</option>
+                            <!--<option value="company">Company</option>-->
                             <option value="event">Event</option>                                            
                         </select>
                     </div>
