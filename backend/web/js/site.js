@@ -103,6 +103,7 @@ function importcsv() {
                 $('#upload_btn').removeClass('hidden');
                 $('#loader').addClass('hidden');
                 $('#import').val('');
+                $('#filename').val('file.csv');
             }
         });
     } else {
