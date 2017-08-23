@@ -32,6 +32,8 @@ function deleteEvent(eventID, element, redirect) {
     if (!confirm("Are you sure, you want to delete this event?")) {
         return false;
     }
+    $(element).addClass('hidden');
+    $('#loader_del_' + eventID).removeClass('hidden');
     $.ajax({
         url: baseUrl + 'event/delete',
         type: 'post',
@@ -50,19 +52,25 @@ function deleteEvent(eventID, element, redirect) {
                     }, 2000);
                 }
             } else {
+                $('#loader_del_' + eventID).addClass('hidden');
+                $(element).removeClass('hidden');
                 toastr.error(r.msg);
             }
         },
         error: function ()
         {
+            $('#loader_del_' + eventID).addClass('hidden');
+            $(element).removeClass('hidden');
             toastr.error('Internal server error');
         }
     });
 }
-function deleteSelectedEvent() {
+function deleteSelectedEvent(element) {
     if (!confirm("Are you sure?")) {
         return false;
     }
+    $(element).addClass('hidden');
+    $('#loader_bulk_delete').removeClass('hidden');
     var eventsIds = [];
     $(".table-chk-h1 input[name='checkEvent']:checked").each(function () {
         eventsIds.push($(this).attr('id'));
@@ -73,6 +81,8 @@ function deleteSelectedEvent() {
         data: {eids: eventsIds},
         dataType: "json",
         success: function (r) {
+            $(element).removeClass('hidden');
+            $('#loader_bulk_delete').addClass('hidden');
             console.log(r);
             if (r.msgType === 'SUC') {
                 toastr.success(r.msg);
@@ -85,6 +95,8 @@ function deleteSelectedEvent() {
         },
         error: function ()
         {
+            $(element).removeClass('hidden');
+            $('#loader_bulk_delete').addClass('hidden');
             toastr.error('Internal server error');
         }
     });
@@ -97,6 +109,8 @@ function postEvent(eventID, element) {
     if (!confirm("Are you sure you  want to " + actionText + " this event?")) {
         return false;
     }
+    $(element).addClass('hidden');
+    $('#loader_' + eventID).removeClass('hidden');
     $.ajax({
         url: baseUrl + 'event/post',
         type: 'post',
@@ -105,7 +119,8 @@ function postEvent(eventID, element) {
         success: function (r) {
             console.log(r);
             if (r.msgType === 'SUC') {
-                $(element).addClass('hidden');
+                $('#loader_' + eventID).addClass('hidden');
+                $(element).replaceWith("<a href='javascript:;'>Posted</a>");
                 $('#unpost-' + eventID).removeClass('hidden');
                 toastr.success(r.msg.replace('post', actionText));
             } else {
@@ -149,6 +164,8 @@ function postSelectedEvent(eventID, element) {
     if (!confirm("Are you sure?")) {
         return false;
     }
+    $(element).addClass('hidden');
+    $('#loader_bulk_post').removeClass('hidden');
     var eventsIds = [];
     $(".table-chk-h1 input[name='checkEvent']:checked").each(function () {
         eventsIds.push($(this).attr('id'));
@@ -159,6 +176,8 @@ function postSelectedEvent(eventID, element) {
         data: {eids: eventsIds},
         dataType: "json",
         success: function (r) {
+            $(element).removeClass('hidden');
+            $('#loader_bulk_post').addClass('hidden');
             console.log(r);
             if (r.msgType === 'SUC') {
                 toastr.success(r.msg);
@@ -189,3 +208,10 @@ function showEventDetail() {
     $('#detailEvent').show();
     $('#edit_btn_event').show();
 }
+
+$(document).on("submit", "#event-search", function (e) {
+    $('#search_btn').addClass('hidden');
+    $('#loader').removeClass('hidden');
+});
+
+
