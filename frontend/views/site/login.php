@@ -9,7 +9,7 @@ use yii\web\View;
 
 $this->title = 'Health Events Live: Login';
 $this->params['breadcrumbs'][] = $this->title;
-$get_email = '';
+$get_email = $model->username;
 if (isset($_GET['email'])) {
     $get_email = $_GET['email'];
 }

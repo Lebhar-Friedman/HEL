@@ -62,14 +62,15 @@ function getUrlVars() {
 //******************************************************* general functions end
 
 //************************** upload CSV ******************************
-function setcsvfilename(){
+function setcsvfilename() {
     filename = $('#import').val().replace(/C:\\fakepath\\/i, '');
-    if(filename){
+    if (filename) {
         $('#filename').val(filename);
     }
 }
 function importcsv() {
-//    $('#Loader').removeClass('hidden');
+    $('#upload_btn').addClass('hidden');
+    $('#loader').removeClass('hidden');
 
     filename = $('#import').val().replace(/C:\\fakepath\\/i, '');
     var extension = filename.split('.').pop();
@@ -99,13 +100,16 @@ function importcsv() {
             },
             complete: function (jqXHR, textStatus) {
                 console.log(textStatus);
-                $('#Loader').addClass('hidden');
+                $('#upload_btn').removeClass('hidden');
+                $('#loader').addClass('hidden');
                 $('#import').val('');
+                $('#filename').val('file.csv');
             }
         });
     } else {
         Msg('Files with only CSV extensions are allowed.', 'ERR');
-        $('#Loader').addClass('hidden');
+        $('#upload_btn').removeClass('hidden');
+        $('#loader').addClass('hidden');
     }
 
 }

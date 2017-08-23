@@ -35,8 +35,9 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
             </div>
 
         </div>
-        <div class="upload-btn">
-            <a href="javascript:void()"  onclick="importcsv();">Upload</a>
+        <div class="upload-btn text-center">
+            <a href="javascript:void()"  onclick="importcsv();" id="upload_btn">Upload</a>
+            <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader">
         </div>  
     </div>
 </div>

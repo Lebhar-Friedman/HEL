@@ -1,6 +1,7 @@
 main-local.php
 params-local.php
 test-local.php
+mongodb.php
 !/main-local.php
 !/params-local.php
 !/test-local.php

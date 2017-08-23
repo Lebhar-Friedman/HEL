@@ -46,8 +46,8 @@ class CompanyController extends Controller {
         $companies = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at' => SORT_DESC])->all();
         $companies_arr = array();
         foreach ($companies as $company) {
-            $locations = Location::find()->where(['company' => $company->name])->count();
-            $events = Event::find()->where(['company' => $company->name])->count();
+            $locations = Location::find()->where(['company' => $company->company_number])->count();
+            $events = Event::find()->where(['company' => $company->company_number])->count();
             $company['t_locations'] = $locations;
             $company['t_events'] = $events;
             $companies_arr[] = $company;
