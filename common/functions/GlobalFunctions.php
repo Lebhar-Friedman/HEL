@@ -36,12 +36,12 @@ class GlobalFunctions {
         $temp = array(
             'Blood Glucose', 'Cholesterol', 'Flu',
             'A1C', 'HDL', 'Hepatitis', 'Diabetes II', 'Blood Pressure', 'HPV', 'Body Fat', 'LDL',
-            'Meningitis', 'Triglycerides', 'MMR', 'Risk Ratio', 'Pnemonia', 'Body Fat', 'Shingles',
-            'Full Limpid panel', 'TD', 'TDAP', 'Chickenpox/ Varicella', 'Senior Immunizations',
-            'Asthma', 'Nutrition', 'Osteoperosis', 'COPD	Beauty	Women\'s Health',
-            'Smoking Cessastion', 'Vision', 'Lung Health', 'Hearing', 'Smoking Cessassion', 'Sun Care',
+            'Meningitis', 'Triglycerides', 'MMR', 'Risk Ratio', 'Pneumonia', 'Body Fat', 'Shingles',
+            'Full lipid panel', 'TD', 'TDAP', 'Chickenpox/Varicella', 'Senior Immunizations',
+            'Asthma', 'Nutrition', 'Osteoporosis', 'COPD Beauty	Women\'s Health',
+            'Smoking cessation', 'Vision', 'Lung Health', 'Hearing', 'Smoking cessation', 'Sun Care',
             'Weight', 'Dental', 'Allergies', 'Foot care', 'Headaches', 'Kids', 'Chiropractic', 'Skin Care',
-            'Body fat/ Weight', 'Osteoperosis', 'Alzheimers', 'Healthy Aging', 'Anxiety', 'Alzheimers', 'Bipolar',
+            'Body fat/Weight', 'Osteoporosis', 'Alzheimer\'s', 'Healthy Aging', 'Anxiety', 'Alzheimer\'s', 'Bipolar',
             'Memory Screening', 'Depression', 'Senior Immunizations', 'Psychosis', 'Hearing', 'PTSD', 'Work Health',
             'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
         );
