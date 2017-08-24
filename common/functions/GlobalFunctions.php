@@ -90,19 +90,19 @@ class GlobalFunctions {
             $language = $cookie->value;
         }
         if ($cookies->has('longitude') && ($cookies->has('latitude'))) {
-            $lng = $cookies->getValue('longitude',FALSE);
-            $lat = $cookies->getValue('latitude',FALSE);
-            if($lng == FALSE || $lat == FALSE){
+            $lng = $cookies->getValue('longitude', FALSE);
+            $lat = $cookies->getValue('latitude', FALSE);
+            if ($lng == FALSE || $lat == FALSE) {
                 return FALSE;
-            }else{
+            } else {
                 return ['longitude' => $lng, 'latitude' => $lat];
             }
-        }else{
+        } else {
             return FALSE;
         }
     }
-    
-    public static function sendEmail($html_file,$send_to,$subject,$arguments) {
+
+    public static function sendEmail($html_file, $send_to, $subject, $arguments) {
         return Yii::$app->mailer->compose(
                                 ['html' => $html_file], $arguments
                         )
@@ -111,6 +111,10 @@ class GlobalFunctions {
                         ->AddReplyTo(Yii::$app->params['reply_to'])
                         ->setSubject($subject)
                         ->send();
+    }
+
+    public static function processString($v) {
+        return ucwords(strtolower(trim($v)));
     }
 
 }
