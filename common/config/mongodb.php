@@ -2,6 +2,6 @@
 
 return [
     'class' => '\yii\mongodb\Connection',
-    'dsn' => 'mongodb://localhost:27017/health_events',
+    'dsn' => MONGODB_DSN,
     'defaultDatabaseName' => 'health_events',
 ];

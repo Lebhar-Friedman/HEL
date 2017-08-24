@@ -53,7 +53,7 @@ $this->title = 'Health Events Live: Home';
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="health-box">
-                <span><img src="<?= $baseUrl ?>/images/search-img.png" alt="" /></span>
+                <span><img src="<?= $baseUrl ?>/images/map.png" alt="" /></span>
                 More access to   <br />quality health care
             </div>
             <p class="custom-text">
@@ -90,6 +90,9 @@ $this->title = 'Health Events Live: Home';
     <div class="row">
         <div class="col-lg-7 col-md-7 col-sm-7">
             <div class="health-care-text">
+                <h2 class="heading-blue">200,000+ events and growing everyday<br>
+                    40, 000+ locations across the U.S.
+                </h2>
                 <span>
                     It’s no secret that millions of Americans are without health insurance, with millions more underinsured. Even with good coverage, you may find it difficult to afford doctor’s co-pays and the prescriptions you need.
                 </span>
@@ -101,14 +104,12 @@ $this->title = 'Health Events Live: Home';
                 <span>
                     HealthEventsLive.com gives you comprehensive, up-to-date listings of free health screenings and low-cost health services at trusted stores near you.  Check HealthEventsLive.com and keep your health in check!
                 </span>
-            <h2 class="heading-blue">200,000+ events and growing every day<br>
-                    40, 000+ locations across the U.S.
-                </h2></div>
-            
+            </div>
+
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5">
             <div class="debate-txt">
-                
+
                 <span>Heart health</span>
                 <span>Diabetes</span>
                 <span>Immunizations & vaccinations</span>

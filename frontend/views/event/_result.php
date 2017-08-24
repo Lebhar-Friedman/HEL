@@ -43,6 +43,19 @@ use function GuzzleHttp\json_encode;
     .gm-style-mtc {
         display: none !important;
     }
+    .multi-service h1 {
+        color: #364D6A;
+    }
+    .multi-service h2 {
+        color: #666;
+        font-size: 20px;
+    }
+    .multi-service span {
+        color: #999;
+        font-weight: normal;
+        font-size: 18px;
+    }
+
 
 </style>
 <div id="overlay" >
@@ -78,10 +91,10 @@ $temp_events = array();
         <h1>Events near <?= $zip_code ?> <span>(by <?= $sortBy ?>)</span> </h1>        
         <?php //if (sizeof($filters) > 0) { ?>
             <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
-                <?php //foreach ($filters as $filter) { ?>
+        <?php //foreach ($filters as $filter) { ?>
                     <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
-                <?php //} ?>
-            <!--</select>-->
+        <?php //} ?>
+        <!--</select>-->
         <?php // } ?>
     </div>
     <?php foreach ($events as $event) { ?>
@@ -89,7 +102,7 @@ $temp_events = array();
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-                <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
+                <span>Services offered for <?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?>:</span>
                 <div class="clearfix">
                     <?php foreach ($event['sub_categories'] as $sub_category) { ?>
                         <div class="table-cust">
@@ -99,7 +112,7 @@ $temp_events = array();
                 </div>
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
-                    <div class="text"><?= sizeof($event['locations']) ?> locations</div>
+                    <div class="text"><?= sizeof($event['locations']) ?> <?= sizeof($event['locations']) > 1 ? "Locations" : "Location" ?></div>
                     <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                 </div>
             </div>
@@ -116,7 +129,7 @@ $temp_events = array();
             <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
-            $poic_styles='[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
+            $poic_styles = '[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
 //            $coord = new LatLng(['lat' => intval($events[0]['locations'][0]['geometry']['coordinates'][1]), 'lng' => intval($events[0]['locations'][0]['geometry']['coordinates'][0])]);
             $map = new Map([
                 'center' => $coord,
@@ -160,10 +173,10 @@ $temp_events = array();
             ?>
         </div>
     <?php } ?>
-    <?php if(sizeof($events) < 1){ ?>
-    <div class="text-center email-content padding-top-50" style="padding-top:50px">
-        <h1 >No event found </h1>
-    </div>
+    <?php if (sizeof($events) < 1) { ?>
+        <div class="text-center email-content padding-top-50" style="padding-top:50px">
+            <h1 >No event found </h1>
+        </div>
     <?php } ?>
     <div class="email-content">
         <div class="row" id="add_alert">
