@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use yii\base\Model;
+use common\functions\GlobalFunctions;
 
 /**
  * Event form
@@ -133,7 +134,9 @@ class EventForm extends Model {
                     $locationModel->company = $locationModel->company; //ucfirst($locationModel->company);
                     $eventModel->attributes = $eventAttributes;
                     $eventModel->categories = explode(',', $eventModel->categories);
+                    $eventModel->categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->categories);
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
+                    $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
                     if (!$locationModel->validate()) {
                         fclose($file);
