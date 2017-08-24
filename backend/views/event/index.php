@@ -88,7 +88,7 @@ $this->title = 'Events';
             <div class="row ">
                 <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
                     <div class="flt-lft  b-post-btn2 mrg-rht">
-                        <a href="javascript:;" onclick="postSelectedEvent(1,this)">Bulk Post</a>
+                        <a href="javascript:;" onclick="postSelectedEvent(1, this)">Bulk Post</a>
                         <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader text-center hidden" id="loader_bulk_post" style="margin-top:10px;">
                     </div>
                     <div class="flt-lft  b-del-btn2">
@@ -130,7 +130,13 @@ $this->title = 'Events';
 
                         </div>
                         <div class="table-title-h1"><?= $event['title'] ?></div>
-                        <div class="table-date-h1"><?php if($event['date_start'] != $event['date_end']){echo GlobalFunction::getDate('m/d/Y', $event['date_start']) ." - ". GlobalFunction::getDate('m/d/Y', $event['date_end']);}else{echo GlobalFunction::getDate('m/d/Y', $event['date_start']);} ?></div>
+                        <div class="table-date-h1"><?php
+                            if ($event['date_start'] != $event['date_end']) {
+                                echo GlobalFunction::getDate('m/d/Y', $event['date_start']) . " - " . GlobalFunction::getDate('m/d/Y', $event['date_end']);
+                            } else {
+                                echo GlobalFunction::getDate('m/d/Y', $event['date_start']);
+                            }
+                            ?></div>
                         <div class="table-time-h1"><?= $event['time_start'] ?> - <?= $event['time_end'] ?></div>
                         <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                         <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
@@ -142,14 +148,11 @@ $this->title = 'Events';
                         <div class="table-cost-h1">Free</div>
                         <div class="table-blank-h1">
                             <div class="flt-lft b-post-btn3 mrg-lftt">
-                                <?php if ($event['is_post']) { ?>
-                                    <a href="javascript:;">Posted</a>
-                                <?php }else{ ?>
-                                    <a href="javascript:;" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a>
-                                    <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
-                                <?php } ?>
+                                <a id="post-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? 'hidden' : '' ?>" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a>
+                                <a id="unpost-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $event['_id'] ?>', this)" >Unpost</a>
+                                <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
                             </div>
-                            <a href="javascript:;" onclick="gotoURL('/event/detail?id=<?= $event['_id'] ?>',this,'loader_edit_<?= $event['_id'] ?>')" class="edit1-btn "></a>
+                            <a href="javascript:;" onclick="gotoURL('/event/detail?id=<?= $event['_id'] ?>', this, 'loader_edit_<?= $event['_id'] ?>')" class="edit1-btn "></a>
                             <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden " id="loader_edit_<?= $event['_id'] ?>" style="padding-top: 10px;padding-left: 5px;padding-right: 5px;float:left">
                             <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_del_<?= $event['_id'] ?>" style="padding-top: 10px;padding-left: 5px;padding-right: 5px;">

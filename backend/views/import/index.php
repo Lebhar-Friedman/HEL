@@ -3,6 +3,7 @@
 
 use components\GlobalFunction;
 use yii\helpers\BaseUrl;
+
 $this->title = 'Import csv';
 $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
 //print_r($events);
@@ -95,7 +96,11 @@ if (count($events) > 0) {
                             </div>
                             <div class="table-cost-h1"><?= (!empty($event->price)) ? '&dollar;' . $event->price : 'Free' ?></div>
                             <div class="table-blank-h1">
-                                <div class="flt-lft b-post-btn3 mrg-lftt"><a href="javascript:;" onclick="postEvent('<?= $event->_id ?>', this)" class="<?= ($event->is_post) ? 'disableLink' : 'n' ?>">Post</a></div>
+                                <div class="flt-lft b-post-btn3 mrg-lftt">
+                                    <a id="post-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? 'hidden' : '' ?>" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a>
+                                    <a id="unpost-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $event['_id'] ?>', this)" >Unpost</a>
+                                    <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
+                                </div>
                                 <a href="<?= \yii\helpers\BaseUrl::base() . '/event/detail?id=' . $event['_id'] ?>" class="edit1-btn"></a> 
                                 <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             </div>

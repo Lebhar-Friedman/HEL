@@ -1380,6 +1380,7 @@ a.del1-btn:hover { background-position:0 -38px;}
     padding:25px 0px;
 }
 .b-post-btn3 a{
+    min-width: 95px;
     display:block;
     text-align:center;
     margin:0 auto !important;
