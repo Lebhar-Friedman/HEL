@@ -106,7 +106,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         <var class="atc_event">
             <var class="atc_date_start"><?=GlobalFunction::getDate('Y-m-d', $event['date_start'])?> <?= $event['time_start'] ?></var>
             <var class="atc_date_end"><?=GlobalFunction::getDate('Y-m-d', $event['date_end'])?> <?= $event['time_end'] ?></var>
-            <var class="atc_timezone">UTC</var>
+            <var class="atc_timezone">America/New_York</var>
             <var class="atc_title"><?= $event['title'] ?></var>
             <var class="atc_description"><?= $event['description'] ?></var>
             <var class="atc_location"><?= $event_location['street'] ?>, <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?></var>
