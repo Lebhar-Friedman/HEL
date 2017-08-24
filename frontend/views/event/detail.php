@@ -54,6 +54,13 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     .add-new-alert{
         cursor: pointer;
     }
+    #at_hover.atm-s a{
+        color: #F59A38 !important;
+    }
+    #at_hover.atm-s a:hover{
+        background: #D38735 !important;
+        color : #fff;
+    }
 </style>
 <script type="text/javascript">(function () {
             if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
@@ -76,7 +83,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             <div class="senior-day-content">
                 <h1><?= $event['title'] ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-                <?= $event['time_start'] ?> - <?= $event['time_end'] ?> 
+                <p><?= $event['time_start'] ?> - <?= $event['time_end'] ?> </p>
                 <div class="save-share-btn clearfix" style="display:none">
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
@@ -93,11 +100,13 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <div class="addthis_inline_share_toolbox"></div>
                     <span class="addtocalendar ">
                          <a class="atcb-link">
-                             CALENDAR</a>
+                             <span class="glyphicon glyphicon-calendar"></span>
+                             CALENDAR
+                         </a>
         <var class="atc_event">
             <var class="atc_date_start"><?=GlobalFunction::getDate('Y-m-d', $event['date_start'])?> <?= $event['time_start'] ?></var>
             <var class="atc_date_end"><?=GlobalFunction::getDate('Y-m-d', $event['date_end'])?> <?= $event['time_end'] ?></var>
-            <var class="atc_timezone">UTC</var>
+            <var class="atc_timezone">America/New_York</var>
             <var class="atc_title"><?= $event['title'] ?></var>
             <var class="atc_description"><?= $event['description'] ?></var>
             <var class="atc_location"><?= $event_location['street'] ?>, <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?></var>
@@ -118,7 +127,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 </div>
             </div>
             <div class="free-health-content">
-                <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
+                <h1><?= !empty($event['price']) ? 'Services offered for &dollar;' . $event['price'] .':' : 'FREE Healthcare Services' ?></h1>
                 <!--<h2>No appointment required!</h2>-->
                 <div class="row">
                     <?php

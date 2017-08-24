@@ -27,7 +27,7 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                            ?>';
+            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                              ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
@@ -37,29 +37,31 @@ $baseUrl = Yii::$app->request->baseUrl;
         <!--<header>-->
         <div class="result-header">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
 
-                        <div class="result-logo hide-on-mobile">
-                            <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
+                            <div class="result-logo hide-on-mobile">
+                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" /></a>
+                            </div>
+                            <div class="display-on-mobile mobile-logo">
+                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo3.png" alt="" /></a>
+                            </div>
                         </div>
-                        <div class="display-on-mobile mobile-logo">
-                            <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo3.png" alt="" /></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-7  col-xs-6">
-                        <div class="result-sign-up clearfix">
-                            <?php
-                            if (Yii::$app->user->isGuest) {
-                                ?>
-                                <a href="<?= $baseUrl ?>/site/signup" class="border" style="font-weight: bold;">Sign Up</a>
-                                <a href="<?= $baseUrl ?>/site/login" style="font-weight: bold;">Log In</a>
-                            <?php } else {
-                                ?>
-                                <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Log out</a>
-                                <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
-                                <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
-                            <?php } ?>
+                        <div class="col-lg-8 col-md-8 col-sm-7  col-xs-6">
+                            <div class="result-sign-up clearfix">
+                                <?php
+                                if (Yii::$app->user->isGuest) {
+                                    ?>
+                                    <a href="<?= $baseUrl ?>/site/signup" class="border" style="font-weight: bold;">Sign Up</a>
+                                    <a href="<?= $baseUrl ?>/site/login" style="font-weight: bold;">Log In</a>
+                                <?php } else {
+                                    ?>
+                                    <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Log out</a>
+                                    <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                                    <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,17 +78,18 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             <?= $content ?>
         </div>
-</div>
-        <!--<footer>-->
-        <!--            <div class="social-icon">
-                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>
-                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon2.png" alt="" /></a>
-                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon3.png" alt="" /></a>
-                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon4.png" alt="" /></a>
-                    </div>
-                    Copyright © 2017 Health Events Live Plus-->
+    </div>
+    <!--<footer>-->
+    <!--            <div class="social-icon">
+                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>
+                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon2.png" alt="" /></a>
+                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon3.png" alt="" /></a>
+                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon4.png" alt="" /></a>
+                </div>
+                Copyright © 2017 Health Events Live Plus-->
 
-        <div class="result-footer">
+    <div class="result-footer">
+        <div class="container">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4">
@@ -106,12 +109,13 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
             </div>
         </div>
-        <!--</footer>-->
+    </div>
+    <!--</footer>-->
 
 
-        <?php $this->endBody() ?>
-        <!-- Go to www.addthis.com/dashboard to customize your tools --> 
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5982f4419c3e0add"></script> 
-    </body>
+    <?php $this->endBody() ?>
+    <!-- Go to www.addthis.com/dashboard to customize your tools --> 
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5982f4419c3e0add"></script> 
+</body>
 </html>
 <?php $this->endPage() ?>

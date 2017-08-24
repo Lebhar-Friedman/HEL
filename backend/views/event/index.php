@@ -130,7 +130,7 @@ $this->title = 'Events';
 
                         </div>
                         <div class="table-title-h1"><?= $event['title'] ?></div>
-                        <div class="table-date-h1"><?= GlobalFunction::getDate('m/d/Y', $event['date_start']) ?> - <?= GlobalFunction::getDate('m/d/Y', $event['date_end']) ?></div>
+                        <div class="table-date-h1"><?php if($event['date_start'] != $event['date_end']){echo GlobalFunction::getDate('m/d/Y', $event['date_start']) ." - ". GlobalFunction::getDate('m/d/Y', $event['date_end']);}else{echo GlobalFunction::getDate('m/d/Y', $event['date_start']);} ?></div>
                         <div class="table-time-h1"><?= $event['time_start'] ?> - <?= $event['time_end'] ?></div>
                         <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                         <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>

@@ -8,7 +8,7 @@ body{
     /*font-weight:bold;*/
     /*word-break:break-all;*/
 }
-h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#000; font-family: 'helveticaneuebold' !important;}
+h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#364D6A; font-family: 'helveticaneuebold' !important;}
 h1{font-size:35px;}
 h2{font-size:22px;font-family: 'helveticaneueregular';}
 h3{font-size:18px;}
@@ -91,7 +91,7 @@ header{
 }
 .signUp-btns a.border{border:1px solid #FFF;}
 .signUp-btns a:hover{
-    background:#4251c1 !important;
+    background:#D38735 !important;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
@@ -159,7 +159,7 @@ header{
 .company-content img:first-child{margin-left:35px;}
 .health-h{
     display:block;
-    color:#1e5ba9;
+    color:#364D6A;
     font-size:46px;
     line-height:42px;
     padding-left:30px !important;
@@ -187,7 +187,7 @@ header{
 .consider-text span{display:block; padding-left:30px;}
 .from-h{
     display:block;
-    color:#1e5ba9;
+    color:#364D6A;
     font-size:46px;
     line-height:42px;
     padding:140px 0px 45px 30px !important;
@@ -523,7 +523,7 @@ footer{
 .result-footer{
     display:block;
     padding:35px 0px 30px 0px;
-    background:#1e5ba9;
+    background:#364D6A;
 }
 .footer-right-side{
     display:block;
@@ -554,14 +554,15 @@ footer{
 /* HOME / GENERAL from jamie */
 
 .health-h {
-   font-size: 40px;
-   text-align: center;
-   line-height: 50px;
+    font-size: 40px;
+    text-align: center;
+    line-height: 50px;
 }
 
 .health-box {
     font-size: 28px;
     line-height: 32px;
+    color: #364D6A;
 }
 
 .health-box img {
@@ -607,17 +608,19 @@ footer{
 }
 .debate-txt a img{vertical-align:middle; margin-right:20px;}
 .heading-blue{
-    color: #1e5ba9;
+    line-height: 32px;
+    font-size: 26px;
+    color: #364D6A;
     padding-bottom: 20px !important;
 }
 
 .text-justify {
- text-align: left; /* just remove this class from the dom */  
+    text-align: left; /* just remove this class from the dom */  
 }
 
 .from-h {
-   font-size: 40px;
-   line-height: 50px;
+    font-size: 40px;
+    line-height: 50px;
 }
 
 h2 {
@@ -634,7 +637,7 @@ h2 {
 .go-btn,
 .email-conatiner .submitbtn,
 .save-share-btn a {
-    background-color: #00c1ff;
+    background-color: #F59A38;
 }
 
 .search-btn:hover,
@@ -642,7 +645,7 @@ h2 {
 .go-btn:hover,
 .email-conatiner .submitbtn:hover,
 .save-share-btn a:hover {
-    background-color: #1e5ba9 !important;
+    background-color: #D38735 !important;
 }
 
 .debate-txt a {
