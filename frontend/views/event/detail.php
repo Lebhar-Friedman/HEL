@@ -67,7 +67,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
             <div class="senior-day-content">
                 <h1><?= $event['title'] ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-                <?= $event['time_start'] ?> - <?= $event['time_end'] ?> 
+                <p><?= $event['time_start'] ?> - <?= $event['time_end'] ?> </p>
                 <div class="save-share-btn clearfix" style="display:none">
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
@@ -95,7 +95,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 </div>
             </div>
             <div class="free-health-content">
-                <h1><?= !empty($event['price']) ? '&dollar;' . $event['price'] : 'FREE Healthcare Services' ?></h1>
+                <h1><?= !empty($event['price']) ? 'Services offered for &dollar;' . $event['price'] .':' : 'FREE Healthcare Services' ?></h1>
                 <!--<h2>No appointment required!</h2>-->
                 <div class="row">
                     <?php
