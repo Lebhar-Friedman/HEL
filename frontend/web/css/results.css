@@ -967,7 +967,9 @@ h2 {
 }
 
 @media (max-width: 767px) and (min-width: 0px){
-
+    .addtocalendar{
+        padding-top: 5px;
+    }
     header{padding:39px 0px 90px 0px;}
     .company-content{
         padding: 33px 0px 20px 0px;
