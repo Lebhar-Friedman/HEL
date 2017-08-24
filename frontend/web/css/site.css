@@ -1500,7 +1500,7 @@ h2 {
 .go-btn:hover,
 .email-conatiner .submitbtn:hover,
 .save-share-btn a:hover {
-    background-color: #1e5ba9 !important;
+    background-color: #1e5ba9 ;
 }
 
 .debate-txt a {

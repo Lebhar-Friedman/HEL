@@ -37,7 +37,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]); ?>
-
+ <!-- 1. Include style -->
+    <!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
 <style>
     .chosen-choices{
         min-height: 45px;
@@ -54,6 +55,14 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         cursor: pointer;
     }
 </style>
+<script type="text/javascript">(function () {
+            if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+            if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+                var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+                s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+                var h = d[g]('body')[0];h.appendChild(s); }})();
+    </script>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
 <div class="container">
@@ -82,6 +91,20 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     ?>
 
                     <div class="addthis_inline_share_toolbox"></div>
+                    <span class="addtocalendar ">
+                         <a class="atcb-link">
+                             CALENDAR</a>
+        <var class="atc_event">
+            <var class="atc_date_start"><?=GlobalFunction::getDate('Y-m-d', $event['date_start'])?> <?= $event['time_start'] ?></var>
+            <var class="atc_date_end"><?=GlobalFunction::getDate('Y-m-d', $event['date_end'])?> <?= $event['time_end'] ?></var>
+            <var class="atc_timezone">UTC</var>
+            <var class="atc_title"><?= $event['title'] ?></var>
+            <var class="atc_description"><?= $event['description'] ?></var>
+            <var class="atc_location"><?= $event_location['street'] ?>, <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?></var>
+            <var class="atc_organizer"><?=$event_location['company']?></var>
+            <!--<var class="atc_organizer_email">luke@starwars.com</var>-->
+        </var>
+    </span>
                 </div>
 
                 <div class="clearfix">
@@ -333,4 +356,5 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         description: "<?= $event['description'] ?>",
         media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
     }
+    
 </script>
