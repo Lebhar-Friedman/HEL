@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 
 use components\GlobalFunction;
-
+use yii\helpers\BaseUrl;
 $this->title = 'Import csv';
 $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
 //print_r($events);
@@ -89,7 +89,7 @@ if (count($events) > 0) {
                             <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
-                                <div class="tc-location"><?= count($event->locations) ?>
+                                <div class="tc-location"><a href="<?= BaseUrl::base() . '/location?eid=' . $event['_id'] ?>"><?= count($event->locations) ?></a>
                                     <!--<img src="images/caution.png" alt="" />-->
                                 </div>
                             </div>
