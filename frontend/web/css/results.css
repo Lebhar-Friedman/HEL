@@ -394,7 +394,7 @@ footer{
     display:block;
     padding:30px 130px 12px 0px;
     border-bottom:1px solid #ccc;
-    color:#999;
+    color:#333;
     font-size:16px;
     line-height:16px;
     position:relative;
@@ -922,6 +922,7 @@ h2 {
 .email-conatiner .submitbtn:hover,
 .save-share-btn a:hover {
     background-color: #D38735 !important;
+    color : #fff !important;
 }
 
 .debate-txt a {
@@ -1478,16 +1479,16 @@ input[type="checkbox"]:checked + label.oper:before {
 
 .atcb-list a{
     background: #fff !important;
-    color: #235dab!important;
+    color: #F59A38 !important;
     width: 100% !important;
     padding: 4px 9px !important;
     min-height: auto !important;
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-family: 'helveticaneueregular'!important;
     font-weight: 700;
 }
 .atcb-list a:hover{
-        background: #2095f0 !important;
+        background: #D38735 !important;
     text-decoration: none  !important;
     color: #fff !important;
 }
