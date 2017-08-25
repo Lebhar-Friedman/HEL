@@ -305,7 +305,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                             <span><?php
-                                if (isset($companyEvent['price']) && $companyEvent['price'] !== '') {
+                                if (isset($companyEvent['price']) && $companyEvent['price'] !== '' && $companyEvent['price'] > 0) {
                                     echo "$" . $companyEvent['price'];
                                 } else {
                                     echo "Free";
