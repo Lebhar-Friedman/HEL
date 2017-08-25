@@ -792,6 +792,7 @@ footer{
 .multi-service2 i{
     display:block;
     padding-bottom:17px;
+    color : #333;
 }
 
 .find-out-text{
@@ -1148,7 +1149,7 @@ h2 {
 }
 
 .marker-info{
-    color: blue !important;
+    color : #F59A38 !important;
 }
 
 /*Check boxes style*/

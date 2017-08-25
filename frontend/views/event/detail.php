@@ -65,6 +65,19 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         font-weight: bold;
         color: #333333;
     }
+    .multi-service2 h1 {
+        color: #364D6A;
+    }
+    .multi-service2 h2 {
+        color: #666;
+        font-size: 20px;
+    }
+    .multi-service2 span {
+        color: #999;
+        font-weight: normal;
+        font-size: 18px;
+    }
+
 </style>
 <script type="text/javascript">(function () {
         if (window.addtocalendar)
@@ -185,9 +198,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                <i><?= $sub_category ?></i>
-                                                                                                                                            </div>
+                                                                                                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                        <i><?= $sub_category ?></i>
+                                                                                                                                                    </div>
             <?php
         endforeach;
         ?>
@@ -287,8 +300,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <div class="multi-service2">
-                        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
+                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
+                        <div class="multi-service2">
                             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                             <span><?php
@@ -318,8 +331,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                                 endforeach;
                                 ?>
                             </div>
-                        </a> 
-                    </div>
+                        </div>
+                    </a> 
                     <?php
                 endforeach;
             }
