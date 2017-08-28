@@ -145,6 +145,11 @@ $temp_events = array();
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
+                    
+                    if(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $long_lat[1], $long_lat[0]) > 30){
+                        continue;
+                    }
+                        
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],
@@ -160,7 +165,7 @@ $temp_events = array();
 //                $marker->setName('abc');   //to set Info window default open
 //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
 //            google.maps.event.trigger(abc, 'click');});");
-
+                    
                     $map->addOverlay($marker);
                 }
             }

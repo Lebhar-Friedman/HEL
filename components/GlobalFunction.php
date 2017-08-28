@@ -2,10 +2,11 @@
 
 namespace components;
 
-use Yii;
-use app\common\models\Countries;
 use app\common\models\User;
-use app\components\FreshBooksRequest;
+use DateTime;
+use DateTimeZone;
+use Yii;
+use function GuzzleHttp\json_decode;
 
 class GlobalFunction {
 
@@ -196,8 +197,8 @@ class GlobalFunction {
     public static function dateDiff($d1, $d2, $date = FALSE) {
         $d1 = str_replace('/', '-', $d1);
         $d2 = str_replace('/', '-', $d2);
-        $date1 = new \DateTime($d1);
-        $date2 = new \DateTime($d2);
+        $date1 = new DateTime($d1);
+        $date2 = new DateTime($d2);
         $diff = date_diff($date1, $date2);
         if ($date) {
             return $diff;
@@ -254,7 +255,7 @@ class GlobalFunction {
 
     public static function getDate($format, $mongoDate) {
         $datetime = $mongoDate->toDateTime();
-        $datetime->setTimezone(new \DateTimeZone(\Yii::$app->timeZone));
+        $datetime->setTimezone(new DateTimeZone(\Yii::$app->timeZone));
         if (empty($format)) {
             $format = DATE_ATOM;
         }
@@ -273,6 +274,24 @@ class GlobalFunction {
             $start_month[1] != $end_month[1] ? $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('M d', $end) : $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('d', $end);
             return $ret;
         }
+    }
+
+    public static function distanceBetweenPoints($lat1, $lon1, $lat2, $lon2) {
+
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lon1 *= $pi80;
+        $lat2 *= $pi80;
+        $lon2 *= $pi80;
+
+        $r = 6372.797; // mean radius of Earth in km
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+
+        return $km * 0.621371;
     }
 
 // end class
