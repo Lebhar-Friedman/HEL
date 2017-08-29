@@ -171,7 +171,7 @@ class EventController extends Controller {
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
-        $store_number = urldecode(Yii::$app->request->get('store_number'));
+        $store_number = urldecode(Yii::$app->request->get('store'));
         $alert_added = false;
         if (urldecode(Yii::$app->request->get('alert_added')) === true) {
 
