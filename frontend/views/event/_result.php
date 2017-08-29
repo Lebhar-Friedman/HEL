@@ -83,22 +83,33 @@ if (isset($ret_filters)) {
 $user_lng = $longitude;
 $user_lat = $latitude;
 $temp_events = array();
+$nearest = 9999999999;
+$nearest_store_number = 0;
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
     <div class="event-near " id="event_near" onclick="showNav()">
         <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a>
         <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
-        <?php //if (sizeof($filters) > 0) { ?>
+        <?php //if (sizeof($filters) > 0) {  ?>
             <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
-        <?php //foreach ($filters as $filter) { ?>
+        <?php //foreach ($filters as $filter) {  ?>
                     <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
-        <?php //} ?>
+        <?php //}  ?>
         <!--</select>-->
-        <?php // } ?>
+        <?php // }  ?>
     </div>
     <?php foreach ($events as $event) { ?>
-        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
+        <?php
+        foreach ($event['locations'] as $location) {
+            $distance = round(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 2);
+            if ($distance < $nearest) {
+                $nearest = $distance;
+                $nearest_store_number = $location['store_number'];
+            }
+        }
+        ?>
+        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] .'&store='. $nearest_store_number . '&zipcode='. $zip_code ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -145,11 +156,11 @@ $temp_events = array();
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-                    
-                    if(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $long_lat[1], $long_lat[0]) > 30){
+
+                    if (GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $long_lat[1], $long_lat[0]) > 30) {
                         continue;
                     }
-                        
+
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],
@@ -158,19 +169,19 @@ $temp_events = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . "'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . '&store=' .$location['store_number']. '&zipcode='. $zip_code."'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );
 //                $marker->setName('abc');   //to set Info window default open
 //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
 //            google.maps.event.trigger(abc, 'click');});");
-                    
+
                     $map->addOverlay($marker);
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom() ;
+            $map->zoom = $map->getMarkersFittingZoom();
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);
