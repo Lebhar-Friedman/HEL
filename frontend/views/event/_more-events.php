@@ -16,7 +16,7 @@ use yii\helpers\BaseUrl;
     </div>
     <?php if (isset($more_events) && sizeof($more_events) > 0) { ?>
         <?php foreach ($more_events as $event) { ?>
-            <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
+            <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id']  ?>">
                 <div class="multi-service">
                     <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                     <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>

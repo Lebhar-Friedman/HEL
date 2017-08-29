@@ -33,6 +33,10 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = '12';
     $user_lat = '12';
 }
+if(isset($_GET['zipcode'])){
+    $zipcode = $_GET['zipcode'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+}
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
@@ -257,6 +261,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
                         foreach ($event['locations'] as $location) {
                             $long_lat = $location['geometry']['coordinates'];
+                            if(round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20){
+                                continue ;
+                            }
                             $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
                             $marker = new Marker([
                                 'position' => $coord,
@@ -265,7 +272,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content = $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'];
+                            $content ="<a href='". BaseUrl::base()."/event/detail?eid=".(string)$event['_id']."&store=".$location['store_number']."&zipcode=".$zipcode. "'>".$location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip']. "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -279,7 +286,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
                         $map->center = $map->getMarkersCenterCoordinates();
 
-                        $map->zoom = $map->getMarkersFittingZoom() + 2;
+                        $map->zoom = $map->getMarkersFittingZoom() ;
 
                         echo $map->display();
                         ?>
