@@ -143,5 +143,9 @@ class Event extends ActiveRecord {
         $db = self::getCollection();
         $result = $db->update(['locations._id'=>$location->_id], ['$pull' => ['locations' => ['_id' => $location->_id]]], ['multi'=> true]);        
     }
+    
+    public static function findEventsByStore($store_number,$eid) {
+        return static::find()->andWhere(['locations.store_number' => $store_number])->andWhere(['Not','_id',$eid])->all();
+    }
 // end class counter
 }

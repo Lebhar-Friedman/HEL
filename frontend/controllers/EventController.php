@@ -211,7 +211,7 @@ class EventController extends Controller {
 
         $company = Company::findCompanyByNumber($event['company']);
 
-        $companyEvents = Event::findCompanyEventsByNumber($company_number, $eid);
+        $companyEvents = Event::findEventsByStore($event_location->store_number, $eid);
 //        $z_lng_lat = $this->getZipLongLat();
 
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
