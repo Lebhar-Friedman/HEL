@@ -205,8 +205,8 @@ class EventController extends Controller {
             $event_location = $event['locations'][0];
             $company_number = $event['locations'][0]['company'];
         } else {
-            $event_location = Location::findCompanyByStoreNumber($store_number);
-            $company_number = Location::findCompanyByStoreNumber($store_number)['company'];
+            $event_location = Location::findLocationByStoreNumber($store_number);
+            $company_number = $event_location->company;
         }
 
         $company = Company::findCompanyByNumber($event['company']);
