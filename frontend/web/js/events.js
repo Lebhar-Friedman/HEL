@@ -256,3 +256,8 @@ function alertZipCode(){
         }
     });
 }
+
+$(document).ready(function () {
+    var form_data = $("#events_search_form").serialize();
+    moreEvents(form_data) ;
+});

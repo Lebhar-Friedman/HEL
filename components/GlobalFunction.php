@@ -293,6 +293,18 @@ class GlobalFunction {
 
         return $km * 0.621371;
     }
+    
+    public static function locationsInRadius($lat, $lng, $locations,$radius) {
+        $no_of_locations = 0;
+        foreach ($locations as $location) {
+            if(round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1) > $radius){
+                continue;
+            }else{
+                $no_of_locations++;
+            }
+        }
+        return $no_of_locations;
+    }
 
 // end class
 }

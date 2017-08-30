@@ -102,13 +102,14 @@ $nearest_store_number = 0;
     <?php foreach ($events as $event) { ?>
         <?php
         foreach ($event['locations'] as $location) {
-            $distance = round(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 2);
-            if ($distance < $nearest) {
+            $distance = round(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1);
+            if ($distance == round($event['distance'], 1)) {
                 $nearest = $distance;
                 $nearest_store_number = $location['store_number'];
             }
         }
         ?>
+        <?php $no_of_locations = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] .'&store='. $nearest_store_number . '&zipcode='. $zip_code ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
@@ -123,7 +124,7 @@ $nearest_store_number = 0;
                 </div>
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
-                    <div class="text"><?= sizeof($event['locations']) ?> <?= sizeof($event['locations']) > 1 ? "Locations" : "Location" ?></div>
+                    <div class="text"><?= $no_of_locations ?> <?= $no_of_locations > 1 ? "Locations" : "Location" ?></div>
                     <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                 </div>
             </div>
