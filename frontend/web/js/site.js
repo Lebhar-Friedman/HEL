@@ -93,14 +93,14 @@ function getZipCodeForSearch() {
 function searchByzip(zip_code) {
     window.location = baseUrl + '\event?zipcode=' + zip_code;
 }
-function saveEvent(eventID, element) {
+function saveEvent(eventID, element,zipcode,store) {
 //    if (! confirm("Are you sure?")) {
 //        return false;
 //    }
     $.ajax({
         url: baseUrl + 'site/save-event',
         type: 'get',
-        data: {eid: eventID},
+        data: {eid: eventID,zipcode: zipcode,store_number: store},
         dataType: "json",
         success: function (r) {
             if (r.msgType === 'SUC') {

@@ -143,10 +143,15 @@ class EventController extends Controller {
 
     public function actionMoreEvents() {
 
-        $zip_code = urldecode(Yii::$app->request->get('zip'));
+//        $zip_code = urldecode(Yii::$app->request->get('zip'));
+        
+        $zip_code = urldecode(Yii::$app->request->get('zipcode'));
+        $keywords = Yii::$app->request->get('keywords'); 
+        $filters = Yii::$app->request->get('filters');
+        
         $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
 
-        $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 21);
+        $events = $this->getEventsWithDistance($zip_code, $keywords, $filters, $lng_lat['long'], $lng_lat['lat'], 200, 21);
         $events_with_score = array();
         $nearest_locations = array();
         foreach ($events as $event) {
@@ -158,12 +163,12 @@ class EventController extends Controller {
             $score['score'] = round($event['distance'] * $diff, 2);
             $nearest_locations = GlobalFunction::locationsInRadius($lng_lat['lat'], $lng_lat['long'], $event['locations'], 200);
             $event['locations'] = $nearest_locations;
-            
+
             $events_with_score[] = array_merge($event, $score);
         }
         if (sizeof($events_with_score) > 0) {
             usort($events_with_score, function ($item1, $item2) {
-                if (abs(($item1['score'] - $item2['score'])/$item2['score']) < 0.00001)
+                if (abs(($item1['score'] - $item2['score']) / $item2['score']) < 0.00001)
                     return 0;
                 return $item1['score'] < $item2['score'] ? -1 : 1;
             });
@@ -281,6 +286,7 @@ class EventController extends Controller {
         $session->set('lat', $longlat['lat']);
         return ['zip_code' => $zip_code, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']];
     }
+
     public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance = 20, $min_distance = 0, $sort = 'Closest', $company = null) {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+30 days"))) * 1000);
