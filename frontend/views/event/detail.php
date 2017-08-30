@@ -33,8 +33,11 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = '12';
     $user_lat = '12';
 }
-if(isset($_GET['zipcode'])){
+if (isset($_GET['zipcode'])) {
     $zipcode = $_GET['zipcode'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+} else {
+    $zipcode = $event['locations'][0]['zip'];
     $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
 }
 ?>
@@ -202,9 +205,9 @@ if(isset($_GET['zipcode'])){
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                        <i><?= $sub_category ?></i>
-                                                                                                                                                    </div>
+                                                                                                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                            <i><?= $sub_category ?></i>
+                                                                                                                                                                        </div>
             <?php
         endforeach;
         ?>
@@ -261,8 +264,8 @@ if(isset($_GET['zipcode'])){
 
                         foreach ($event['locations'] as $location) {
                             $long_lat = $location['geometry']['coordinates'];
-                            if(round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20){
-                                continue ;
+                            if (round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20) {
+                                continue;
                             }
                             $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
                             $marker = new Marker([
@@ -272,7 +275,7 @@ if(isset($_GET['zipcode'])){
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content ="<a href='". BaseUrl::base()."/event/detail?eid=".(string)$event['_id']."&store=".$location['store_number']."&zipcode=".$zipcode. "'>".$location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip']. "</a>";
+                            $content = "<a href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . "&store=" . $location['store_number'] . "&zipcode=" . $zipcode . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -286,7 +289,7 @@ if(isset($_GET['zipcode'])){
 
                         $map->center = $map->getMarkersCenterCoordinates();
 
-                        $map->zoom = $map->getMarkersFittingZoom() ;
+                        $map->zoom = $map->getMarkersFittingZoom();
 
                         echo $map->display();
                         ?>
@@ -307,7 +310,7 @@ if(isset($_GET['zipcode'])){
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
+                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['store_number'] . '&zipcode=' . $event_location['zip'] ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
