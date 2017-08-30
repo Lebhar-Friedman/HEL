@@ -49,8 +49,12 @@ class UserController extends Controller {
     }
 
     public function actionProfile() {
-        $logoLinks = $events = [];
-        $events = Event::findAll(['_id' => \Yii::$app->user->identity->saved_events]);
+        $eventIds = $logoLinks = $events = [];
+        $userEvents = \Yii::$app->user->identity->saved_events;
+        foreach ($userEvents as $e) {
+            $eventIds[] = $e['event_id'];
+        }
+        $events = Event::findAll(['_id' => $eventIds]);
 
         foreach ($events as $event) {
             $company = Company::findOne(['name' => $event->company]);
