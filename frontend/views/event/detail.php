@@ -124,7 +124,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
                         ?>
-                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode?>, <?= $event_location['store_number'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
                     } else {
                         ?>
