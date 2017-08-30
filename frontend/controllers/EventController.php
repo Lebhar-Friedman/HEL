@@ -143,12 +143,12 @@ class EventController extends Controller {
 
     public function actionMoreEvents() {
 
-//        $z_lng_lat = $this->getZipLongLat();
         $zip_code = urldecode(Yii::$app->request->get('zip'));
         $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
 
-        $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 50);
+        $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 21);
         $events_with_score = array();
+        $nearest_locations = array();
         foreach ($events as $event) {
             $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
             $current_date = GlobalFunction::getDate('Y-m-d', $current_date);
@@ -156,6 +156,9 @@ class EventController extends Controller {
             $diff = GlobalFunction::dateDiff($end_date, $current_date, false);
 
             $score['score'] = round($event['distance'] * $diff, 2);
+            $nearest_locations = GlobalFunction::locationsInRadius($lng_lat['lat'], $lng_lat['long'], $event['locations'], 200);
+            $event['locations'] = $nearest_locations;
+            
             $events_with_score[] = array_merge($event, $score);
         }
         if (sizeof($events_with_score) > 0) {
@@ -165,7 +168,7 @@ class EventController extends Controller {
                 return $item1['score'] < $item2['score'] ? -1 : 1;
             });
         }
-        return $this->renderAjax('_more-events', ['more_events' => $events_with_score]);
+        return $this->renderAjax('_more-events', ['more_events' => $events_with_score, 'zipcode' => $zip_code, 'lng_lat' => $lng_lat]);
     }
 
     public function actionDetail() {
@@ -278,7 +281,7 @@ class EventController extends Controller {
         $session->set('lat', $longlat['lat']);
         return ['zip_code' => $zip_code, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']];
     }
-    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance = 50, $min_distance = 0, $sort = 'Closest', $company = null) {
+    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance = 20, $min_distance = 0, $sort = 'Closest', $company = null) {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+30 days"))) * 1000);
 
