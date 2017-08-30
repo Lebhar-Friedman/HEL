@@ -85,6 +85,8 @@ $user_lat = $latitude;
 $temp_events = array();
 $nearest = 9999999999;
 $nearest_store_number = 0;
+$all_locations_near = array();
+$events_with_nearest_locations = array();
 ?>
 
 <div class="col-lg-8 col-md-8 col-sm-7">
@@ -109,7 +111,7 @@ $nearest_store_number = 0;
             }
         }
         ?>
-        <?php $no_of_locations = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
+        <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
         <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] .'&store='. $nearest_store_number . '&zipcode='. $zip_code ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
@@ -124,11 +126,12 @@ $nearest_store_number = 0;
                 </div>
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
-                    <div class="text"><?= $no_of_locations ?> <?= $no_of_locations > 1 ? "Locations" : "Location" ?></div>
+                    <div class="text"><?= sizeof($locations_near) ?> <?= sizeof($locations_near) > 1 ? "Locations" : "Location" ?></div>
                     <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                 </div>
             </div>
         </a>
+        <?php $event['locations'] = $locations_near; $events_with_nearest_locations[] = $event; ?>
         <?php $temp_events[] = ['_id' => (string) $event['_id'], 'locations' => $event['locations'], 'title' => $event['title']]; ?>
     <?php } ?>
     <?php
@@ -136,7 +139,7 @@ $nearest_store_number = 0;
         $temp_events[$i]['_id'] = (string) $temp_events[$i]['_id'];
     }
     ?>
-    <?php if (sizeof($events) > 0) { ?>
+    <?php if (sizeof($events_with_nearest_locations) > 0) { ?>
         <div class="map-content" >
             <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
@@ -153,14 +156,10 @@ $nearest_store_number = 0;
                 'styles' => $poic_styles,
             ]);
             $map->setName('gmap');
-            foreach ($events as $event) {
+            foreach ($events_with_nearest_locations as $event) {
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-
-                    if (GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $long_lat[1], $long_lat[0]) > 30) {
-                        continue;
-                    }
 
                     $marker = new Marker([
                         'position' => $coord,
@@ -182,7 +181,7 @@ $nearest_store_number = 0;
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom();
+            $map->zoom = $map->getMarkersFittingZoom() + 1;
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);

@@ -293,17 +293,30 @@ class GlobalFunction {
 
         return $km * 0.621371;
     }
-    
-    public static function locationsInRadius($lat, $lng, $locations,$radius) {
-        $no_of_locations = 0;
+
+    public static function locationsInRadius($lat, $lng, $locations, $radius) {
+        $locations_to_return = array();
         foreach ($locations as $location) {
-            if(round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1) > $radius){
+            if (round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1) > $radius) {
                 continue;
-            }else{
-                $no_of_locations++;
+            } else {
+                $locations_to_return[] = $location;
             }
         }
-        return $no_of_locations;
+        return $locations_to_return;
+    }
+
+    public static function nearestLocation($lat, $lng, $locations) {
+        $location_to_return = array();
+        $nearest = 999999999;
+        foreach ($locations as $location) {
+            $distance = round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]),2);
+            if ( $distance < $nearest ) {
+                $location_to_return = $location;
+                $nearest = $distance;
+            }
+        }
+        return $location_to_return;
     }
 
 // end class

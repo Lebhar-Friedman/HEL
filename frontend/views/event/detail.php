@@ -40,6 +40,10 @@ if (isset($_GET['zipcode'])) {
     $zipcode = $event['locations'][0]['zip'];
     $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
 }
+if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode']) || empty($_GET['zipcode']) )) {
+    $zipcode = $event_location['zip'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+}
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
@@ -205,9 +209,9 @@ if (isset($_GET['zipcode'])) {
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                            <i><?= $sub_category ?></i>
-                                                                                                                                                                        </div>
+                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                    <i><?= $sub_category ?></i>
+                                                                                                                                                                                </div>
             <?php
         endforeach;
         ?>
@@ -243,8 +247,8 @@ if (isset($_GET['zipcode'])) {
                     ?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0 && sizeof($event['locations']) > 0) { ?>
-                    <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0] ?>
-                    <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1] ?>
+                    <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0]; ?>
+                    <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1]; ?>
                     <div class="map-content" >
                                 <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
                         <?php
@@ -286,12 +290,12 @@ if (isset($_GET['zipcode'])) {
 
                             $map->addOverlay($marker);
                         }
-
-                        $map->center = $map->getMarkersCenterCoordinates();
-
-                        $map->zoom = $map->getMarkersFittingZoom();
-
-                        echo $map->display();
+//                        print_r($map->getMarkers()); die;
+                        if (!empty($map->getMarkers())) {
+                            $map->center = $map->getMarkersCenterCoordinates();
+                            $map->zoom = $map->getMarkersFittingZoom();
+                            echo $map->display();
+                        } 
                         ?>
                     </div>
                 <?php } ?>
