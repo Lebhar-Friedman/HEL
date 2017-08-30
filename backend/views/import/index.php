@@ -13,19 +13,17 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
         <div class="upload clearfix">
             <div >
                 <h3>Upload CSV</h3>
-                <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim varius mollis. 				
-                    Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium laudantium,totam rem 			
-                    aperiam.</h4>
+                <h4></h4>
             </div>
             <div class="chose-file-btn">
                 <form class="" id="fileform" enctype="multipart/form-data">
                     <input type="hidden" name="_csrf" value="">
                     <input id="import" class="hidden" type="file" name="UploadForm[file]" accept=".csv" onchange="setcsvfilename();">
-                    <div class="col-lg-8 res-upload-content">
+                    <div class="col-sm-offset-2 col-lg-8 res-upload-content">
                         <input id="filename" type="text" class="res-upload-textbx" placeholder="file.csv" readonly=""/>
                         <a href="javascript:void();" onclick="$('#import').click();">Choose File</a>
                     </div>
-                    <div class="col-lg-4 inbound-list ">
+                    <div class="col-lg-4 inbound-list hidden">
                         <select id="import_type" name="import_type">
                             <!--<option value="company">Company</option>-->
                             <option value="event">Event</option>                                            
