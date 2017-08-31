@@ -393,7 +393,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
         services_compact: 'facebook,twitter,email',
         services_exclude: 'google_plusone_share,gmail,print,smiru,'
     }
-    addthis_config.ui_email_note = '<?= $event['description'] ?>';
+    addthis_config.ui_email_note = '<?= htmlspecialchars($event['description']) ?>';
     addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';
     var addthis_share = {
         email_vars: {
@@ -402,7 +402,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
         url: "<?= Yii::$app->request->absoluteUrl ?>",
         title: "<?= $event['title'] ?>",
         description: "<?= $event['description'] ?>",
-        media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
+//        media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
     }
 
 </script>
