@@ -200,13 +200,19 @@ function addAlertSession() {
 }
 
 function alertZipCodeSession(){
-    var zip_code = $("#c_zipcode").val();
+    
     var email = $("#email").val();
+    var zip_code = $("#c_zipcode").val();
+    var street = $("#c_street").val();
+    var city = $("#c_city").val();
+    var state = $("#c_state").val();
     var event_id = $("#event_id").val();
+    var store_number = $("#store_number").val();
+    
     $.ajax({
         url: baseUrl + '/site/add-alerts-session',
         type: 'post',
-        data:{zipcode:zip_code,only_zip:'y',event_id:event_id},
+        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state,store_number: store_number},
         success: function (r) {
             location.href = baseUrl + "site/signup?email=" + email;
         },
@@ -222,10 +228,11 @@ function alertZipCode(){
     var city = $("#c_city").val();
     var state = $("#c_state").val();
     var event_id = $("#event_id").val();
+    var store_number = $("#store_number").val();
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',
-        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state},
+        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state,store_number: store_number},
         dataType: 'JSON',
         success: function (r) {
             if (r.msgType === "SUC") {

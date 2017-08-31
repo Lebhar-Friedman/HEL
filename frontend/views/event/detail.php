@@ -189,6 +189,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                     <input type="hidden" value="<?= $event_location['street'] ?>" id="c_street">
                     <input type="hidden" value="<?= $event_location['city'] ?>" id="c_city">
                     <input type="hidden" value="<?= $event_location['state'] ?>" id="c_state">
+                    <input type="hidden" value="<?= $event_location['store_number'] ?>" id="store_number">
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
