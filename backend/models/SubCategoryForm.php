@@ -21,9 +21,10 @@ class SubCategoryForm extends Model {
         return [
             ['sub_category_id', 'safe'],
             // username and password are both required
-            [['name'], 'required'],
+            ['name', 'required'],
+            ['name', 'trim'],
             // string fields
-            [['name'], 'string'],
+            ['name', 'string'],
             ['name', 'validateSubCategoryName'],
 //            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
         ];

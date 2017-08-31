@@ -23,6 +23,7 @@ class CategoryForm extends Model {
             [['category_id', 'sub_categories'], 'safe'],
             // username and password are both required
             ['name', 'required'],
+            ['name', 'trim'],
             // string fields
             ['name', 'string'],
             ['name', 'validateCategoryName'],

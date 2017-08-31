@@ -17,7 +17,7 @@ $baseUrl = BaseUrl::base();
     .help-block {
         margin-bottom: 0px !important; 
     }
-    
+
 </style>
 <?php $this->registerJsFile('@web/js/categories.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->title = 'Categories'; ?>
@@ -69,9 +69,12 @@ $baseUrl = BaseUrl::base();
         -ms-transform: translate(-50%,-50%);
     }
 </style>
+
 <div id="overlay-sub-category">
     <div><img id="loader-sub-category"  src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
 </div>
+<?php Pjax::begin(['id' => 'page-content', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
+
 <div class="col-lg-12">
     <div class="csv33-comp-content">
         <div class="upload-123 clearfix">
@@ -84,7 +87,7 @@ $baseUrl = BaseUrl::base();
 
             </div>
             <!--                        Category 1                      -->
-            <?php Pjax::begin(['id' => 'category-content', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
+            <!--<?/php Pjax::begin(['id' => 'category-content', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>-->
             <?php
             foreach ($categories as $category) {
                 $categories_model->attributes = $category->attributes;
@@ -147,8 +150,13 @@ $baseUrl = BaseUrl::base();
                                 Select Sub-Category
                             </option>
                             <?php
+                            if (is_array($category->sub_categories)) {
+                                $model_sub_categories = $category->sub_categories;
+                            } else {
+                                $model_sub_categories = [$category->sub_categories];
+                            }
                             foreach ($sub_categories_list as $sub_category) {
-                                if (!ArrayHelper::isIn($sub_category->name, $category->sub_categories)) {
+                                if (!ArrayHelper::isIn($sub_category->name, $model_sub_categories)) {
                                     ?>
                                     <option value="<?= $sub_category->name; ?>">
                                         <?= $sub_category->name; ?>
@@ -168,7 +176,7 @@ $baseUrl = BaseUrl::base();
                 <?php
             }
             ?>
-            <?php Pjax::end() ?>
+        <!--<?/php Pjax::end() ?>-->
 
             <!--                        Category end                      -->
             <?php
@@ -215,7 +223,7 @@ $baseUrl = BaseUrl::base();
                 <h3> <img class="fm" src="images/sub.png" >Sub Categories</h3>
 
             </div>            
-            <?php Pjax::begin(['id' => 'sub-category-content', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
+            <!--<?/php Pjax::begin(['id' => 'sub-category-content', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>-->
             <?php
             foreach ($sub_categories_list as $sub_category) {
                 $sub_categories_model->attributes = $sub_category->attributes;
@@ -254,7 +262,7 @@ $baseUrl = BaseUrl::base();
                 $form->end();
             }
             ?> 
-            <?php Pjax::end() ?>
+        <!--<?/php Pjax::end() ?>-->
             <?php
             $sub_categories_model->name = null;
             $form = ActiveForm::begin([
@@ -287,3 +295,5 @@ $baseUrl = BaseUrl::base();
         </div>
     </div>
 </div>
+<?php Pjax::end() ?>
+            

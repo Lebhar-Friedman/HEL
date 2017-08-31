@@ -23,13 +23,14 @@ $(document).ready(function () {
                     });
                     $.pjax.reload({
                         url: baseUrl + 'category',
-                        container: '#sub-category-content',
+                        container: '#page-content',
                         replace: false,
                         type: 'get',
 //                    data: form_data,
                         timeout: 30000,
                         push: true
                     });
+                    
 //                    $('#SubCategoryForm')[0].reset();
 //                    window.location.href = baseUrl + 'category/add-sub-category';
                 } else {
@@ -50,8 +51,11 @@ $(document).ready(function () {
     $('#CategoryForm').on('beforeSubmit', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        $("#loader-category").show();
-        $("#overlay-category").show();
+        $("#loader-sub-category").show();
+        $("#overlay-sub-category").show();
+        
+//        $("#loader-category").show();
+//        $("#overlay-category").show();
         var form = $(this);
         var data = new FormData($('#CategoryForm')[0]);
         $.ajax({
@@ -65,12 +69,12 @@ $(document).ready(function () {
                 console.log(r);
                 if (r.msgType === 'SUC') {
                     $(document).on('pjax:complete', function () {
-                        $("#loader-category").hide();
-                        $("#overlay-category").hide();
+                        $("#loader-sub-category").hide();
+                        $("#overlay-sub-category").hide();
                     });
                     $.pjax.reload({
                         url: baseUrl + 'category',
-                        container: '#category-content',
+                        container: '#page-content',
                         replace: false,
                         type: 'get',
                         timeout: 30000,
@@ -107,7 +111,7 @@ $("form[id*='SubCategoryField']").on('beforeSubmit', function (e) {
                 toastr.success(r2.msg);
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
                     timeout: 30000,
@@ -147,7 +151,7 @@ function deleteSubCategory(subcategoryID, element) {
                 });
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#sub-category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
 //                    data: form_data,
@@ -175,8 +179,11 @@ function deleteSubCategory(subcategoryID, element) {
 function addSubCategoryLink(categoryID, element) {
 
     sub_category = $(element).val();
-    $("#loader-category").show();
-    $("#overlay-category").show();
+    $("#loader-sub-category").show();
+    $("#overlay-sub-category").show();
+        
+//    $("#loader-category").show();
+//    $("#overlay-category").show();
 
     $.ajax({
         url: baseUrl + 'category/add-sub-category-link',
@@ -188,12 +195,12 @@ function addSubCategoryLink(categoryID, element) {
             if (r.msgType === 'SUC') {
                 toastr.success(r.msg);
                 $(document).on('pjax:complete', function () {
-                    $("#loader-category").hide();
-                    $("#overlay-category").hide();
+                    $("#loader-sub-category").hide();
+                    $("#overlay-sub-category").hide();
                 });
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
 //                    data: form_data,
@@ -215,8 +222,11 @@ function deleteCategory(categoryID, element) {
     if (!confirm("Are you sure, you want to delete this sub-category?")) {
         return false;
     }
-    $("#loader-category").show();
-    $("#overlay-category").show();
+    $("#loader-sub-category").show();
+    $("#overlay-sub-category").show();
+        
+//    $("#loader-category").show();
+//    $("#overlay-category").show();
 
     $.ajax({
         url: baseUrl + 'category/category-delete',
@@ -228,12 +238,12 @@ function deleteCategory(categoryID, element) {
             if (r.msgType === 'SUC') {
                 toastr.success(r.msg);
                 $(document).on('pjax:complete', function () {
-                    $("#loader-category").hide();
-                    $("#overlay-category").hide();
+                    $("#loader-sub-category").hide();
+                    $("#overlay-sub-category").hide();
                 });
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
 //                    data: form_data,
@@ -269,7 +279,7 @@ $("form[id*='CategoryField']").on('beforeSubmit', function (e) {
                 toastr.success(r2.msg);
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
                     timeout: 30000,
@@ -292,8 +302,11 @@ function deleteSubCategoryLink(category, subCategory, element) {
     if (!confirm("Are you sure, you want to delete this link of sub-category?")) {
         return false;
     }
-    $("#loader-category").show();
-    $("#overlay-category").show();
+    $("#loader-sub-category").show();
+    $("#overlay-sub-category").show();
+        
+//    $("#loader-category").show();
+//    $("#overlay-category").show();
     $.ajax({
         url: baseUrl + 'category/delete-sub-category-link',
         type: 'post',
@@ -304,12 +317,12 @@ function deleteSubCategoryLink(category, subCategory, element) {
             if (r.msgType === 'SUC') {
                 toastr.success(r.msg);
                 $(document).on('pjax:complete', function () {
-                    $("#loader-category").hide();
-                    $("#overlay-category").hide();
+                    $("#loader-sub-category").hide();
+                    $("#overlay-sub-category").hide();
                 });
                 $.pjax.reload({
                     url: baseUrl + 'category',
-                    container: '#category-content',
+                    container: '#page-content',
                     replace: false,
                     type: 'get',
 //                    data: form_data,

@@ -133,9 +133,14 @@ class CategoryController extends Controller {
         $model = Categories::findOne(['_id' => new \MongoDB\BSON\ObjectID($category_id)]);
         $retData = array();
         if (!empty($model)) {
-            if (isset($model->sub_categories) && !ArrayHelper::isIn($sub_categories, $model->sub_categories)) {
+            if(is_array($model->sub_categories)){
+                $model_sub_categories = $model->sub_categories;
+            } else {
+                $model_sub_categories = [$model->sub_categories];
+            }
+            if (isset($model->sub_categories)  && !ArrayHelper::isIn($sub_categories, $model_sub_categories)) {
                 $model->sub_categories = ArrayHelper::merge($model->sub_categories, [$sub_categories]);
-            } else if (isset($model->sub_categories) && ArrayHelper::isIn($sub_categories, $model->sub_categories)) {
+            } else if (isset($model->sub_categories) && ArrayHelper::isIn($sub_categories, $model_sub_categories)) {
                 
             } else {
                 $model->sub_categories = [$sub_categories];

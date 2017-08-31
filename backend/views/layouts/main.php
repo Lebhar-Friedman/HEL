@@ -52,7 +52,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                     <a href="<?= $baseUrl ?>/company" class="<?= (Yii::$app->controller->uniqueId=='company')? 'active': ''; ?>">Companies</a>
                                     <a href="<?= $baseUrl ?>/location" class="<?= (Yii::$app->controller->uniqueId=='location')? 'active': ''; ?>">Locations</a>
                                     <a href="<?= $baseUrl ?>/event" class="<?= (Yii::$app->controller->uniqueId=='event')? 'active': ''; ?>">Events</a>
-                                    <a href="#">Categories</a>
+                                    <a href="<?= $baseUrl ?>/category" class="<?= (Yii::$app->controller->uniqueId=='category')? 'active': ''; ?>">Categories</a>
                                     <!--<a href="#">Admins</a>-->
                                     <a href="<?= $baseUrl ?>/site/logout" class="">Logout</a>
                                 <?php } ?>
