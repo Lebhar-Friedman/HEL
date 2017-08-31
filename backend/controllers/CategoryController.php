@@ -58,7 +58,7 @@ class CategoryController extends Controller {
         $request = Yii::$app->request;
         if ($request->isPost && $request->isAjax) {
             $model1->load($request->post());
-            $model->name = $model1->name;
+            $model->name = ucwords($model1->name);
             if ($model->save()) {
                 $retData['msgType'] = "SUC";
                 $retData['msg'] = "Category successfully added";
@@ -80,7 +80,7 @@ class CategoryController extends Controller {
             $model1->load($request->post());
             //print_r($request->post());die;
             $model = SubCategories::findOne(['_id' => new \MongoDB\BSON\ObjectID($model1->sub_category_id)]);
-            $model->name = $model1->name;
+            $model->name = ucwords($model1->name);
 
             if ($model->update()) {
                 $retData['msgType'] = "SUC";
@@ -114,9 +114,9 @@ class CategoryController extends Controller {
                 $retData['msgType'] = "ERR";
                 $retData['msg'] = "Can not delete the sub category at this time.";
             }
-        }else {
-                $retData['msgType'] = "INF";
-                $retData['msg'] = "Sub category is linked.";
+        } else {
+            $retData['msgType'] = "INF";
+            $retData['msg'] = "Sub category is linked.";
         }
         return $retData;
     }
@@ -133,12 +133,12 @@ class CategoryController extends Controller {
         $model = Categories::findOne(['_id' => new \MongoDB\BSON\ObjectID($category_id)]);
         $retData = array();
         if (!empty($model)) {
-            if(is_array($model->sub_categories)){
+            if (is_array($model->sub_categories)) {
                 $model_sub_categories = $model->sub_categories;
             } else {
                 $model_sub_categories = [$model->sub_categories];
             }
-            if (isset($model->sub_categories)  && !ArrayHelper::isIn($sub_categories, $model_sub_categories)) {
+            if (isset($model->sub_categories) && !ArrayHelper::isIn($sub_categories, $model_sub_categories)) {
                 $model->sub_categories = ArrayHelper::merge($model->sub_categories, [$sub_categories]);
             } else if (isset($model->sub_categories) && ArrayHelper::isIn($sub_categories, $model_sub_categories)) {
                 
@@ -162,7 +162,7 @@ class CategoryController extends Controller {
         $request = Yii::$app->request;
         if ($request->isPost && $request->isAjax) {
             $model1->load($request->post());
-            $model->name = $model1->name;
+            $model->name = ucwords($model1->name);
             if ($model->save()) {
                 $retData['msgType'] = "SUC";
                 $retData['msg'] = "Category successfully added";
@@ -184,7 +184,7 @@ class CategoryController extends Controller {
             $model1->load($request->post());
             //print_r($request->post());die;
             $model = Categories::findOne(['_id' => new \MongoDB\BSON\ObjectID($model1->category_id)]);
-            $model->name = $model1->name;
+            $model->name = ucwords($model1->name);
 
             if ($model->update()) {
                 $retData['msgType'] = "SUC";
@@ -257,7 +257,7 @@ class CategoryController extends Controller {
                 $company->logo = $image_name . '.' . $model->logo->extension;
                 $model->logo = $company->logo;
             }
-            $company->name = ucfirst($company->name);
+            $company->name = ucwords($company->name);
             $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
             $retData['msgType'] === "SUC" ? $msg = "Company has been added successfully" : $msg = "Unable to store data this time";
             $retData['msg'] = $msg;
@@ -303,7 +303,7 @@ class CategoryController extends Controller {
         $model = new CategoryForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $model->name = ucfirst($model->name);
+            $model->name = ucwords($model->name);
             return ActiveForm::validate($model);
         }
     }
@@ -312,7 +312,7 @@ class CategoryController extends Controller {
         $model = new SubCategoryForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $model->name = ucfirst($model->name);
+            $model->name = ucwords($model->name);
             return ActiveForm::validate($model);
         }
     }
