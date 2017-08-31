@@ -35,7 +35,7 @@ class UserController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                        [
+                    [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -50,7 +50,7 @@ class UserController extends Controller {
 
     public function actionProfile() {
         $eventIds = $logoLinks = $events = [];
-        $userEvents = \Yii::$app->user->identity->saved_events;
+        $userEvents = !empty(\Yii::$app->user->identity->saved_events) ? \Yii::$app->user->identity->saved_events : [];
         foreach ($userEvents as $e) {
             $eventIds[] = $e['event_id'];
         }
@@ -88,8 +88,8 @@ class UserController extends Controller {
             $keywords = array();
             $filters = array();
             $sort_by = 'Closest';
-            $type ="exact_location";
-            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by,'street' => $street, 'city' => $city, 'state' => $state])) {
+            $type = "exact_location";
+            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by, 'street' => $street, 'city' => $city, 'state' => $state])) {
                 return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
             } else {
                 return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];
@@ -99,14 +99,13 @@ class UserController extends Controller {
             $keywords = Yii::$app->request->post('keywords');
             $sort_by = Yii::$app->request->post('sortBy');
             $filters = Yii::$app->request->post('filters');
-            $type ="search_base";
+            $type = "search_base";
             if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by])) {
                 return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
             } else {
                 return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];
             }
         }
-
     }
 
     public function actionDeleteAlert() {
