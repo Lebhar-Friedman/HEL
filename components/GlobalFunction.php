@@ -2,10 +2,11 @@
 
 namespace components;
 
-use Yii;
-use app\common\models\Countries;
 use app\common\models\User;
-use app\components\FreshBooksRequest;
+use DateTime;
+use DateTimeZone;
+use Yii;
+use function GuzzleHttp\json_decode;
 
 class GlobalFunction {
 
@@ -16,18 +17,26 @@ class GlobalFunction {
 
 //    ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     public static function getMonths() {
-        return ['01' => 'Jan',
-            '02' => 'Feb',
-            '03' => 'Mar',
-            '04' => 'Apr',
-            '05' => 'May',
-            '06' => 'Jun',
-            '07' => 'Jul',
-            '08' => 'Aug',
-            '09' => 'Sep',
-            '10' => 'Oct',
-            '11' => 'Nov',
-            '12' => 'Dec'];
+        return ['01' => 'Jan.',
+            '02' => 'Feb.',
+            '03' => 'Mar.',
+            '04' => 'Apr.',
+            '05' => 'May.',
+            '06' => 'June.',
+            '07' => 'July.',
+            '08' => 'Aug.',
+            '09' => 'Sept.',
+            '10' => 'Oct.',
+            '11' => 'Nov.',
+            '12' => 'Dec.'];
+    }
+    
+    public static function getAbbreviatedMonth($month_number){
+        foreach( GlobalFunction::getMonths() as $key => $value){
+            if($key == $month_number){
+                return $value;
+            }
+        }
     }
 
     public static function getYears() {
@@ -196,8 +205,8 @@ class GlobalFunction {
     public static function dateDiff($d1, $d2, $date = FALSE) {
         $d1 = str_replace('/', '-', $d1);
         $d2 = str_replace('/', '-', $d2);
-        $date1 = new \DateTime($d1);
-        $date2 = new \DateTime($d2);
+        $date1 = new DateTime($d1);
+        $date2 = new DateTime($d2);
         $diff = date_diff($date1, $date2);
         if ($date) {
             return $diff;
@@ -254,7 +263,7 @@ class GlobalFunction {
 
     public static function getDate($format, $mongoDate) {
         $datetime = $mongoDate->toDateTime();
-        $datetime->setTimezone(new \DateTimeZone(\Yii::$app->timeZone));
+        $datetime->setTimezone(new DateTimeZone(\Yii::$app->timeZone));
         if (empty($format)) {
             $format = DATE_ATOM;
         }
@@ -266,13 +275,89 @@ class GlobalFunction {
         $end_date = GlobalFunction::getDate('Y-m-d', $end);
         $diff = GlobalFunction::dateDiff($start_date, $end_date, false);
         if ($diff < 1) {
-            return GlobalFunction::getDate('M d', $start);
+            return GlobalFunction::printableDate($start);
         } else {
             $start_month = explode('-', $start_date);
             $end_month = explode('-', $end_date);
-            $start_month[1] != $end_month[1] ? $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('M d', $end) : $ret = GlobalFunction::getDate('M d', $start) . ' - ' . GlobalFunction::getDate('d', $end);
+            $start_month[1] != $end_month[1] ? $ret = GlobalFunction::printableDate($start) . ' - ' . GlobalFunction::printableDate($end) : $ret = GlobalFunction::printableDate($start) . ' - ' . GlobalFunction::printableDate($end);
             return $ret;
         }
+    }
+
+    public static function printableDate($date_event) {
+        
+        $date_arr = explode(' ', GlobalFunction::getDate('m d', $date_event));
+        $month = GlobalFunction::getAbbreviatedMonth($date_arr[0]);
+        return $month . ' ' . $date_arr[1];
+        
+    }
+
+    public static function distanceBetweenPoints($lat1, $lon1, $lat2, $lon2) {
+
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lon1 *= $pi80;
+        $lat2 *= $pi80;
+        $lon2 *= $pi80;
+
+        $r = 6372.797; // mean radius of Earth in km
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+
+        return $km * 0.621371;
+    }
+
+    public static function locationsInRadius($lat, $lng, $locations, $radius) {
+        $locations_to_return = array();
+        foreach ($locations as $location) {
+            if (round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1) > $radius) {
+                continue;
+            } else {
+                $locations_to_return[] = $location;
+            }
+        }
+        $locations_to_return = GlobalFunction::deleteDuplicateLocations($locations_to_return);
+        return $locations_to_return;
+    }
+
+    public static function nearestLocation($lat, $lng, $locations) {
+        $location_to_return = array();
+        $nearest = 999999999;
+        foreach ($locations as $location) {
+            $distance = round(GlobalFunction::distanceBetweenPoints($lat, $lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 2);
+            if ($distance < $nearest) {
+                $location_to_return = $location;
+                $nearest = $distance;
+            }
+        }
+        return $location_to_return;
+    }
+
+    public function deleteDuplicateLocations($locations) {
+//        $epsilon = 0.0000001;
+        $locations_to_return = array();
+        foreach ($locations as $location) {
+            if (sizeof($locations_to_return) == 0) {
+                $locations_to_return[] = $location;
+            } else {
+                $is_exist = false;
+                foreach ($locations_to_return as $location_to_return) {
+//                    if( (abs($location_to_return['geometry']['coordinates'][0] - $location['geometry']['coordinates'][0]) < $epsilon) && (abs($location_to_return['geometry']['coordinates'][1] - $location['geometry']['coordinates'][1]) < $epsilon)) {
+//                        $is_exist = true;
+//                    }
+                    if ($location['store_number'] === $location_to_return['store_number']) {
+                        $is_exist = true;
+                    }
+                }
+                if ($is_exist)
+                    continue;
+                $locations_to_return[] = $location;
+            }
+        }
+        return $locations_to_return;
     }
 
 // end class

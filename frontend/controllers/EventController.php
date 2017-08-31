@@ -143,12 +143,17 @@ class EventController extends Controller {
 
     public function actionMoreEvents() {
 
-//        $z_lng_lat = $this->getZipLongLat();
-        $zip_code = urldecode(Yii::$app->request->get('zip'));
+//        $zip_code = urldecode(Yii::$app->request->get('zip'));
+        
+        $zip_code = urldecode(Yii::$app->request->get('zipcode'));
+        $keywords = Yii::$app->request->get('keywords'); 
+        $filters = Yii::$app->request->get('filters');
+        
         $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
 
-        $events = $this->getEventsWithDistance($zip_code, null, null, $lng_lat['long'], $lng_lat['lat'], 200, 50);
+        $events = $this->getEventsWithDistance($zip_code, $keywords, $filters, $lng_lat['long'], $lng_lat['lat'], 200, 21);
         $events_with_score = array();
+        $nearest_locations = array();
         foreach ($events as $event) {
             $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
             $current_date = GlobalFunction::getDate('Y-m-d', $current_date);
@@ -156,6 +161,9 @@ class EventController extends Controller {
             $diff = GlobalFunction::dateDiff($end_date, $current_date, false);
 
             $score['score'] = round($event['distance'] * $diff, 2);
+            $nearest_locations = GlobalFunction::locationsInRadius($lng_lat['lat'], $lng_lat['long'], $event['locations'], 200);
+            $event['locations'] = $nearest_locations;
+
             $events_with_score[] = array_merge($event, $score);
         }
         if (sizeof($events_with_score) > 0) {
@@ -165,13 +173,13 @@ class EventController extends Controller {
                 return $item1['score'] < $item2['score'] ? -1 : 1;
             });
         }
-        return $this->renderAjax('_more-events', ['more_events' => $events_with_score]);
+        return $this->renderAjax('_more-events', ['more_events' => $events_with_score, 'zipcode' => $zip_code, 'lng_lat' => $lng_lat]);
     }
 
     public function actionDetail() {
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
-        $store_number = urldecode(Yii::$app->request->get('store_number'));
+        $store_number = urldecode(Yii::$app->request->get('store'));
         $alert_added = false;
         if (urldecode(Yii::$app->request->get('alert_added')) === true) {
 
@@ -205,13 +213,13 @@ class EventController extends Controller {
             $event_location = $event['locations'][0];
             $company_number = $event['locations'][0]['company'];
         } else {
-            $event_location = Location::findCompanyByStoreNumber($store_number);
-            $company_number = Location::findCompanyByStoreNumber($store_number)['company'];
+            $event_location = Location::findLocationByStoreNumber($store_number);
+            $company_number = $event_location->company;
         }
 
         $company = Company::findCompanyByNumber($event['company']);
 
-        $companyEvents = Event::findCompanyEventsByNumber($company_number, $eid);
+        $companyEvents = Event::findEventsByStore($event_location['store_number'], $eid);
 //        $z_lng_lat = $this->getZipLongLat();
 
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
@@ -279,7 +287,7 @@ class EventController extends Controller {
         return ['zip_code' => $zip_code, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']];
     }
 
-    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance = 50, $min_distance = 0, $sort = 'Closest', $company = null) {
+    public function getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, $max_distance = 20, $min_distance = 0, $sort = 'Closest', $company = null) {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+30 days"))) * 1000);
 
@@ -287,22 +295,27 @@ class EventController extends Controller {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+//                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+//                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]],  ['is_post' => true]];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+//                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             } else {
 //                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]], ['is_post' => true]];
-                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
+//                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
+                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
             }
         } else {
-            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+//            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
+            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
         }
         if (!empty($company)) {
             array_push($matchParams, ['company' => $company]);

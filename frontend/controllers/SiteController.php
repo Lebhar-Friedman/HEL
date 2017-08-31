@@ -287,11 +287,18 @@ class SiteController extends Controller {
                 $email = $model->welcomeEmail($user, $url);
                 if ($email) {
 //                    Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
-                    return $this->render('signup-thankyou');
+                    $loginModel = new LoginForm();
+                    $loginModel->username = $model->email;  
+                    $loginModel->password = $model->password;
+                    $loginModel->role = User::ROLE_USER;
+                    if ($loginModel->login()) {
+                        return $this->render('signup-thankyou');
+                    } else {
+                        return $this->goBack();
+                    }
                 } else {
                     Yii::$app->getSession()->setFlash('warning', 'Failed to identify email, contact Admin!');
                 }
-
                 if (!isset($url)) {
                     return $this->goHome();
                 } else {
@@ -382,6 +389,8 @@ class SiteController extends Controller {
 
         $userID = Yii::$app->user->id;
         $eid = Yii::$app->request->get('eid');
+        $store_number = Yii::$app->request->get('store_number');
+        $zipcode = Yii::$app->request->get('zipcode');
         if (Yii::$app->request->get('flg')) {
             return $this->redirect(Yii::$app->homeUrl . 'event/detail?eid=' . $eid);
         }
@@ -389,12 +398,19 @@ class SiteController extends Controller {
         $retData = array();
         $user = User::find()->where(['_id' => $userID])->one();
         if (!empty($user)) {
-            if (isset($user->saved_events) && !ArrayHelper::isIn($eid, $user->saved_events)) {
-                $user->saved_events = ArrayHelper::merge($user->saved_events, [$eid]);
-            } else if (ArrayHelper::isIn($eid, $user->saved_events)) {
-                
+            if (isset($user->saved_events)) {
+                $can_save = true;
+                foreach ($user->saved_events as $saved_event) {
+                    if ($saved_event['event_id'] === $eid && $saved_event['store_number'] === $store_number && $saved_event['zip'] === $zipcode) {
+                        $can_save = false;
+                    }
+                }
+                if ($can_save) {
+                    $user->saved_events = ArrayHelper::merge($user->saved_events, array(['event_id' => $eid, 'zip' => $zipcode, 'store_number' => $store_number]));
+                }
             } else {
-                $user->saved_events = [$eid];
+//                $user->saved_events = [$eid];
+                $user->saved_events = array(['event_id' => $eid, 'zip' => $zipcode, 'store_number' => $store_number]);
             }
             $user->save();
             $retData['msgType'] = "SUC";

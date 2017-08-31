@@ -119,8 +119,6 @@ function postEvent(eventID, element) {
         success: function (r) {
             console.log(r);
             if (r.msgType === 'SUC') {
-                $('#loader_' + eventID).addClass('hidden');
-                $(element).replaceWith("<a href='javascript:;'>Posted</a>");
                 $('#unpost-' + eventID).removeClass('hidden');
                 toastr.success(r.msg.replace('post', actionText));
             } else {
@@ -130,6 +128,9 @@ function postEvent(eventID, element) {
         error: function ()
         {
             toastr.error('Internal server error');
+        },
+        complete: function () {
+            $('#loader_' + eventID).addClass('hidden');
         }
     });
 }
@@ -138,6 +139,8 @@ function unpostEvent(eventID, element) {
     if (!confirm("Are you sure you  want to " + actionText + " this event?")) {
         return false;
     }
+    $(element).addClass('hidden');
+    $('#loader_' + eventID).removeClass('hidden');
     $.ajax({
         url: baseUrl + 'event/unpost',
         type: 'post',
@@ -156,6 +159,9 @@ function unpostEvent(eventID, element) {
         error: function ()
         {
             toastr.error('Internal server error');
+        },
+        complete: function () {
+            $('#loader_' + eventID).addClass('hidden');
         }
     });
 }

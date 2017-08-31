@@ -1155,7 +1155,7 @@ footer a:hover{
     font-size:18px;
     line-height:16px;
     float:left;
-    color:#1e5ba9 !important;
+    color:#F59A38 !important;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
@@ -1172,8 +1172,8 @@ footer a:hover{
 
 }
 .profile-alert-nav a:hover, .profile-alert-nav a.active{
-    background:#1e5ba9;
-    border-color:#1e5ba9;
+    background:#F59A38;
+    border-color:#F59A38;
     color:#FFF !important;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -1195,7 +1195,7 @@ footer a:hover{
     display:block;
     font-size:18px;
     line-height:18px;
-    color:#353535;
+    color:#364D6A;
     background:#f3f3f3;
     padding:21px 10px 20px 50px;
     border-bottom:1px solid #dddddd;
@@ -1265,7 +1265,7 @@ footer a:hover{
     display:block;
     font-size:25px;
     line-height:20px;
-    color:#3f3f3f;
+    color:#364D6A;
     padding:0px 0px 25px 65px;
     margin-left:-65px;
     border-bottom:1px solid #cccccc;
@@ -1284,19 +1284,20 @@ footer a:hover{
     display:block;
     font-size:25px;
     line-height:24px;
-    color:#1e5ba9;
+    color:#364D6A;
     padding-bottom:14px !important;
 }
 .cutomer-profile-multi-service h2{
     display:block;
     font-size:24px;
     line-height:22px;
-    color:#333333;
+    color:#666;
     padding-bottom:15px !important;
     font-weight:bold;
     font-family: 'helveticaneueregular' !important;
 }
 .cutomer-profile-multi-service span{
+    color: #999;
     display:block;
     font-size:19px;
     line-height:17px;
@@ -1450,6 +1451,7 @@ footer a:hover{
 }
 .add-new-alert:hover{
     background:#D38735;
+    color: #FFF !important;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
@@ -1511,6 +1513,9 @@ h2 {
 .email-conatiner .submitbtn:hover,
 .save-share-btn a:hover {
     background-color: #D38735 !important;
+}
+.save-share-btn a:hover >li a{
+    font-size: small !important;
 }
 
 .debate-txt a {

@@ -138,8 +138,8 @@ function openModal(event) {
 
 function moreEvents(form_data) {
     var zipCode = $('#zip_code').val();
-    var url = baseUrl + 'event/more-events?zip='+zipCode;
-    $('#more_events').load(url);
+    var url = baseUrl + 'event/more-events';
+    $('#more_events').load(url,form_data);
 }
 
 function event_detail(event_id) {
@@ -256,3 +256,8 @@ function alertZipCode(){
         }
     });
 }
+
+$(document).ready(function () {
+    var form_data = $("#events_search_form").serialize();
+    moreEvents(form_data) ;
+});

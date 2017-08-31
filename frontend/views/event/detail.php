@@ -33,12 +33,23 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = '12';
     $user_lat = '12';
 }
+if (isset($_GET['zipcode'])) {
+    $zipcode = $_GET['zipcode'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+} else {
+    $zipcode = $event['locations'][0]['zip'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+}
+if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode']) || empty($_GET['zipcode']) )) {
+    $zipcode = $event_location['zip'];
+    $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
+}
 ?>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]); ?>
- <!-- 1. Include style -->
-    <!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
+<!-- 1. Include style -->
+<!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
 <style>
     .chosen-choices{
         min-height: 45px;
@@ -54,15 +65,47 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     .add-new-alert{
         cursor: pointer;
     }
+    #at_hover.atm-s a{
+        color: #F59A38 !important;
+    }
+    #at_hover.atm-s a:hover{
+        background: #D38735 !important;
+        color : #fff;
+    }
+    .free-health-content h2 {
+        font-weight: bold;
+        color: #333333;
+    }
+    .multi-service2 h1 {
+        color: #364D6A;
+    }
+    .multi-service2 h2 {
+        color: #666;
+        font-size: 20px;
+    }
+    .multi-service2 span {
+        color: #999;
+        font-weight: normal;
+        font-size: 18px;
+    }
+
 </style>
 <script type="text/javascript">(function () {
-            if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
-            if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
-                var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-                s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
-                s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
-                var h = d[g]('body')[0];h.appendChild(s); }})();
-    </script>
+        if (window.addtocalendar)
+            if (typeof window.addtocalendar.start == "function")
+                return;
+        if (window.ifaddtocalendar == undefined) {
+            window.ifaddtocalendar = 1;
+            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+            s.type = 'text/javascript';
+            s.charset = 'UTF-8';
+            s.async = true;
+            s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://addtocalendar.com/atc/1.5/atc.min.js';
+            var h = d[g]('body')[0];
+            h.appendChild(s);
+        }
+    })();
+</script>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 
 <div class="container">
@@ -81,7 +124,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
                         ?>
-                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode?>, <?= $event_location['store_number'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
                     } else {
                         ?>
@@ -92,19 +135,21 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
                     <div class="addthis_inline_share_toolbox"></div>
                     <span class="addtocalendar ">
-                         <a class="atcb-link">
-                             CALENDAR</a>
-        <var class="atc_event">
-            <var class="atc_date_start"><?=GlobalFunction::getDate('Y-m-d', $event['date_start'])?> <?= $event['time_start'] ?></var>
-            <var class="atc_date_end"><?=GlobalFunction::getDate('Y-m-d', $event['date_end'])?> <?= $event['time_end'] ?></var>
-            <var class="atc_timezone">America/New_York</var>
-            <var class="atc_title"><?= $event['title'] ?></var>
-            <var class="atc_description"><?= $event['description'] ?></var>
-            <var class="atc_location"><?= $event_location['street'] ?>, <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?></var>
-            <var class="atc_organizer"><?=$event_location['company']?></var>
-            <!--<var class="atc_organizer_email">luke@starwars.com</var>-->
-        </var>
-    </span>
+                        <a class="atcb-link">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            CALENDAR
+                        </a>
+                        <var class="atc_event">
+                            <var class="atc_date_start"><?= GlobalFunction::getDate('Y-m-d', $event['date_start']) ?> <?= $event['time_start'] ?></var>
+                            <var class="atc_date_end"><?= GlobalFunction::getDate('Y-m-d', $event['date_end']) ?> <?= $event['time_end'] ?></var>
+                            <var class="atc_timezone">America/New_York</var>
+                            <var class="atc_title"><?= $event['title'] ?></var>
+                            <var class="atc_description"><?= $event['description'] ?></var>
+                            <var class="atc_location"><?= $event_location['street'] ?>, <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?></var>
+                            <var class="atc_organizer"><?= $event_location['company'] ?></var>
+                            <!--<var class="atc_organizer_email">luke@starwars.com</var>-->
+                        </var>
+                    </span>
                 </div>
 
                 <div class="clearfix">
@@ -118,7 +163,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 </div>
             </div>
             <div class="free-health-content">
-                <h1><?= !empty($event['price']) ? 'Services offered for &dollar;' . $event['price'] .':' : 'FREE Healthcare Services' ?></h1>
+                <h2><?= !empty($event['price']) ? 'Services offered for &dollar;' . $event['price'] . ':' : 'FREE Healthcare Services' ?></h2>
                 <!--<h2>No appointment required!</h2>-->
                 <div class="row">
                     <?php
@@ -164,9 +209,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                        <i><?= $sub_category ?></i>
-                                                                                    </div>
+                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                    <i><?= $sub_category ?></i>
+                                                                                                                                                                                </div>
             <?php
         endforeach;
         ?>
@@ -202,8 +247,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                     ?> for this event</h1>
 <!--                    <img src="<?= $img_url ?>map-img.png" alt="" />-->
                 <?php if (sizeof($event) > 0 && sizeof($event['locations']) > 0) { ?>
-                    <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0] ?>
-                    <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1] ?>
+                    <?php $user_lat = $event['locations'][0]['geometry']['coordinates'][0]; ?>
+                    <?php $user_lng = $event['locations'][0]['geometry']['coordinates'][1]; ?>
                     <div class="map-content" >
                                 <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($event); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
                         <?php
@@ -223,6 +268,9 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
                         foreach ($event['locations'] as $location) {
                             $long_lat = $location['geometry']['coordinates'];
+                            if (round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20) {
+                                continue;
+                            }
                             $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
                             $marker = new Marker([
                                 'position' => $coord,
@@ -231,7 +279,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content = $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'];
+                            $content = "<a href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . "&store=" . $location['store_number'] . "&zipcode=" . $zipcode . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -242,12 +290,12 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
 
                             $map->addOverlay($marker);
                         }
-
-                        $map->center = $map->getMarkersCenterCoordinates();
-
-                        $map->zoom = $map->getMarkersFittingZoom() + 2;
-
-                        echo $map->display();
+//                        print_r($map->getMarkers()); die;
+                        if (!empty($map->getMarkers())) {
+                            $map->center = $map->getMarkersCenterCoordinates();
+                            $map->zoom = $map->getMarkersFittingZoom();
+                            echo $map->display();
+                        } 
                         ?>
                     </div>
                 <?php } ?>
@@ -266,12 +314,12 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <div class="multi-service2">
-                        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] ?>">
+                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['store_number'] . '&zipcode=' . $event_location['zip'] ?>">
+                        <div class="multi-service2">
                             <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                             <span><?php
-                                if (isset($companyEvent['price']) && $companyEvent['price'] !== '') {
+                                if (isset($companyEvent['price']) && $companyEvent['price'] !== '' && $companyEvent['price'] > 0) {
                                     echo "$" . $companyEvent['price'];
                                 } else {
                                     echo "Free";
@@ -297,8 +345,8 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
                                 endforeach;
                                 ?>
                             </div>
-                        </a> 
-                    </div>
+                        </div>
+                    </a> 
                     <?php
                 endforeach;
             }
@@ -345,7 +393,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         services_compact: 'facebook,twitter,email',
         services_exclude: 'google_plusone_share,gmail,print,smiru,'
     }
-    addthis_config.ui_email_note = '<?= $event['description'] ?>';
+    addthis_config.ui_email_note = '<?= htmlspecialchars($event['description']) ?>';
     addthis_config.ui_email_from = '<?= Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->email ?>';
     var addthis_share = {
         email_vars: {
@@ -354,7 +402,7 @@ if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
         url: "<?= Yii::$app->request->absoluteUrl ?>",
         title: "<?= $event['title'] ?>",
         description: "<?= $event['description'] ?>",
-        media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
+//        media: "<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>"
     }
-    
+
 </script>

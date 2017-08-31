@@ -3,6 +3,7 @@
 
 use components\GlobalFunction;
 use yii\helpers\BaseUrl;
+
 $this->title = 'Import csv';
 $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
 //print_r($events);
@@ -12,19 +13,17 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
         <div class="upload clearfix">
             <div >
                 <h3>Upload CSV</h3>
-                <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim varius mollis. 				
-                    Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium laudantium,totam rem 			
-                    aperiam.</h4>
+                <h4></h4>
             </div>
             <div class="chose-file-btn">
                 <form class="" id="fileform" enctype="multipart/form-data">
                     <input type="hidden" name="_csrf" value="">
                     <input id="import" class="hidden" type="file" name="UploadForm[file]" accept=".csv" onchange="setcsvfilename();">
-                    <div class="col-lg-8 res-upload-content">
+                    <div class="col-sm-offset-2 col-lg-8 res-upload-content">
                         <input id="filename" type="text" class="res-upload-textbx" placeholder="file.csv" readonly=""/>
                         <a href="javascript:void();" onclick="$('#import').click();">Choose File</a>
                     </div>
-                    <div class="col-lg-4 inbound-list ">
+                    <div class="col-lg-4 inbound-list hidden">
                         <select id="import_type" name="import_type">
                             <!--<option value="company">Company</option>-->
                             <option value="event">Event</option>                                            
@@ -95,7 +94,11 @@ if (count($events) > 0) {
                             </div>
                             <div class="table-cost-h1"><?= (!empty($event->price)) ? '&dollar;' . $event->price : 'Free' ?></div>
                             <div class="table-blank-h1">
-                                <div class="flt-lft b-post-btn3 mrg-lftt"><a href="javascript:;" onclick="postEvent('<?= $event->_id ?>', this)" class="<?= ($event->is_post) ? 'disableLink' : 'n' ?>">Post</a></div>
+                                <div class="flt-lft b-post-btn3 mrg-lftt">
+                                    <a id="post-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? 'hidden' : '' ?>" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a>
+                                    <a id="unpost-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $event['_id'] ?>', this)" >Unpost</a>
+                                    <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
+                                </div>
                                 <a href="<?= \yii\helpers\BaseUrl::base() . '/event/detail?id=' . $event['_id'] ?>" class="edit1-btn"></a> 
                                 <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             </div>
