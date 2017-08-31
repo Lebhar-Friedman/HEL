@@ -160,7 +160,7 @@ class EventController extends Controller {
         }
         if (sizeof($events_with_score) > 0) {
             usort($events_with_score, function ($item1, $item2) {
-                if (abs(($item1['score'] - $item2['score'])/$item2['score']) < 0.00001)
+                if (abs(($item1['score'] - $item2['score']) / $item2['score']) < 0.00001)
                     return 0;
                 return $item1['score'] < $item2['score'] ? -1 : 1;
             });
@@ -309,7 +309,7 @@ class EventController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-                [
+            [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -323,8 +323,8 @@ class EventController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-                ['$match' => $matchParams],
-                ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+            ['$match' => $matchParams],
+            ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;

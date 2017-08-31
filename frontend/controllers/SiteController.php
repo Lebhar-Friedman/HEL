@@ -391,6 +391,8 @@ class SiteController extends Controller {
         if (!empty($user)) {
             if (isset($user->saved_events) && !ArrayHelper::isIn($eid, $user->saved_events)) {
                 $user->saved_events = ArrayHelper::merge($user->saved_events, [$eid]);
+            } else if (ArrayHelper::isIn($eid, $user->saved_events)) {
+                
             } else {
                 $user->saved_events = [$eid];
             }

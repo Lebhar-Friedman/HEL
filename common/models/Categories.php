@@ -20,7 +20,7 @@ class Categories extends ActiveRecord {
      * @inheritdoc
      */
     public static function collectionName() {
-        return ['health_events', 'category'];
+        return ['health_events', 'categories'];
     }
 
     //setup for model attributes
@@ -63,7 +63,7 @@ class Categories extends ActiveRecord {
             ]
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -88,5 +88,6 @@ class Categories extends ActiveRecord {
     public static function CategoryList() {
         return static::find()->all();
     }
+
 // end class counter
 }

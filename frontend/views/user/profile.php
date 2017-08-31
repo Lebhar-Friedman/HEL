@@ -56,7 +56,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         }
                     } else {
                         ?>
-                        <div class="cutomer-profile-h" style="border:0px">No Saved Event yet.</div>
+                        <div class="cutomer-profile-h" style="border:0px">No saved events yet.</div>
                     <?php } ?>
                     <!--                    <div class="pagging">
                                             <a href="#"><img src="<?= $baseUrl ?>/images/back-img.png" alt="" /><img src="<?= $baseUrl ?>/images/back-img.png" /></a>

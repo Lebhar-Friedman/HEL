@@ -138,7 +138,7 @@ class EventController extends Controller {
         }
         return $retData;
     }
-    
+
     public function actionUnpost() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -186,7 +186,7 @@ class EventController extends Controller {
             $companies = Company::CompanyList();
             $companyList = [];
             foreach ($companies as $c) {
-                $companyList[$c->company_number]=$c->name;
+                $companyList[$c->company_number] = $c->name;
             }
 
             if (count($event) > 0) {
