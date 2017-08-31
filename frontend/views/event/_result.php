@@ -191,7 +191,7 @@ $events_with_nearest_locations = array();
     <?php } ?>
     <?php if (sizeof($events) < 1) { ?>
         <div class="text-center email-content padding-top-50" style="padding-top:50px">
-            <h1 >No event found </h1>
+            <h1 >Sorry, there are no health events currently scheduled for this selection.</h1>
         </div>
     <?php } ?>
     <div class="email-content">
