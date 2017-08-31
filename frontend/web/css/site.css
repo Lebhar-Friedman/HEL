@@ -864,6 +864,7 @@ footer a:hover{
 .table-cust{
     /*width:117px;*/
     float:left;
+    padding-right: 14px;
 }
 .location-text{
     width:130px;
