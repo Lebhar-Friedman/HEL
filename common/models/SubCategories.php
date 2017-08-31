@@ -19,7 +19,7 @@ class SubCategories extends ActiveRecord {
      * @inheritdoc
      */
     public static function collectionName() {
-        return ['health_events', 'location'];
+        return ['health_events', 'sub_categories'];
     }
 
     //setup for model attributes
@@ -81,8 +81,10 @@ class SubCategories extends ActiveRecord {
     public static function findSubCategory($id) {
         return static::findOne(['_id' => $id]);
     }
+
     public static function SubCategoryList() {
         return static::find()->all();
     }
+
 // end class counter
 }

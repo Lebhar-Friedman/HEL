@@ -49,7 +49,8 @@ $baseUrl = Yii::$app->request->baseUrl;
 
             <div class ="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 upload-btn-2">
-                    <a href="javascript:;" onclick="window.history.go(-1); return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
+                    <a href="javascript:;" onclick="window.history.go(-1);
+                            return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
                 </div>
                 <div class ="col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-1">
@@ -207,7 +208,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <strong>Company:</strong>
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-7">
-                        <?= $form->field($model, 'company', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '0']])->dropDownList($companies, ['prompt'=>'Select Company'])->label(false); ?>
+                        <?= $form->field($model, 'company', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '0']])->dropDownList($companies, ['prompt' => 'Select Company'])->label(false); ?>
                     </div>
                 </div>
 
