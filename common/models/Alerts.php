@@ -91,12 +91,13 @@ class Alerts extends ActiveRecord {
             $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
-            $new_alert['type'] = $type;
-            if($type === "exact_location"){
+            if ($type === "exact_location") {
                 $new_alert['street'] = $updatable_alert['street'];
                 $new_alert['city'] = $updatable_alert['city'];
                 $new_alert['state'] = $updatable_alert['state'];
+                $new_alert['store_number'] = $updatable_alert['store_number'];
             }
+            $new_alert['type'] = $type;
             $alerts[] = $new_alert;
             $existing_entry->alerts = $alerts;
             if ($existing_entry->save()) {
@@ -113,14 +114,14 @@ class Alerts extends ActiveRecord {
             $new_alert['sort'] = $sort;
             $new_alert['longitude'] = $session->get('lng');
             $new_alert['latitude'] = $session->get('lat');
-            $new_alert['type'] = $type;
-            if($type === "exact_location"){
+            if ($type === "exact_location") {
                 $new_alert['street'] = $updatable_alert['street'];
                 $new_alert['city'] = $updatable_alert['city'];
                 $new_alert['state'] = $updatable_alert['state'];
             }
+            $new_alert['type'] = $type;
             $alert_obj->alerts = array($new_alert);
-            
+
             $alert_obj->location = $coordinates;
             if ($alert_obj->save()) {
                 return true;
@@ -135,11 +136,11 @@ class Alerts extends ActiveRecord {
 
         $alerts_old = $existing_entry->alerts;
         $alerts_new = array();
-        $deleted =false;
+        $deleted = false;
 
         if ($existing_entry) {
             foreach ($alerts_old as $single_alert_obj) {
-                if ((string)$single_alert_obj['_id'] === (string)$del_alert) {
+                if ((string) $single_alert_obj['_id'] === (string) $del_alert) {
                     $deleted = true;
                     continue;
                 }

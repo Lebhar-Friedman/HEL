@@ -144,11 +144,11 @@ class EventController extends Controller {
     public function actionMoreEvents() {
 
 //        $zip_code = urldecode(Yii::$app->request->get('zip'));
-        
+
         $zip_code = urldecode(Yii::$app->request->get('zipcode'));
-        $keywords = Yii::$app->request->get('keywords'); 
+        $keywords = Yii::$app->request->get('keywords');
         $filters = Yii::$app->request->get('filters');
-        
+
         $lng_lat = GlobalFunction::getLongLatFromZip($zip_code);
 
         $events = $this->getEventsWithDistance($zip_code, $keywords, $filters, $lng_lat['long'], $lng_lat['lat'], 200, 21);
@@ -177,29 +177,58 @@ class EventController extends Controller {
     }
 
     public function actionDetail() {
+
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
         $store_number = urldecode(Yii::$app->request->get('store'));
         $alert_added = false;
-        if (urldecode(Yii::$app->request->get('alert_added')) === true) {
+        $session = Yii::$app->session;
 
+        if (urldecode(Yii::$app->request->get('alert_added')) == 1 && $session->has('zipcode')) {
+            
             $alert_added = urldecode(Yii::$app->request->get('alert_added'));
-
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
-            $zip = $session->get('zip');
+            $zip = $session->get('zipcode');
             $sort = $session->get('sort');
+            $type = $session->get('type');
+
+            if ($session->has('event_id')) {
+
+                $event_id = $session->get('event_id');
+                $street = $session->get('street');
+                $city = $session->get('city');
+                $state = $session->get('state');
+                $store_number = $session->get('store_number');
+                
+                $session->remove('event_id');
+                $session->remove('street');
+                $session->remove('city');
+                $session->remove('state');
+                $session->remove('store_number');
+
+                if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort, 'street' => $street, 'city' => $city, 'state' => $state, 'store_number' => $store_number])) {
+                    Yii::$app->getSession()->setFlash('success', 'Alert has been added');
+                } else {
+                    Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
+                }
+                
+            }else{
+                
+                if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort, 'type' => $type])) {
+                    Yii::$app->getSession()->setFlash('success', 'Alert has been added');
+                } else {
+                    Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
+                }
+                
+            }
 
             $session->remove('zipcode');
             $session->remove('keywords');
             $session->remove('filters');
             $session->remove('sort');
+            $session->remove('type');
 
-            if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort])) {
-                Yii::$app->getSession()->setFlash('success', 'Alert has been added');
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
-            }
         }
         $error = '';
         if ($eid !== '') {
@@ -300,7 +329,7 @@ class EventController extends Controller {
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
 //                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]],  ['is_post' => true]];
+                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
