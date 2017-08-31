@@ -85,11 +85,12 @@ class UserController extends Controller {
             $street = Yii::$app->request->post('street');
             $city = Yii::$app->request->post('city');
             $state = Yii::$app->request->post('state');
+            $store_number = Yii::$app->request->post('store_number');
             $keywords = array();
             $filters = array();
             $sort_by = 'Closest';
             $type = "exact_location";
-            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by, 'street' => $street, 'city' => $city, 'state' => $state])) {
+            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by, 'street' => $street, 'city' => $city, 'state' => $state,'store_number' => $store_number])) {
                 return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
             } else {
                 return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];

@@ -35,12 +35,12 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup'],
                 'rules' => [
-                    [
+                        [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                    [
+                        [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -116,7 +116,6 @@ class SiteController extends Controller {
         if ($session->has('event_id') && !Yii::$app->user->isGuest) {
 
             $event_id = $session->get('event_id');
-//            return Yii::$app->runAction(['evnt/detail','eid'=>$event_id]);
             return $this->redirect(['event/detail', 'eid' => $event_id, 'alert_added' => true]);
         }
         if ($session->has('zipcode') && !Yii::$app->user->isGuest) {
@@ -246,19 +245,30 @@ class SiteController extends Controller {
     public function actionAddAlertsSession() {
         $session = Yii::$app->session;
         if (Yii::$app->request->post('only_zip') !== null) {
+
             $zip_code = Yii::$app->request->post('zipcode');
             $event_id = Yii::$app->request->post('event_id');
+            $street = Yii::$app->request->post('street');
+            $city = Yii::$app->request->post('city');
+            $state = Yii::$app->request->post('state');
+            $store_number = Yii::$app->request->post('store_number');
+
             $keywords = array();
             $filters = array();
             $sort_by = 'Closest';
 //            $session->set('only_zip', 'y');
             $session->set('event_id', $event_id);
             $session->set('type', 'exact_location');
+            $session->set('street', $street);
+            $session->set('city', $city);
+            $session->set('state', $state);
+            $session->set('store_number', $store_number);
         } else {
             $zip_code = Yii::$app->request->post('zipcode');
             $keywords = Yii::$app->request->post('keywords');
             $filters = Yii::$app->request->post('filters');
             $sort_by = Yii::$app->request->post('sortBy');
+            $session->set('type', 'search_base');
         }
 
         $session->set('zipcode', $zip_code);
@@ -266,7 +276,6 @@ class SiteController extends Controller {
         $session->set('filters', $filters);
         $session->set('sort', $sort_by);
         $session->set('signup_page', 'Y');
-        $session->set('type', 'search_base');
     }
 
     /**
@@ -288,7 +297,7 @@ class SiteController extends Controller {
                 if ($email) {
 //                    Yii::$app->getSession()->setFlash('success', 'Check Your email to complete registration.');
                     $loginModel = new LoginForm();
-                    $loginModel->username = $model->email;  
+                    $loginModel->username = $model->email;
                     $loginModel->password = $model->password;
                     $loginModel->role = User::ROLE_USER;
                     if ($loginModel->login()) {
