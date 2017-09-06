@@ -184,7 +184,7 @@ $baseUrl = BaseUrl::base();
 
             $form = ActiveForm::begin([
                         'id' => 'CategoryForm',
-                        'action' => $baseUrl . '/category/add-category',
+                        'action' => 'javascript:addCategory(event)',//$baseUrl . '/category/add-category',
                         'enableAjaxValidation' => true,
                         'validateOnBlur' => true,
                         'validationUrl' => Yii::$app->urlManager->createUrl("category/category-validation"),
@@ -230,7 +230,7 @@ $baseUrl = BaseUrl::base();
                 $sub_categories_model->sub_category_id = $sub_category->_id;
                 $form = ActiveForm::begin([
                             'id' => 'SubCategoryField-' . $sub_category['_id'],
-                            'action' => $baseUrl . '/category/update-sub-category',
+                            'action' => 'javascript:updateSubCategory( \'SubCategoryField-'.$sub_category['_id'].'\', event)',//$baseUrl . '/category/update-sub-category',
                             'enableAjaxValidation' => true,
                             'validateOnBlur' => false,
                             'validationUrl' => Yii::$app->urlManager->createUrl("category/sub-category-validation"),
@@ -250,8 +250,8 @@ $baseUrl = BaseUrl::base();
                     </div>
                     <div class ="col-lg-1 col-md-1 col-sm-2 col-xs-4">
                         <div class ="add-add-btn">
-                            <a href="javascript:;" onclick="$('#SubCategoryField-<?= $sub_category['_id'] ?>').submit()" >Save</a>
-                            <!--<?/= Html::submitButton('Save', ['class' => 'btn']) ?>-->
+                            <!--<a href="javascript:;" onclick="$('#SubCategoryField-<?= $sub_category['_id'] ?>').submit()" >Save</a>-->
+                            <?= Html::submitButton('Save', ['class' => 'btn']) ?>
                         </div>
                     </div>
                     <div class ="col-lg-1 col-md-1 col-sm-1 col-xs-4 tm" >
@@ -267,7 +267,7 @@ $baseUrl = BaseUrl::base();
             $sub_categories_model->name = null;
             $form = ActiveForm::begin([
                         'id' => 'SubCategoryForm',
-                        'action' => $baseUrl . '/category/add-sub-category',
+                        'action' => 'javascript:addSubCategory(event)',//$baseUrl . '/category/add-sub-category',
                         'enableAjaxValidation' => true,
                         'validateOnBlur' => true,
                         'validationUrl' => Yii::$app->urlManager->createUrl("category/sub-category-validation"),
