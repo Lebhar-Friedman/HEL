@@ -336,7 +336,7 @@ class GlobalFunction {
         return $location_to_return;
     }
 
-    public function deleteDuplicateLocations($locations) {
+    public static function deleteDuplicateLocations($locations) {
 //        $epsilon = 0.0000001;
         $locations_to_return = array();
         foreach ($locations as $location) {

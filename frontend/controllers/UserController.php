@@ -55,7 +55,7 @@ class UserController extends Controller {
             $eventIds[] = $e['event_id'];
         }
         $events = Event::findAll(['_id' => $eventIds]);
-
+        $events_with_store = array();
         foreach ($events as $event) {
             $company = Company::findOne(['name' => $event->company]);
             if (count($company) > 0 && !empty($company->logo)) {

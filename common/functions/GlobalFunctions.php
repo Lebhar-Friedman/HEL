@@ -1,7 +1,8 @@
 <?php
 
 namespace common\functions;
-
+use common\models\Categories;
+use common\models\SubCategories;
 use common\models\Company;
 use Yii;
 use yii\helpers\BaseUrl;
@@ -18,37 +19,46 @@ class GlobalFunctions {
     }
 
     public static function getCategories() {
-        $categories = array(
-            array('value' => 1, 'text' => 'Diabetes Care'),
-            array('value' => 2, 'text' => 'Heart Health'),
-            array('value' => 3, 'text' => 'Immunization/Vaccination'),
-            array('value' => 4, 'text' => 'Lung Care'),
-            array('value' => 5, 'text' => 'Wellness'),
-            array('value' => 6, 'text' => 'Women\'s Health'),
-            array('value' => 7, 'text' => 'Senior Care'),
-            array('value' => 8, 'text' => 'Mental Health'),
-        );
+        $categories = array();
+//        $categories = array(
+//            array('value' => 1, 'text' => 'Diabetes Care'),
+//            array('value' => 2, 'text' => 'Heart Health'),
+//            array('value' => 3, 'text' => 'Immunization/Vaccination'),
+//            array('value' => 4, 'text' => 'Lung Care'),
+//            array('value' => 5, 'text' => 'Wellness'),
+//            array('value' => 6, 'text' => 'Women\'s Health'),
+//            array('value' => 7, 'text' => 'Senior Care'),
+//            array('value' => 8, 'text' => 'Mental Health'),
+//        );
+        $temp = Categories::CategoryList();
+        
+        foreach ($temp as $key => $cat) {
+            $categories[] = array('value' => $key, 'text' => $cat->name);
+        }
+//        var_dump($categories);die;
         return $categories;
     }
 
     public static function getSubcategories() {
         $sub_categories = array();
-        $temp = array(
-            'Blood Glucose', 'Cholesterol', 'Flu',
-            'A1C', 'HDL', 'Hepatitis', 'Diabetes II', 'Blood Pressure', 'HPV', 'Body Fat', 'LDL',
-            'Meningitis', 'Triglycerides', 'MMR', 'Risk Ratio', 'Pneumonia', 'Body Fat', 'Shingles',
-            'Full lipid panel', 'TD', 'TDAP', 'Chickenpox/Varicella', 'Senior Immunizations',
-            'Asthma', 'Nutrition', 'Osteoporosis', 'COPD Beauty	Women\'s Health',
-            'Smoking cessation', 'Vision', 'Lung Health', 'Hearing', 'Smoking cessation', 'Sun Care',
-            'Weight', 'Dental', 'Allergies', 'Foot care', 'Headaches', 'Kids', 'Chiropractic', 'Skin Care',
-            'Body fat/Weight', 'Osteoporosis', 'Alzheimer\'s', 'Healthy Aging', 'Anxiety', 'Alzheimer\'s', 'Bipolar',
-            'Memory Screening', 'Depression', 'Senior Immunizations', 'Psychosis', 'Hearing', 'PTSD', 'Work Health',
-            'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
-        );
-
+//        $temp = array(
+//            'Blood Glucose', 'Cholesterol', 'Flu',
+//            'A1C', 'HDL', 'Hepatitis', 'Diabetes II', 'Blood Pressure', 'HPV', 'Body Fat', 'LDL',
+//            'Meningitis', 'Triglycerides', 'MMR', 'Risk Ratio', 'Pneumonia', 'Body Fat', 'Shingles',
+//            'Full lipid panel', 'TD', 'TDAP', 'Chickenpox/Varicella', 'Senior Immunizations',
+//            'Asthma', 'Nutrition', 'Osteoporosis', 'COPD Beauty	Women\'s Health',
+//            'Smoking cessation', 'Vision', 'Lung Health', 'Hearing', 'Smoking cessation', 'Sun Care',
+//            'Weight', 'Dental', 'Allergies', 'Foot care', 'Headaches', 'Kids', 'Chiropractic', 'Skin Care',
+//            'Body fat/Weight', 'Osteoporosis', 'Alzheimer\'s', 'Healthy Aging', 'Anxiety', 'Alzheimer\'s', 'Bipolar',
+//            'Memory Screening', 'Depression', 'Senior Immunizations', 'Psychosis', 'Hearing', 'PTSD', 'Work Health',
+//            'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
+//        );
+        $temp = SubCategories::SubCategoryList();
+        
         foreach ($temp as $key => $sub_cat) {
-            $sub_categories[] = array('value' => $key, 'text' => $sub_cat);
+            $sub_categories[] = array('value' => $key, 'text' => $sub_cat->name);
         }
+        
         return $sub_categories;
     }
 
