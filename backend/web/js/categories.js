@@ -1,134 +1,4 @@
 $(document).ready(function () {
-    $('#SubCategoryForm').on('beforeSubmit', function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        $("#loader-sub-category").show();
-        $("#overlay-sub-category").show();
-        var form = $(this);
-        var data = new FormData($('#SubCategoryForm')[0]);
-//        console.log(data);
-        $.ajax({
-            url: form.attr('action'),
-            type: 'post',
-            data: data,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function (r) {
-                console.log(r);
-                if (r.msgType === 'SUC') {
-                    $(document).on('pjax:complete', function () {
-                        $("#loader-sub-category").hide();
-                        $("#overlay-sub-category").hide();
-                    });
-                    $.pjax.reload({
-                        url: baseUrl + 'category',
-                        container: '#page-content',
-                        replace: false,
-                        type: 'get',
-//                    data: form_data,
-                        timeout: 30000,
-                        push: true
-                    });
-                    
-//                    $('#SubCategoryForm')[0].reset();
-//                    window.location.href = baseUrl + 'category/add-sub-category';
-                } else {
-                    toastr.error(r.msg);
-//                    $('#success-msg').show();
-//                    $('#loading').hide();
-//                    document.location.reload(true);
-
-                }
-            },
-            error: function ()
-            {
-                console.log('internal server error');
-            }
-        });
-        return false;
-    });
-    $('#CategoryForm').on('beforeSubmit', function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        $("#loader-sub-category").show();
-        $("#overlay-sub-category").show();
-        
-//        $("#loader-category").show();
-//        $("#overlay-category").show();
-        var form = $(this);
-        var data = new FormData($('#CategoryForm')[0]);
-        $.ajax({
-            url: form.attr('action'),
-            type: 'post',
-            data: data,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function (r) {
-                console.log(r);
-                if (r.msgType === 'SUC') {
-                    $(document).on('pjax:complete', function () {
-                        $("#loader-sub-category").hide();
-                        $("#overlay-sub-category").hide();
-                    });
-                    $.pjax.reload({
-                        url: baseUrl + 'category',
-                        container: '#page-content',
-                        replace: false,
-                        type: 'get',
-                        timeout: 30000,
-                        push: true
-                    });
-                } else {
-                    toastr.error(r.msg);
-                }
-            },
-            error: function ()
-            {
-                console.log('internal server error');
-            }
-        });
-        return false;
-    });
-});
-//function updateSubCategory(subCategoryID, e) {
-$("form[id*='SubCategoryField']").on('beforeSubmit', function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    var form = $(this);
-    //console.log(this);
-    var data = new FormData($(this)[0]);
-    $.ajax({
-        url: form.attr('action'),
-        type: 'post',
-        data: data,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (r2) {
-            if (r2.msgType === 'SUC') {
-                toastr.success(r2.msg);
-                $.pjax.reload({
-                    url: baseUrl + 'category',
-                    container: '#page-content',
-                    replace: false,
-                    type: 'get',
-                    timeout: 30000,
-                    push: true
-                });
-            } else {
-                toastr.success(r2.msg);
-            }
-        },
-        error: function (jqXHR, exception) {
-            console.log('Internal server error');
-        },
-        complete: function (r2) {
-            return false;
-        }
-    });
-    return false;
 });
 function deleteSubCategory(subcategoryID, element) {
     if (!confirm("Are you sure, you want to delete this sub-category?")) {
@@ -159,14 +29,13 @@ function deleteSubCategory(subcategoryID, element) {
                     push: true
                 });
 
-            } else if(r.msgType === 'INF'){
-                 $("#loader-sub-category").hide();
-                 $("#overlay-sub-category").hide();
+            } else if (r.msgType === 'INF') {
+                $("#loader-sub-category").hide();
+                $("#overlay-sub-category").hide();
                 toastr.info(r.msg);
-            }
-            else {
-                 $("#loader-sub-category").hide();
-                 $("#overlay-sub-category").hide();
+            } else {
+                $("#loader-sub-category").hide();
+                $("#overlay-sub-category").hide();
                 toastr.error(r.msg);
             }
         },
@@ -181,7 +50,7 @@ function addSubCategoryLink(categoryID, element) {
     sub_category = $(element).val();
     $("#loader-sub-category").show();
     $("#overlay-sub-category").show();
-        
+
 //    $("#loader-category").show();
 //    $("#overlay-category").show();
 
@@ -224,7 +93,7 @@ function deleteCategory(categoryID, element) {
     }
     $("#loader-sub-category").show();
     $("#overlay-sub-category").show();
-        
+
 //    $("#loader-category").show();
 //    $("#overlay-category").show();
 
@@ -261,50 +130,50 @@ function deleteCategory(categoryID, element) {
         }
     });
 }
-$("form[id*='CategoryField']").on('beforeSubmit', function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    var form = $(this);
-    //console.log(this);
-    var data = new FormData($(this)[0]);
-    $.ajax({
-        url: form.attr('action'),
-        type: 'post',
-        data: data,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (r2) {
-            if (r2.msgType === 'SUC') {
-                toastr.success(r2.msg);
-                $.pjax.reload({
-                    url: baseUrl + 'category',
-                    container: '#page-content',
-                    replace: false,
-                    type: 'get',
-                    timeout: 30000,
-                    push: true
-                });
-            } else {
-                toastr.success(r2.msg);
-            }
-        },
-        error: function (jqXHR, exception) {
-            console.log('Internal server error');
-        },
-        complete: function (r2) {
-            return false;
-        }
-    });
-    return false;
-});
+//$("form[id*='CategoryField']").on('beforeSubmit', function (e) {
+//    e.preventDefault();
+//    e.stopImmediatePropagation();
+//    var form = $(this);
+//    //console.log(this);
+//    var data = new FormData($(this)[0]);
+//    $.ajax({
+//        url: form.attr('action'),
+//        type: 'post',
+//        data: data,
+//        processData: false,
+//        contentType: false,
+//        dataType: "json",
+//        success: function (r2) {
+//            if (r2.msgType === 'SUC') {
+//                toastr.success(r2.msg);
+//                $.pjax.reload({
+//                    url: baseUrl + 'category',
+//                    container: '#page-content',
+//                    replace: false,
+//                    type: 'get',
+//                    timeout: 30000,
+//                    push: true
+//                });
+//            } else {
+//                toastr.success(r2.msg);
+//            }
+//        },
+//        error: function (jqXHR, exception) {
+//            console.log('Internal server error');
+//        },
+//        complete: function (r2) {
+//            return false;
+//        }
+//    });
+//    return false;
+//});
 function deleteSubCategoryLink(category, subCategory, element) {
     if (!confirm("Are you sure, you want to delete this link of sub-category?")) {
         return false;
     }
     $("#loader-sub-category").show();
     $("#overlay-sub-category").show();
-        
+
 //    $("#loader-category").show();
 //    $("#overlay-category").show();
     $.ajax({
@@ -339,4 +208,125 @@ function deleteSubCategoryLink(category, subCategory, element) {
             toastr.error('Internal server error');
         }
     });
+}
+
+function addSubCategory(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    $("#loader-sub-category").show();
+    $("#overlay-sub-category").show();
+    var form = $(this);
+    var data = new FormData($('#SubCategoryForm')[0]);
+    $.ajax({
+        url: baseUrl + 'category/add-sub-category', //form.attr('action'),
+        type: 'post',
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (r) {
+            console.log(r);
+            if (r.msgType === 'SUC') {
+                $(document).on('pjax:complete', function () {
+                    $("#loader-sub-category").hide();
+                    $("#overlay-sub-category").hide();
+                });
+                $.pjax.reload({
+                    url: baseUrl + 'category',
+                    container: '#page-content',
+                    replace: false,
+                    type: 'get',
+//                    data: form_data,
+                    timeout: 30000,
+                    push: true
+                });
+            } else {
+                toastr.error(r.msg);
+            }
+        },
+        error: function ()
+        {
+            console.log('internal server error');
+        }
+    });
+    return false;
+}
+
+function updateSubCategory(id, event) {
+//$("form[id*='SubCategoryField']").on('beforeSubmit', function (e) {
+    var form = $('#' + id);//$(e.target).closest('form');
+//    console.log(form);
+//    alert(form.attr('id'));
+    var data = new FormData(form[0]);
+    $.ajax({
+        url: baseUrl + 'category/update-sub-category', //form.attr('action'),
+        type: 'post',
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (r2) {
+            if (r2.msgType === 'SUC') {
+                toastr.success(r2.msg);
+                $.pjax.reload({
+                    url: baseUrl + 'category',
+                    container: '#page-content',
+                    replace: false,
+                    type: 'get',
+                    timeout: 30000,
+                    push: true
+                });
+            } else {
+                toastr.success(r2.msg);
+            }
+        },
+        error: function (jqXHR, exception) {
+            console.log('Internal server error');
+        },
+        complete: function (r2) {
+            return false;
+        }
+    });
+    return false;
+}
+
+function addCategory(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    $("#loader-sub-category").show();
+    $("#overlay-sub-category").show();
+    var form = $(this);
+    var data = new FormData($('#CategoryForm')[0]);
+    $.ajax({
+        url: baseUrl + 'category/add-category', //form.attr('action'),
+        type: 'post',
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (r) {
+            console.log(r);
+            if (r.msgType === 'SUC') {
+                $(document).on('pjax:complete', function () {
+                    $("#loader-sub-category").hide();
+                    $("#overlay-sub-category").hide();
+                });
+                $.pjax.reload({
+                    url: baseUrl + 'category',
+                    container: '#page-content',
+                    replace: false,
+                    type: 'get',
+                    timeout: 30000,
+                    push: true
+                });
+            } else {
+                toastr.error(r.msg);
+            }
+        },
+        error: function ()
+        {
+            console.log('internal server error');
+        }
+    });
+    return false;
 }
