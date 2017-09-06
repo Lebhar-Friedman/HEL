@@ -88,6 +88,8 @@ class EventForm extends Model {
                             $latlong['lat']]
                     ];
                 }
+//                echo json_encode($latlong);
+//                die;
                 $location->attributes = $locationForm->attributes;
                 \common\models\Event::updateLocationInEvents($location);
                 //echo '<br>' . json_encode($location->attributes);
@@ -138,6 +140,10 @@ class EventForm extends Model {
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
                     $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
+                    $latlong = \components\GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
+                    if (!$latlong){
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow)];
+                    }
                     if (!$locationModel->validate()) {
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];

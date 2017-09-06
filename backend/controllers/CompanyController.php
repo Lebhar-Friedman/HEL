@@ -66,7 +66,7 @@ class CompanyController extends Controller {
             $model->load($request->post());
             if (isset($model->c_id) && $model->c_id !== NULL && $model->c_id !== '') { //update case
                 $company = Company::findOne($model->c_id);
-                $model->company_number = $company->company_number;
+//                $model->company_number = $company->company_number;
                 $image_name = $company->logo;
                 $model->logo = UploadedFile::getInstance($model, 'logo');
                 if (isset($model->logo) && $model->logo !== NULL && !empty($model->logo)) {
