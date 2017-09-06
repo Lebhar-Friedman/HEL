@@ -182,7 +182,7 @@ class CategoryController extends Controller {
         $request = Yii::$app->request;
         if ($request->isPost && $request->isAjax) {
             $model1->load($request->post());
-            //print_r($request->post());die;
+//            print_r($request->post());die;
             $model = Categories::findOne(['_id' => new \MongoDB\BSON\ObjectID($model1->category_id)]);
             $model->name = ucwords($model1->name);
 
