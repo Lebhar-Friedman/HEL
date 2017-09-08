@@ -13,5 +13,6 @@ if (ENV === "local") {
     define('MONGODB_DSN', 'mongodb://jemiuser:jemi#user@localhost:27017/health_events');
 } else {
     define('IMG_URL', 'http://13.59.81.62/HEL/backend/web/uploads/');
+    define('MONGODB_DSN', 'mongodb://jemiuser:jemi#user@localhost:27017/health_events');
 }
 ?>
