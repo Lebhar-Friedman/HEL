@@ -175,7 +175,7 @@ class EventForm extends Model {
     }
 
     public static function saveCsvEvent($eventModel, $location) {
-        $newEventDate = str_replace('-', '/', $eventModel->date_start);
+        $newEventDate = $eventModel->date_start;
         $newStartEventDate = date('Y-m-d', strtotime($newEventDate . ' + 1 days'));
         $newStartEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newStartEventDate) * 1000);
         $newEndEventDate = date('Y-m-d', strtotime($newEventDate . ' - 1 days'));
