@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $name string */
 /* @var $message string */
@@ -11,10 +10,17 @@ $this->title = $name;
 ?>
 <div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php
+    if (!YII_DEBUG && strstr($message, 'internal server error')) {
+        $this->title = "Health Events Live";
+        ?>    
+        <div class="alert text-center"><h2>Oops! Something went wrong.</h2></div>
+    <?php } else { ?>
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
+        <div class="alert alert-danger">
+            <?= nl2br(Html::encode($message)) ?>
+        </div>
+    <?php } ?>
 
 </div>
