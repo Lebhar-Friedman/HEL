@@ -63,7 +63,7 @@ class EventController extends Controller {
             } else {
                 Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
             }
-            $events_dist = $this->getEventsWithDistance($zip, $keywords, $filters, $longitude, $latitude, 50, 0, $sort);
+            $events_dist = $this->getEventsWithDistance($zip, $keywords, $filters, $longitude, $latitude, 20, 0, $sort);
             $total_events = sizeof($events_dist);
 
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => TRUE]);
@@ -101,7 +101,7 @@ class EventController extends Controller {
             $latitude = $longlat['lat'];
             $longitude = $longlat['long'];
 
-            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, 50, 0, $sort_by);
+            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, 20, 0, $sort_by);
             $total_events = sizeof($events_dist);
 
 
@@ -135,7 +135,7 @@ class EventController extends Controller {
         $z_lng_lat = $this->getZipLongLat();
         $longitude = $z_lng_lat['longitude'];
         $latitude = $z_lng_lat['latitude'];
-        $events = $this->getEventsWithDistance($zip_code, null, null, $longitude, $latitude, 50, 0);
+        $events = $this->getEventsWithDistance($zip_code, null, null, $longitude, $latitude, 20, 0);
         $total_events = sizeof($events);
 
         return $this->render('index', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude]);
@@ -366,7 +366,7 @@ class EventController extends Controller {
                 ],
             ],
             ['$match' => $matchParams],
-            ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+            ['$sort' => $sort === 'Soonest' ? ["date_start" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
