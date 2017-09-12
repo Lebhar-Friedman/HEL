@@ -149,11 +149,11 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-7">
                         <div class="col-lg-6" style="padding-left: 0px;">
-                            <?= $form->field($model, 'date_start', ['inputOptions' => ['class' => 'datepicker txetbx ', 'placeholder' => 'From']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_start', ['inputOptions' => ['readonly'=>true,'class' => 'datepicker txetbx ', 'placeholder' => 'From']])->textInput()->label(false); ?>
                         </div>
                         <span class="date_seperater">-</span>
                         <div class="col-lg-6 " style="padding-right: 0px;">        
-                            <?= $form->field($model, 'date_end', ['inputOptions' => ['class' => 'datepicker txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_end', ['inputOptions' => ['readonly'=>true,'class' => 'datepicker txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>

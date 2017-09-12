@@ -169,7 +169,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                     <?php
                     foreach ($event['sub_categories'] as $sub_category):
                         ?>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                             <i><?= $sub_category ?></i>
                         </div>
                         <?php

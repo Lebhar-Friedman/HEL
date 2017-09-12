@@ -1,6 +1,14 @@
-
+function loadPageVar (sVar) {
+  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
 $(document).ready(function () {
   
+  if (window.history && window.history.pushState) {
+    $(window).on('popstate', function() {
+      $("#zip_code").val(loadPageVar("zipcode"));
+    });
+
+  }
     $('.filters-multi-chosen-selected').chosen().change(function (event) {
         selectedFilters(event);
     });
