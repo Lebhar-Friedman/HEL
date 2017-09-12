@@ -30,10 +30,10 @@ class GlobalFunction {
             '11' => 'Nov.',
             '12' => 'Dec.'];
     }
-    
-    public static function getAbbreviatedMonth($month_number){
-        foreach( GlobalFunction::getMonths() as $key => $value){
-            if($key == $month_number){
+
+    public static function getAbbreviatedMonth($month_number) {
+        foreach (GlobalFunction::getMonths() as $key => $value) {
+            if ($key == $month_number) {
                 return $value;
             }
         }
@@ -218,13 +218,20 @@ class GlobalFunction {
         $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . rawurlencode($anAddress);
         $curl = curl_init();
+        curl_setopt($curl, CURLOPT_TIMEOUT, 25000);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $json = curl_exec($curl);
-        curl_close($curl); //echo $anAddress.'<br>'.$json;
-        $mapData = json_decode($json);
-        if ($mapData && $mapData->status == 'OK') {
-            return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
+        for ($i = 0; $i < 3; $i++) {
+            $json = curl_exec($curl);
+            curl_close($curl); //echo $anAddress.'<br>'.$json;
+            $mapData = json_decode($json);
+            if ($mapData && $mapData->status == "UNKNOWN_ERROR") {
+                continue;
+            } elseif ($mapData && $mapData->status == 'OK') {
+                return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
+            } else {
+                return FALSE;
+            }
         }
         return FALSE;
     }
@@ -285,11 +292,10 @@ class GlobalFunction {
     }
 
     public static function printableDate($date_event) {
-        
+
         $date_arr = explode(' ', GlobalFunction::getDate('m d', $date_event));
         $month = GlobalFunction::getAbbreviatedMonth($date_arr[0]);
         return $month . ' ' . $date_arr[1];
-        
     }
 
     public static function distanceBetweenPoints($lat1, $lon1, $lat2, $lon2) {
