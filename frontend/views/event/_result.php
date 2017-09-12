@@ -116,20 +116,22 @@ $events_with_nearest_locations = array();
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-                <span>Services offered for <?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?>:</span>
-                <div class="clearfix">
-                    <?php foreach ($event['sub_categories'] as $sub_category) { ?>
-                        <div class="table-cust">
-                            <i><?= $sub_category ?></i>
-                        </div>
-                    <?php } ?>
-                </div>
+               
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
                     <div class="text"><?= sizeof($locations_near) ?> <?= sizeof($locations_near) > 1 ? "Locations" : "Location" ?></div>
                     <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                 </div>
+                <span style="padding-right: 0px !important;">Services offered for <?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?>:</span>
+                <div class="clearfix row">
+                    <?php foreach ($event['sub_categories'] as $sub_category) { ?>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <i><?= $sub_category ?></i>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
+             
         </a>
         <?php $event['locations'] = $locations_near; $events_with_nearest_locations[] = $event; ?>
         <?php $temp_events[] = ['_id' => (string) $event['_id'], 'locations' => $event['locations'], 'title' => $event['title']]; ?>
