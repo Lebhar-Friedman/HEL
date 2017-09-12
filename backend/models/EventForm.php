@@ -141,7 +141,7 @@ class EventForm extends Model {
                     $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
                     $latlong = \components\GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
-                    if (!$latlong){
+                    if (!$latlong) {
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow)];
                     }
                     if (!$locationModel->validate()) {
@@ -175,7 +175,8 @@ class EventForm extends Model {
     }
 
     public static function saveCsvEvent($eventModel, $location) {
-        $newEventDate = $eventModel->date_start;
+        $newEventDate = str_replace('-', '/', $eventModel->date_start);
+        $newEventDate = date('m/d/Y', strtotime($newEventDate));
         $newStartEventDate = date('Y-m-d', strtotime($newEventDate . ' + 1 days'));
         $newStartEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newStartEventDate) * 1000);
         $newEndEventDate = date('Y-m-d', strtotime($newEventDate . ' - 1 days'));
@@ -211,7 +212,7 @@ class EventForm extends Model {
             } else {
                 $event = new \common\models\Event();
                 $event->locations = [$location->attributes];
-                $eventModel->date_start = $eventModel->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($eventModel->date_start) * 1000);
+                $eventModel->date_start = $eventModel->date_end = $newEventDate;
             }
             $event->attributes = $eventModel->attributes;
             $event->save();
