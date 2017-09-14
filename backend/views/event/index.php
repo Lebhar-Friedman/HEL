@@ -41,7 +41,7 @@ $this->title = 'Events';
                             echo $_GET['eventTo'];
                         }
                         ?>"></div>
-                    <div class="cntl-table-td-con-type "><?=$_GET['eventCompany']?>
+                    <div class="cntl-table-td-con-type ">
                         <select name="eventCompany">
                             <option value="-1" selected="selected">Company</option>
                             <?php foreach ($companies as $company) { ?>
