@@ -134,6 +134,7 @@ class EventForm extends Model {
                     }
                     $locationModel->attributes = $locationAttributes;
                     $locationModel->company = $locationModel->company; //ucfirst($locationModel->company);
+                    $locationModel->zip = sprintf("%05d", $locationModel->zip);
                     $eventModel->attributes = $eventAttributes;
                     $eventModel->categories = explode(',', $eventModel->categories);
                     $eventModel->categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->categories);
