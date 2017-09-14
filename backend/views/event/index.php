@@ -41,12 +41,12 @@ $this->title = 'Events';
                             echo $_GET['eventTo'];
                         }
                         ?>"></div>
-                    <div class="cntl-table-td-con-type ">
+                    <div class="cntl-table-td-con-type "><?=$_GET['eventCompany']?>
                         <select name="eventCompany">
                             <option value="-1" selected="selected">Company</option>
                             <?php foreach ($companies as $company) { ?>
                                 <option value='<?= $company['company_number'] ?>' <?php
-                                if (isset($_GET['eventTerm']) && $_GET['eventCompany'] === $company['company_number']) {
+                                if (isset($_GET['eventCompany']) && $_GET['eventCompany'] === $company['company_number']) {
                                     echo "selected";
                                 }
                                 ?>><?= $company['name'] ?></option>

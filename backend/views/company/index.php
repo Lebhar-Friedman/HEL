@@ -49,8 +49,8 @@ use yii\widgets\LinkPager;
                         <div class="tc0 col-company-no"><?= $company['company_number'] ?></div>
                         <div class="tc1"><img src="<?= $logo_url ?>" alt=""  width="60px" /></div>
                         <div class="tc2"><?= $company['name'] ?></div>
-                        <div class="tc2-2"><?= $company['t_events'] ?></div>
-                        <div class="tc3"><?= $company['t_locations'] ?>
+                        <div class="tc2-2"><a href="<?= BaseUrl::base().'/event?eventCompany='.$company['company_number'] ?>"><?= $company['t_events'] ?></a></div>
+                        <div class="tc3"><a href="<?= BaseUrl::base().'/location?company='.$company['company_number'] ?>"><?= $company['t_locations'] ?></a>
                             <!--<img src="<?= Url::to('@web/images/caution.png') ?>" alt="" />-->
                         </div>
                         <div class="tc4">
