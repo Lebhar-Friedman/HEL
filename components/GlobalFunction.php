@@ -216,7 +216,7 @@ class GlobalFunction {
 
     public static function getLongLat($location) {
         $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?key='.GOOGLE_API_KEY.'&address=' . rawurlencode($anAddress);
+        $url = GOOGLE_API_URL.'&address=' . rawurlencode($anAddress);
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_TIMEOUT, 25000);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -237,7 +237,7 @@ class GlobalFunction {
     }
 
     public static function getLongLatFromZip($zip) {
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?key='.GOOGLE_API_KEY.'&address=' . $zip;
+        $url = GOOGLE_API_URL.'&address=' . $zip;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -251,7 +251,7 @@ class GlobalFunction {
     }
 
     public static function getZipFromLongLat($long, $lat) {
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?key='.GOOGLE_API_KEY.'&latlng=' . $lat . ',' . $long;
+        $url = GOOGLE_API_URL.'&latlng=' . $lat . ',' . $long;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
