@@ -1,7 +1,7 @@
 <?php
 
 include 'environment.php';
-
+define('GOOGLE_API_KEY', 'AIzaSyAhILqlWgDpnH2vFACIMHSATo2-EYd-WRY');
 if (ENV === "local") {
     define('IMG_URL', 'http://localhost/HEL/backend/web/uploads/');
     define('MONGODB_DSN', 'mongodb://localhost:27017/health_events');

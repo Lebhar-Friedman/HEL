@@ -49,7 +49,8 @@ return [
             'bundles' => [
                 'dosamigos\google\maps\MapAsset' => [
                     'options' => [
-                        'key' => 'AIzaSyC9m6ZyxIkBWWbr9Iztnn-XTW-yZO4Zp7c',
+//                        'key' => 'AIzaSyC9m6ZyxIkBWWbr9Iztnn-XTW-yZO4Zp7c', //AIzaSyDnMgUFBWXPTu5dYrrSTHTh10JWV9u8Rd8
+                        'key' => GOOGLE_API_KEY, 
                         'libraries' => 'places',
                         'v' => '3.exp',
                         'sensor' => 'false'
