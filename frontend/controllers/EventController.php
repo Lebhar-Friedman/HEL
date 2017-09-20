@@ -185,7 +185,7 @@ class EventController extends Controller {
         $session = Yii::$app->session;
 
         if (urldecode(Yii::$app->request->get('alert_added')) == 1 && $session->has('zipcode')) {
-            
+
             $alert_added = urldecode(Yii::$app->request->get('alert_added'));
             $keywords = $session->get('keywords');
             $filters = $session->get('filters');
@@ -200,7 +200,7 @@ class EventController extends Controller {
                 $city = $session->get('city');
                 $state = $session->get('state');
                 $store_number = $session->get('store_number');
-                
+
                 $session->remove('event_id');
                 $session->remove('street');
                 $session->remove('city');
@@ -212,15 +212,13 @@ class EventController extends Controller {
                 } else {
                     Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
                 }
-                
-            }else{
-                
+            } else {
+
                 if (Alerts::addAlerts(['zip_code' => $zip, 'keywords' => $keywords, 'filters' => $filters, 'sort' => $sort, 'type' => $type])) {
                     Yii::$app->getSession()->setFlash('success', 'Alert has been added');
                 } else {
                     Yii::$app->getSession()->setFlash('error', 'Unable to save this alert');
                 }
-                
             }
 
             $session->remove('zipcode');
@@ -228,7 +226,6 @@ class EventController extends Controller {
             $session->remove('filters');
             $session->remove('sort');
             $session->remove('type');
-
         }
         $error = '';
         if ($eid !== '') {
@@ -351,7 +348,7 @@ class EventController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-            [
+                [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -365,8 +362,8 @@ class EventController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-            ['$match' => $matchParams],
-            ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+                ['$match' => $matchParams],
+                ['$sort' => $sort === 'Soonest' ? ["start_id" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
