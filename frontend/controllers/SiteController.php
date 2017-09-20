@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\functions\GlobalFunctions;
 use common\models\LoginForm;
 use common\models\User;
 use components\GlobalFunction;
@@ -141,8 +142,7 @@ class SiteController extends Controller {
         }
 
         $this->layout = 'home-layout';
-        $zip_code = $this->getZipCodeFromCookies();
-        $zip_code = $zip_code === '' ? $this->getZipCodeFromIp() : $zip_code;
+        $zip_code = GlobalFunctions::getLatestSearchedZip();
 
         return $this->render('index', ['zip_code' => $zip_code]);
     }

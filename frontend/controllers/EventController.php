@@ -21,12 +21,7 @@ use yii\web\Cookie;
 class EventController extends Controller {
 
     public function actionIndex() {
-
-//        echo "<pre>";
-//        print_r(GlobalFunction::getDates());exit;
-//        $long = 74.329376;
-//        $lat = 31.582045;
-//        echo GlobalFunction::getZipFromLongLat($long, $lat);
+        
         $longitude;
         $latitude;
         $session = Yii::$app->session;
@@ -70,27 +65,17 @@ class EventController extends Controller {
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
-//
-//            $ip = Yii::$app->request->userIP;
-////            $ip = '103.7.78.171';
-//            $latitude = Yii::$app->ip2location->getLatitude($ip);
-//            $longitude = Yii::$app->ip2location->getLongitude($ip);
-//            $zip_code = Yii::$app->ip2location->getZIPCode($ip);
-//
-//            $cookies = Yii::$app->request->cookies;
-//
-//            if (($cookie_long = $cookies->get('longitude')) !== null && ($cookie_lat = $cookies->get('latitude'))) {
-//                $longitude = $cookie_long->value;
-//                $latitude = $cookie_lat->value;
-//                $temp_zip = GlobalFunction::getZipFromLongLat($longitude, $latitude);
-//                $zip_code = $temp_zip ? $temp_zip : $zip_code;
-//            }
+            
             $events_dist = array();
             $keywords = Yii::$app->request->get('keywords');
             $filters = Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
-//            Yii::$app->getSession()->setFlash('error', 'Must enter zip code');
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => null, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => null, 'latitude' => null]);
+            $zip_code = GlobalFunctions::getLatestSearchedZip();
+            
+            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
+            
+            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longlat['long'], $longlat['lat'], 20, 0, $sort_by);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords'); //=== null ? array() : Yii::$app->request->get('keywords');
@@ -100,6 +85,7 @@ class EventController extends Controller {
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
             $longitude = $longlat['long'];
+            GlobalFunctions::saveLatestSearchedZip($zip_code);
 
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude, 20, 0, $sort_by);
             $total_events = sizeof($events_dist);

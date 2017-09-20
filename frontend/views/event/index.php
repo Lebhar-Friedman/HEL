@@ -66,7 +66,7 @@ $this->title = 'Health Events Live: Search Events';
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-5">
             <div class="search-result-content">
-                <div class="search-nav">
+                <div class="search-nav" >
                     <form action="<?= BaseUrl::base() ?>/event" method="post" id="events_search_form">
 
                         <!--<input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />-->

@@ -8,9 +8,11 @@ class HomeAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'toast/toastr.css',
         'css/home-layout.css',
     ];
     public $js = [
+        'toast/toastr.js',
         'js/site.js',
     ];
     public $depends = [

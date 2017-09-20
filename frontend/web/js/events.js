@@ -122,6 +122,7 @@ $(document).ready(function () {
             $('#event_near').addClass('mobile-event-near');
         } else {
             $('#event_near').removeClass('mobile-event-near');
+            $('.search-result-content').css('display','block');
         }
     }
     checkWidth();

@@ -1,11 +1,13 @@
 <?php
 
 namespace common\functions;
+
 use common\models\Categories;
-use common\models\SubCategories;
 use common\models\Company;
+use common\models\SubCategories;
 use Yii;
 use yii\helpers\BaseUrl;
+use yii\web\Cookie;
 use const IMG_URL;
 
 class GlobalFunctions {
@@ -125,6 +127,15 @@ class GlobalFunctions {
 
     public static function processString($v) {
         return ucwords(strtolower(trim($v)));
+    }
+    
+    public static function saveLatestSearchedZip($zip){
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie(['name' => 'zip_code', 'value' => $zip]));
+    }
+    public static function getLatestSearchedZip(){
+        $cookies = Yii::$app->request->cookies;
+        return $cookies->getValue('zip_code','');
     }
 
 }
