@@ -130,43 +130,46 @@ function deleteCategory(categoryID, element) {
         }
     });
 }
+function updateCategory(id, event) {
 //$("form[id*='CategoryField']").on('beforeSubmit', function (e) {
 //    e.preventDefault();
 //    e.stopImmediatePropagation();
-//    var form = $(this);
-//    //console.log(this);
-//    var data = new FormData($(this)[0]);
-//    $.ajax({
-//        url: form.attr('action'),
-//        type: 'post',
-//        data: data,
-//        processData: false,
-//        contentType: false,
-//        dataType: "json",
-//        success: function (r2) {
-//            if (r2.msgType === 'SUC') {
-//                toastr.success(r2.msg);
-//                $.pjax.reload({
-//                    url: baseUrl + 'category',
-//                    container: '#page-content',
-//                    replace: false,
-//                    type: 'get',
-//                    timeout: 30000,
-//                    push: true
-//                });
-//            } else {
-//                toastr.success(r2.msg);
-//            }
-//        },
-//        error: function (jqXHR, exception) {
-//            console.log('Internal server error');
-//        },
-//        complete: function (r2) {
-//            return false;
-//        }
-//    });
-//    return false;
+    var form = $('#' + id);
+    //console.log(this);
+    var data = new FormData(form[0]);
+//    console.log(data);
+    $.ajax({
+        url: baseUrl + 'category/update-category', //form.attr('action'),
+        type: 'post',
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (r2) {
+            if (r2.msgType === 'SUC') {
+                toastr.success(r2.msg);
+                $.pjax.reload({
+                    url: baseUrl + 'category',
+                    container: '#page-content',
+                    replace: false,
+                    type: 'get',
+                    timeout: 30000,
+                    push: true
+                });
+            } else {
+                toastr.success(r2.msg);
+            }
+        },
+        error: function (jqXHR, exception) {
+            console.log('Internal server error');
+        },
+        complete: function (r2) {
+            return false;
+        }
+    });
+    return false;
 //});
+}
 function deleteSubCategoryLink(category, subCategory, element) {
     if (!confirm("Are you sure, you want to delete this link of sub-category?")) {
         return false;

@@ -83,7 +83,7 @@ if (count($events) > 0) {
                                 <label for="<?= $event['_id'] ?>"><span></span></label>
                             </div>
                             <div class="table-title-h1"><?= $event->title ?></div>
-                            <div class="table-date-h1"><?= GlobalFunction::getDate('d/m/Y', $event->date_start) . ' - ' . GlobalFunction::getDate('d/m/Y', $event->date_end) ?></div>
+                            <div class="table-date-h1"><?= GlobalFunction::getDate('m/d/Y', $event->date_start) . ' - ' . GlobalFunction::getDate('m/d/Y', $event->date_end) ?></div>
                             <div class="table-time-h1"><?= $event->time_start . ' - ' . $event->time_end ?></div>
                             <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>

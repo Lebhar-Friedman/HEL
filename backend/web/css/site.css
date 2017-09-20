@@ -1705,7 +1705,8 @@ input[type="checkbox"]:checked + label span {
 }
 .table-date-h1-c
 {
-
+    overflow: hidden;
+    height: inherit;
     width:29.5%;
     float:left;
     border-right:1px solid #c5c5c5;

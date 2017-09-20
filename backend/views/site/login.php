@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h1>Login</h1>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-            <?= $form->field($model, 'username', ['inputOptions' => ['placeholder' => 'Username OR Email', 'class' => 'login-txtbx emailinputbg', 'label' => '',]])->label(false); ?>
+            <?= $form->field($model, 'username', ['inputOptions' => ['placeholder' => 'Email', 'class' => 'login-txtbx emailinputbg', 'label' => '',]])->label(false); ?>
             <!--<?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>-->
 
             <?= $form->field($model, 'password', ['inputOptions' => ['placeholder' => 'Password', 'class' => 'login-txtbx lock-img',]])->passwordInput()->label(false) ?>

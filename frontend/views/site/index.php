@@ -25,7 +25,7 @@ $this->title = 'Health Events Live: Home';
         <div class="logo-container">
             <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" /></a></a>
             <div class="logo-text">
-                Find free and lost-cost health <br> services at trusted stores near you.
+                Find free and low-cost health <br> services at trusted stores near you.
             </div>
             <div class="search-content">
                 <input type="text" class="search-txtbx" placeholder="Enter your zip code"  onkeyup="checkEnterPress(event, this.value)" id="zipcode_input"/>

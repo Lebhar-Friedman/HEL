@@ -1,6 +1,25 @@
-
+function getQueryParams(name) {
+    qs = location.search;
+    var params = [];
+    var tokens;
+    var re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs))
+    {
+        if (decodeURIComponent(tokens[1]) == name)
+            params.push(decodeURIComponent(tokens[2]).replace('+', ' '));
+    }
+    return params;
+}
 $(document).ready(function () {
-  
+
+    if (window.history && window.history.pushState) {
+        $(window).on('popstate', function () {
+            $("#zip_code").val(getQueryParams("zipcode"));
+            $("#sortBy").val(getQueryParams("sortBy"));
+            $("#keywords").val(getQueryParams("keywords[]")).trigger("chosen:updated");
+        });
+
+    }
     $('.filters-multi-chosen-selected').chosen().change(function (event) {
         selectedFilters(event);
     });
@@ -34,15 +53,15 @@ $(document).ready(function () {
 
 $(document).on("submit", "#events_search_form", function (e) {
     e.preventDefault();
-    $('#zip_code').css("border","1px solid #dbdbdb");
+    $('#zip_code').css("border", "1px solid #dbdbdb");
     var zipCode = $('#zip_code').val().length;
-    if(zipCode === 0){
-        $('#zip_code').css('border-color','red');
+    if (zipCode === 0) {
+        $('#zip_code').css('border-color', 'red');
 //        $('.error').remove();
 //        $('#zip_code').parents('div').append("<p  class='error'>Must enter zip code</p>");
         return false;
     }
-    
+
     var values = $(this).serialize();
     searchResult(values);
 });
@@ -139,7 +158,7 @@ function openModal(event) {
 function moreEvents(form_data) {
     var zipCode = $('#zip_code').val();
     var url = baseUrl + 'event/more-events';
-    $('#more_events').load(url,form_data);
+    $('#more_events').load(url, form_data);
 }
 
 function event_detail(event_id) {
@@ -199,8 +218,8 @@ function addAlertSession() {
     });
 }
 
-function alertZipCodeSession(){
-    
+function alertZipCodeSession() {
+
     var email = $("#email").val();
     var zip_code = $("#c_zipcode").val();
     var street = $("#c_street").val();
@@ -208,11 +227,11 @@ function alertZipCodeSession(){
     var state = $("#c_state").val();
     var event_id = $("#event_id").val();
     var store_number = $("#store_number").val();
-    
+
     $.ajax({
         url: baseUrl + '/site/add-alerts-session',
         type: 'post',
-        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state,store_number: store_number},
+        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number},
         success: function (r) {
             location.href = baseUrl + "site/signup?email=" + email;
         },
@@ -222,7 +241,7 @@ function alertZipCodeSession(){
     });
 }
 
-function alertZipCode(){
+function alertZipCode() {
     var zip_code = $("#c_zipcode").val();
     var street = $("#c_street").val();
     var city = $("#c_city").val();
@@ -232,7 +251,7 @@ function alertZipCode(){
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',
-        data: {zipcode:zip_code,only_zip:'y',event_id:event_id, street: street, city: city, state: state,store_number: store_number},
+        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number},
         dataType: 'JSON',
         success: function (r) {
             if (r.msgType === "SUC") {
@@ -266,5 +285,5 @@ function alertZipCode(){
 
 $(document).ready(function () {
     var form_data = $("#events_search_form").serialize();
-    moreEvents(form_data) ;
+    moreEvents(form_data);
 });

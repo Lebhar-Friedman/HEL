@@ -23,11 +23,30 @@ $baseUrl = Yii::$app->request->baseUrl;
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel='stylesheet' type='text/css'>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <?php if (ENV === "live") { ?>
+            <script>
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-5563291-51', 'auto');
+                ga('send', 'pageview');
+
+            </script>
+        <?php } ?>
     </head>
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                              ?>';
+            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                        ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
@@ -42,10 +61,10 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
 
                             <div class="result-logo hide-on-mobile">
-                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" class="img-responsive"/></a>
+                                <a href="<?= $baseUrl ?>/"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo.png" alt="" class="img-responsive"/></a>
                             </div>
                             <div class="display-on-mobile mobile-logo">
-                                <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo3.png" alt="" class="img-responsive"/></a>
+                                <a href="<?= $baseUrl ?>/"><img src="<?= Yii::$app->getHomeUrl(); ?>images/logo3.png" alt="" class="img-responsive"/></a>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-7  col-xs-6">
