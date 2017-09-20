@@ -363,7 +363,7 @@ class EventController extends Controller {
                 ],
             ],
                 ['$match' => $matchParams],
-                ['$sort' => $sort === 'Soonest' ? ["start_id" => 1, "distance" => 1] : ["distance" => 1]]
+                ['$sort' => $sort === 'Soonest' ? ["start_date" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
