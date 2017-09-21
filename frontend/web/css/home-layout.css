@@ -70,6 +70,16 @@ header{
     background-size:cover;
     padding:41px 0px 108px 0px;
 }
+@media screen and (max-width : 768px){
+    header{
+        background-position-x: 0%;
+    }
+} 
+@media screen and (max-width : 480px){
+    header{
+        background-position-x: 21%;
+    }
+}
 .signUp-btns{
     display:block;
     padding-bottom:45px;

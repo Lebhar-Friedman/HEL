@@ -1027,7 +1027,7 @@ h2 {
     .mobile-logo{display:block; padding-top:25px;}
     /*.mobile-logo img{max-width:210px;}*/
     .result-sign-up{padding:12px 0px 10px 0px;}
-    .result-sign-up a{padding:12px 1px;font-size:12px;}
+    .result-sign-up a{padding:12px 18px;}
     .search-result-content{
         display:none;
         width:386px;
