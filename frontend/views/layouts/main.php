@@ -12,7 +12,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
 
-JsonLDHelper::render(); 
+//JsonLDHelper::render(); 
 //JsonLDHelper::registerScripts();
 AppAsset::register($this);
 $baseUrl = Yii::$app->request->baseUrl;
