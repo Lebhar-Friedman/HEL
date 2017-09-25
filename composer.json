@@ -21,7 +21,9 @@
         "yiisoft/yii2-mongodb": "^2.1",
         "yiisoft/yii2-authclient": "^2.1",
         "ip2location/ip2location-php": "8.*",
-        "2amigos/yii2-google-maps-library": "*"
+        "2amigos/yii2-google-maps-library": "*",
+        "nirvana-msu/yii2-jsonld-helper": "1.0.*@dev",
+        "simialbi/yii2-schema-org": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

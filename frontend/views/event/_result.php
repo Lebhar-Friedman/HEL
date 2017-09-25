@@ -2,12 +2,10 @@
 
 use common\functions\GlobalFunctions;
 use components\GlobalFunction;
-use dosamigos\google\maps\Event;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
-use yii\bootstrap\Alert;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
@@ -162,7 +160,8 @@ $events_with_nearest_locations = array();
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-
+//                    echo "<pre>";
+//                    print_r($coord);
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],

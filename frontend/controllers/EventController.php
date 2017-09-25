@@ -163,7 +163,6 @@ class EventController extends Controller {
     }
 
     public function actionDetail() {
-
         $query = Event::find();
         $eid = urldecode(Yii::$app->request->get('eid'));
         $store_number = urldecode(Yii::$app->request->get('store'));

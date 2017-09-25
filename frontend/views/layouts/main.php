@@ -1,14 +1,19 @@
 <?php
-/* @var $this \yii\web\View */
+/* @var $this View */
 /* @var $content string */
+//use nirvana\jsonld\JsonLDHelper;
 
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
+
 use common\widgets\Alert;
+use frontend\assets\AppAsset;
+use simialbi\yii2\schemaorg\helpers\JsonLDHelper;
+use yii\helpers\BaseUrl;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\View;
 
+JsonLDHelper::render(); 
+//JsonLDHelper::registerScripts();
 AppAsset::register($this);
 $baseUrl = Yii::$app->request->baseUrl;
 ?>
@@ -46,10 +51,10 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <?php $this->beginBody() ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo \yii\helpers\Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                        ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                        ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
-            var image_url = '<?= \yii\helpers\BaseUrl::base() ?>/images/';
+            var image_url = '<?= BaseUrl::base() ?>/images/';
         </script>        
 
 
@@ -77,7 +82,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                                 <?php } else {
                                     ?>
                                     <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Log out</a>
-                                    <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                                    <a href="<?= Url::to(['user/profile']) ?>">My Account</a>
                                     <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
                                 <?php } ?>
                             </div>
@@ -113,14 +118,14 @@ $baseUrl = Yii::$app->request->baseUrl;
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <div class="footer-logo">
-                            <a href="<?= \yii\helpers\Url::to(['/']); ?>"><img src="<?= yii\helpers\BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
+                            <a href="<?= Url::to(['/']); ?>"><img src="<?= BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="footer-right-side">
-                            <!--<a href="<?= yii\helpers\BaseUrl::base() . '/event/directory' ?>">Directory</a> &bull;-->     
+                            <!--<a href="<?= BaseUrl::base() . '/event/directory' ?>">Directory</a> &bull;-->     
                             <!--<a href="#">Sitemap</a>-->  
-                            <a href="<?= yii\helpers\BaseUrl::base() . '/site/terms-privacy' ?>">Terms & Privacy</a>
+                            <a href="<?= BaseUrl::base() . '/site/terms-privacy' ?>">Terms & Privacy</a>
                             <span></span>
                             © Health Events Live.  All rights reserved.
                         </div>

@@ -1,15 +1,17 @@
 <?php
 
 use common\functions\GlobalFunctions;
-use yii\helpers\BaseUrl;
-use yii\web\JqueryAsset;
 use components\GlobalFunction;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
+use yii\helpers\BaseUrl;
+use yii\helpers\Url;
+use yii\web\JqueryAsset;
+use function GuzzleHttp\json_encode;
 
-$this->registerMetaTag(['property' => 'og:url', 'content' => yii\helpers\Url::to(['event/detail', 'eid' => (string) $event['_id']])]);
+$this->registerMetaTag(['property' => 'og:url', 'content' => Url::to(['event/detail', 'eid' => (string) $event['_id']])]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
 $this->registerMetaTag(['property' => 'og:title', 'content' => $event['title']]);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $event['description']]);
@@ -25,6 +27,8 @@ $this->registerMetaTag(['property' => 'twitter:image', 'content' => GlobalFuncti
 $this->registerCssFile('@web/css/results.css');
 $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
+
+
 $this->title = $event['title'];
 if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = $coordinates['longitude'];
@@ -45,9 +49,43 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
     $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
 }
 ?>
+
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php $this->registerJsFile('@web/js/site.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]); ?>
+
+<script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "Event",
+    "name": "<?= $event['title'] ?>",
+    "startDate": "<?= GlobalFunction::getDate('Y-m-d',$event['date_start']) ?>T<?= date("H:i", strtotime($event['time_start'])) ?>:00",
+    "location": {
+    "@type": "Place",
+    "name": "<?= $event_location['street'] ?>, <?= $event_location['city'] ?>", 
+    "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "<?= $event_location['street'] ?>",
+    "addressLocality": "<?= $event_location['city'] ?>",
+    "postalCode": "<?= $event_location['zip'] ?>",
+    "addressRegion": "<?= $event_location['state'] ?>",
+    "addressCountry": "US"
+    }
+    },
+    "image": [
+    "<?= GlobalFunctions::getCompanyLogo($event_location['company']) ?>"
+    ],
+    "description": "<?= $event['description'] ?>",
+    "endDate": "<?= GlobalFunction::getDate('Y-m-d',$event['date_end']) ?>T<?= date("H:i", strtotime($event['time_end'])) ?>:00",
+    "offers": {
+    "@type": "Offer",
+    "url": "<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>",
+    "price": "<?= empty($event['price']) ? '0' : $event['price']; ?>",
+    "priceCurrency": "USD",
+    "availability": "http://schema.org/InStock"
+    }
+    }
+</script>
 <!-- 1. Include style -->
 <!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
 <style>
@@ -124,7 +162,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
                         ?>
-                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode?>, <?= $event_location['store_number'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode ?>, <?= $event_location['store_number'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
                     } else {
                         ?>
@@ -210,9 +248,9 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                    <i><?= $sub_category ?></i>
-                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                    <i><?= $sub_category ?></i>
+                                                                                                                                                                                                </div>
             <?php
         endforeach;
         ?>
@@ -296,7 +334,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                             $map->center = $map->getMarkersCenterCoordinates();
                             $map->zoom = $map->getMarkersFittingZoom();
                             echo $map->display();
-                        } 
+                        }
                         ?>
                     </div>
                 <?php } ?>
@@ -375,15 +413,15 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
                 </div>
             <?php } ?>
         </div>
-<!--        <div class="col-lg-offset-2 col-lg-3 col-md-4 col-sm-4">
-            <div class="cvs-text mobile-center">
-                <img src="<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>" alt="" />
-                <div class="find-out-text">
-                <img src="<?= $img_url ?>result-detail-img2.png" alt="" />
-                    <a href="<?= \yii\helpers\Url::to(['/provider', 'id' => $company['company_number']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
-                </div>
-            </div>
-        </div>-->
+        <!--        <div class="col-lg-offset-2 col-lg-3 col-md-4 col-sm-4">
+                    <div class="cvs-text mobile-center">
+                        <img src="<?= GlobalFunctions::getCompanyLogo($company['company_number']) ?>" alt="" />
+                        <div class="find-out-text">
+                        <img src="<?= $img_url ?>result-detail-img2.png" alt="" />
+                            <a href="<?= Url::to(['/provider', 'id' => $company['company_number']]); ?>">Find out more <br class="hide-on-mobile" />about <?= $company['name'] ?> <br class="hide-on-mobile" /></a>
+                        </div>
+                    </div>
+                </div>-->
     </div> 
 </div>
 
