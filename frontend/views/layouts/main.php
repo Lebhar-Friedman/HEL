@@ -6,7 +6,7 @@
 
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
-use simialbi\yii2\schemaorg\helpers\JsonLDHelper;
+//use simialbi\yii2\schemaorg\helpers\JsonLDHelper;
 use yii\helpers\BaseUrl;
 use yii\helpers\Html;
 use yii\helpers\Url;
