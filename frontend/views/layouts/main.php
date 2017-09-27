@@ -1,19 +1,14 @@
 <?php
 /* @var $this View */
 /* @var $content string */
-//use nirvana\jsonld\JsonLDHelper;
-
 
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
-//use simialbi\yii2\schemaorg\helpers\JsonLDHelper;
 use yii\helpers\BaseUrl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
 
-//JsonLDHelper::render(); 
-//JsonLDHelper::registerScripts();
 AppAsset::register($this);
 $baseUrl = Yii::$app->request->baseUrl;
 ?>

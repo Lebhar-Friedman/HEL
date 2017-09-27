@@ -31,12 +31,12 @@ class EventForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [['title', 'company', 'description'], 'required'],
+                [['title', 'company', 'description'], 'required'],
             // safe fields
             [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
-            ['company', 'validateCompany']
+                ['company', 'validateCompany']
         ];
     }
 
@@ -81,15 +81,13 @@ class EventForm extends Model {
                 if (count($location) == 0) {
                     $location = new \common\models\Location();
                 }
-                $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
-                if ($latlong) {
-                    $location->geometry = ['type' => 'Point',
-                        'coordinates' => [$latlong['long'],
-                            $latlong['lat']]
-                    ];
-                }
-//                echo json_encode($latlong);
-//                die;
+//                $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
+//                if ($latlong) {
+//                    $location->geometry = ['type' => 'Point',
+//                        'coordinates' => [$latlong['long'],
+//                            $latlong['lat']]
+//                    ];
+//                }
                 $location->attributes = $locationForm->attributes;
                 \common\models\Event::updateLocationInEvents($location);
                 //echo '<br>' . json_encode($location->attributes);
@@ -118,6 +116,9 @@ class EventForm extends Model {
             $models = [];
             while (!feof($file)) {
                 $rowNo++;
+                if($rowNo % 45 == 0){
+                    sleep(1);
+                }
                 $eventModel = new EventForm();
                 $locationModel = new LocationForm();
                 $dataRow = fgetcsv($file);
@@ -142,8 +143,15 @@ class EventForm extends Model {
                     $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
                     $latlong = \components\GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
-                    if (!$latlong) {
+                    if (isset($latlong['error'])) {
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> ' . $latlong['error'], 'row' => json_encode($dataRow)];
+                    } elseif (!$latlong) {
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow)];
+                    } else {
+                        $locationModel->geometry = ['type' => 'Point',
+                            'coordinates' => [$latlong['long'],
+                                $latlong['lat']]
+                        ];
                     }
                     if (!$locationModel->validate()) {
                         fclose($file);

@@ -77,6 +77,7 @@ class ImportController extends Controller {
      * @return array
      */
     public function actionUploadCsv() {
+        set_time_limit ( 30000 );
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
             ini_set("auto_detect_line_endings", true);
             $model = new \common\models\UploadForm();

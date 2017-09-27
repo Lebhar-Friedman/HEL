@@ -71,13 +71,6 @@ if (isset($ret_sort)) {
 if (isset($ret_filters)) {
     $filters = $ret_filters;
 }
-//if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
-//    $user_lng = $coordinates['longitude'];
-//    $user_lat = $coordinates['latitude'];
-//} else {
-//    $user_lng = $longitude;
-//    $user_lat = $latitude;
-//}
 $user_lng = $longitude;
 $user_lat = $latitude;
 $temp_events = array();

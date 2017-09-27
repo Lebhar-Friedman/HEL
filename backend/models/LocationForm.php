@@ -18,6 +18,7 @@ class LocationForm extends Model {
     public $zip;
     public $contact_name;
     public $phone;
+    public $geometry;
 
     /**
      * @inheritdoc
@@ -55,6 +56,7 @@ class LocationForm extends Model {
             'zip' => 'zip',
             'contact name' => 'contact_name',
             'store phone' => 'phone',
+            'geometry' => 'geometry',
         ];
     }
 
