@@ -70,6 +70,7 @@ class EventForm extends Model {
      */
     public static function saveCSV($csv) {
         self::$importedEvents = [];
+
         $validate = \backend\models\EventForm::validateCSV($csv);
 //        echo json_encode($validate);
         if ($validate['result']) {
@@ -116,7 +117,7 @@ class EventForm extends Model {
             $models = [];
             while (!feof($file)) {
                 $rowNo++;
-                if($rowNo % 45 == 0){
+                if ($rowNo % 45 == 0) {
                     sleep(1);
                 }
                 $eventModel = new EventForm();
@@ -170,6 +171,24 @@ class EventForm extends Model {
 
         fclose($file);
         return ['result' => TRUE, 'models' => $models];
+    }
+
+    public static function validateSingleRowOfCSV($headerRow, $dataRow) {
+        $eventAttributeMapArray = self::getCsvAttributeMapArray();
+        $locationAttributeMapArray = LocationForm::getCsvAttributeMapArray();
+        $locationAttributes = $eventAttributes = $result = [];
+        $eventModel = new EventForm();
+        $locationModel = new LocationForm();
+        
+        foreach ($headerRow as $key => $value) {
+            if (isset($eventAttributeMapArray[$value])) {
+                $eventAttributes[$eventAttributeMapArray[$value]] = trim($dataRow[$key]);
+            } elseif (isset($locationAttributeMapArray[$value])) {
+                $locationAttributes[$locationAttributeMapArray[$value]] = trim($dataRow[$key]);
+            } elseif (!empty($value)) {
+                return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1) . '</b> <br>'];
+            }
+        }
     }
 
     public static function mergeEventLocations($eventLocations, $newLocation) {
