@@ -12,7 +12,6 @@ $this->registerCssFile('@web/css/results.css', ['depends' => frontend\assets\App
 $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\AppAsset::className()]);
 
 
-$this->title = 'Health Events Live: Search Events';
 ?>
 <style>
     .chosen-choices{

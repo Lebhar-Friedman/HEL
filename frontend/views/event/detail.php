@@ -29,7 +29,6 @@ $this->registerCssFile('@web/css/chosen.min.css');
 $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
 
 
-$this->title = $event['title'];
 if ($coordinates = GlobalFunctions::getCookiesOfLngLat()) {
     $user_lng = $coordinates['longitude'];
     $user_lat = $coordinates['latitude'];
@@ -48,6 +47,24 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
     $zipcode = $event_location['zip'];
     $lat_lng = GlobalFunction::getLongLatFromZip($zipcode);
 }
+$number_of_categories_in_title = 0;
+$categories_in_title = '';
+foreach ($event['categories'] as $category) {
+    $number_of_categories_in_title += 1;
+    if ($number_of_categories_in_title > 2)
+        break;
+    $categories_in_title = $categories_in_title . '[' . $category . ']';
+}
+$number_of_sub_categories_in_meta = 0;
+$sub_categories_in_meta = '';
+foreach ($event['sub_categories'] as $sub_category) {
+    $number_of_sub_categories_in_meta += 1;
+    if ($number_of_sub_categories_in_meta > 5)
+        break;
+    $sub_categories_in_meta = $sub_categories_in_meta . '[' . $sub_category . ']';
+}
+$this->title = $categories_in_title . '[' . $company['name'] . ']' . '[' . $zipcode . ']';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Free and low-cost health services for ' . $sub_categories_in_meta . ' at [' . $company['name']. '],['. $event_location['street'] . '],['. $event_location['city'] . ']' ]);
 ?>
 
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -59,7 +76,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
     "@context": "http://schema.org",
     "@type": "Event",
     "name": "<?= $event['title'] ?>",
-    "startDate": "<?= GlobalFunction::getDate('Y-m-d',$event['date_start']) ?>T<?= date("H:i", strtotime($event['time_start'])) ?>:00",
+    "startDate": "<?= GlobalFunction::getDate('Y-m-d', $event['date_start']) ?>T<?= date("H:i", strtotime($event['time_start'])) ?>:00",
     "location": {
     "@type": "Place",
     "name": "<?= $event_location['street'] ?>, <?= $event_location['city'] ?>", 
@@ -76,7 +93,7 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
     "<?= GlobalFunctions::getCompanyLogo($event_location['company']) ?>"
     ],
     "description": "<?= $event['description'] ?>",
-    "endDate": "<?= GlobalFunction::getDate('Y-m-d',$event['date_end']) ?>T<?= date("H:i", strtotime($event['time_end'])) ?>:00",
+    "endDate": "<?= GlobalFunction::getDate('Y-m-d', $event['date_end']) ?>T<?= date("H:i", strtotime($event['time_end'])) ?>:00",
     "offers": {
     "@type": "Offer",
     "url": "<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>",
@@ -248,9 +265,9 @@ if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode'])
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                    <i><?= $sub_category ?></i>
-                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                <i><?= $sub_category ?></i>
+                                                                                                                                                                                                            </div>
             <?php
         endforeach;
         ?>

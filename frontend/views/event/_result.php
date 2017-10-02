@@ -9,8 +9,11 @@ use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
-?>
 
+ $this->title = 'Free Health Services near ZIP Code ['.$zip_code.'] | Health Events Live';
+ $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ['.$zip_code.']']); 
+ 
+ ?>
 <style>
     #overlay {
         position: fixed;
