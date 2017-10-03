@@ -117,9 +117,9 @@ class EventForm extends Model {
             $models = [];
             while (!feof($file)) {
                 $rowNo++;
-//                if ($rowNo % 45 == 0) {
+                if ($rowNo % 45 == 0) {echo json_encode([$rowNo]);
 //                    sleep(1);
-//                }
+                }
                 $eventModel = new EventForm();
                 $locationModel = new LocationForm();
                 $dataRow = fgetcsv($file);
