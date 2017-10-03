@@ -237,7 +237,6 @@ class GlobalFunction {
                 return ['error'=>$mapData->status];
             }
         }
-        print_r($json);
         return FALSE;
     }
 
