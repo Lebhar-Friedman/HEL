@@ -77,7 +77,7 @@ class ImportController extends Controller {
      * @return array
      */
     public function actionUploadCsv() {
-        set_time_limit ( 30000 );
+        set_time_limit(30000);
         ini_set('memory_limit', '-1');
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
             ini_set("auto_detect_line_endings", true);
@@ -87,6 +87,9 @@ class ImportController extends Controller {
             $model->file->name = Yii::$app->request->post('import_type') . '.' . $model->file->extension;
 
             if ($model->upload('uploads/import/')) {
+
+//                $this->respondOK(json_encode(['msgType' => 'SUC', 'msg' => 'Successfully uploaded. wait for import.']));
+                session_write_close();
                 if (Yii::$app->request->post('import_type') == 'company') {
                     $result = \backend\models\CompanyForm::saveCSV($model->file->name);
                     exit($result);
@@ -98,6 +101,45 @@ class ImportController extends Controller {
                 }
             }
         }
+    }
+    
+    public function respondOK($text = null) {
+        // check if fastcgi_finish_request is callable
+        if (is_callable('fastcgi_finish_request')) {
+            if ($text !== null) {
+                echo $text;
+            }
+            /*
+             * http://stackoverflow.com/a/38918192
+             * This works in Nginx but the next approach not
+             */
+            session_write_close();
+            fastcgi_finish_request();
+
+            return;
+        }
+
+        ignore_user_abort(true);
+
+        ob_start();
+
+        if ($text !== null) {
+            echo $text;
+        }
+
+        $serverProtocol = filter_input(INPUT_SERVER, 'SERVER_PROTOCOL', FILTER_SANITIZE_STRING);
+        header($serverProtocol . ' 200 OK');
+        // Disable compression (in case content length is compressed).
+        header('Content-Encoding: none');
+        header('Content-Length: ' . ob_get_length());
+
+        // Close the connection.
+        header('Connection: close');
+
+        ob_end_flush();
+        ob_flush();
+        flush();
+        sleep(5);
     }
 
 // end class
