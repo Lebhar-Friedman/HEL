@@ -77,13 +77,18 @@ function importcsv() {
     $('#file').html(filename);
     $('#file').removeClass('hidden');
     var formData = new FormData($('#fileform')[0]);
+    window.setInterval(function () {
+            keepServerAlive();
+        }, 5000);
     if (extension == 'csv') {
+        
         $.ajax({
             type: "POST",
             url: baseUrl + "import/upload-csv",
             data: formData,
             processData: false,
             contentType: false,
+            async:true,
             dataType: "json",
             success: function (data) {
                 if (data.msgType == 'SUC') {
@@ -113,10 +118,28 @@ function importcsv() {
     }
 
 }
-
 function gotoURL(address, toHide, loader) {
     $(toHide).addClass('hidden');
     $('#' + loader).removeClass('hidden');
     window.location.href = baseUrl + address;
+}
+
+function keepServerAlive() {
+    $.ajax({
+        url: baseUrl + "import/server-alive",
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.msgType == 'SUC') {
+                console.log('processing ..');
+            } else {
+                console.log(data.msg, 'ERR');
+            }
+        },
+        error: function (data) {
+            console.log('internal server error');
+        }
+    });
 }
 

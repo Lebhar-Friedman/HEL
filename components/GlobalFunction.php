@@ -216,7 +216,7 @@ class GlobalFunction {
 
     public static function getLongLat($location) {
         $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
-        $url = GOOGLE_API_URL.'&address=' . rawurlencode($anAddress);
+        $url = GOOGLE_API_URL . '&address=' . rawurlencode($anAddress);
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_TIMEOUT, 25000);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -224,24 +224,25 @@ class GlobalFunction {
         for ($i = 0; $i < 3; $i++) {
             $json = curl_exec($curl);
 //            curl_close($curl); //echo $anAddress.'<br>'.$json;
-            $mapData = json_decode($json);
-            if ($mapData && $mapData->status == "UNKNOWN_ERROR") {
-                continue;
-            } elseif ($mapData && $mapData->status == 'OK') {
-                return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
-            }else if ($mapData && $mapData->status == 'OVER_QUERY_LIMIT') {
-                sleep(1);
-                continue;
-            }
-            else {
-                return ['error'=>$mapData->status];
+            if ($json) {
+                $mapData = json_decode($json);
+                if ($mapData && $mapData->status == "UNKNOWN_ERROR") {
+                    continue;
+                } elseif ($mapData && $mapData->status == 'OK') {
+                    return ['lat' => $mapData->results[0]->geometry->location->lat, 'long' => $mapData->results[0]->geometry->location->lng];
+                } else if ($mapData && $mapData->status == 'OVER_QUERY_LIMIT') {
+                    sleep(1);
+                    continue;
+                } else {
+                    return ['error' => $mapData->status];
+                }
             }
         }
         return FALSE;
     }
 
     public static function getLongLatFromZip($zip) {
-        $url = GOOGLE_API_URL.'&address=' . $zip;
+        $url = GOOGLE_API_URL . '&address=' . $zip;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -255,7 +256,7 @@ class GlobalFunction {
     }
 
     public static function getZipFromLongLat($long, $lat) {
-        $url = GOOGLE_API_URL.'&latlng=' . $lat . ',' . $long;
+        $url = GOOGLE_API_URL . '&latlng=' . $lat . ',' . $long;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
