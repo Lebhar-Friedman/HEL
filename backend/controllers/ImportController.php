@@ -98,8 +98,8 @@ class ImportController extends Controller {
             $model->file->name = Yii::$app->request->post('import_type') . '.' . $model->file->extension;
 
             if ($model->upload('uploads/import/')) {
-//                fastcgi_finish_request();
                 session_write_close();
+                $this->respondOK(json_encode(['msgType' => 'VALID', 'msg' => 'File is in process']));
 
                 if (Yii::$app->request->post('import_type') == 'company') {
                     $result = CompanyForm::saveCSV($model->file->name);
@@ -113,7 +113,7 @@ class ImportController extends Controller {
             }
         }
     }
-    
+
     public function respondOK($text = null) {
         // check if fastcgi_finish_request is callable
         if (is_callable('fastcgi_finish_request')) {
@@ -154,7 +154,32 @@ class ImportController extends Controller {
     }
 
     public function actionServerAlive() {
-        exit(json_encode(['msgType' => 'SUC', 'msg' => 'Alive']));
+        $import_status = Values::getValueByName('import_status');
+        if ($import_status !== NULL) {
+            if ($import_status->value_type == 'suc_csv_uploaded') {
+                $import_status_clone = $import_status;
+                $import_status->delete();
+                exit(json_encode(['msgType' => 'SUC', 'msg' => $import_status_clone->status]));
+            } else if ($import_status->value_type == 'error_on_saving') {
+                $import_status_clone = $import_status;
+                $import_status->delete();
+                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status]));
+            } else if ($import_status->value_type == 'error_on_validation') {
+                $import_status_clone = $import_status;
+                $import_status->delete();
+                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row '. $import_status_clone->value]));
+            } else {
+                $completed = $import_status->value;
+                $total = $import_status->total_rows;
+                $percentage =  round(($completed / (float) $total ) * 100, 2);
+                if($percentage == 100){
+                    $percentage =99;
+                }
+                exit(json_encode(['msgType' => 'PROC', 'msg' => $percentage]));
+            }
+        } else {
+            exit(json_encode(['msgType' => 'NOT_EXIST', 'msg' => 'No file is pending']));
+        }
     }
 
 // end class

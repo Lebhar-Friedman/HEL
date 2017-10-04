@@ -77,18 +77,18 @@ function importcsv() {
     $('#file').html(filename);
     $('#file').removeClass('hidden');
     var formData = new FormData($('#fileform')[0]);
-    window.setInterval(function () {
-            keepServerAlive();
-        }, 5000);
+    window.checkFile = setInterval(function () {
+        keepServerAlive();
+    }, 5000);
     if (extension == 'csv') {
-        
+
         $.ajax({
             type: "POST",
             url: baseUrl + "import/upload-csv",
             data: formData,
             processData: false,
             contentType: false,
-            async:true,
+            async: true,
             dataType: "json",
             success: function (data) {
                 if (data.msgType == 'SUC') {
@@ -96,6 +96,8 @@ function importcsv() {
                     setTimeout(function () {
                         location.reload();
                     }, 2000);
+                } else if (data.msgType == 'VALID') {
+                    Msg(data.msg);
                 } else {
                     Msg(data.msg, 'ERR');
                 }
@@ -105,10 +107,10 @@ function importcsv() {
             },
             complete: function (jqXHR, textStatus) {
                 console.log(textStatus);
-                $('#upload_btn').removeClass('hidden');
-                $('#loader').addClass('hidden');
-                $('#import').val('');
-                $('#filename').val('file.csv');
+//                $('#upload_btn').removeClass('hidden');
+//                $('#loader').addClass('hidden');
+//                $('#import').val('');
+//                $('#filename').val('file.csv');
             }
         });
     } else {
@@ -132,9 +134,44 @@ function keepServerAlive() {
         dataType: "json",
         success: function (data) {
             if (data.msgType == 'SUC') {
-                console.log('processing ..');
-            } else {
-                console.log(data.msg, 'ERR');
+                Msg(data.msg);
+                console.log(data.msg);
+                
+                $('#progress_bar').remove();
+                $progress_bar = '<div class="upload" id="progress_bar" ><div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">100%</div><div>';
+                $('#csv_comp_content').append($progress_bar);
+                $('#progress_bar').remove();
+                clearInterval(window.checkFile);
+                $alert = '<div class="alert alert-success alert-dismissable upload">' +
+                        '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                        '<strong>Success! </strong> '+data.msg+
+                        '</div>';
+                $('#csv_comp_content').append($alert);
+                setTimeout(function () {
+                    location.reload();
+                }, 2000);
+            } else if (data.msgType == 'ERR') {
+                Msg(data.msg, 'ERR');
+                console.log(data.msg);
+                $('#upload_btn').removeClass('hidden');
+                $('#loader').addClass('hidden');
+                $('#import').val('');
+                $('#filename').val('file.csv');
+                clearInterval(window.checkFile);
+                $alert = '<div class="alert alert-danger alert-dismissable upload">' +
+                        '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                        '<strong>ERROR!</strong> '+data.msg+
+                        '</div>';
+                $('#progress_bar').remove();
+                $('#csv_comp_content').append($alert);
+                
+            } else if (data.msgType == 'NOT_EXIST') {
+                console.log(data.msg);
+            } else if (data.msgType == 'PROC') {
+                $('#progress_bar').remove();
+                $progress_bar = '<div class="upload" id="progress_bar" ><div class="progress-bar" role="progressbar" aria-valuenow="' + data.msg + '" aria-valuemin="0" aria-valuemax="100" style="width:' + data.msg + '%">' + data.msg + '%</div><div>';
+                $('#csv_comp_content').append($progress_bar);
+                console.log($progress_bar)
             }
         },
         error: function (data) {

@@ -9,7 +9,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkds
 //print_r($events);
 ?>
 <div class="col-lg-12">
-    <div class="csv-comp-content">
+    <div class="csv-comp-content" id="csv_comp_content">
         <div class="upload clearfix">
             <div >
                 <h3>Upload CSV</h3>

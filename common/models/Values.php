@@ -34,6 +34,9 @@ class Values extends ActiveRecord {
             'name',
             'value_type',
             'value',
+            'status',
+            'total_rows',
+            'validated_rows',
             'created_at',
             'updated_at',
         ];
@@ -48,7 +51,7 @@ class Values extends ActiveRecord {
             'value_id',
             'name',
             'value_type',
-            'value',], 'safe'],
+            'value','status'], 'safe'],
         ];
     }
 
@@ -79,7 +82,7 @@ class Values extends ActiveRecord {
         }
     }
 
-    public static function saveValue($name, $type, $value) {
+    public static function saveValue($name, $type, $value,$status = 'active',$total_rows = 0) {
         $model = Values::findOne(['name' => $name]);
         if (count($model) > 0) {
             ;
@@ -89,6 +92,10 @@ class Values extends ActiveRecord {
         }
         $model->value_type = $type;
         $model->value = $value;
+        $model->status = $status;
+        if($model->name == 'import_status' && $model->status == 'start_validating'){
+            $model->total_rows = $total_rows;
+        }
 
         if ($model->save()) {
             return TRUE;
@@ -98,7 +105,7 @@ class Values extends ActiveRecord {
     }
 
     public static function getValueByName($name) {
-        $value = Values::find(['name' => $name])->one();
+        $value = Values::findOne(['name' => $name]);
         return $value;
     }
 

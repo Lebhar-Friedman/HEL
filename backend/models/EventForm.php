@@ -2,8 +2,13 @@
 
 namespace backend\models;
 
+use common\models\Company;
+use common\models\Event;
+use common\models\Location;
+use common\models\Values;
+use components\GlobalFunction;
 use yii\base\Model;
-use common\functions\GlobalFunctions;
+use function GuzzleHttp\json_encode;
 
 /**
  * Event form
@@ -42,7 +47,7 @@ class EventForm extends Model {
 
     public function validateCompany($attribute, $params) {
         $this->company = trim($this->company);
-        $company = \common\models\Company::find()->andWhere(['company_number' => $this->company])->one();        //print_r($company);die;
+        $company = Company::find()->andWhere(['company_number' => $this->company])->one();        //print_r($company);die;
         if (count($company) > 0) {
             ;
         } else {
@@ -71,16 +76,16 @@ class EventForm extends Model {
     public static function saveCSV($csv) {
         self::$importedEvents = [];
 
-        $validate = \backend\models\EventForm::validateCSV($csv);
+        $validate = EventForm::validateCSV($csv);
 //        echo json_encode($validate);
         if ($validate['result']) {
             $models = $validate['models'];
 
             foreach ($models as $model) {
                 $locationForm = $model->location_models;
-                $location = \common\models\Location::findOne(['store_number' => $locationForm->store_number]);
+                $location = Location::findOne(['store_number' => $locationForm->store_number]);
                 if (count($location) == 0) {
-                    $location = new \common\models\Location();
+                    $location = new Location();
                 }
 //                $latlong = \components\GlobalFunction::getLongLat($locationForm); //exit(print_r($latlong));
 //                if ($latlong) {
@@ -90,14 +95,16 @@ class EventForm extends Model {
 //                    ];
 //                }
                 $location->attributes = $locationForm->attributes;
-                \common\models\Event::updateLocationInEvents($location);
+                Event::updateLocationInEvents($location);
                 //echo '<br>' . json_encode($location->attributes);
                 $location->save();
                 self::saveCsvEvent($model, $location);
             }
-            \common\models\Values::saveValue('import', 'events', self::$importedEvents);
+            Values::saveValue('import', 'events', self::$importedEvents);
+            Values::saveValue('import_status', 'suc_csv_uploaded', count($models) + 1 ,'All ' . count($models) . ' Events were imported successfully.');
             return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . count($models) . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents' => self::$importedEvents]);
         } else {
+            Values::saveValue('import_status', 'error_on_saving', count($models) + 1 ,$validate['msg']);
             return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
         }
     }
@@ -111,10 +118,22 @@ class EventForm extends Model {
         $locationAttributeMapArray = LocationForm::getCsvAttributeMapArray();
         $locationAttributes = $eventAttributes = $result = [];
         $file = fopen("uploads/import/" . $csv, "r");
+
+        $total_rows = 0;
+        while (fgetcsv($file) !== false) {
+            ++$total_rows;
+        }
+
+        rewind($file);
         $headerRow = array_map('trim', array_map('strtolower', fgetcsv($file))); //fgetcsv($file);
         if (!empty($headerRow)) {
             $rowNo = 1;
             $models = [];
+            $value_obj = Values::getValueByName('import_status');
+            if ($value_obj == NULL) {
+                Values::saveValue('import_status', 'csv_importing', 0, 'start_validating', $total_rows);
+                $value_obj = Values::getValueByName('import_status');
+            }
             while (!feof($file)) {
                 $rowNo++;
 //                if ($rowNo % 45 == 0) {
@@ -131,6 +150,7 @@ class EventForm extends Model {
                             $locationAttributes[$locationAttributeMapArray[$value]] = trim($dataRow[$key]);
                         } elseif (!empty($value)) {
                             fclose($file);
+                            Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1));
                             return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1) . '</b> <br>'];
                         }
                     }
@@ -143,10 +163,12 @@ class EventForm extends Model {
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
                     $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
-                    $latlong = \components\GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
+                    $latlong = GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
                     if (isset($latlong['error'])) {
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> ' . $latlong['error'], 'row' => json_encode($dataRow)];
                     } elseif (!$latlong) {
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow)];
                     } else {
                         $locationModel->geometry = ['type' => 'Point',
@@ -155,16 +177,20 @@ class EventForm extends Model {
                         ];
                     }
                     if (!$locationModel->validate()) {
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Error on Location validation ' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
                         fclose($file);
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . \components\GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow)];
                     }
                     if (!$eventModel->validate()) {
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Error on Event validating' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
                         fclose($file);
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . \components\GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow)];
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow)];
                     }
 
                     $eventModel->location_models = $locationModel;
+
                     array_push($models, $eventModel);
+                    Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
                 }
             }
         }
@@ -179,7 +205,7 @@ class EventForm extends Model {
         $locationAttributes = $eventAttributes = $result = [];
         $eventModel = new EventForm();
         $locationModel = new LocationForm();
-        
+
         foreach ($headerRow as $key => $value) {
             if (isset($eventAttributeMapArray[$value])) {
                 $eventAttributes[$eventAttributeMapArray[$value]] = trim($dataRow[$key]);
@@ -211,7 +237,7 @@ class EventForm extends Model {
         $newEndEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEndEventDate) * 1000);
 
         $newEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEventDate) * 1000);
-        $events = \common\models\Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
+        $events = Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
                         ->andWhere(['OR', ['date_start' => $newStartEventDate], ['date_end' => $newEndEventDate]])->all();
 
         if (count($events) > 0) {
@@ -229,7 +255,7 @@ class EventForm extends Model {
                 array_push(self::$importedEvents, $event->_id);
             }
         } else {
-            $event = \common\models\Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
+            $event = Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
                     ->andWhere(['<=', 'date_start', $newEventDate])
                     ->andWhere(['>=', 'date_end', $newEventDate])
                     ->one();
@@ -238,7 +264,7 @@ class EventForm extends Model {
                 $eventModel->date_start = $event->date_start;
                 $eventModel->date_end = $event->date_end;
             } else {
-                $event = new \common\models\Event();
+                $event = new Event();
                 $event->locations = [$location->attributes];
                 $eventModel->date_start = $eventModel->date_end = $newEventDate;
             }
@@ -250,7 +276,7 @@ class EventForm extends Model {
 
     public function saveEvent() {
         if ($this->validate()) {
-            $event = \common\models\Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
+            $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
             $event->attributes = $this->attributes;
             $event->date_start = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_start) * 1000);
             $event->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_end) * 1000);
