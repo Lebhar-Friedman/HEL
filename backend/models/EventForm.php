@@ -115,7 +115,7 @@ class EventForm extends Model {
             }
         } catch (Exception $e) {
 //            echo 'Message: ' . $e->getMessage();
-            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(),$validate['row_number']);
+            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
         }
     }
 
