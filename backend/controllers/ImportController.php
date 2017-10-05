@@ -183,7 +183,7 @@ class ImportController extends Controller {
                 $import_status_clone = $import_status;
                 $import_status->delete();
                 exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row ' . $import_status_clone->value]));
-            }else if ($import_status->value_type == 'exception') {
+            }else if ($import_status->value_type == 'exception') { 
                 $import_status_clone = $import_status;
                 $import_status->delete();
                 Values::saveValue('exception', 'import_exception', $import_status_clone->value, $import_status_clone->status, $import_status_clone->total_rows);

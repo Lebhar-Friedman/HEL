@@ -64,8 +64,8 @@ foreach ($event['sub_categories'] as $sub_category) {
     $sub_categories_in_meta = $sub_categories_in_meta . htmlentities($sub_category) . ", ";
 }
 $sub_categories_in_meta = rtrim(trim($sub_categories_in_meta), ',');
-//$this->title = $categories_in_title  . $company['name'] . ', ' . $zipcode;
-$this->title = $sub_categories_in_meta;
+$this->title = $categories_in_title  . $company['name'] . ', ' . $zipcode;
+//$this->title = $sub_categories_in_meta;
 $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost health services for " . $sub_categories_in_meta . " at " . $company['name'] . ", " . $event_location['street'] . ", " . $event_location['city'] ]);
 ?>
 
