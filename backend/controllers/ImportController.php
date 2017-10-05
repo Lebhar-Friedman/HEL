@@ -9,6 +9,7 @@ use common\models\Event;
 use common\models\Location;
 use common\models\UploadForm;
 use common\models\Values;
+use Exception;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -16,6 +17,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use function GuzzleHttp\json_encode;
+//use function Symfony\Component\Debug\header;
 
 /**
  * Import controller
@@ -88,7 +90,7 @@ class ImportController extends Controller {
      */
     public function actionUploadCsv() {
         set_time_limit(30000);
-        ini_set('memory_limit', '-1');
+        ini_set('memory_limit', '3096M');
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
             ini_set("auto_detect_line_endings", true);
@@ -105,8 +107,14 @@ class ImportController extends Controller {
                     $result = CompanyForm::saveCSV($model->file->name);
                     exit($result);
                 } elseif (Yii::$app->request->post('import_type') == 'event') {
-                    $result = EventForm::saveCSV($model->file->name);
-                    exit($result);
+                    try {
+                        $result = EventForm::saveCSV($model->file->name);
+                        exit($result);
+                    }//catch exception
+                    catch (Exception $e) {
+//                        echo 'Message: ' . $e->getMessage();
+                        Values::saveValue('import_status', 'exception', 0 ,$e->getMessage());
+                    }
                 } else {
                     exit(json_encode(['msgType' => 'ERR', 'msg' => 'Invalid import type']));
                 }
@@ -167,13 +175,20 @@ class ImportController extends Controller {
             } else if ($import_status->value_type == 'error_on_validation') {
                 $import_status_clone = $import_status;
                 $import_status->delete();
-                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row '. $import_status_clone->value]));
-            } else {
+                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row ' . $import_status_clone->value]));
+            }else if ($import_status->value_type == 'exception') {
+                $import_status_clone = $import_status;
+                $import_status->delete();
+                Values::saveValue('exception', 'import_exception', $import_status_clone->value, $import_status_clone->status, $import_status_clone->total_rows);
+                $msg =  $import_status_clone->status . ' at line '. $import_status_clone->value;
+                exit(json_encode(['msgType' => 'EXC', 'msg' => $msg]));
+            }
+            else {
                 $completed = $import_status->value;
                 $total = $import_status->total_rows;
-                $percentage =  round(($completed / (float) $total ) * 100, 2);
-                if($percentage == 100){
-                    $percentage =99;
+                $percentage = round(($completed / (float) $total ) * 100, 2);
+                if ($percentage == 100) {
+                    $percentage = 99;
                 }
                 exit(json_encode(['msgType' => 'PROC', 'msg' => $percentage]));
             }

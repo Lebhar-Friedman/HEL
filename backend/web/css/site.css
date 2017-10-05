@@ -1053,6 +1053,7 @@ a.del-btn:hover { background-position:0 -38px;
 .upload-btn{
     display:block;
     padding:36px 0 0px 0px;
+    margin-bottom: 15px;
 }
 .upload-btn a{
     display:block;
