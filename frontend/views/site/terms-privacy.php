@@ -1,4 +1,7 @@
-<?php $this->title = 'Health Events Live: Privacy'; ?>
+<?php 
+$this->title = 'Health Events Live: Terms and Privacy'; 
+$this->registerMetaTag(['name' => 'description', 'content' => 'Health events | Terms and Privacy']);
+?>
 <div class="container privacy-container">
     <h1>Privacy</h1>
     <p>

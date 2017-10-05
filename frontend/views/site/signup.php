@@ -14,6 +14,8 @@ $get_email = $model->email;
 if (isset($_GET['email'])) {
     $get_email = $_GET['email'];
 }
+$this->title = 'Signup | Health Events Live';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Health events signup']);
 ?>
 <style>
     body{
