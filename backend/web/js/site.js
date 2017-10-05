@@ -172,7 +172,13 @@ function keepServerAlive() {
                 $('#csv_comp_content').append($alert);
 
             } else if (data.msgType == 'NOT_EXIST') {
+                clearInterval(window.import_status);
                 console.log(data.msg);
+                $('#upload_btn').removeClass('hidden');
+                $('#loader').addClass('hidden');
+                $('#import').val('');
+                $('#filename').val('file.csv');
+                $('#progress_bar').remove();
             } else if (data.msgType == 'PROC') {
                 $('#upload_btn').addClass('hidden');
                 $('#loader').removeClass('hidden');
