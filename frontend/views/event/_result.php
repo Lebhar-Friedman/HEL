@@ -10,8 +10,8 @@ use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
 
- $this->title = 'Free Health Services near ZIP Code ['.$zip_code.'] | Health Events Live';
- $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ['.$zip_code.']']); 
+ $this->title = 'Free Health Services near ZIP Code '.$zip_code.' | Health Events Live';
+ $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code '.$zip_code]); 
  
  ?>
 <style>
@@ -178,7 +178,7 @@ $events_with_nearest_locations = array();
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom() + 1;
+//            $map->zoom = $map->getMarkersFittingZoom() + 1;
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);
@@ -188,7 +188,7 @@ $events_with_nearest_locations = array();
     <?php } ?>
     <?php if (sizeof($events) < 1) { ?>
         <div class="text-center email-content padding-top-50" style="padding-top:50px">
-            <h1 >Sorry, there are no health events currently scheduled for this selection.</h1>
+            <h1 >There are no nearby matching health events. Sign up below to be alerted when we add some!</h1>
         </div>
     <?php } ?>
     <div class="email-content">

@@ -53,7 +53,7 @@ foreach ($event['categories'] as $category) {
     $number_of_categories_in_title += 1;
     if ($number_of_categories_in_title > 2)
         break;
-    $categories_in_title = $categories_in_title . '[' . $category . ']';
+    $categories_in_title = $categories_in_title  . $category . ', ';
 }
 $number_of_sub_categories_in_meta = 0;
 $sub_categories_in_meta = '';
@@ -61,10 +61,12 @@ foreach ($event['sub_categories'] as $sub_category) {
     $number_of_sub_categories_in_meta += 1;
     if ($number_of_sub_categories_in_meta > 5)
         break;
-    $sub_categories_in_meta = $sub_categories_in_meta . '[' . $sub_category . ']';
+    $sub_categories_in_meta = $sub_categories_in_meta . htmlentities($sub_category) . ", ";
 }
-$this->title = $categories_in_title . '[' . $company['name'] . ']' . '[' . $zipcode . ']';
-$this->registerMetaTag(['name' => 'description', 'content' => 'Free and low-cost health services for ' . $sub_categories_in_meta . ' at [' . $company['name']. '],['. $event_location['street'] . '],['. $event_location['city'] . ']' ]);
+$sub_categories_in_meta = rtrim(trim($sub_categories_in_meta), ',');
+//$this->title = $categories_in_title  . $company['name'] . ', ' . $zipcode;
+$this->title = $sub_categories_in_meta;
+$this->registerMetaTag(["name" => "description", "content" => "Free and low-cost health services for " . $sub_categories_in_meta . " at " . $company['name'] . ", " . $event_location['street'] . ", " . $event_location['city'] ]);
 ?>
 
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -162,7 +164,6 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'Free and low-cost
     })();
 </script>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
-
 <div class="container">
     <div class="row">
         <!--            <div class="col-lg-1 col-md-2 col-sm-2">
@@ -265,9 +266,9 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'Free and low-cost
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                                <i><?= $sub_category ?></i>
-                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                    <i><?= $sub_category ?></i>
+                                                                                                                                                                                                                </div>
             <?php
         endforeach;
         ?>
