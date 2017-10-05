@@ -139,11 +139,11 @@ class EventForm extends Model {
         $headerRow = array_map('trim', array_map('strtolower', fgetcsv($file))); //fgetcsv($file);
         if (!empty($headerRow)) {
             $models = [];
-            $value_obj = Values::getValueByName('import_status');
-            if ($value_obj == NULL) {
+//            $value_obj = Values::getValueByName('import_status');
+//            if ($value_obj == NULL) {
                 Values::saveValue('import_status', 'csv_importing', 0, 'start_validating', $total_rows);
                 $value_obj = Values::getValueByName('import_status');
-            }
+//            }
             while (!feof($file)) {
                 $rowNo++;
 //                if ($rowNo % 45 == 0) {

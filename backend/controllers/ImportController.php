@@ -67,6 +67,7 @@ class ImportController extends Controller {
     public function actionIndex() {
         $companies = $events = [];
         $lastImported = Values::getValueByName('import');
+        $are_events_importing = FALSE;
         if (count($lastImported) > 0) {
             if (!empty($lastImported) && $lastImported->value_type == 'events') {
                 $events = Event::findAll(['_id' => $lastImported->value]);
@@ -80,7 +81,10 @@ class ImportController extends Controller {
                 }
             }
         }
-        return $this->render('index', ['events' => $events, 'companies' => $companies]);
+        if($import_status = Values::getValueByName('import_status') !== null ){
+            $are_events_importing = TRUE;
+        }
+        return $this->render('index', ['events' => $events, 'companies' => $companies, 'are_events_importing' => $are_events_importing]);
     }
 
     /**
@@ -98,7 +102,7 @@ class ImportController extends Controller {
             $model->load(Yii::$app->request->post());
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->file->name = Yii::$app->request->post('import_type') . '.' . $model->file->extension;
-
+            Values::saveValue('import_status', 'file_uploading', 0 );
             if ($model->upload('uploads/import/')) {
                 session_write_close();
                 $this->respondOK(json_encode(['msgType' => 'VALID', 'msg' => 'File is in process']));
@@ -118,6 +122,9 @@ class ImportController extends Controller {
                 } else {
                     exit(json_encode(['msgType' => 'ERR', 'msg' => 'Invalid import type']));
                 }
+            }else{
+                $import_status = Values::getValueByName('import_status');
+                $import_status->delete();
             }
         }
     }
@@ -182,6 +189,8 @@ class ImportController extends Controller {
                 Values::saveValue('exception', 'import_exception', $import_status_clone->value, $import_status_clone->status, $import_status_clone->total_rows);
                 $msg =  $import_status_clone->status . ' at line '. $import_status_clone->value;
                 exit(json_encode(['msgType' => 'EXC', 'msg' => $msg]));
+            }else if ($import_status->value_type == 'file_uploading') {
+                exit(json_encode(['msgType' => 'PROC', 'msg' => 'file is being uploaded']));
             }
             else {
                 $completed = $import_status->value;
