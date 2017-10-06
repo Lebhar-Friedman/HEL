@@ -192,7 +192,7 @@ function keepServerAlive() {
                 $('#upload_btn').removeClass('hidden');
                 $('#loader').addClass('hidden');
                 $('#import').val('');
-                $('#filename').val('file.csv');
+//                $('#filename').val('file.csv');
                 clearInterval(window.checkFile);
                 clearInterval(window.import_status);
                 $alert = '<div class="alert alert-danger alert-dismissable upload">' +
