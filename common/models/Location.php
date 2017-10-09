@@ -59,7 +59,7 @@ class Location extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['_id',
+                [['_id',
             'location_id', // auto increment serial#
             'store_number',
             'company', // 
@@ -99,6 +99,7 @@ class Location extends ActiveRecord {
      */
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            $this->street = strtolower($this->street);
             if ($insert) {
                 $this->location_id = Counter::getAutoIncrementId(Counter::COUNTER_LOCATION_ID);
             }
@@ -114,13 +115,14 @@ class Location extends ActiveRecord {
     public static function findLocation($id) {
         return static::findOne(['_id' => $id]);
     }
-    
+
     public static function findCompanyByStoreNumber($store_number) {
         return static::find(['store_number' => $store_number])->select(['company'])->one();
     }
-    
+
     public static function findLocationByStoreNumber($store_number) {
         return static::find()->andWhere(['store_number' => $store_number])->one();
     }
+
 // end class counter
 }

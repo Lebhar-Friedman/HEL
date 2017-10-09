@@ -26,7 +26,7 @@ class LocationForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [['store_number', 'company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
+            [[ 'company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
             // string fields
             [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'string'],
             ['company', 'validateCompany']

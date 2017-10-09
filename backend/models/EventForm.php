@@ -212,9 +212,13 @@ class EventForm extends Model {
 
     public static function singleEventSave($model) {
         $locationForm = $model->location_models;
-        $location = Location::findOne(['store_number' => $locationForm->store_number]);
-        if (count($location) == 0) {
+//        $location = Location::findOne(['store_number' => $locationForm->store_number]);]
+        $query = Location::find()->andWhere(['zip' => $locationForm->zip]);
+        $locations = $query->andWhere(['street' => strtolower($locationForm->street)])->all();
+        if (count($locations) == 0) {
             $location = new Location();
+        }else{
+            $location = $locations[0];
         }
         $location->attributes = $locationForm->attributes;
         Event::updateLocationInEvents($location);
