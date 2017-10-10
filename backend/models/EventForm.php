@@ -134,6 +134,10 @@ class EventForm extends Model {
         while (fgetcsv($file) !== false) {
             ++$total_rows;
         }
+//        if($total_rows > 1000){
+//            Values::saveValue('import_status', 'error_on_validation', $total_rows,'<b>Number of rows must not be greater than 1000</b> <br>');
+//            return ['result' => FALSE, 'msg' => '<b>Number of rows must not be greater than 1000</b> <br>', 'row_number' => $total_rows];
+//        }
 
         rewind($file);
         $headerRow = array_map('trim', array_map('strtolower', fgetcsv($file))); //fgetcsv($file);
@@ -187,12 +191,12 @@ class EventForm extends Model {
                         ];
                     }
                     if (!$locationModel->validate()) {
-                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Error on Location validation ' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                     }
                     if (!$eventModel->validate()) {
-                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Error on Event validating' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
+                        Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()));
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow),'row_number' => $rowNo];
                     }

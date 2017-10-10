@@ -96,8 +96,8 @@ class ImportController extends Controller {
     public function actionUploadCsv() {
         set_time_limit(30000);
         ini_set('memory_limit', '3096M');
-        ini_set('post_max_size', '16M');
-        ini_set('upload_max_filesize', '16M');
+//        ini_set('post_max_size', '16M');
+//        ini_set('upload_max_filesize', '16M');
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
             ini_set("auto_detect_line_endings", true);
@@ -185,12 +185,14 @@ class ImportController extends Controller {
             } else if ($import_status->value_type == 'error_on_validation') {
                 $import_status_clone = $import_status;
                 $import_status->delete();
-                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row ' . $import_status_clone->value]));
+//                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row ' . $import_status_clone->value]));
+                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status ]));
             } else if ($import_status->value_type == 'exception') {
                 $import_status_clone = $import_status;
                 $import_status->delete();
                 Values::saveValue('exception', 'import_exception', $import_status_clone->value, $import_status_clone->status, $import_status_clone->total_rows);
-                $msg = $import_status_clone->status . ' at line ' . $import_status_clone->value;
+//                $msg = $import_status_clone->status . ' at line ' . $import_status_clone->value;
+                $msg = $import_status_clone->status;
                 exit(json_encode(['msgType' => 'EXC', 'msg' => $msg]));
             } else if ($import_status->value_type == 'file_uploading') {
                 exit(json_encode(['msgType' => 'PROC', 'msg' => 'file is being uploaded']));
