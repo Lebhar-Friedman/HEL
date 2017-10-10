@@ -110,7 +110,7 @@ class EventForm extends Model {
                 Values::saveValue('import_status', 'suc_csv_uploaded', $total_rows + 1, 'All ' . $total_rows . ' Events were imported successfully.');
                 return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . $total_rows . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents' => self::$importedEvents]);
             } else {
-                Values::saveValue('import_status', 'error_on_saving', $validate['row_number'], $validate['msg']);
+                Values::saveValue('import_status_last_error', 'error_on_saving', $validate['row_number'], $validate['msg']);
                 return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
             }
         } catch (Exception $e) {
@@ -176,7 +176,7 @@ class EventForm extends Model {
                     $latlong = GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
                     if (isset($latlong['error'])) {
                         Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> ' . $latlong['error'], 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow). '</br>', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                     } elseif (!$latlong) {
                         Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
