@@ -89,6 +89,8 @@ class LocationForm extends Model {
             return false;
         }else{
             return $locations[0];
+//            $this->attributes = $locations[0]->attributes;
+//            return true;
         }
     }
 

@@ -133,7 +133,7 @@ class EventForm extends Model {
         $locationAttributeMapArray = LocationForm::getCsvAttributeMapArray();
         $locationAttributes = $eventAttributes = $result = [];
         $file = fopen("uploads/import/" . $csv, "r");
-        
+
         $baseMemory = memory_get_usage();
         $total_rows = 0;
         $rowNo = 1;
@@ -151,6 +151,7 @@ class EventForm extends Model {
             $models = [];
             Values::saveValue('import_status', 'csv_importing', 0, 'start_validating', $total_rows);
             $value_obj = Values::getValueByName('import_status');
+
             while (!feof($file)) {
                 $rowNo++;
                 $eventModel = new EventForm();
@@ -212,9 +213,9 @@ class EventForm extends Model {
                     EventForm::singleEventSave($eventModel);
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
                     Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
-                    $eventModel->location_models = null;
-                    unset($locationModel);
-                    unset($eventModel);
+//                    $eventModel->location_models = null;
+//                    unset($locationModel);
+//                    unset($eventModel);
                     self::$current_row = self::$current_row + 1;
                 }
             }
