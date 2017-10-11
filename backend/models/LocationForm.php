@@ -81,6 +81,16 @@ class LocationForm extends Model {
             }
         }
     }
+    
+    public function isLocationExist(){
+        $query = \common\models\Location::find()->andWhere(['zip' => $this->zip]);
+        $locations = $query->andWhere(['street' => strtolower($this->street)])->all();
+        if (count($locations) == 0) {
+            return false;
+        }else{
+            return $locations[0];
+        }
+    }
 
 // end class
 }

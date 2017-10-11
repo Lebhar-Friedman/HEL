@@ -30,6 +30,7 @@ class EventForm extends Model {
     public $description;
     public $is_post;
     public static $importedEvents;
+    public static $current_row = 1;
 
     /**
      * @inheritdoc
@@ -108,14 +109,18 @@ class EventForm extends Model {
 //                }
                 Values::saveValue('import', 'events', self::$importedEvents);
                 Values::saveValue('import_status', 'suc_csv_uploaded', $total_rows + 1, 'All ' . $total_rows . ' Events were imported successfully.');
+                self::$current_row = 1;
                 return json_encode(['msgType' => 'SUC', 'msg' => 'All ' . $total_rows . ' Events were imported successfully.', 'validated' => 'CSV is validated Successfully.', 'importedEvents' => self::$importedEvents]);
             } else {
                 Values::saveValue('import_status_last_error', 'error_on_saving', $validate['row_number'], $validate['msg']);
+                self::$current_row = 1;
                 return json_encode(['msgType' => 'ERR', 'msg' => $validate['msg']]);
             }
         } catch (Exception $e) {
 //            echo 'Message: ' . $e->getMessage();
-            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
+//            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
+            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . self::$current_row . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
+            self::$current_row = 1;
         }
     }
 
@@ -143,25 +148,19 @@ class EventForm extends Model {
         $headerRow = array_map('trim', array_map('strtolower', fgetcsv($file))); //fgetcsv($file);
         if (!empty($headerRow)) {
             $models = [];
-//            $value_obj = Values::getValueByName('import_status');
-//            if ($value_obj == NULL) {
-                Values::saveValue('import_status', 'csv_importing', 0, 'start_validating', $total_rows);
-                $value_obj = Values::getValueByName('import_status');
-//            }
+            Values::saveValue('import_status', 'csv_importing', 0, 'start_validating', $total_rows);
+            $value_obj = Values::getValueByName('import_status');
             while (!feof($file)) {
                 $rowNo++;
-//                if ($rowNo % 45 == 0) {
-//                    sleep(1);
-//                }
                 $eventModel = new EventForm();
                 $locationModel = new LocationForm();
                 $dataRow = fgetcsv($file);
                 if (!empty($dataRow) && count(array_filter($dataRow))) {
                     foreach ($headerRow as $key => $value) {
                         if (isset($eventAttributeMapArray[$value])) {
-                            $eventAttributes[$eventAttributeMapArray[$value]] = trim($dataRow[$key]);
+                            $eventAttributes[$eventAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
                         } elseif (isset($locationAttributeMapArray[$value])) {
-                            $locationAttributes[$locationAttributeMapArray[$value]] = trim($dataRow[$key]);
+                            $locationAttributes[$locationAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
                         } elseif (!empty($value)) {
                             fclose($file);
                             Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1));
@@ -177,28 +176,32 @@ class EventForm extends Model {
                     $eventModel->sub_categories = explode(',', $eventModel->sub_categories);
                     $eventModel->sub_categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->sub_categories);
                     $eventModel->company = $eventModel->company; //ucfirst($eventModel->company);
-                    $latlong = GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
-                    if (isset($latlong['error'])) {
-                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow). '</br>', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
-                    } elseif (!$latlong) {
-                        Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                    if ($locationModel->isLocationExist()) {
+                        $locationModel = $locationModel->isLocationExist();
                     } else {
-                        $locationModel->geometry = ['type' => 'Point',
-                            'coordinates' => [$latlong['long'],
-                                $latlong['lat']]
-                        ];
-                    }
-                    if (!$locationModel->validate()) {
-                        Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
-                        fclose($file);
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                        $latlong = GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
+                        if (isset($latlong['error'])) {
+                            Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
+                            return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow) . '</br>', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                        } elseif (!$latlong) {
+                            Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
+                            return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                        } else {
+                            $locationModel->geometry = ['type' => 'Point',
+                                'coordinates' => [$latlong['long'],
+                                    $latlong['lat']]
+                            ];
+                        }
+                        if (!$locationModel->validate()) {
+                            Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
+                            fclose($file);
+                            return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
+                        }
                     }
                     if (!$eventModel->validate()) {
                         Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()));
                         fclose($file);
-                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow),'row_number' => $rowNo];
+                        return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                     }
 
                     $eventModel->location_models = $locationModel;
@@ -206,12 +209,13 @@ class EventForm extends Model {
 //                    array_push($models, $eventModel);
                     EventForm::singleEventSave($eventModel);
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
+                    self::$current_row = self::$current_row + 1;
                 }
             }
         }
 
         fclose($file);
-        return ['result' => TRUE, 'models' => $models,'row_number' => $total_rows - 1];
+        return ['result' => TRUE, 'models' => $models, 'row_number' => $total_rows - 1];
     }
 
     public static function singleEventSave($model) {
@@ -221,7 +225,7 @@ class EventForm extends Model {
         $locations = $query->andWhere(['street' => strtolower($locationForm->street)])->all();
         if (count($locations) == 0) {
             $location = new Location();
-        }else{
+        } else {
             $location = $locations[0];
         }
         $location->attributes = $locationForm->attributes;
