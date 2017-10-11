@@ -212,7 +212,7 @@ class EventForm extends Model {
                     EventForm::singleEventSave($eventModel);
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
                     Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
-                    $eventModel->$location_models = null;
+                    $eventModel->location_models = null;
                     unset($locationModel);
                     unset($eventModel);
                     self::$current_row = self::$current_row + 1;
