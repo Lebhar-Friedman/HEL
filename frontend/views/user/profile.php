@@ -30,10 +30,19 @@ $baseUrl = Yii::$app->request->baseUrl;
                 <div class="col-lg-10 col-md-10 col-sm-10">
                     <?php if (!empty($events)) { ?>
                         <div class="cutomer-profile-h">My Saved Events</div>
-                        <?php foreach ($events as $event) { ?>
-                            <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] ?>">
+                        <?php
+                        foreach ($events as $event) {
+                            $eUrlParam = '';
+                            if (!empty($event['store'])) {
+                                $eUrlParam = '&store=' . $event['store'];
+                            }
+                            if (!empty($event['zip'])) {
+                                $eUrlParam .= '&zipcode=' . $event['zip'];
+                            }
+                            ?>
+                            <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] . '' . $eUrlParam ?>">
                                 <div class="cutomer-profile-multi-service">
-                                    <h1><?= count($event->categories) == 1 ? $event->categories[0] . ' Screenings' : 'Multiple Services' ?></h1>
+                                    <h1><?= count($event['categories']) == 1 ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                                     <h2><?= components\GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                                     <span><?= !empty($event->price) ? '&dollar;' . $event->price : 'Free' ?></span>
                                     <div class="clearfix">

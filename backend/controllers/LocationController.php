@@ -47,6 +47,7 @@ class LocationController extends Controller {
             $query->orWhere(['like', 'city', $keyword]);
             $query->orWhere(['like', 'state', $keyword]);
             $query->orWhere(['like', 'zip', $keyword]);
+            $query->orWhere(['=', 'location_id', intval($keyword)]);
         }
         if ($company !== '-1' && $company !== '') {
             $query->andWhere(['company' => $company]);

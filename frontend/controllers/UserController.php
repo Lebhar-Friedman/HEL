@@ -51,17 +51,21 @@ class UserController extends Controller {
     public function actionProfile() {
         $eventIds = $logoLinks = $events = [];
         $userEvents = !empty(\Yii::$app->user->identity->saved_events) ? \Yii::$app->user->identity->saved_events : [];
+        $events = [];
         foreach ($userEvents as $e) {
-            $eventIds[] = $e['event_id'];
-        }
-        $events = Event::findAll(['_id' => $eventIds]);
-        $events_with_store = array();
-        foreach ($events as $event) {
-            $company = Company::findOne(['name' => $event->company]);
-            if (count($company) > 0 && !empty($company->logo)) {
-                $logoLinks[$event->event_id] = IMG_URL . $company['logo'];
-            } else {
-                $logoLinks[$event->event_id] = BaseUrl::base() . '/images/upload-logo.png';
+            $eventId = $e['event_id'];
+            $event = Event::findOne(['_id' => $eventId]);
+            if (count($event) > 0) {
+                $company = Company::findOne(['name' => $event->company]);
+                if (count($company) > 0 && !empty($company->logo)) {
+                    $logoLinks[$event->event_id] = IMG_URL . $company['logo'];
+                } else {
+                    $logoLinks[$event->event_id] = BaseUrl::base() . '/images/upload-logo.png';
+                }
+                $event = $event->attributes;
+                $event['store'] = $e['store_number'];
+                $event['zip'] = $e['zip'];
+                $events[] = $event;
             }
         }
 
@@ -90,7 +94,7 @@ class UserController extends Controller {
             $filters = array();
             $sort_by = 'Closest';
             $type = "exact_location";
-            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by, 'street' => $street, 'city' => $city, 'state' => $state,'store_number' => $store_number])) {
+            if (Alerts::addAlerts(['zip_code' => $zip_code, 'keywords' => $keywords, 'filters' => $filters, 'type' => $type, 'sort' => $sort_by, 'street' => $street, 'city' => $city, 'state' => $state, 'store_number' => $store_number])) {
                 return ['msgType' => 'SUC', 'msg' => 'Alert successfully Added'];
             } else {
                 return ['msgType' => 'ERR', 'msg' => 'This alert is already in your list '];

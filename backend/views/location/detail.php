@@ -47,10 +47,18 @@ $baseUrl = Yii::$app->request->baseUrl;
         <div id="detailLocation" style="display: <?= ($model->hasErrors()) ? 'none' : 'block' ?>">
             <div class ="row mrgd">
                 <div class="col-lg-3 col-md-4 col-sm-5  ">
+                    <strong>Store Id:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-7   ">
+                    <?= $detail->location_id ?>
+                </div>
+            </div>
+            <div class ="row mrgd">
+                <div class="col-lg-3 col-md-4 col-sm-5  ">
                     <strong>Store#:</strong>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-7   ">
-                    <?= $detail->store_number ?>
+                    <?= !empty($detail->store_number) ? $detail->store_number : '-' ?>
                 </div>
             </div>
             <div class ="row mrgd">
