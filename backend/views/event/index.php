@@ -152,7 +152,7 @@ $this->title = 'Events';
                                 <a id="unpost-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $event['_id'] ?>', this)" >Unpost</a>
                                 <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
                             </div>
-                            <a href="javascript:;" onclick="gotoURL('/event/detail?id=<?= $event['_id'] ?>', this, 'loader_edit_<?= $event['_id'] ?>')" class="edit1-btn "></a>
+                            <a href="javascript:;" onclick="gotoURL('event/detail?id=<?= $event['_id'] ?>', this, 'loader_edit_<?= $event['_id'] ?>')" class="edit1-btn "></a>
                             <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden " id="loader_edit_<?= $event['_id'] ?>" style="padding-top: 10px;padding-left: 5px;padding-right: 5px;float:left">
                             <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_del_<?= $event['_id'] ?>" style="padding-top: 10px;padding-left: 5px;padding-right: 5px;">
