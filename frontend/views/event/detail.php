@@ -311,7 +311,6 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                         <?php
                         $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
                         $poic_styles = '[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
-//                        $gmapStyler = '[{"stylers":[{"saturation":-100},{"gamma":1}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":50},{"gamma":0},{"hue":"#50a5d1"}]},{"featureType":"administrative.neighborhood","elementType":"labels.text.fill","stylers":[{"color":"#333333"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"weight":0.5},{"color":"#333333"}]},{"featureType":"transit.station","elementType":"labels.icon","stylers":[{"gamma":1},{"saturation":50}]}]';
                         $gmapStyler = '[{"stylers":[{"saturation":-100},{"gamma":1}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":50},{"gamma":0},{"hue":"#50a5d1"}]},{"featureType":"administrative.neighborhood","elementType":"labels.text.fill","stylers":[{"color":"#333333"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"weight":0.5},{"color":"#333333"}]},{"featureType":"transit.station","elementType":"labels.icon","stylers":[{"gamma":1},{"saturation":50}]}]';
                         $map = new Map([
                             'center' => $coord,
@@ -341,13 +340,8 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                                     new InfoWindow(['content' => $content])
                             );
 
-//                $marker->setName('abc');   //to set Info window default open
-//                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
-//            google.maps.event.trigger(abc, 'click');});");
-
                             $map->addOverlay($marker);
                         }
-//                        print_r($map->getMarkers()); die;
                         if (!empty($map->getMarkers())) {
                             $map->center = $map->getMarkersCenterCoordinates();
                             $map->zoom = $map->getMarkersFittingZoom();
@@ -373,8 +367,8 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                     ?> 
                     <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['store_number'] . '&zipcode=' . $event_location['zip'] ?>">
                         <div class="multi-service2">
-                            <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
-                            <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
+                            <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                            <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>
                             <span><?php
                                 if (isset($companyEvent['price']) && $companyEvent['price'] !== '' && $companyEvent['price'] > 0) {
                                     echo "$" . $companyEvent['price'];

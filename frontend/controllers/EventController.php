@@ -78,8 +78,8 @@ class EventController extends Controller {
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
-            $keywords = Yii::$app->request->get('keywords'); //=== null ? array() : Yii::$app->request->get('keywords');
-            $filters = Yii::$app->request->get('filters'); // === null ? array() : Yii::$app->request->get('filters');
+            $keywords = Yii::$app->request->get('keywords');
+            $filters = Yii::$app->request->get('filters'); 
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
@@ -109,13 +109,9 @@ class EventController extends Controller {
                 $zip_code = $temp_zip ? $temp_zip : $zip_code;
             }
             $z_lng_lat = $this->getZipLongLat();
-//            echo '<pre>';
-//            print_r($z_lng_lat);exit;
-//            $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longitude, $latitude,50,0, $sort_by);
             $events_dist = $this->getEventsWithDistance($z_lng_lat['zip_code'], $keywords, $filters, $z_lng_lat['longitude'], $z_lng_lat['latitude'], 50, 0, $sort_by);
             $total_events = sizeof($events_dist);
 
-//            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude']]);
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $z_lng_lat['zip_code'], 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $z_lng_lat['longitude'], 'latitude' => $z_lng_lat['latitude']]);
         }
         $z_lng_lat = $this->getZipLongLat();
@@ -128,8 +124,6 @@ class EventController extends Controller {
     }
 
     public function actionMoreEvents() {
-
-//        $zip_code = urldecode(Yii::$app->request->get('zip'));
 
         $zip_code = urldecode(Yii::$app->request->get('zipcode'));
         $keywords = Yii::$app->request->get('keywords');
@@ -316,16 +310,11 @@ class EventController extends Controller {
         } else if (isset($filters) && sizeof($filters) > 0) {
             if (sizeof($keywords) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-//                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-//                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
                 $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             } else {
-//                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$all' => $filters]], ['is_post' => true]];
-//                $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
                 $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['categories' => ['$in' => $filters]], ['is_post' => true]];
             }
         } else {
-//            $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
             $matchParams = ['AND', ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
         }
         if (!empty($company)) {
