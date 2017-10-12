@@ -21,7 +21,7 @@ use yii\web\Cookie;
 class EventController extends Controller {
 
     public function actionIndex() {
-        
+
         $longitude;
         $latitude;
         $session = Yii::$app->session;
@@ -65,21 +65,21 @@ class EventController extends Controller {
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
-            
+
             $events_dist = array();
             $keywords = Yii::$app->request->get('keywords');
             $filters = Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
-            
+
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-            
+
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longlat['long'], $longlat['lat'], 20, 0, $sort_by);
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords');
-            $filters = Yii::$app->request->get('filters'); 
+            $filters = Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
@@ -224,7 +224,7 @@ class EventController extends Controller {
 
         $company = Company::findCompanyByNumber($event['company']);
 
-        $companyEvents = Event::findEventsByStore($event_location['store_number'], $eid);
+        $companyEvents = Event::findEventsByStore($event_location['location_id'], $eid);
 //        $z_lng_lat = $this->getZipLongLat();
 
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
@@ -322,7 +322,7 @@ class EventController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-                [
+            [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",

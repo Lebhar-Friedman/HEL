@@ -145,7 +145,7 @@ class Event extends ActiveRecord {
     }
     
     public static function findEventsByStore($store_number,$eid) {
-        return static::find()->andWhere(['locations.store_number' => $store_number])->andWhere(['Not','_id',$eid])->all();
+        return static::find()->andWhere(['locations.location_id' => $store_number])->andWhere(['Not','_id',$eid])->all();
     }
 // end class counter
 }

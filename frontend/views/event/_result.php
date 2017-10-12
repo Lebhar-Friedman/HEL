@@ -101,7 +101,7 @@ $events_with_nearest_locations = array();
             $distance = round(GlobalFunction::distanceBetweenPoints($user_lat, $user_lng, $location['geometry']['coordinates'][1], $location['geometry']['coordinates'][0]), 1);
             if ($distance == round($event['distance'], 1)) {
                 $nearest = $distance;
-                $nearest_store_number = $location['store_number'];
+                $nearest_store_number = $location['location_id'];
             }
         }
         ?>
@@ -166,7 +166,7 @@ $events_with_nearest_locations = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . '&store=' .$location['store_number']. '&zipcode='. $zip_code."'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . '&store=' .$location['location_id']. '&zipcode='. $zip_code."'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );

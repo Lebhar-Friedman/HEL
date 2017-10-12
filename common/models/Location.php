@@ -59,7 +59,7 @@ class Location extends ActiveRecord {
      */
     public function rules() {
         return [
-                [['_id',
+            [['_id',
             'location_id', // auto increment serial#
             'store_number',
             'company', // 
@@ -121,7 +121,7 @@ class Location extends ActiveRecord {
     }
 
     public static function findLocationByStoreNumber($store_number) {
-        return static::find()->andWhere(['store_number' => $store_number])->one();
+        return static::find()->andWhere(['location_id' => intval($store_number)])->one();
     }
 
 // end class counter
