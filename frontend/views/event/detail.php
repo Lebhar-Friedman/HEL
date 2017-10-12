@@ -180,7 +180,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                     <?php
                     if (isset(Yii::$app->user->identity->_id)) {
                         ?>
-                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode ?>, <?= $event_location['store_number'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
+                        <a href="javascript:;" onclick="saveEvent('<?= $event['_id'] ?>', this,<?= $zipcode ?>, <?= $event_location['location_id'] ?>)"><img src="<?= $img_url ?>star-icon.png" alt="" /> SAVE</a>
                         <?php
                     } else {
                         ?>
@@ -365,7 +365,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['store_number'] . '&zipcode=' . $event_location['zip'] ?>">
+                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['location_id'] . '&zipcode=' . $event_location['zip'] ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>

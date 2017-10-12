@@ -117,7 +117,7 @@ class Location extends ActiveRecord {
     }
 
     public static function findCompanyByStoreNumber($store_number) {
-        return static::find(['store_number' => $store_number])->select(['company'])->one();
+        return static::find(['location_id' => $store_number])->select(['company'])->one();
     }
 
     public static function findLocationByStoreNumber($store_number) {
