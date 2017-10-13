@@ -295,5 +295,8 @@ class EventController extends Controller {
 
         return $events;
     }
+    public function abc(){
+        
+    }
 
 }
