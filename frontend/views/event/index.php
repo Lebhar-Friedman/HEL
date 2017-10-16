@@ -3,9 +3,10 @@
 use common\functions\GlobalFunctions;
 use components\GlobalFunction;
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 use yii\web\JqueryAsset;
 
-$this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile('@web/js/chosen.jquery.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className()]]);
 
 $this->registerCssFile('@web/css/results.css', ['depends' => frontend\assets\AppAsset::className()]);
@@ -66,7 +67,7 @@ $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\
         <div class="col-lg-4 col-md-4 col-sm-5">
             <div class="search-result-content">
                 <div class="search-nav" >
-                    <form action="<?= BaseUrl::base() ?>/event" method="post" id="events_search_form">
+                    <form action="<?= Url::to(['free-healthcare-events']) ?>" method="post" id="events_search_form">
 
                         <!--<input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->getCsrfToken() ?>" />-->
                         <h1>Search <a href="javascript:;" onclick="closeNav()" class="nav-cros"><img src="<?= $img_url ?>crose-btn.png" alt="" /></a></h1>
@@ -80,9 +81,9 @@ $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\
                                 <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]" id="keywords">
                                     <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
                                         <?php if (isset($ret_keywords) && !empty($ret_keywords)) { ?>
-                                            <option value="<?= $keyword['text'] ?>" <?= in_array($keyword['text'], $ret_keywords) ? 'selected' : '' ?> ><?= $keyword['text'] ?></option>
+                                            <option  value="<?= $keyword['text'] ?>" <?= in_array($keyword['text'], $ret_keywords) ? 'selected' : '' ?> ><?= $keyword['text'] ?></option>
                                         <?php } else { ?>
-                                            <option value="<?= $keyword['text'] ?>"><?= $keyword['text'] ?></option>
+                                            <option data-option-category=<?= $keyword['type'] ?> value="<?= $keyword['text'] ?>"><?= $keyword['text'] ?></option>
                                             <?php
                                         }
                                     }

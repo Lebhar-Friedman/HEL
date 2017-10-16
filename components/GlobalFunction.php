@@ -254,6 +254,25 @@ class GlobalFunction {
         }
         return FALSE;
     }
+    
+    public static function getCityFromZip($zip) {
+        $url = GOOGLE_API_URL . '&address=' . $zip;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $json = curl_exec($curl);
+        curl_close($curl); //echo $anAddress.'<br>'.$json;
+        $mapData = json_decode($json);
+        if ($mapData && $mapData->status == 'OK') {
+            foreach($mapData->results[0]->address_components as $address){
+//                print_r($address);exit;
+                if($address->types[0] == "administrative_area_level_1"){
+                    return ['short_name' => $address->short_name, 'long_name'=> $address->long_name];
+                }
+            }
+        }
+        return false;
+    }
 
     public static function getZipFromLongLat($long, $lat) {
         $url = GOOGLE_API_URL . '&latlng=' . $lat . ',' . $long;

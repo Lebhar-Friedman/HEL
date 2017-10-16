@@ -11,7 +11,9 @@ namespace backend\controllers;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Event;
+use common\models\Location;
 use common\models\User;
+use components\GlobalFunction;
 use yii\web\Controller;
 
 /**
@@ -20,6 +22,20 @@ use yii\web\Controller;
  * @author zeeshan
  */
 class CronController extends Controller {
+
+    public function actionGetCity() {
+        set_time_limit ( 3000 );
+        $number_of_locations = Location::find()->count();
+        $offset =0 ;
+        for($i =0; $i< $number_of_locations/100; $i++){
+            $locations = Location::find()->offset($offset)->limit(100)->all();
+        }
+        foreach ($locations as $location) {
+         $zipcode = $location->zip;  
+         $city = GlobalFunction::getCityFromZip($zipcode);
+         echo $city['short_name']. ', ';
+        }
+    }
 
     public function actionSendMailOfAlerts() {
 
@@ -42,7 +58,7 @@ class CronController extends Controller {
             foreach ($single_user_alerts['alerts'] as $single_alert) {
                 if ($single_alert['type'] === "exact_location") {
                     echo 'Alert on company location';
-                    $events = $this->getEventsByLocation($single_alert['street'],$single_alert['city'],$single_alert['state'],$single_alert['zip_code']);
+                    $events = $this->getEventsByLocation($single_alert['street'], $single_alert['city'], $single_alert['state'], $single_alert['zip_code']);
                     if (sizeof($events) > 0) {
                         $events_to_send[] = $events;
                     }
@@ -65,14 +81,12 @@ class CronController extends Controller {
             }
         }
     }
-    
-    
-  
+
     public function getEventsByLocation($street, $city, $state, $zip) {
         $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
         $last_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d', strtotime("+1 days"))) * 1000);
         $query = Event::find();
-        $events = $query->andWhere(['AND',['locations.street' => $street],['locations.city' => $city],['locations.state' => $state], ['locations.zip' => $zip], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true] ])->all();
+        $events = $query->andWhere(['AND', ['locations.street' => $street], ['locations.city' => $city], ['locations.state' => $state], ['locations.zip' => $zip], ['created_at' => ['$gte' => $current_date]], ['created_at' => ['$lte' => $last_date]], ['is_post' => true]])->all();
         return $events;
     }
 

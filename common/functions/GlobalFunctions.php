@@ -69,10 +69,10 @@ class GlobalFunctions {
         $sub_cats = GlobalFunctions::getSubcategories();
         $keywords = array();
         foreach ($cats as $category) {
-            $keywords[] = array('value' => $category['value'], 'text' => $category['text']);
+            $keywords[] = array('value' => $category['value'], 'text' => $category['text'], 'type' => 'cat');
         }
         foreach ($sub_cats as $s_cat) {
-            $keywords[] = array('value' => $s_cat['value'], 'text' => $s_cat['text']);
+            $keywords[] = array('value' => $s_cat['value'], 'text' => $s_cat['text'], 'type' => 'sub');
         }
         return $keywords;
     }

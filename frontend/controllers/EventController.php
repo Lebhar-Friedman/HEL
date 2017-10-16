@@ -68,9 +68,20 @@ class EventController extends Controller {
 
             $events_dist = array();
             $keywords = Yii::$app->request->get('keywords');
+            $categories = Yii::$app->request->get('categories');
+            $services = Yii::$app->request->get('services');
             $filters = Yii::$app->request->get('filters');
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
+            $params_keys = array();
+            $categories_array = explode('-',$categories);
+            $services_array = explode('-',$services);
+            if(sizeof($categories_array) > 0 && $categories_array[0] !== ''){
+                $params_keys = array_merge($params_keys,$categories_array);
+            }if(sizeof($services_array) > 0 && $services_array[0] !== ''){
+                $params_keys = array_merge($params_keys,$services_array);
+            }
+            $keywords = $params_keys;
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
 
@@ -80,6 +91,17 @@ class EventController extends Controller {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords');
             $filters = Yii::$app->request->get('filters');
+            $categories = Yii::$app->request->get('categories');
+            $services = Yii::$app->request->get('services');
+            $params_keys = array();
+            $categories_array = explode('-',$categories);
+            $services_array = explode('-',$services);
+            if(sizeof($categories_array) > 0 && $categories_array[0] !== ''){
+                $params_keys = array_merge($params_keys,$categories_array);
+            }if(sizeof($services_array) > 0 && $services_array[0] !== ''){
+                $params_keys = array_merge($params_keys,$services_array);
+            }
+            $keywords = $params_keys;
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
@@ -334,6 +356,14 @@ class EventController extends Controller {
                 ], ['allowDiskUse' => true]);
 
         return $events;
+    }
+    
+    public function  actionGetCity(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $zip = Yii::$app->request->post('zipcode');
+        $city = GlobalFunction::getCityFromZip($zip);
+        return ['city'=>$city['short_name']];
+//        return $city['short_name'];
     }
 
 }

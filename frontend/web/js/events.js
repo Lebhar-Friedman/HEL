@@ -49,8 +49,33 @@ $(document).ready(function () {
     } else {
         console.log("Browser doesn't support geolocation!");
     }
-});
 
+});
+function getCity(zip, values, callback) {
+    closeNavOnMobile();
+    $("#loader").show();
+    $("#overlay").show();
+    window.city = '';
+    $.ajax({
+        url: baseUrl + 'event/get-city',
+        type: 'post',
+        data: {zipcode: zip},
+        success: function (r) {
+            window.city = r.city;
+            console.log(r.city);
+            if (typeof callback === 'function') {
+                callback(window.city);
+            }
+        },
+        error: function ()
+        {
+            if (typeof callback === 'function') {
+                callback(window.city);
+            }
+            console.log('internal server error');
+        }
+    });
+}
 $(document).on("submit", "#events_search_form", function (e) {
     e.preventDefault();
     $('#zip_code').css("border", "1px solid #dbdbdb");
@@ -62,8 +87,15 @@ $(document).on("submit", "#events_search_form", function (e) {
         return false;
     }
 
-    var values = $(this).serialize();
-    searchResult(values);
+
+//    var values = $(this).serialize();
+    var values = $(this).serializeArray();
+
+    var city_name = getCity(zipCode, values, function (city) {
+        searchResult(values, city);
+    });
+
+//    searchResult(values);
 });
 
 function closeNavOnMobile() {
@@ -72,8 +104,23 @@ function closeNavOnMobile() {
     }
 }
 
-function searchResult(form_data) {
-
+function searchResult(form_data, city_name) {
+    var options = $("#keywords option:selected");
+    var categories = '';
+    var services = '';
+    var sign_cat = '';
+    var sign_sub = '';
+    for (var i = 0; i < options.length; i++) {
+        var property = $(options[i]).attr('data-option-category');
+        var value_cat_sub = $(options[i]).val();
+        if (property == 'sub') {
+            services = services + sign_cat + value_cat_sub;
+            sign_cat = '-';
+        } else if (property == 'cat') {
+            categories = categories + sign_sub + value_cat_sub;
+            sign_sub = '-';
+        }
+    }
     $(document).on('pjax:send', function () {
         closeNavOnMobile();
         $("#loader").show();
@@ -82,7 +129,7 @@ function searchResult(form_data) {
     $(document).on('pjax:complete', function () {
         $("#loader").hide();
         $("#overlay").hide();
-        $('.filters-multi-chosen-selected').chosen().change(function (event) {
+        $('.filters-multi-chosen-selected ').chosen().change(function (event) {
             selectedFilters(event);
         });
 
@@ -90,13 +137,26 @@ function searchResult(form_data) {
 
 
     });
-
+    var query = '';
+    var operator = '';
+    if (categories !== '') {
+        query = 'categories=' + categories;
+        operator = '&';
+    }
+    if (services !== '') {
+        query = query + operator + 'services=' + services;
+    }
+    var dataObj = {};
+    $(form_data).each(function (i, field) {
+        dataObj[field.name] = field.value;
+    });
     $.pjax.reload({
-        url: baseUrl + 'event',
+        url: baseUrl + 'free-healthcare-events/' + city_name + '?' + query,
         container: '#result-view',
         replace: false,
         type: 'get',
-        data: form_data,
+//        data: form_data,
+        data: {zipcode: dataObj['zipcode'], sortBy: dataObj['sortBy']},
         timeout: 30000,
         push: true
     });
@@ -122,7 +182,7 @@ $(document).ready(function () {
             $('#event_near').addClass('mobile-event-near');
         } else {
             $('#event_near').removeClass('mobile-event-near');
-            $('.search-result-content').css('display','block');
+            $('.search-result-content').css('display', 'block');
         }
     }
     checkWidth();

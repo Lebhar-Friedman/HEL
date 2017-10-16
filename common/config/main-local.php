@@ -27,6 +27,11 @@ return [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'free-healthcare-events' => 'event',
+                'free-healthcare-events/<city:\w+>' => 'event',
+                'free-healthcare-events/<city:\w+>' => 'event',
+//                'free-healthcare-events/<categories:\w+>' => 'event',
+//                'free-healthcare-events/<categories:\w+>/<city>:\w+' => 'event',
         ),
         ],
         'authClientCollection' => [

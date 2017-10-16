@@ -12,7 +12,7 @@ define('GOOGLE_API_KEY_local3', '');
 if (ENV === "local") {
     define('IMG_URL', 'http://localhost/HEL/backend/web/uploads/');
     define('MONGODB_DSN', 'mongodb://localhost:27017/health_events');
-    define('GOOGLE_API_URL', 'http://maps.googleapis.com/maps/api/geocode/json?key='.GOOGLE_API_KEY_local3.'&');
+    define('GOOGLE_API_URL', 'https://maps.googleapis.com/maps/api/geocode/json?key='.GOOGLE_API_KEY_local.'&');
 } else if (ENV === "dev") {
     define('IMG_URL', 'http://13.58.235.13/HEL/backend/web/uploads/');
     define('MONGODB_DSN', 'mongodb://localhost:27017/health_events');
