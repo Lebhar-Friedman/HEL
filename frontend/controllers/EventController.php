@@ -239,9 +239,6 @@ class EventController extends Controller {
 
     public function actionDisplayMap() {
         $events = Yii::$app->request->post('events');
-//        $events = json_decode($events);
-//        echo '<pre>';
-//        print_r($events);        exit();
         return $this->renderAjax('_map-modal', ['events' => $events]);
     }
 
@@ -299,12 +296,9 @@ class EventController extends Controller {
         if (isset($keywords) && sizeof($keywords) > 0) {
             if (sizeof($filters) > 0) {
                 $keywords_params = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-//                $matchParams = ['AND', $keywords_params, ['categories' => ['$all' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
-//                $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
                 $matchParams = ['AND', $keywords_params, ['categories' => ['$in' => $filters]], ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             } else {
                 $keywordParams = ['OR', ['categories' => $keywords], ['sub_categories' => $keywords]];
-//                $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['date_end' => ['$lte' => $last_date]], ['is_post' => true]];
                 $matchParams = ['AND', $keywordParams, ['date_end' => ['$gte' => $current_date]], ['is_post' => true]];
             }
         } else if (isset($filters) && sizeof($filters) > 0) {
@@ -326,7 +320,6 @@ class EventController extends Controller {
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
-//                        "coordinates" => [74.329376, 31.582045]
                         "coordinates" => [floatval($longitude), floatval($latitude)]
                     ],
                     "maxDistance" => intval($max_distance) * 1609,
