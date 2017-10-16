@@ -32,15 +32,15 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="cutomer-profile-h">My Saved Events</div>
                         <?php
                         foreach ($events as $event) {
-                            $eUrlParam = '';
+                            $eUrlParam = ['healthcare-events/' . $event['categories'][0] . '/' . implode('-', $event['sub_categories']), 'eid' => (string) $event['_id']];
                             if (!empty($event['store'])) {
-                                $eUrlParam = '&store=' . $event['store'];
+                                $eUrlParam['store'] = $event['store'];
                             }
                             if (!empty($event['zip'])) {
-                                $eUrlParam .= '&zipcode=' . $event['zip'];
+                                $eUrlParam['zipcode'] = $event['zip'];
                             }
                             ?>
-                            <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] . '' . $eUrlParam ?>">
+                            <a href="<?= yii\helpers\Url::to($eUrlParam) ?>">
                                 <div class="cutomer-profile-multi-service">
                                     <h1><?= count($event['categories']) == 1 ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                                     <h2><?= components\GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>

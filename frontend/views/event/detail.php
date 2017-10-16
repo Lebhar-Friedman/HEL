@@ -53,7 +53,7 @@ foreach ($event['categories'] as $category) {
     $number_of_categories_in_title += 1;
     if ($number_of_categories_in_title > 2)
         break;
-    $categories_in_title = $categories_in_title  . $category . ', ';
+    $categories_in_title = $categories_in_title . $category . ', ';
 }
 $number_of_sub_categories_in_meta = 0;
 $sub_categories_in_meta = '';
@@ -64,9 +64,9 @@ foreach ($event['sub_categories'] as $sub_category) {
     $sub_categories_in_meta = $sub_categories_in_meta . htmlentities($sub_category) . ", ";
 }
 $sub_categories_in_meta = rtrim(trim($sub_categories_in_meta), ',');
-$this->title = $categories_in_title  . $company['name'] . ', ' . $zipcode;
+$this->title = $categories_in_title . $company['name'] . ', ' . $zipcode;
 //$this->title = $sub_categories_in_meta;
-$this->registerMetaTag(["name" => "description", "content" => "Free and low-cost health services for " . $sub_categories_in_meta . " at " . $company['name'] . ", " . $event_location['street'] . ", " . $event_location['city'] ]);
+$this->registerMetaTag(["name" => "description", "content" => "Free and low-cost health services for " . $sub_categories_in_meta . " at " . $company['name'] . ", " . $event_location['street'] . ", " . $event_location['city']]);
 ?>
 
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
@@ -266,9 +266,9 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                                    <i><?= $sub_category ?></i>
-                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                                                <i><?= $sub_category ?></i>
+                                                                                                                                                                                                                                            </div>
             <?php
         endforeach;
         ?>
@@ -365,7 +365,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $companyEvent['_id'] . '&store=' . $event_location['location_id'] . '&zipcode=' . $event_location['zip'] ?>">
+                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . $companyEvent['categories'][0] . '/' . implode('-', $companyEvent['sub_categories']), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>

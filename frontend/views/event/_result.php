@@ -10,10 +10,9 @@ use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
 
- $this->title = 'Free Health Services near ZIP Code '.$zip_code.' | Health Events Live';
- $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code '.$zip_code]); 
- 
- ?>
+$this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
+$this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ' . $zip_code]);
+?>
 <style>
     #overlay {
         position: fixed;
@@ -87,13 +86,13 @@ $events_with_nearest_locations = array();
     <div class="event-near " id="event_near" onclick="showNav()">
         <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a>
         <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
-        <?php //if (sizeof($filters) > 0) {  ?>
+        <?php //if (sizeof($filters) > 0) {   ?>
             <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
-        <?php //foreach ($filters as $filter) {  ?>
+        <?php //foreach ($filters as $filter) {   ?>
                     <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
-        <?php //}  ?>
+        <?php //}   ?>
         <!--</select>-->
-        <?php // }  ?>
+        <?php // }   ?>
     </div>
     <?php foreach ($events as $event) { ?>
         <?php
@@ -106,11 +105,11 @@ $events_with_nearest_locations = array();
         }
         ?>
         <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
-        <a href="<?= BaseUrl::base() . '/event/detail?eid=' . (string) $event['_id'] .'&store='. $nearest_store_number . '&zipcode='. $zip_code ?>">
+        <a href="<?= yii\helpers\Url::to(['healthcare-events/' . $event['categories'][0].'/'.implode('-', $event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? $event['categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
-               
+
                 <div class="location-text">
                     <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
                     <div class="text"><?= sizeof($locations_near) ?> <?= sizeof($locations_near) > 1 ? "Locations" : "Location" ?></div>
@@ -125,9 +124,12 @@ $events_with_nearest_locations = array();
                     <?php } ?>
                 </div>
             </div>
-             
+
         </a>
-        <?php $event['locations'] = $locations_near; $events_with_nearest_locations[] = $event; ?>
+        <?php
+        $event['locations'] = $locations_near;
+        $events_with_nearest_locations[] = $event;
+        ?>
         <?php $temp_events[] = ['_id' => (string) $event['_id'], 'locations' => $event['locations'], 'title' => $event['title']]; ?>
     <?php } ?>
     <?php
@@ -166,7 +168,7 @@ $events_with_nearest_locations = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . '&store=' .$location['location_id']. '&zipcode='. $zip_code."'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . '&store=' . $location['location_id'] . '&zipcode=' . $zip_code . "'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );
