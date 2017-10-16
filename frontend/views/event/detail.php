@@ -266,9 +266,9 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                                                                    <i><?= $sub_category ?></i>
-                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                                                                                        <i><?= $sub_category ?></i>
+                                                                                                                                                                                                                                                                                    </div>
             <?php
         endforeach;
         ?>
@@ -335,7 +335,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content = "<a href='" . BaseUrl::base() . "/event/detail?eid=" . (string) $event['_id'] . "&store=" . $location['store_number'] . "&zipcode=" . $zipcode . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
+                            $content = "<a href='" . yii\helpers\Url::to(['healthcare-events/' . str_replace('/', '-', $event['categories'][0]) . '/' . str_replace('/', '-', implode('-', $event['sub_categories'])), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zipcode]) . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -365,7 +365,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . urlencode($companyEvent['categories'][0]) . '/' . urlencode(implode('-', $companyEvent['sub_categories'])), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
+                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . str_replace('/', '-', $companyEvent['categories'][0]) . '/' . str_replace('/', '-', implode('-', $companyEvent['sub_categories'])), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>
