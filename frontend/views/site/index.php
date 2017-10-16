@@ -29,7 +29,9 @@ $this->title = 'Health Events Live: Home';
             </div>
             <div class="search-content">
                 <input type="text" class="search-txtbx" placeholder="Enter your zip code"  onkeyup="checkEnterPress(event, this.value)" id="zipcode_input" value="<?= $zip_code ?>"/>
-                <a href="javascript:;" onclick="getZipCodeForSearch()" class="search-btn"></a>
+                <a href="javascript:;" onclick="getZipCodeForSearch()" class="search-btn" ></a>
+                <img src="<?= $baseUrl ?>/images/loader-mini.gif" width="24" height="24" hidden="">
+
             </div>
         </div>
     </div>

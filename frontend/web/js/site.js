@@ -82,6 +82,30 @@ function checkEnterPress(e, input_value) {
         searchByzip(input_value);
     }
 }
+function getCity(zip, callback) {
+    window.city_name = '';
+    $.ajax({
+        url: baseUrl + 'event/get-city',
+        type: 'post',
+        data: {zipcode: zip},
+        success: function (r) {
+            window.city_name = r.city;
+            console.log(r.city);
+            if (typeof callback === 'function') {
+                callback(window.city_name);
+            }
+        },
+        error: function ()
+        {
+            if (typeof callback === 'function') {
+                callback(window.city_name);
+            }
+            console.log('internal server error');
+        }
+    });
+}
+
+
 function getZipCodeForSearch() {
     zip_code = document.getElementById('zipcode_input').value;
     if ($('#zipcode_input').val().length < 5) {
@@ -91,16 +115,19 @@ function getZipCodeForSearch() {
     searchByzip(zip_code);
 }
 function searchByzip(zip_code) {
-    window.location = baseUrl + 'free-healthcare-events?zipcode=' + zip_code;
+//    $('.search-content').hide();
+    getCity(zip_code, function (city) {
+        window.location = baseUrl + 'free-healthcare-events/' + city + '?zipcode=' + zip_code;
+    });
 }
-function saveEvent(eventID, element,zipcode,store) {
+function saveEvent(eventID, element, zipcode, store) {
 //    if (! confirm("Are you sure?")) {
 //        return false;
 //    }
     $.ajax({
         url: baseUrl + 'site/save-event',
         type: 'get',
-        data: {eid: eventID,zipcode: zipcode,store_number: store},
+        data: {eid: eventID, zipcode: zipcode, store_number: store},
         dataType: "json",
         success: function (r) {
             if (r.msgType === 'SUC') {
@@ -124,3 +151,4 @@ interval = setInterval(function () {
         clearInterval(interval);
     }
 }, 100);
+

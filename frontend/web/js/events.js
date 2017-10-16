@@ -51,7 +51,7 @@ $(document).ready(function () {
     }
 
 });
-function getCity(zip, values, callback) {
+function getCity(zip, callback) {
     closeNavOnMobile();
     $("#loader").show();
     $("#overlay").show();
@@ -82,16 +82,13 @@ $(document).on("submit", "#events_search_form", function (e) {
     var zipCode = $('#zip_code').val().length;
     if (zipCode === 0) {
         $('#zip_code').css('border-color', 'red');
-//        $('.error').remove();
-//        $('#zip_code').parents('div').append("<p  class='error'>Must enter zip code</p>");
         return false;
     }
-
 
 //    var values = $(this).serialize();
     var values = $(this).serializeArray();
 
-    var city_name = getCity(zipCode, values, function (city) {
+    var city_name = getCity(zipCode, function (city) {
         searchResult(values, city);
     });
 
