@@ -91,7 +91,7 @@ function getZipCodeForSearch() {
     searchByzip(zip_code);
 }
 function searchByzip(zip_code) {
-    window.location = baseUrl + '\event?zipcode=' + zip_code;
+    window.location = baseUrl + 'free-healthcare-events?zipcode=' + zip_code;
 }
 function saveEvent(eventID, element,zipcode,store) {
 //    if (! confirm("Are you sure?")) {
