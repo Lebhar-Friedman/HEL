@@ -15,7 +15,7 @@ $(document).ready(function () {
     if (window.history && window.history.pushState) {
         $(window).on('popstate', function () {
             $("#zip_code").val(getQueryParams("zipcode"));
-            $("#sortBy").val(getQueryParams("sortBy"));
+            $("#sortby").val(getQueryParams("sortby"));
             $("#keywords").val(getQueryParams("keywords[]")).trigger("chosen:updated");
         });
 
@@ -155,7 +155,7 @@ function searchResult(form_data, city_name) {
         replace: false,
         type: 'get',
 //        data: form_data,
-        data: {zipcode: dataObj['zipcode'], sortBy: dataObj['sortBy']},
+        data: {zipcode: dataObj['zipcode'], sortby: dataObj['sortby']},
         timeout: 30000,
         push: true
     });

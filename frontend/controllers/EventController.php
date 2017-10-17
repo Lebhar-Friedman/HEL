@@ -71,7 +71,7 @@ class EventController extends Controller {
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $filters = Yii::$app->request->get('filters');
-            $sort_by = urldecode(Yii::$app->request->get('sortBy'));
+            $sort_by = urldecode(Yii::$app->request->get('sortby'));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
             $params_keys = array();
             $categories_array = explode('-',$categories);
@@ -86,7 +86,7 @@ class EventController extends Controller {
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
 
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longlat['long'], $longlat['lat'], 20, 0, $sort_by);
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => strtolower($sort_by), 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords');
@@ -102,7 +102,7 @@ class EventController extends Controller {
                 $params_keys = array_merge($params_keys,$services_array);
             }
             $keywords = $params_keys;
-            $sort_by = urldecode(Yii::$app->request->get('sortBy'));
+            $sort_by = urldecode(Yii::$app->request->get('sortby'));
 //            echo '<pre>';
 //            print_r($keywords);exit;
 
@@ -115,7 +115,7 @@ class EventController extends Controller {
             $total_events = sizeof($events_dist);
 
 
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => $sort_by, 'longitude' => $longitude, 'latitude' => $latitude]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => strtolower($sort_by), 'longitude' => $longitude, 'latitude' => $latitude]);
         }
         if (Yii::$app->request->isPost) {
             $zip_code = Yii::$app->request->post('zipcode');

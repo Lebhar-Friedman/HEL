@@ -94,9 +94,9 @@ $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\
                         <div class="zip-code">
                             <span><b>Sort By</b></span>
                             <div>
-                                <select  class="zip-textbox" name="sortBy" id="sortBy">
-                                    <option <?= isset($ret_sort) && $ret_sort == 'Closest' ? 'selected' : '' ?> >Closest</option>
-                                    <option <?= isset($ret_sort) && $ret_sort == 'Soonest' ? 'selected' : '' ?> >Soonest</option>
+                                <select  class="zip-textbox" name="sortby" id="sortby">
+                                    <option <?= isset($ret_sort) && $ret_sort == 'closest' ? 'selected' : '' ?> value="closest">Closest</option>
+                                    <option <?= isset($ret_sort) && $ret_sort == 'soonest' ? 'selected' : '' ?> value="soonest">Soonest</option>
                                 </select>
                             </div>
                         </div>
