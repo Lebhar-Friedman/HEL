@@ -335,7 +335,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content = "<a href='" . yii\helpers\Url::to(['healthcare-events/' . str_replace('/', '-', $event['categories'][0]) . '/' . str_replace('/', '-', implode('-', $event['sub_categories'])), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zipcode]) . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
+                            $content = "<a href='" . yii\helpers\Url::to(['healthcare-events/' . str_replace(' ','+',str_replace('/', '-', $event['categories'][0])) . '/' . str_replace(' ','+',str_replace('/', '-', implode('-', $event['sub_categories']))), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zipcode]) . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
@@ -365,7 +365,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . str_replace('/', '-', $companyEvent['categories'][0]) . '/' . str_replace('/', '-', implode('-', $companyEvent['sub_categories'])), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
+                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . str_replace(' ','+',str_replace('/', '-', $companyEvent['categories'][0])) . '/' . str_replace(' ','+',str_replace('/', '-', implode('-', $companyEvent['sub_categories']))), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>

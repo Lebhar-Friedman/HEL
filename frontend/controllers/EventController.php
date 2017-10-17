@@ -103,6 +103,8 @@ class EventController extends Controller {
             }
             $keywords = $params_keys;
             $sort_by = urldecode(Yii::$app->request->get('sortBy'));
+//            echo '<pre>';
+//            print_r($keywords);exit;
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
@@ -361,8 +363,9 @@ class EventController extends Controller {
     public function  actionGetCity(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $zip = Yii::$app->request->post('zipcode');
+        $zip = strval(intval($zip));
         $city = GlobalFunction::getCityFromZip($zip);
-        return ['city'=>$city['short_name']];
+        return ['city'=> str_replace(' ', '-', $city['long_name'])];
 //        return $city['short_name'];
     }
 

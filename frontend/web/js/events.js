@@ -111,11 +111,11 @@ function searchResult(form_data, city_name) {
         var property = $(options[i]).attr('data-option-category');
         var value_cat_sub = $(options[i]).val();
         if (property == 'sub') {
-            services = services + sign_cat + value_cat_sub;
-            sign_cat = '-';
+            services = services + sign_sub + value_cat_sub.replace(' ','+');
+            sign_sub = '-';            
         } else if (property == 'cat') {
-            categories = categories + sign_sub + value_cat_sub;
-            sign_sub = '-';
+            categories = categories + sign_cat + value_cat_sub.replace(' ','+');
+            sign_cat = '-';
         }
     }
     $(document).on('pjax:send', function () {
@@ -138,10 +138,12 @@ function searchResult(form_data, city_name) {
     var operator = '';
     if (categories !== '') {
         query = 'categories=' + categories;
+//        query = query.replace(' ','+');
         operator = '&';
     }
     if (services !== '') {
         query = query + operator + 'services=' + services;
+//        query = query.replace(' ','+');
     }
     var dataObj = {};
     $(form_data).each(function (i, field) {

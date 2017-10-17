@@ -108,7 +108,7 @@ function getCity(zip, callback) {
 
 function getZipCodeForSearch() {
     zip_code = document.getElementById('zipcode_input').value;
-    if ($('#zipcode_input').val().length < 5) {
+    if ($('#zipcode_input').val().length < 3) {
         $('#zipcode_input').css("border", "1px solid red");
         return false;
     }
