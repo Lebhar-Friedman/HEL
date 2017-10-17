@@ -275,7 +275,7 @@ class GlobalFunction {
                     $city = $address->long_name ;
                 }
             }
-            return $city . '-' . $state;
+            return strtolower($city . '-' . $state);
             
         }
         return false;
