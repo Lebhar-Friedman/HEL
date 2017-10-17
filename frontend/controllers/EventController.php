@@ -361,6 +361,7 @@ class EventController extends Controller {
     public function  actionGetCity(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $zip = Yii::$app->request->post('zipcode');
+//        $zip = Yii::$app->request->get('zipcode');
         $city = GlobalFunction::getCityFromZip($zip);
         return ['city'=>$city['short_name']];
 //        return $city['short_name'];
