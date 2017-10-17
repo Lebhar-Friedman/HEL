@@ -103,8 +103,6 @@ class EventController extends Controller {
             }
             $keywords = $params_keys;
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
-//            echo '<pre>';
-//            print_r($keywords);exit;
 
             $longlat = GlobalFunction::getLongLatFromZip($zip_code);
             $latitude = $longlat['lat'];
