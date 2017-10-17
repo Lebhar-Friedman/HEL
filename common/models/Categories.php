@@ -11,6 +11,7 @@ use yii\mongodb\ActiveRecord;
  * @property integer $category_id
  * @property string $name
  * @property string $sub_categories
+ * @property string $category_slug
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -29,6 +30,7 @@ class Categories extends ActiveRecord {
             'category_id', // auto increment serial#
             'name', // 
             'sub_categories',
+            'category_slug',
             'created_at',
             'updated_at',
         ];
@@ -39,10 +41,11 @@ class Categories extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['_id',
+                [['_id',
             'category_id', // auto increment serial#
             'name', // 
             'sub_categories',
+            'category_slug',
             'created_at',
             'updated_at'], 'safe'],
         ];
@@ -68,6 +71,7 @@ class Categories extends ActiveRecord {
      * @inheritdoc
      */
     public function beforeSave($insert) {
+        $this->setSlug();
         if (parent::beforeSave($insert)) {
             if ($insert) {
                 $this->category_id = Counter::getAutoIncrementId(Counter::COUNTER_CATEGORY_ID);
@@ -87,6 +91,12 @@ class Categories extends ActiveRecord {
 
     public static function CategoryList() {
         return static::find()->all();
+    }
+
+    public function setSlug() {
+        $slug = strtolower(str_replace(' ', '', $this->name));
+        $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
+        $this->category_slug = $slug;
     }
 
 // end class counter

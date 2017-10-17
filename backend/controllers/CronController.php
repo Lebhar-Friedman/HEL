@@ -10,8 +10,10 @@ namespace backend\controllers;
 
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
+use common\models\Categories;
 use common\models\Event;
 use common\models\Location;
+use common\models\SubCategories;
 use common\models\User;
 use components\GlobalFunction;
 use yii\web\Controller;
@@ -23,17 +25,32 @@ use yii\web\Controller;
  */
 class CronController extends Controller {
 
+    public function actionSetSlug() {
+        $categories = Categories::find()->all();
+        $sub_categories = SubCategories::find()->all();
+        foreach ($categories as $category) {
+            $slug = $category->name;
+            $slug = strtolower(str_replace(' ', '', $slug));
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
+            echo $slug . '<br>';
+            $category->save();
+        }
+        foreach($sub_categories as $sub){
+            $sub->save();
+        }
+    }
+
     public function actionGetCity() {
-        set_time_limit ( 3000 );
+        set_time_limit(3000);
         $number_of_locations = Location::find()->count();
-        $offset =0 ;
-        for($i =0; $i< $number_of_locations/100; $i++){
+        $offset = 0;
+        for ($i = 0; $i < $number_of_locations / 100; $i++) {
             $locations = Location::find()->offset($offset)->limit(100)->all();
         }
         foreach ($locations as $location) {
-         $zipcode = $location->zip;  
-         $city = GlobalFunction::getCityFromZip($zipcode);
-         echo $city['short_name']. ', ';
+            $zipcode = $location->zip;
+            $city = GlobalFunction::getCityFromZip($zipcode);
+            echo $city['short_name'] . ', ';
         }
     }
 

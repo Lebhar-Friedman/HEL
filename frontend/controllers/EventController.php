@@ -10,13 +10,16 @@ namespace frontend\controllers;
 
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
+use common\models\Categories;
 use common\models\Company;
 use common\models\Event;
 use common\models\Location;
+use common\models\SubCategories;
 use components\GlobalFunction;
 use Yii;
 use yii\web\Controller;
 use yii\web\Cookie;
+use yii\web\Response;
 
 class EventController extends Controller {
 
@@ -74,12 +77,12 @@ class EventController extends Controller {
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
             $params_keys = array();
-            $categories_array = explode('-',$categories);
-            $services_array = explode('-',$services);
-            if(sizeof($categories_array) > 0 && $categories_array[0] !== ''){
-                $params_keys = array_merge($params_keys,$categories_array);
-            }if(sizeof($services_array) > 0 && $services_array[0] !== ''){
-                $params_keys = array_merge($params_keys,$services_array);
+            $categories_array = explode('-', $categories);
+            $services_array = explode('-', $services);
+            if (sizeof($categories_array) > 0 && $categories_array[0] !== '') {
+                $params_keys = array_merge($params_keys, $categories_array);
+            }if (sizeof($services_array) > 0 && $services_array[0] !== '') {
+                $params_keys = array_merge($params_keys, $services_array);
             }
             $keywords = $params_keys;
 
@@ -94,12 +97,26 @@ class EventController extends Controller {
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $params_keys = array();
-            $categories_array = explode('-',$categories);
-            $services_array = explode('-',$services);
-            if(sizeof($categories_array) > 0 && $categories_array[0] !== ''){
-                $params_keys = array_merge($params_keys,$categories_array);
-            }if(sizeof($services_array) > 0 && $services_array[0] !== ''){
-                $params_keys = array_merge($params_keys,$services_array);
+            $categories_array = explode('-', $categories);
+            $services_array = explode('-', $services);
+            $name_categories_array = array();
+            $name_sub_array = array();
+            if (sizeof($categories_array) > 0 && $categories_array[0] !== '') {
+                foreach ($categories_array as $cat) {
+                    $category = Categories::find()->where(['category_slug' => $cat])->one();
+                    if(isset($category->name)) {
+                        array_push($name_categories_array, $category->name);
+                    }
+                }
+                $params_keys = array_merge($params_keys, $name_categories_array);
+            }if (sizeof($services_array) > 0 && $services_array[0] !== '') {
+                foreach ($services_array as $service) {
+                    $sub_category = SubCategories::find()->where(['sub_category_slug' => $service ])->one();
+                    if (isset($sub_category->name)) {
+                        array_push($name_sub_array, $sub_category->name);
+                    }
+                }
+                $params_keys = array_merge($params_keys, $name_sub_array);
             }
             $keywords = $params_keys;
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
@@ -338,7 +355,7 @@ class EventController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-            [
+                [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -351,19 +368,19 @@ class EventController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-            ['$match' => $matchParams],
-            ['$sort' => $sort === 'Soonest' ? ["date_start" => 1, "distance" => 1] : ["distance" => 1]]
+                ['$match' => $matchParams],
+                ['$sort' => $sort === 'Soonest' ? ["date_start" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
     }
-    
-    public function  actionGetCity(){
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+    public function actionGetCity() {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         $zip = Yii::$app->request->post('zipcode');
         $zip = strval(intval($zip));
         $city = GlobalFunction::getCityFromZip($zip);
-        return ['city'=> str_replace(' ', '-', $city)];
+        return ['city' => str_replace(' ', '-', $city)];
 //        return $city['short_name'];
     }
 

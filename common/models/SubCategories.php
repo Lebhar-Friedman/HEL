@@ -10,6 +10,7 @@ use yii\mongodb\ActiveRecord;
  * @property integer $_id
  * @property integer $sub_category_id
  * @property string $name
+ * @property string $sub_category_slug
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -27,6 +28,7 @@ class SubCategories extends ActiveRecord {
         return ['_id',
             'sub_category_id', // auto increment serial#
             'name', // 
+            'sub_category_slug', // 
             'created_at',
             'updated_at',
         ];
@@ -37,9 +39,10 @@ class SubCategories extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['_id',
+                [['_id',
             'sub_category_id', // auto increment serial#
             'name', // 
+            'sub_category_slug',
             'created_at',
             'updated_at'], 'safe'],
         ];
@@ -66,6 +69,7 @@ class SubCategories extends ActiveRecord {
      */
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            $this->setSlug();
             if ($insert) {
                 $this->sub_category_id = Counter::getAutoIncrementId(Counter::COUNTER_SUB_CATEGORY_ID);
             }
@@ -84,6 +88,12 @@ class SubCategories extends ActiveRecord {
 
     public static function SubCategoryList() {
         return static::find()->all();
+    }
+    
+    public function setSlug() {
+        $slug = strtolower(str_replace(' ', '', $this->name));
+        $slug = str_replace('-','',preg_replace('/[^A-Za-z0-9\-]/', '', $slug));
+        $this->sub_category_slug = $slug;
     }
 
 // end class counter
