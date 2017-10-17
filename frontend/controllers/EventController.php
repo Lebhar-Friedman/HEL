@@ -71,7 +71,7 @@ class EventController extends Controller {
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $filters = Yii::$app->request->get('filters');
-            $sort_by = urldecode(Yii::$app->request->get('sortby'));
+            $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
             $params_keys = array();
             $categories_array = explode('-',$categories);
@@ -102,7 +102,7 @@ class EventController extends Controller {
                 $params_keys = array_merge($params_keys,$services_array);
             }
             $keywords = $params_keys;
-            $sort_by = urldecode(Yii::$app->request->get('sortby'));
+            $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
 //            echo '<pre>';
 //            print_r($keywords);exit;
 
