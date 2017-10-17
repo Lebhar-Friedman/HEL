@@ -32,7 +32,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="cutomer-profile-h">My Saved Events</div>
                         <?php
                         foreach ($events as $event) {
-                            $eUrlParam = ['healthcare-events/' . str_replace('/', '-', $event['categories'][0]) . '/' . str_replace('/', '-', implode('-', $event['sub_categories'])), 'eid' => (string) $event['_id']];
+                            $eUrlParam = ['healthcare-events/' . str_replace(' ','+',str_replace('/', '-', $event['categories'][0])) . '/' . str_replace(' ','+',str_replace('/', '-', implode('-', $event['sub_categories']))), 'eid' => (string) $event['_id']];
                             if (!empty($event['store'])) {
                                 $eUrlParam['store'] = $event['store'];
                             }
