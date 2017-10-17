@@ -264,12 +264,19 @@ class GlobalFunction {
         curl_close($curl); //echo $anAddress.'<br>'.$json;
         $mapData = json_decode($json);
         if ($mapData && $mapData->status == 'OK') {
+            $city = '';
+            $state = '';
             foreach($mapData->results[0]->address_components as $address){
 //                print_r($address);exit;
                 if($address->types[0] == "administrative_area_level_1"){
-                    return ['short_name' => $address->short_name, 'long_name'=> $address->long_name];
+//                    return ['short_name' => $address->short_name, 'long_name'=> $address->long_name];
+                    $state = $address->short_name;
+                }if($address->types[0] == "locality"){
+                    $city = $address->long_name ;
                 }
             }
+            return $city . '-' . $state;
+            
         }
         return false;
     }

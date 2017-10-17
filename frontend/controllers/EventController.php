@@ -365,7 +365,7 @@ class EventController extends Controller {
         $zip = Yii::$app->request->post('zipcode');
         $zip = strval(intval($zip));
         $city = GlobalFunction::getCityFromZip($zip);
-        return ['city'=> str_replace(' ', '-', $city['long_name'])];
+        return ['city'=> str_replace(' ', '-', $city)];
 //        return $city['short_name'];
     }
 
