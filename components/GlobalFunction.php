@@ -254,7 +254,7 @@ class GlobalFunction {
         }
         return FALSE;
     }
-    
+
     public static function getCityFromZip($zip) {
         $url = GOOGLE_API_URL . '&address=' . $zip;
         $curl = curl_init();
@@ -266,17 +266,16 @@ class GlobalFunction {
         if ($mapData && $mapData->status == 'OK') {
             $city = '';
             $state = '';
-            foreach($mapData->results[0]->address_components as $address){
+            foreach ($mapData->results[0]->address_components as $address) {
 //                print_r($address);exit;
-                if($address->types[0] == "administrative_area_level_1"){
+                if ($address->types[0] == "administrative_area_level_1") {
 //                    return ['short_name' => $address->short_name, 'long_name'=> $address->long_name];
                     $state = $address->short_name;
-                }if($address->types[0] == "locality"){
-                    $city = $address->long_name ;
+                }if ($address->types[0] == "locality") {
+                    $city = $address->long_name;
                 }
             }
             return strtolower($city . '-' . $state);
-            
         }
         return false;
     }
@@ -395,6 +394,21 @@ class GlobalFunction {
             }
         }
         return $locations_to_return;
+    }
+
+    public static function removeSpecialCharacters($text) {
+        if (is_array($text)) {
+            foreach ($text as $key => $value) {
+                $value = strtolower(str_replace(' ', '', $value));
+                $value = preg_replace('/[^A-Za-z0-9\-]/', '', $value);
+                $text[$key] = $value;
+            }
+            return implode('-', $text);
+        } else {
+            $text = strtolower(str_replace(' ', '', $text));
+            $text = preg_replace('/[^A-Za-z0-9\-]/', '', $text);
+            return $text;
+        }
     }
 
 // end class
