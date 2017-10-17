@@ -156,8 +156,15 @@ function searchResult(form_data, city_name) {
     $(form_data).each(function (i, field) {
         dataObj[field.name] = removeSpecialChars(field.value);
     });
+    if(query.charAt(0) == '&'){
+        query = query.substr(1);
+    }
+    var operator ='';
+    if(query.length > 0){
+        operator = '?'
+    }
     $.pjax.reload({
-        url: baseUrl + 'free-healthcare-events/' + city_name + '?' + query,
+        url: baseUrl + 'free-healthcare-events/' + city_name + '/'+ operator + query,
         container: '#result-view',
         replace: false,
         type: 'get',
