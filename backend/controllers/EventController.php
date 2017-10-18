@@ -181,6 +181,7 @@ class EventController extends Controller {
 
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
+            ini_set('memory_limit', '1024M');
             $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
             $model = $locations = NULL;
             $companies = Company::CompanyList();
