@@ -68,7 +68,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low
 $sortBy = 'distance';
 $filters = array();
 if (isset($ret_sort)) {
-    $ret_sort == 'Soonest' ? $sortBy = 'date' : $sortBy = 'distance';
+    $ret_sort == 'soonest' ? $sortBy = 'date' : $sortBy = 'distance';
 }
 if (isset($ret_filters)) {
     $filters = $ret_filters;
@@ -102,7 +102,9 @@ $events_with_nearest_locations = array();
                 $nearest = $distance;
                 $nearest_store_number = $location['location_id'];
             }
-        }
+        }if($nearest_store_number == 0 ){
+            $nearest_store_number = '';
+        } 
         ?>
         <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
     <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
