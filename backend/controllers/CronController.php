@@ -16,6 +16,7 @@ use common\models\Location;
 use common\models\SubCategories;
 use common\models\User;
 use components\GlobalFunction;
+use Yii;
 use yii\web\Controller;
 
 /**
@@ -28,19 +29,26 @@ class CronController extends Controller {
     public function actionTestLocations() {
         set_time_limit(3000);
         $i = 0;
-        $event_id = '59dca2f4a680916fbc3cfe73';
+        $request = Yii::$app->request;
+        $event_id = $request->get(id);
+//        $event_id = '59dca2f4a680916fbc3cfe73';
 //        $event_id = '59b038f4b9f3c21ee504d5e3';
-        $event = Event::find()->where(['_id'=>$event_id])->one();
+        $event = Event::find()->where(['_id' => $event_id])->one();
+        $locations = \common\models\Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
         echo "<pre>";
 //        foreach ($events as $event) {
-            foreach ($event['locations'] as $location) {
-                if (Location::find($location['_id'])->count() > 0) {
-                    echo $i++ . ', ';
-                } else {
-                    echo (string) $location['_id'] . "<br>Not found";
+        foreach ($event['locations'] as $location) {
+            if (Location::find($location['_id'])->count() > 0) {
+                echo $i++ . ', ';
+                if (!in_array($location['_id'], $locations)) {
+                    echo "<br> " . (string) $location['_id'] . "<br>Not found";
                     exit;
                 }
+            } else {
+                echo (string) $location['_id'] . "<br>Not found";
+                exit;
             }
+        }
 //        }
     }
 
