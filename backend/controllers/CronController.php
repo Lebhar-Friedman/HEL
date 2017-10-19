@@ -30,7 +30,7 @@ class CronController extends Controller {
         set_time_limit(3000);
         $i = 0;
         $request = Yii::$app->request;
-        $event_id = $request->get(id);
+        $event_id = $request->get('id');
 //        $event_id = '59dca2f4a680916fbc3cfe73';
 //        $event_id = '59b038f4b9f3c21ee504d5e3';
         $event = Event::find()->where(['_id' => $event_id])->one();
