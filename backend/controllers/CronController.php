@@ -32,7 +32,7 @@ class CronController extends Controller {
         $request = Yii::$app->request;
         $event_id = $request->get('id');
 //        $event_id = '59dca2f4a680916fbc3cfe73';
-        $event_id = '59b038f4b9f3c21ee504d5e3';
+//        $event_id = '59b038f4b9f3c21ee504d5e3';
         $event = Event::find()->where(['_id' => $event_id])->one();
         $locations = Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
         $location_ids = array();
