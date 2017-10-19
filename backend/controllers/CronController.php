@@ -32,15 +32,17 @@ class CronController extends Controller {
         $request = Yii::$app->request;
         $event_id = $request->get('id');
 //        $event_id = '59dca2f4a680916fbc3cfe73';
-//        $event_id = '59b038f4b9f3c21ee504d5e3';
+        $event_id = '59b038f4b9f3c21ee504d5e3';
         $event = Event::find()->where(['_id' => $event_id])->one();
-        $locations = \common\models\Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
-        echo "<pre>";
-//        foreach ($events as $event) {
+        $locations = Location::findAll(['_id' => Event::findEventLocationsIDs($event->_id)]);
+        $location_ids = array();
+        foreach ($locations as $single_location) {
+            array_push($location_ids, (string) $single_location->_id);
+        }
         foreach ($event['locations'] as $location) {
             if (Location::find($location['_id'])->count() > 0) {
                 echo $i++ . ', ';
-                if (!in_array($location['_id'], $locations)) {
+                if (!in_array((string) $location['_id'], $location_ids)) {
                     echo "<br> " . (string) $location['_id'] . " Not found<br>";
                     exit;
                 }
@@ -49,7 +51,6 @@ class CronController extends Controller {
                 exit;
             }
         }
-//        }
     }
 
     public function actionSetSlug() {
