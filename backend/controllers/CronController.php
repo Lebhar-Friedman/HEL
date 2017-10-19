@@ -43,11 +43,15 @@ class CronController extends Controller {
             if (Location::find($location['_id'])->count() > 0) {
                 echo $i++ . ', ';
                 if (!in_array((string) $location['_id'], $location_ids)) {
-                    echo "<br> " . (string) $location['_id'] . " Not found<br>";
-                    exit;
+//                    echo "<br> " . (string) $location['_id'] . " Not found<br>";
+//                    exit;
+                    echo "<pre>";echo"<br>not found in array<br>";
+                    print_r($location);
                 }
             } else {
-                echo (string) $location['_id'] . " Not found <br>";
+//                echo (string) $location['_id'] . " Not found <br>";
+                echo "<pre>";echo "<br>Not found in locations collection<br>";
+                print_r($location);
                 exit;
             }
         }
