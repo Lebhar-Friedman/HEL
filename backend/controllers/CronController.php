@@ -25,6 +25,25 @@ use yii\web\Controller;
  */
 class CronController extends Controller {
 
+    public function actionTestLocations() {
+        set_time_limit(3000);
+        $i = 0;
+        $event_id = '59dca2f4a680916fbc3cfe73';
+//        $event_id = '59b038f4b9f3c21ee504d5e3';
+        $event = Event::find()->where(['_id'=>$event_id])->one();
+        echo "<pre>";
+//        foreach ($events as $event) {
+            foreach ($event['locations'] as $location) {
+                if (Location::find($location['_id'])->count() > 0) {
+                    echo $i++ . ', ';
+                } else {
+                    echo (string) $location['_id'] . "<br>Not found";
+                    exit;
+                }
+            }
+//        }
+    }
+
     public function actionSetSlug() {
         $categories = Categories::find()->all();
         $sub_categories = SubCategories::find()->all();
@@ -35,7 +54,7 @@ class CronController extends Controller {
             echo $slug . '<br>';
             $category->save();
         }
-        foreach($sub_categories as $sub){
+        foreach ($sub_categories as $sub) {
             $sub->save();
         }
     }

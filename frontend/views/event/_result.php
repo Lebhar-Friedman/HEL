@@ -218,3 +218,8 @@ $events_with_nearest_locations = array();
 </div>
 
 <?php Pjax::end() ?>
+<!--
+[
+    -81.9309323,
+    31.9322085
+]-->
