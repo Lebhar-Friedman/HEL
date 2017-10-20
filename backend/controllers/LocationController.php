@@ -2,17 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\CompanyForm;
-use common\models\Location;
-use common\models\Event;
+use backend\models\LocationForm;
 use common\models\Company;
+use common\models\Event;
+use common\models\Location;
+use components\GlobalFunction;
 use Yii;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
-use yii\web\UploadedFile;
-use yii\filters\AccessControl;
 
 class LocationController extends Controller {
 
@@ -24,7 +24,7 @@ class LocationController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    [
+                        [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -147,19 +147,20 @@ class LocationController extends Controller {
             $companies = Company::CompanyList();
             $companyList = [];
             foreach ($companies as $c) {
-                $companyList[$c->company_number]=$c->name;
+                $companyList[$c->company_number] = $c->name;
             }
 
             if (count($location) > 0) {
                 $request = Yii::$app->request;
-                $model = new \backend\models\LocationForm();
+                $model = new LocationForm();
                 $model->attributes = $location->attributes;
                 $model->id = $location->_id;
 
                 if ($request->isPost) {
                     $model->load($request->post());
                     if ($model->saveLocation()) {
-                        $location->attributes = $model->attributes;
+                        $location->attributes = $model->attributes;                       
+                        
                         Event::updateLocationInEvents($location);
                         Yii::$app->getSession()->setFlash('success', 'Location has been updated successfully.');
                     }

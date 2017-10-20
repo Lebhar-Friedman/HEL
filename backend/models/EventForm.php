@@ -260,13 +260,19 @@ class EventForm extends Model {
     }
 
     public static function mergeEventLocations($eventLocations, $newLocation) {
+        $can_replace = false;
+        $i =0;
         foreach ($eventLocations as $key => $Location) {
             if ($Location['location_id'] == $newLocation['location_id']) {
-                unset($eventLocations[$key]);
+                $can_replace =true;
+                $replace_index = $i;
                 break;
             }
+            $i++;
         }
-        array_push($eventLocations, $newLocation);
+        if($can_replace){
+            $eventLocations[$replace_index] = $newLocation ;
+        }
         return $eventLocations;
     }
 

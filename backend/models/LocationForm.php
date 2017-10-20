@@ -26,10 +26,10 @@ class LocationForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [[ 'company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
+                [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
             // string fields
             [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'string'],
-            ['company', 'validateCompany']
+                ['company', 'validateCompany']
         ];
     }
 
@@ -63,16 +63,23 @@ class LocationForm extends Model {
     public function saveLocation() {
         if ($this->validate()) {
             $location = \common\models\Location::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->id)]);
+            $geometry = $location->geometry;
             $location->attributes = $this->attributes;
-            $latlong = \components\GlobalFunction::getLongLat($this); //exit(print_r($latlong));
-            if ($latlong) {
-                $location->geometry = ['type' => 'Point',
-                    'coordinates' => [
-                        $latlong['long'],
-                        $latlong['lat']
-                    ]
-                ];
+            if ($this->street == $location->street && $this->city == $location->city && $this->state == $location->state && $this->zip == $location->zip) {
+                $location->geometry = $geometry;
+            } else {
+                $latlong = \components\GlobalFunction::getLongLat($this); //exit(print_r($latlong));
+                if ($latlong) {
+                    $location->geometry = ['type' => 'Point',
+                        'coordinates' => [
+                            $latlong['long'],
+                            $latlong['lat']
+                        ]
+                    ];
+                    $geometry = $location->geometry;
+                }
             }
+            $this->geometry = $geometry;
             if ($location->update() !== FALSE) {
                 return TRUE;
             } else {
@@ -81,13 +88,13 @@ class LocationForm extends Model {
             }
         }
     }
-    
-    public function isLocationExist(){
+
+    public function isLocationExist() {
         $query = \common\models\Location::find()->andWhere(['zip' => $this->zip]);
         $locations = $query->andWhere(['street' => strtolower($this->street)])->all();
         if (count($locations) == 0) {
             return false;
-        }else{
+        } else {
             return $locations[0];
 //            $this->attributes = $locations[0]->attributes;
 //            return true;
