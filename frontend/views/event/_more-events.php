@@ -17,9 +17,9 @@ use yii\helpers\BaseUrl;
         </div>
         <?php foreach ($more_events as $event) { ?>
             <?php $nearest_location = GlobalFunction::nearestLocation($lng_lat['lat'], $lng_lat['long'], $event['locations']); ?>
-    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number]) ?>">
+            <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number]) ?>">
                 <div class="multi-service">
-                    <h1><?= (isset($event['sub_categories']) && sizeof($event['sub_categories']) === 1 ) ? $event['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
+                    <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/", "/ ", $event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
                     <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
                     <span><?= empty($event['price']) ? 'Free' : '$' . $event['price'] ?></span>
                     <!--<span><?= $event['score'] ?></span>-->
