@@ -16,6 +16,23 @@ $baseUrl = Yii::$app->request->baseUrl;
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
     <head>
+        <?php if (ENV === "live") { ?>
+            <!-- Google Tag Manager -->
+            <script>
+                (function (w, d, s, l, i) {
+                    w[l] = w[l] || [];
+                    w[l].push({'gtm.start':
+                                new Date().getTime(), event: 'gtm.js'});
+                    var f = d.getElementsByTagName(s)[0],
+                            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                    j.async = true;
+                    j.src =
+                            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                    f.parentNode.insertBefore(j, f);
+                })(window, document, 'script', 'dataLayer', 'GTM-P2WNXC');
+            </script>
+            <!-- End Google Tag Manager -->
+        <?php } ?>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= Html::csrfMetaTags() ?>
@@ -23,30 +40,14 @@ $baseUrl = Yii::$app->request->baseUrl;
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel='stylesheet' type='text/css'>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
-        <?php if (ENV === "live") { ?>
-            <script>
-                (function (i, s, o, g, r, a, m) {
-                    i['GoogleAnalyticsObject'] = r;
-                    i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
-                    a = s.createElement(o),
-                            m = s.getElementsByTagName(o)[0];
-                    a.async = 1;
-                    a.src = g;
-                    m.parentNode.insertBefore(a, m)
-                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-                ga('create', 'UA-5563291-51', 'auto');
-                ga('send', 'pageview');
-
-            </script>
-        <?php } ?>
     </head>
     <body>
         <?php $this->beginBody() ?>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2WNXC" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript>
+        <!-- End Google Tag Manager (noscript) -->
         <script type="text/javascript">
-            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                        ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                               ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= BaseUrl::base() ?>/images/';

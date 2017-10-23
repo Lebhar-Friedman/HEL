@@ -13,13 +13,13 @@ use function GuzzleHttp\json_encode;
 
 $this->registerMetaTag(['property' => 'og:url', 'content' => Url::to(['event/detail', 'eid' => (string) $event['_id']])]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
-$this->registerMetaTag(['property' => 'og:title', 'content' => $event['title']]);
+$this->registerMetaTag(['property' => 'og:title', 'content' => $title_content]);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $event['description']]);
 $this->registerMetaTag(['property' => 'og:image', 'content' => GlobalFunctions::getCompanyLogo($company['company_number'])]);
 $this->registerMetaTag(['property' => 'og:site_name', 'content' => 'Health Events Live']);
 
-$this->registerMetaTag(['property' => 'twitter:card', 'content' => 'article']);
-$this->registerMetaTag(['property' => 'twitter:title', 'content' => $event['title']]);
+$this->registerMetaTag(['property' => 'twitter:card', 'content' => 'summary']);
+$this->registerMetaTag(['property' => 'twitter:title', 'content' => $title_content]);
 $this->registerMetaTag(['property' => 'twitter:description', 'content' => $event['description']]);
 $this->registerMetaTag(['property' => 'twitter:image', 'content' => GlobalFunctions::getCompanyLogo($company['company_number'])]);
 
@@ -64,7 +64,7 @@ foreach ($event['sub_categories'] as $sub_category) {
     $sub_categories_in_meta = $sub_categories_in_meta . htmlentities($sub_category) . ", ";
 }
 $sub_categories_in_meta = rtrim(trim($sub_categories_in_meta), ',');
-$this->title = $categories_in_title . $company['name'] . ', ' . $zipcode;
+$this->title = $title_content;
 //$this->title = $sub_categories_in_meta;
 $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost health services for " . $sub_categories_in_meta . " at " . $company['name'] . ", " . $event_location['street'] . ", " . $event_location['city']]);
 ?>
@@ -164,6 +164,8 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
     })();
 </script>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
+<?php $locations_nearby = GlobalFunction::locationsInRadius($lat_lng['lat'], $lat_lng['long'], $event['locations'], 20); ?>
+<?php $number_of_locations_nearby = sizeof($locations_nearby); ?>
 <div class="container">
     <div class="row">
         <!--            <div class="col-lg-1 col-md-2 col-sm-2">
@@ -249,7 +251,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
-                    echo "<span>More locations nearby</span>";
+                    echo "<span>More locations nearby".$number_of_locations_nearby."</span>";
                 }
                 ?>
                 <a href="#map">Show map</a>            </div>
@@ -266,9 +268,9 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                                                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                                                                                                        <i><?= $sub_category ?></i>
-                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                                                                                            <i><?= $sub_category ?></i>
+                                                                                                                                                                                                                                                                                        </div>
             <?php
         endforeach;
         ?>
@@ -365,7 +367,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 <?php
                 foreach ($companyEvents as $companyEvent):
                     ?> 
-                <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($companyEvent['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($companyEvent['sub_categories']), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
+                    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($companyEvent['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($companyEvent['sub_categories']), 'eid' => (string) $companyEvent['_id'], 'store' => $event_location['location_id'], 'zipcode' => $event_location['zip']]) ?>">
                         <div class="multi-service2">
                             <h1><?= (isset($companyEvent['sub_categories']) && sizeof($companyEvent['sub_categories']) === 1 ) ? $companyEvent['sub_categories'][0] . ' Screenings' : 'Multiple Services' ?></h1>
                             <h2><?= GlobalFunction::getEventDate($companyEvent['date_start'], $companyEvent['date_end']) ?></h2>

@@ -102,14 +102,14 @@ $events_with_nearest_locations = array();
                 $nearest = $distance;
                 $nearest_store_number = $location['location_id'];
             }
-        }if($nearest_store_number == 0 ){
+        }if ($nearest_store_number == 0) {
             $nearest_store_number = '';
-        } 
+        }
         ?>
         <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
-    <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
+        <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
             <div class="multi-service" >
-                <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/","/ ",$event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
+                <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/", "/ ", $event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
 
                 <div class="location-text">
@@ -128,6 +128,8 @@ $events_with_nearest_locations = array();
             </div>
 
         </a>
+    
+   
         <?php
         $event['locations'] = $locations_near;
         $events_with_nearest_locations[] = $event;
@@ -218,8 +220,3 @@ $events_with_nearest_locations = array();
 </div>
 
 <?php Pjax::end() ?>
-<!--
-[
-    -81.9309323,
-    31.9322085
-]-->

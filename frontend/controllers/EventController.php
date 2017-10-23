@@ -104,14 +104,14 @@ class EventController extends Controller {
             if (sizeof($categories_array) > 0 && $categories_array[0] !== '') {
                 foreach ($categories_array as $cat) {
                     $category = Categories::find()->where(['category_slug' => $cat])->one();
-                    if(isset($category->name)) {
+                    if (isset($category->name)) {
                         array_push($name_categories_array, $category->name);
                     }
                 }
                 $params_keys = array_merge($params_keys, $name_categories_array);
             }if (sizeof($services_array) > 0 && $services_array[0] !== '') {
                 foreach ($services_array as $service) {
-                    $sub_category = SubCategories::find()->where(['sub_category_slug' => $service ])->one();
+                    $sub_category = SubCategories::find()->where(['sub_category_slug' => $service])->one();
                     if (isset($sub_category->name)) {
                         array_push($name_sub_array, $sub_category->name);
                     }
@@ -264,9 +264,25 @@ class EventController extends Controller {
         $company = Company::findCompanyByNumber($event['company']);
 
         $companyEvents = Event::findEventsByStore($event_location['location_id'], $eid);
-//        $z_lng_lat = $this->getZipLongLat();
 
-        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location]);
+        $number_of_categories_in_title = 0;
+        $categories_in_title = '';
+        foreach ($event['categories'] as $category) {
+            $number_of_categories_in_title += 1;
+            if ($number_of_categories_in_title > 2)
+                break;
+            $categories_in_title = $categories_in_title . $category . ', ';
+        }
+        if (isset($_GET['zipcode'])) {
+            $zipcode = $_GET['zipcode'];
+        } else {
+            $zipcode = isset($event['locations'][0]['zip']) ? $event['locations'][0]['zip'] : '';
+        }
+        if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode']) || empty($_GET['zipcode']) )) {
+            $zipcode = $event_location['zip'];
+        }
+        $title_content = $categories_in_title . isset($company['name']) ? $company['name'] : '' . ', ' . $zipcode;
+        return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location, 'title_content' => $title_content]);
     }
 
     public function actionDirectory() {

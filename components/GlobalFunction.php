@@ -384,7 +384,7 @@ class GlobalFunction {
 //                    if( (abs($location_to_return['geometry']['coordinates'][0] - $location['geometry']['coordinates'][0]) < $epsilon) && (abs($location_to_return['geometry']['coordinates'][1] - $location['geometry']['coordinates'][1]) < $epsilon)) {
 //                        $is_exist = true;
 //                    }
-                    if ($location['store_number'] === $location_to_return['store_number']) {
+                    if (($location['geometry']['coordinates'][0] === $location_to_return['geometry']['coordinates'][0]) && ($location['geometry']['coordinates'][1] === $location_to_return['geometry']['coordinates'][1])) {
                         $is_exist = true;
                     }
                 }
