@@ -251,7 +251,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
-                    echo "<span>More locations nearby".$number_of_locations_nearby."</span>";
+                    echo "<span>More locations nearby ".$number_of_locations_nearby."</span>";
                 }
                 ?>
                 <a href="#map">Show map</a>            </div>
