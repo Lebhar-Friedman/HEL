@@ -98,7 +98,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             <?= $content ?>
         </div>
-    </div>
+    <!--</div>-->
     <!--<footer>-->
     <!--            <div class="social-icon">
                     <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>
