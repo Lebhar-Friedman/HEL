@@ -16,17 +16,16 @@ if (isset($_GET['email'])) {
 }
 $this->title = 'Signup | Health Events Live';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Health events signup']);
-?>
-<style>
-    body{
+$this->registerCss(
+        "body{
         background:#eaeaea !important;
     }
     .result-header{
         background: #FFF !important;
         margin-bottom: 15px !important;
         border-bottom: 1px solid #2aaae2;
-    }
-</style>
+    }");
+?>
 <div class="row">
     <div class="col-lg-1">
     </div>

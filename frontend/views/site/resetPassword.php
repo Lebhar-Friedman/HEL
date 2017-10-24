@@ -1,24 +1,23 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\ResetPasswordForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+
 $this->title = 'Health Events Live: Reset Password';
 //$this->params['breadcrumbs'][] = $this->title;
-?>
-<style>
-    body{
+$this->registerCss(
+        "body{
         background:#eaeaea !important;
     }
     .result-header{
         background: #FFF !important;
         margin-bottom: 15px !important;
         border-bottom: 1px solid #2aaae2;
-    }
-</style>
+    }");
+?>
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
@@ -28,7 +27,7 @@ $this->title = 'Health Events Live: Reset Password';
                 <div class="forget-signup-form">
                     <h1>Reset Password</h1>
                     <div>
-                        <?= $form->field($model, 'password',['inputOptions'=> ['class'=> 'txtbx','placeholder' => 'Enter your new password']])->passwordInput(['autofocus' => true])->label(false) ?>
+                        <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'txtbx', 'placeholder' => 'Enter your new password']])->passwordInput(['autofocus' => true])->label(false) ?>
                     </div>
                 </div>
                 <div class="submit">

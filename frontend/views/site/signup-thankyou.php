@@ -9,9 +9,8 @@ use yii\web\View;
 
 $this->title = 'Health Events Live: Welcome';
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<style>    
-    .result-header{
+$this->registerCss(
+        ".result-header{
         background: #FFF !important;
         margin-bottom: 15px !important;
         border-bottom: 1px solid #2aaae2;
@@ -24,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
     a:hover, a:focus {
         color: #23527c;
         text-decoration: underline !important;
-    }
-</style>
+    }");
+?>
 <div class="row">
     <div class="col-lg-12" style="min-height: 428px;justify-content: center;display: flex;align-items: center;">
         <div class="middle-content text-center">

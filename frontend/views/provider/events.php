@@ -18,9 +18,8 @@ if ($company['logo'] === NULL || $company['logo'] === '' || !isset($company['log
     $img_url = IMG_URL . $company['logo'];
 }
 $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipcode') : (Yii::$app->request->post('zipcode') ? Yii::$app->request->post('zipcode') : '');
-?>
-<style>
-    .chosen-container-multi .chosen-choices {
+$this->registerCss(
+    ".chosen-container-multi .chosen-choices {
         min-height: 45px;
         display: block;
         border: 1px solid #dbdbdb;
@@ -33,8 +32,8 @@ $zip_code = (Yii::$app->request->get('zipcode')) ? Yii::$app->request->get('zipc
     }
     .chosen-container-multi .chosen-choices li.search-field input[type=text]{
         text-align: center !important;
-    }
-</style>
+    }");
+?>
 
 
 <div class="container">
