@@ -33,8 +33,13 @@ $alerts = array();
                             <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
                         </a>
                         <?php if ($single_alert_obj['type'] === "exact_location") { ?>
-                            <?= 'Events at ' . $single_alert_obj['zip_code'] . ', ' . $single_alert_obj['street'] . ', ' . $single_alert_obj['city'] . ', ' . $single_alert_obj['state']; ?>
+                            <?= $single_alert_obj['zip_code'] . ' | ' . $single_alert_obj['street'] . ', ' . $single_alert_obj['city'] . ', ' . $single_alert_obj['state']; ?>
                         <?php } else { ?>
+                            <?php
+                            if ($single_alert_obj['zip_code'] !== null) {
+                                echo $single_alert_obj['zip_code'] . ' | ';
+                            }
+                            ?>
                             <?php
                             foreach ($single_alert_obj['keywords'] as $value) {
                                 array_push($alerts, $value);
@@ -44,11 +49,6 @@ $alerts = array();
                                 <?php array_push($alerts, $filter); ?>
                             <?php } ?>
                             <?= implode(", ", $alerts); ?>
-                            <?php
-                            if ($single_alert_obj['zip_code'] !== null) {
-                                echo ' Events near ' . $single_alert_obj['zip_code'];
-                            }
-                            ?>
                         <?php } ?>
 
                     </div>
