@@ -1,3 +1,4 @@
+//alert(removeSpecialChars("a uj  0 p^/'o"));
 function getQueryParams(name) {
     qs = location.search;
     var params = [];
