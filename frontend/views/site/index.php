@@ -1,12 +1,11 @@
 <?php
 $baseUrl = Yii::$app->request->baseUrl;
 $this->title = 'Health Events Live: Home';
-?>
-<style>
-    #homelayout-header{
+$this->registerCss(
+        "#homelayout-header{
         display: none;
-    }
-</style>
+    }");
+?>
 <header>
     <div class="container" id="home">
         <div class="signUp-btns clearfix">
@@ -23,14 +22,14 @@ $this->title = 'Health Events Live: Home';
             <?php } ?>
         </div>
         <div class="logo-container">
-            <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" /></a></a>
+            <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt=""></a>
             <div class="logo-text">
                 Find free and low-cost health <br> services at trusted stores near you.
             </div>
             <div class="search-content">
                 <input type="text" class="search-txtbx" placeholder="Enter your zip code"  onkeyup="checkEnterPress(event, this.value)" id="zipcode_input" value="<?= $zip_code ?>"/>
                 <a href="javascript:;" onclick="getZipCodeForSearch()" class="search-btn" ></a>
-                <img src="<?= $baseUrl ?>/images/loader-mini.gif" width="24" height="24" hidden="">
+                <img src="<?= $baseUrl ?>/images/loader-mini.gif" width="24" height="24" hidden="" alt="">
 
             </div>
         </div>

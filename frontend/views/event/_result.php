@@ -13,8 +13,8 @@ use function GuzzleHttp\json_encode;
 $this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
 $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ' . $zip_code]);
 ?>
-<style>
-    #overlay {
+<?php $this->registerCss(
+    "#overlay {
         position: fixed;
         display: none;
         width: 100%;
@@ -54,12 +54,10 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low
         color: #999;
         font-weight: normal;
         font-size: 18px;
-    }
-
-
-</style>
+    }");
+?>
 <div id="overlay" >
-    <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>"></div>
+    <div><img id="loader" src="<?= BaseUrl::base() . '/images/loader.gif' ?>" alt=""></div>
 </div>
 <?php $img_url = BaseUrl::base() . '/images/'; ?>
 <?php Pjax::begin(['id' => 'result-view', 'timeout' => 30000, 'enablePushState' => TRUE]); ?>
@@ -113,7 +111,7 @@ $events_with_nearest_locations = array();
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
 
                 <div class="location-text">
-                    <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50px" alt="" />
+                    <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" height="50" alt="" />
                     <div class="text"><?= sizeof($locations_near) ?> <?= sizeof($locations_near) > 1 ? "Locations" : "Location" ?></div>
                     <img src="<?= $img_url ?>map-marker.png" alt="" /> <?= isset($event['distance']) ? round($event['distance'], 1) . ' m' : '' ?> 
                 </div>
@@ -184,7 +182,7 @@ $events_with_nearest_locations = array();
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-            $map->zoom = $map->getMarkersFittingZoom() + 1;
+//            $map->zoom = $map->getMarkersFittingZoom() + 1;
 
 //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
 //            $map->addEvent($map_event);
