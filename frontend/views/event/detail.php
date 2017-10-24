@@ -107,8 +107,9 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
 </script>
 <!-- 1. Include style -->
 <!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
-<style>
-    .chosen-choices{
+<?php 
+$this->registerCss(
+    ".chosen-choices{
         min-height: 45px;
         display: block;
         border: 1px solid #dbdbdb;
@@ -144,9 +145,8 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
         color: #999;
         font-weight: normal;
         font-size: 18px;
-    }
-
-</style>
+    }");
+?>
 <script type="text/javascript">(function () {
         if (window.addtocalendar)
             if (typeof window.addtocalendar.start == "function")
@@ -416,10 +416,10 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                             <?php if (Yii::$app->user->isGuest) { ?>
                                 <div class="email-conatiner">   
                                     <input type="text" class="email-textbox" placeholder="Email" id="email"/>
-                                    <a type="submit" onclick="alertZipCodeSession()" value="Go" class="submitbtn" />Alert Me</a>
+                                    <a type="btn" onclick="alertZipCodeSession()"  class="submitbtn" >Alert Me</a>
                                 </div>
                             <?php } else { ?>
-                                <a type="btn" onclick="alertZipCode()" value="Go" class="add-new-alert" />Alert Me</a>
+                                <a type="btn" onclick="alertZipCode()"  class="add-new-alert" />Alert Me</a>
                             <?php } ?><input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
                         </div>
                     </div>
