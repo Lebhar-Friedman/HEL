@@ -416,10 +416,10 @@ $this->registerCss(
                             <?php if (Yii::$app->user->isGuest) { ?>
                                 <div class="email-conatiner">   
                                     <input type="text" class="email-textbox" placeholder="Email" id="email"/>
-                                    <a type="btn" onclick="alertZipCodeSession()"  class="submitbtn" >Alert Me</a>
+                                    <a onclick="alertZipCodeSession()"  class="submitbtn" >Alert Me</a>
                                 </div>
                             <?php } else { ?>
-                                <a type="btn" onclick="alertZipCode()"  class="add-new-alert" />Alert Me</a>
+                                <a onclick="alertZipCode()"  class="add-new-alert" />Alert Me</a>
                             <?php } ?><input type="hidden" id="event_id" name="event_id" value="<?= (string) $event['_id'] ?>">
                         </div>
                     </div>
