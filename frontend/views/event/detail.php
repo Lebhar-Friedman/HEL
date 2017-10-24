@@ -346,7 +346,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
                         }
                         if (!empty($map->getMarkers())) {
                             $map->center = $map->getMarkersCenterCoordinates();
-                            $map->zoom = $map->getMarkersFittingZoom();
+//                            $map->zoom = $map->getMarkersFittingZoom();
                             echo $map->display();
                         }
                         ?>

@@ -281,7 +281,9 @@ class EventController extends Controller {
         if (isset($_GET['store']) && !empty($_GET['store']) && (!isset($_GET['zipcode']) || empty($_GET['zipcode']) )) {
             $zipcode = $event_location['zip'];
         }
-        $title_content = $categories_in_title . isset($company['name']) ? $company['name'] : '' . ', ' . $zipcode;
+        $company_name_in_title = isset($company['name']) ? $company['name'] : '';
+        $title_content = $categories_in_title .$company_name_in_title. ', ' . $zipcode;
+//        echo $title_content;exit;
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location, 'title_content' => $title_content]);
     }
 
