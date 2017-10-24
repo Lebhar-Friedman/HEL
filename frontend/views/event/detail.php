@@ -92,7 +92,7 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
     }
     },
     "image": [
-    "<?= GlobalFunctions::getCompanyLogo($event_location['company']) ?>"
+    "<?= GlobalFunctions::getCompanyLogo($event['company']) ?>"
     ],
     "description": "<?= $event['description'] ?>",
     "endDate": "<?= GlobalFunction::getDate('Y-m-d', $event['date_end']) ?>T<?= date("H:i", strtotime($event['time_end'])) ?>:00",
@@ -238,7 +238,7 @@ $this->registerCss(
         </div>
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
             <div class="cvs-text">
-                <img src="<?= GlobalFunctions::getCompanyLogo($event_location['company']) ?>" alt="" />
+                <img src="<?= GlobalFunctions::getCompanyLogo($event['company']) ?>" alt="" />
                 <div class="margin-t">
                     <?= $event_location['street'] ?><br />
                     <?= $event_location['city'] ?>, <?= $event_location['state'] ?>, <?= $event_location['zip'] ?><br />
