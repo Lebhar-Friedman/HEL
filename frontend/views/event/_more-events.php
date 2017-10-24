@@ -3,13 +3,12 @@
 use common\functions\GlobalFunctions;
 use components\GlobalFunction;
 use yii\helpers\BaseUrl;
-?>
-<style>
-    h1{
+
+$this->registerCss("h1{
         color: #333;
-    }
-</style>
-<?php $img_url = BaseUrl::base() . '/images/'; ?>
+    }");
+$img_url = BaseUrl::base() . '/images/';
+?>
 <div id="more_events">
     <?php if (isset($more_events) && sizeof($more_events) > 0) { ?>
         <div class="event-near">

@@ -71,7 +71,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <?php } ?>
                 </div>
                 <div class="logo-container">
-                    <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" class="img-responsive"/></a></a>
+                    <a href="<?= $baseUrl ?>"><img src="<?= Yii::$app->getHomeUrl(); ?>images/home-logo.png" alt="" class="img-responsive"/></a>
                     <div class="logo-text">
                         Find free and low cost health <br />services at trusted stores near you
                     </div>

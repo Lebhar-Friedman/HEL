@@ -12,10 +12,8 @@ $this->registerJsFile('@web/js/events.js', ['depends' => [JqueryAsset::className
 $this->registerCssFile('@web/css/results.css', ['depends' => frontend\assets\AppAsset::className()]);
 $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\AppAsset::className()]);
 
-
-?>
-<style>
-    .chosen-choices{
+$this->registerCss(
+    ".chosen-choices{
         min-height: 45px;
         display: block;
         border: 1px solid #dbdbdb;
@@ -56,10 +54,10 @@ $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\
     .search-choice-close {
         top: 9px;
         right: 5px;
-    }
-</style>
-<?php $img_url = BaseUrl::base() . '/images/'; ?>
-<?php $is_alert = isset($alert_added) ? $alert_added : FALSE ?>
+    }");
+ $img_url = BaseUrl::base() . '/images/'; 
+ $is_alert = isset($alert_added) ? $alert_added : FALSE; 
+?>
 
 <!--<body class="reult-body">-->
 <div class="container">
