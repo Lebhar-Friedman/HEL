@@ -21,20 +21,20 @@ $this->registerCss(
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
-<?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-        <center>
-            <div class="middle-content">
-                <div class="signup-form">
-                    <h1>Forgot Password</h1>
-                    <div>
-<?= $form->field($model, 'email', ['inputOptions' => ['class' => 'txtbx', 'placeholder' => 'Enter Your Email']])->textInput(['autofocus' => true])->label(false) ?>
-                    </div>
-                </div>
-                <div class="submit">
-<?= Html::submitButton('Submit', ['class' => 'btn']) ?>
+        <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+
+        <div class="middle-content">
+            <div class="signup-form">
+                <h1>Forgot Password</h1>
+                <div>
+                    <?= $form->field($model, 'email', ['inputOptions' => ['class' => 'txtbx', 'placeholder' => 'Enter Your Email']])->textInput(['autofocus' => true])->label(false) ?>
                 </div>
             </div>
-        </center>
-<?php ActiveForm::end(); ?>
+            <div class="submit">
+                <?= Html::submitButton('Submit', ['class' => 'btn']) ?>
+            </div>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
 </div>

@@ -22,19 +22,19 @@ $this->registerCss(
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
         <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
-        <center>
-            <div class="middle-content">
-                <div class="forget-signup-form">
-                    <h1>Reset Password</h1>
-                    <div>
-                        <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'txtbx', 'placeholder' => 'Enter your new password']])->passwordInput(['autofocus' => true])->label(false) ?>
-                    </div>
-                </div>
-                <div class="submit">
-                    <?= Html::submitButton('Submit', ['class' => 'btn']) ?>
+
+        <div class="middle-content">
+            <div class="forget-signup-form">
+                <h1>Reset Password</h1>
+                <div>
+                    <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'txtbx', 'placeholder' => 'Enter your new password']])->passwordInput(['autofocus' => true])->label(false) ?>
                 </div>
             </div>
-        </center>
+            <div class="submit">
+                <?= Html::submitButton('Submit', ['class' => 'btn']) ?>
+            </div>
+        </div>
+
         <?php ActiveForm::end(); ?>
     </div>
 </div>
