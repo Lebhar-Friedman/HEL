@@ -1,4 +1,4 @@
-//alert(removeSpecialChars("-uj - 0 po"));
+//alert(removeSpecialChars("a uj  0 p^/'o"));
 function getQueryParams(name) {
     qs = location.search;
     var params = [];
@@ -53,7 +53,7 @@ $(document).ready(function () {
 
 });
 function removeSpecialChars(str) {
-  return str.replace(/(?!\w|\s)./g, '-')
+  return str.replace(/(?!\w|\s)./g, '')
     .replace(/\s+/g, ' ')
     .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
 }
