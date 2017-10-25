@@ -94,7 +94,7 @@ class Categories extends ActiveRecord {
     }
 
     public function setSlug() {
-        $slug = strtolower(str_replace(' ', '', $this->name));
+        $slug = strtolower(str_replace(' ', '-', $this->name));
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
         $this->category_slug = $slug;
     }

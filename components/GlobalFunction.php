@@ -399,13 +399,13 @@ class GlobalFunction {
     public static function removeSpecialCharacters($text) {
         if (is_array($text)) {
             foreach ($text as $key => $value) {
-                $value = strtolower(str_replace(' ', '', $value));
+                $value = strtolower(str_replace(' ', '-', $value));
                 $value = preg_replace('/[^A-Za-z0-9\-]/', '', $value);
                 $text[$key] = $value;
             }
-            return implode('-', $text);
+            return implode('+', $text);
         } else {
-            $text = strtolower(str_replace(' ', '', $text));
+            $text = strtolower(str_replace(' ', '-', $text));
             $text = preg_replace('/[^A-Za-z0-9\-]/', '', $text);
             return $text;
         }
