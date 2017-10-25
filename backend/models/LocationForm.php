@@ -26,10 +26,10 @@ class LocationForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-                [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
+            [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'required'],
             // string fields
             [['company', 'street', 'city', 'state', 'zip', 'contact_name', 'phone'], 'string'],
-                ['company', 'validateCompany']
+            ['company', 'validateCompany']
         ];
     }
 
@@ -91,7 +91,7 @@ class LocationForm extends Model {
 
     public function isLocationExist() {
         $query = \common\models\Location::find()->andWhere(['zip' => $this->zip]);
-        $locations = $query->andWhere(['street' => strtolower($this->street)])->all();
+        $locations = $query->andWhere(['street' => new \MongoDB\BSON\Regex("^$this->street", "i")])->all();
         if (count($locations) == 0) {
             return false;
         } else {

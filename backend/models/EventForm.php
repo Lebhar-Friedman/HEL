@@ -38,12 +38,12 @@ class EventForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-                [['title', 'company', 'description'], 'required'],
+            [['title', 'company', 'description'], 'required'],
             // safe fields
             [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
-                ['company', 'validateCompany']
+            ['company', 'validateCompany']
         ];
     }
 
@@ -172,6 +172,9 @@ class EventForm extends Model {
                     $locationModel->attributes = $locationAttributes;
                     $locationModel->company = $locationModel->company; //ucfirst($locationModel->company);
                     $locationModel->zip = sprintf("%05d", $locationModel->zip);
+                    $locationModel->street = ucwords(strtolower($locationModel->street));
+                    $locationModel->city = ucwords(strtolower($locationModel->city));
+                    $locationModel->state = strtoupper($locationModel->state);
                     $eventModel->attributes = $eventAttributes;
                     $eventModel->categories = explode(',', $eventModel->categories);
                     $eventModel->categories = array_map('common\functions\GlobalFunctions::processString', $eventModel->categories);
@@ -229,7 +232,7 @@ class EventForm extends Model {
         $locationForm = $model->location_models;
 //        $location = Location::findOne(['store_number' => $locationForm->store_number]);]
         $query = Location::find()->andWhere(['zip' => $locationForm->zip]);
-        $locations = $query->andWhere(['street' => strtolower($locationForm->street)])->all();
+        $locations = $query->andWhere(['street' => new \MongoDB\BSON\Regex("^$locationForm->street", 'i')])->all();
         if (count($locations) == 0) {
             $location = new Location();
         } else {
@@ -261,17 +264,17 @@ class EventForm extends Model {
 
     public static function mergeEventLocations($eventLocations, $newLocation) {
         $can_replace = false;
-        $i =0;
+        $i = 0;
         foreach ($eventLocations as $key => $Location) {
             if ($Location['location_id'] == $newLocation['location_id']) {
-                $can_replace =true;
+                $can_replace = true;
                 $replace_index = $i;
                 break;
             }
             $i++;
         }
-        if($can_replace){
-            $eventLocations[$replace_index] = $newLocation ;
+        if ($can_replace) {
+            $eventLocations[$replace_index] = $newLocation;
         }
         return $eventLocations;
     }
