@@ -91,7 +91,7 @@ class SubCategories extends ActiveRecord {
     }
     
     public function setSlug() {
-        $slug = strtolower(str_replace(' ', '', $this->name));
+        $slug = strtolower(str_replace(' ', '-', $this->name));
         $slug = str_replace('-','',preg_replace('/[^A-Za-z0-9\-]/', '', $slug));
         $this->sub_category_slug = $slug;
     }

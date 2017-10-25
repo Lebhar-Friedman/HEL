@@ -1,4 +1,3 @@
-//alert(removeSpecialChars("a uj  0 p^/'o"));
 function getQueryParams(name) {
     qs = location.search;
     var params = [];
@@ -118,12 +117,12 @@ function searchResult(form_data, city_name) {
         var value_cat_sub = $(options[i]).val();
         if (property == 'sub') {
 //            services = services + sign_sub + value_cat_sub.replace(' ','+');
-            services = services + sign_sub + removeSpecialChars(value_cat_sub).replace(' ','').toLowerCase();
-            sign_sub = '-';            
+            services = services + sign_sub + removeSpecialChars(value_cat_sub).replace(' ','-').toLowerCase();
+            sign_sub = '+';            
         } else if (property == 'cat') {
 //            categories = categories + sign_cat + value_cat_sub.replace(' ','+');
-            categories = categories + sign_cat + removeSpecialChars(value_cat_sub).replace(' ','').toLowerCase();
-            sign_cat = '-';
+            categories = categories + sign_cat + removeSpecialChars(value_cat_sub).replace(' ','-').toLowerCase();
+            sign_cat = '+';
         }
     }
     $(document).on('pjax:send', function () {

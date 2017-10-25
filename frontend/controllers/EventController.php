@@ -77,8 +77,8 @@ class EventController extends Controller {
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
             $zip_code = GlobalFunctions::getLatestSearchedZip();
             $params_keys = array();
-            $categories_array = explode('-', $categories);
-            $services_array = explode('-', $services);
+            $categories_array = explode(' ', $categories);
+            $services_array = explode(' ', $services);
             if (sizeof($categories_array) > 0 && $categories_array[0] !== '') {
                 $params_keys = array_merge($params_keys, $categories_array);
             }if (sizeof($services_array) > 0 && $services_array[0] !== '') {
@@ -97,8 +97,8 @@ class EventController extends Controller {
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $params_keys = array();
-            $categories_array = explode('-', $categories);
-            $services_array = explode('-', $services);
+            $categories_array = explode(' ', $categories);
+            $services_array = explode(' ', $services);
             $name_categories_array = array();
             $name_sub_array = array();
             if (sizeof($categories_array) > 0 && $categories_array[0] !== '') {

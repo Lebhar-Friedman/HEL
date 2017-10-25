@@ -62,7 +62,7 @@ class CronController extends Controller {
         $sub_categories = SubCategories::find()->all();
         foreach ($categories as $category) {
             $slug = $category->name;
-            $slug = strtolower(str_replace(' ', '', $slug));
+            $slug = strtolower(str_replace(' ', '-', $slug));
             $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
             echo $slug . '<br>';
             $category->save();
