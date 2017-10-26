@@ -99,7 +99,7 @@ class Location extends ActiveRecord {
      */
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
-            $this->street = strtolower($this->street);
+//            $this->street = strtolower($this->street);
             if ($insert) {
                 $this->location_id = Counter::getAutoIncrementId(Counter::COUNTER_LOCATION_ID);
             }
