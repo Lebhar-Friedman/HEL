@@ -272,6 +272,8 @@ class EventForm extends Model {
         }
         if($can_replace){
             $eventLocations[$replace_index] = $newLocation ;
+        }else{
+            $eventLocations[]=$newLocation;
         }
         return $eventLocations;
     }
