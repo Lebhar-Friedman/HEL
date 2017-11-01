@@ -8,12 +8,14 @@
 
 namespace backend\controllers;
 
+use backend\models\EventForm;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Categories;
 use common\models\Event;
 use common\models\Location;
 use common\models\SubCategories;
+use common\models\UnsavedEvent;
 use common\models\User;
 use components\GlobalFunction;
 use Yii;
@@ -25,6 +27,19 @@ use yii\web\Controller;
  * @author zeeshan
  */
 class CronController extends Controller {
+
+    public function actionImportEvents() {
+        $results = EventForm::saveCSV('event.csv');
+    }
+
+    public function actionTemp() {
+        $request = Yii::$app->request;
+        $error_msg = $request->get('error');
+        $unsaved = new UnsavedEvent();
+//        $unsaved->attributes = $eventModel->attributes;
+        $unsaved->error_msg = $error_msg;
+        $unsaved->save();
+    }
 
     public function actionTestLocations() {
         set_time_limit(3000);
@@ -45,12 +60,14 @@ class CronController extends Controller {
                 if (!in_array((string) $location['_id'], $location_ids)) {
 //                    echo "<br> " . (string) $location['_id'] . " Not found<br>";
 //                    exit;
-                    echo "<pre>";echo"<br>not found in array<br>";
+                    echo "<pre>";
+                    echo"<br>not found in array<br>";
                     print_r($location);
                 }
             } else {
 //                echo (string) $location['_id'] . " Not found <br>";
-                echo "<pre>";echo "<br>Not found in locations collection<br>";
+                echo "<pre>";
+                echo "<br>Not found in locations collection<br>";
                 print_r($location);
                 exit;
             }

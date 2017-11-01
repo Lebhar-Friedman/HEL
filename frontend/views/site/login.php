@@ -31,32 +31,31 @@ $this->registerCss(
             <div class="login-form">
                 <h1>Log In</h1>
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4"> </div>
-                    <!--                        <div class="col-lg-4 col-md-4 col-sm-4 text-center">
-                                                <div class="left-colm">
-                                                    <span>Sign In with your Facebook or Google+ account</span>
-                                                </div>
-                                                
-                    <?php
-                    $authAuthChoice = AuthChoice::begin([
-                                'baseAuthUrl' => ['site/auth']
-                    ]);
-                    ?>
-                                                
-                    <?php $social_clients = $authAuthChoice->getClients(); ?>
-                                                
-                                                <div class="fb-signin clearfix">
-                    <?= $authAuthChoice->clientLink($social_clients['facebook'], 'Sign in with facebook') ?>
-                                                </div>
-                                                <div class="gplus-signin">
-                                                    <a href="#">Sign In with Google+</a>
-                    <?= $authAuthChoice->clientLink($social_clients['google'], 'Sign in with Google+') ?>
-                                                </div>
-                    <?php AuthChoice::end(); ?>
-                                            </div>
-                                            <div class="col-lg-1 col-md-1 col-sm-1 or-mrgn">
-                                                <img class="" src="<?= BaseUrl::base() . "/images/or.png" ?>" alt="" />
-                                            </div>-->
+                    <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 text-center">
+                        <div class="left-colm">
+                            <span>Sign In with your Facebook or Google+ account</span>
+                        </div>
+
+                        <?php
+                        $authAuthChoice = AuthChoice::begin([
+                                    'baseAuthUrl' => ['site/auth']
+                        ]);
+                        ?>
+
+                        <?php $social_clients = $authAuthChoice->getClients(); ?>
+
+                        <div class="fb-signin clearfix">
+                            <?= $authAuthChoice->clientLink($social_clients['facebook'], 'Sign in with facebook') ?>
+                        </div>
+                        <div class="gplus-signin">
+                            <?= $authAuthChoice->clientLink($social_clients['google'], 'Sign in with Google+') ?>
+                        </div>
+                        <?php AuthChoice::end(); ?>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 or-mrgn hide_on_mobile">
+                        <img class="" src="<?= BaseUrl::base() . "/images/or.png" ?>" alt="" />
+                    </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 text-center">
                         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
                         <div class="left-colm">

@@ -94,7 +94,7 @@ class ImportController extends Controller {
      * @return array
      */
     public function actionUploadCsv() {
-        set_time_limit(30000);
+        set_time_limit(0);
         ini_set('memory_limit', '3096M');
 //        ini_set('post_max_size', '16M');
 //        ini_set('upload_max_filesize', '16M');

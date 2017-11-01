@@ -5,6 +5,7 @@ namespace backend\models;
 use common\models\Company;
 use common\models\Event;
 use common\models\Location;
+use common\models\UnsavedEvent;
 use common\models\Values;
 use components\GlobalFunction;
 use Exception;
@@ -38,12 +39,12 @@ class EventForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [['title', 'company', 'description'], 'required'],
+                [['title', 'company', 'description'], 'required'],
             // safe fields
             [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
-            ['company', 'validateCompany']
+                ['company', 'validateCompany']
         ];
     }
 
@@ -159,13 +160,20 @@ class EventForm extends Model {
                 $dataRow = fgetcsv($file);
                 if (!empty($dataRow) && count(array_filter($dataRow))) {
                     foreach ($headerRow as $key => $value) {
-                        if (isset($eventAttributeMapArray[$value])) {
+                        if (isset($eventAttributeMapArray[$value]) ) {
                             $eventAttributes[$eventAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
                         } elseif (isset($locationAttributeMapArray[$value])) {
                             $locationAttributes[$locationAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
                         } elseif (!empty($value)) {
                             fclose($file);
+
                             Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1));
+                            $unsaved = new UnsavedEvent();
+                            $unsaved->error_type = 'header';
+                            $unsaved->error_msg = 'Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1);
+                            $unsaved->save();
+//                            self::$current_row = self::$current_row + 1;
+//                            continue;
                             return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1) . '</b> <br>', 'row_number' => $rowNo];
                         }
                     }
@@ -187,9 +195,15 @@ class EventForm extends Model {
                         $latlong = GlobalFunction::getLongLat($locationModel); //exit(print_r($latlong));
                         if (isset($latlong['error'])) {
                             Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
+                            $error_msg = 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow);
+                            EventForm::saveEventWithError($eventModel, $error_msg);
+//                            continue;
                             return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow) . '</br>', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                         } elseif (!$latlong) {
                             Values::saveValue('import_status', 'error_on_validation', $rowNo, 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow));
+                            $error_msg = 'Following error occured at row ' . $rowNo . ' Invalid location address, Please enter a valid address and try again. ' . json_encode($dataRow);
+                            EventForm::saveEventWithError($eventModel, $error_msg);
+//                            continue;
                             return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br> Invalid location address, Please enter a valid address and try again.', 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                         } else {
                             $locationModel->geometry = ['type' => 'Point',
@@ -199,12 +213,18 @@ class EventForm extends Model {
                         }
                         if (!$locationModel->validate()) {
                             Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()));
+                            $error_msg = 'Following error occured at row ' . $rowNo . ' ' . GlobalFunction::modelErrorsToString($locationModel->getErrors());
+                            EventForm::saveEventWithError($eventModel, $error_msg);
+//                            continue;
                             fclose($file);
                             return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . ' </b> <br>' . GlobalFunction::modelErrorsToString($locationModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                         }
                     }
                     if (!$eventModel->validate()) {
                         Values::saveValue('import_status', 'error_on_validation', $rowNo, '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()));
+                        $error_msg = 'Following error occured at row ' . $rowNo . ' ' . GlobalFunction::modelErrorsToString($eventModel->getErrors());
+                        EventForm::saveEventWithError($eventModel, $error_msg);
+//                        continue;
                         fclose($file);
                         return ['result' => FALSE, 'msg' => '<b>Following error occured at row ' . $rowNo . '</b> <br>' . GlobalFunction::modelErrorsToString($eventModel->getErrors()), 'row' => json_encode($dataRow), 'row_number' => $rowNo];
                     }
@@ -215,7 +235,7 @@ class EventForm extends Model {
 
                     EventForm::singleEventSave($eventModel);
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
-                    Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
+//                    Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
 //                    $eventModel->location_models = null;
 //                    unset($locationModel);
 //                    unset($eventModel);
@@ -273,10 +293,10 @@ class EventForm extends Model {
             }
             $i++;
         }
-        if($can_replace){
-            $eventLocations[$replace_index] = $newLocation ;
-        }else{
-            $eventLocations[]=$newLocation;
+        if ($can_replace) {
+            $eventLocations[$replace_index] = $newLocation;
+        } else {
+            $eventLocations[] = $newLocation;
         }
         return $eventLocations;
     }
@@ -347,6 +367,15 @@ class EventForm extends Model {
                 return FALSE;
             }
         }
+    }
+
+    public static function saveEventWithError($eventModel, $error_msg) {
+        $unsaved = new UnsavedEvent();
+        $unsaved->attributes = $eventModel->attributes;
+        $unsaved->error_type = 'data';
+        $unsaved->error_msg = $error_msg;
+        $unsaved->save();
+        self::$current_row = self::$current_row + 1;
     }
 
 // end class
