@@ -26,7 +26,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
         <?php if (ENV === "live") { ?>
-           <!-- Google Tag Manager -->
+            <!-- Google Tag Manager -->
             <script>
                 (function (w, d, s, l, i) {
                     w[l] = w[l] || [];
@@ -45,8 +45,14 @@ $baseUrl = Yii::$app->request->baseUrl;
     </head>
     <body>
         <?php $this->beginBody() ?>
+        <?php if (ENV === "live") { ?>
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2WNXC"
+                              height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+        <?php } ?>
         <script type="text/javascript">
-            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                             ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                          ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
         </script>
