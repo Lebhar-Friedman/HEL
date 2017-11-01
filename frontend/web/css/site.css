@@ -1198,7 +1198,7 @@ footer a:hover{
     line-height:18px;
     color:#364D6A;
     background:#f3f3f3;
-    padding:21px 10px 20px 50px;
+    padding:21px 20px 20px 33px;
     border-bottom:1px solid #dddddd;
     font-family: 'helveticaneuebold' !important;
 }
@@ -1208,7 +1208,7 @@ footer a:hover{
     font-size:18px;
     line-height:18px;
     color:#1e1e1e;
-    padding:18px 75px 22px 50px;
+    padding:18px 52px 22px 33px;
     border-bottom:1px solid #dddddd;
 }
 .alert-text a{float:right;}
