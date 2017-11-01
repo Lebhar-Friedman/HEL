@@ -377,6 +377,7 @@ footer a:hover{
     .signup-form h1{font-size:30px; line-height:30px;}
     .signup-form h2{font-size:20px; line-height:20px; padding:25px 0px !important;}
     .f-name-txtbx{margin-bottom:0px;}
+    .hide_on_mobile{ display: none}
 
 }
 /*----------------------------------------------- mobile  end */
