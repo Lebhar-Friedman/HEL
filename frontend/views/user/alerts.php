@@ -16,6 +16,62 @@ $this->title = 'Health Events Live: Alerts';
 $id = 0;
 $alerts = array();
 ?>
+<style>
+    .btn-create-alert {
+        border-radius: 3px;
+        float: right;
+        width: 130px;
+        height: 42px;
+        background-color: #f59a38;
+        color: #ffffff;
+        text-align: center;
+        padding: 11px 7px;
+        cursor: pointer;
+        margin: -12px auto;
+        transition: all 0.3s ease;
+    }
+    .form-create-alert {
+        background-color: #f9f9f9;
+        width: 100%;
+        min-height: 122px;
+        border-bottom: 1px solid #dddddd;
+        padding: 25px 20px;
+        font-size: 16px;
+    }
+    .field{float: left;margin-left: 20px;}
+    .field>label {
+        margin-bottom: 5px; 
+        padding-left: 13px; 
+    }
+    .field>input,.field>select {
+        border: 1px solid #dbdbdb;
+        background-color: #ffffff;
+        width: 100%;
+        height: 44px;
+        font-size: 16px;
+        padding: 0px 12px;
+    }
+    .field.field-zipcode{width: 82px;margin-left: 0px;}
+    .field.field-keyword{width: 506px;}
+    .field.field-sort{width: 102px;}
+    .field.add{width: 80px;}
+    .field>.btn-add-alert{ 
+        border-radius: 3px;        
+        height: 42px;
+        color: #ffffff;
+        text-align: center;
+        padding: 11px 7px;
+        background-color: #f59a38;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .btn-create-alert:hover,.field>.btn-add-alert:hover{background-color: #1e5ba9;}
+    @media (max-width: 767px) and (min-width: 0px){
+        .field {margin-left: 0px;}
+        .field.field-zipcode,.field.field-keyword,.field.field-sort,.field.add{width: 100%;}
+        .form-create-alert {margin-bottom: 30px;display: block;}
+    }
+</style>
 
 <div class="container alert-cust-container">
 
@@ -25,8 +81,33 @@ $alerts = array();
     </div>
     <div class="profile-alert-container">
         <div class="alert-container">
+            <div class="alert-h">Alerts
+                <!--<div class="btn-create-alert">Create Alert</div>-->
+            </div>
+<!--            <div class="form-create-alert">
+                <div class="clearfix" style="margin: 0px;">
+                    <div class=" field field-zipcode">
+                        <label class="">Zip Code</label>
+                        <input type="text" class="">
+                    </div>
+                    <div class=" field field-keyword">
+                        <label class="">Keyword (optional)</label>
+                        <input type="text" class="">
+                    </div>
+                    <div class=" field field-sort">
+                        <label class="">Sort By</label>
+                        <select class="">
+                            <option value="Closest">Closest</option>
+                            <option value="Nearest">Nearest</option>
+                        </select>
+                    </div>
+                    <div class="field add">
+                        <label class="">&nbsp;</label>
+                        <div class="btn-add-alert">Add</div>
+                    </div>
+                </div>
+            </div>-->
             <?php if (isset($selected_alerts['alerts'])) { ?>
-                <div class="alert-h">Alerts</div>
                 <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
                     <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
                         <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">

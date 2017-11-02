@@ -8,12 +8,14 @@
 
 namespace backend\controllers;
 
+use backend\models\EventForm;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Categories;
 use common\models\Event;
 use common\models\Location;
 use common\models\SubCategories;
+use common\models\UnsavedEvent;
 use common\models\User;
 use components\GlobalFunction;
 use Yii;
@@ -25,6 +27,19 @@ use yii\web\Controller;
  * @author zeeshan
  */
 class CronController extends Controller {
+
+    public function actionImportEvents() {
+        $results = EventForm::saveCSV('event.csv');
+    }
+
+    public function actionTemp() {
+        $request = Yii::$app->request;
+        $error_msg = $request->get('error');
+        $unsaved = new UnsavedEvent();
+//        $unsaved->attributes = $eventModel->attributes;
+        $unsaved->error_msg = $error_msg;
+        $unsaved->save();
+    }
 
     public function actionTestLocations() {
         set_time_limit(3000);
@@ -45,12 +60,14 @@ class CronController extends Controller {
                 if (!in_array((string) $location['_id'], $location_ids)) {
 //                    echo "<br> " . (string) $location['_id'] . " Not found<br>";
 //                    exit;
-                    echo "<pre>";echo"<br>not found in array<br>";
+                    echo "<pre>";
+                    echo"<br>not found in array<br>";
                     print_r($location);
                 }
             } else {
 //                echo (string) $location['_id'] . " Not found <br>";
-                echo "<pre>";echo "<br>Not found in locations collection<br>";
+                echo "<pre>";
+                echo "<br>Not found in locations collection<br>";
                 print_r($location);
                 exit;
             }
@@ -171,7 +188,7 @@ class CronController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-                [
+            [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -185,11 +202,38 @@ class CronController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-                ['$match' => $matchParams],
-                ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+            ['$match' => $matchParams],
+            ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
+    }
+
+    public function actionResetLocationCase() {
+        echo $memBefore = memory_get_usage() . '<br>';
+        $locations = Location::find()->orderBy('location_id')->all();
+        $no = count($locations);
+        echo 'Total ' . $no . '<br>';
+        $memAfter = memory_get_usage() . '<br>';
+        echo "Array Memory : " . ($memAfter - $memBefore) . '<br><br>';
+        for ($i = 0; $i < $no; $i++) {
+//            $locations[$i]->street = strtoupper($locations[$i]->street);
+//            $locations[$i]->city = strtoupper($locations[$i]->city);
+//            $locations[$i]->state = strtolower($locations[$i]->state);
+
+            $locations[$i]->street = ucwords(strtolower($locations[$i]->street));
+            $locations[$i]->city = ucwords(strtolower($locations[$i]->city));
+            $locations[$i]->state = strtoupper($locations[$i]->state);
+            $locations[$i]->save();
+            $memNow = memory_get_usage();
+//            echo "$loc->location_id : $loc->street, $loc->city, $loc->state, $loc->zip (object Memory : " . ($memNow - $memAfter) . ")<br>";
+            echo $locations[$i]->location_id . " : (object Memory : " . ($memNow - $memAfter) . ")<br>";
+            $memAfter = $memNow;
+            unset($locations[$i]);
+        }
+        echo "<br>total Memory : " . (memory_get_usage() - $memBefore);
+        echo '<br>All done :)';
+//        \xdebug_debug_zval('locations');
     }
 
 }
