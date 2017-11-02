@@ -5,7 +5,7 @@ use components\GlobalFunction;
 use yii\helpers\BaseUrl;
 
 $this->title = 'Import csv';
-$this->registerMetaTag(['name' => 'description', 'content' => 'kjsdhfjkdsfh jkdsfjsdkfhdsjk fdhgds gh']);
+$this->registerMetaTag(['name' => 'description', 'content' => '']);
 //print_r($events);
 ?>
 <div class="col-lg-12">
@@ -49,8 +49,8 @@ if (count($events) > 0) {
         <div class="csv2-comp-content">
             <div class="row ">
                 <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-                    <div class="flt-lft  b-post-btn2 mrg-rht"><a href="javascript:;" onclick="postSelectedEvent(this)">Bulk Post</a></div>
-                    <div class="flt-lft  b-del-btn2"><a href="javascript:;" onclick="deleteSelectedEvent(this)">Bulk Delete</a></div>
+                    <div class="flt-lft  b-post-btn2 mrg-rht"><a href="javascript:;" onclick="postSelectedImportedEvent(this)">Bulk Post</a></div>
+                    <div class="flt-lft  b-del-btn2"><a href="javascript:;" onclick="deleteSelectedImportedEvent(this)">Bulk Delete</a></div>
                 </div>
                 <div class="col-lg-4 col-md-5 col-sm-6 col-xs-6">
                     <div class="events">Events Added</div>
@@ -95,12 +95,12 @@ if (count($events) > 0) {
                             <div class="table-cost-h1"><?= (!empty($event->price)) ? '&dollar;' . $event->price : 'Free' ?></div>
                             <div class="table-blank-h1">
                                 <div class="flt-lft b-post-btn3 mrg-lftt">
-                                    <a id="post-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? 'hidden' : '' ?>" onclick="postEvent('<?= $event['_id'] ?>', this)" >Post</a>
+                                    <a id="post-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? 'hidden' : '' ?>" onclick="postImportedEvent('<?= $event['_id'] ?>', this)" >Post</a>
                                     <a id="unpost-<?= $event['_id'] ?>" href="javascript:;" class="<?= $event['is_post'] ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $event['_id'] ?>', this)" >Unpost</a>
                                     <img src="<?= \yii\helpers\BaseUrl::base() ?>/images/loader.gif" width="24" class="loader hidden" id="loader_<?= $event['_id'] ?>" style="margin-left:20px;margin-right: 20px;padding-top: 5px;">
                                 </div>
-                                <a href="<?= \yii\helpers\BaseUrl::base() . '/event/detail?id=' . $event['_id'] ?>" class="edit1-btn"></a> 
-                                <a href="javascript:;" onclick="deleteEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
+                                <a href="<?= \yii\helpers\BaseUrl::base() . '/import/detail?id=' . $event['_id'] ?>" class="edit1-btn"></a> 
+                                <a href="javascript:;" onclick="deleteImportedEvent('<?= $event['_id'] ?>', this)" class="del1-btn"></a>
                             </div>
                         </div>
                     <?php } ?>
