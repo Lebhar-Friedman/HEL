@@ -2,6 +2,7 @@
 
 use common\functions\GlobalFunctions;
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 use yii\web\JqueryAsset;
 use yii\widgets\Pjax;
 
@@ -10,7 +11,6 @@ $this->title = 'Health Events Live: Alerts';
 <?php $this->registerCssFile('@web/css/chosen.min.css'); ?>
 <?php $this->registerJsFile('@web/js/chosen.jquery.min.js', ['depends' => [JqueryAsset::className()]]); ?>
 <?php $this->registerJsFile('@web/js/user.js', ['depends' => [JqueryAsset::className()]]); ?>
-
 <?php Pjax::begin(['id' => 'alerts-view', 'timeout' => 30000, 'enablePushState' => false]); ?>
 <?php
 $id = 0;
@@ -89,40 +89,87 @@ $alerts = array();
             margin-left: 0px;
         }
     }
+    .chosen-choices{
+        min-height: 45px;
+        display: block;
+        border: 1px solid #dbdbdb;
+        background: #FFF;
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
+        background-image: none !important;
+    }
+    .chosen-container-multi .chosen-choices li.search-field input[type=text]{
+        /*color: #000 !important;*/
+    }
+    .chosen-container{
+        width: 100% !important;
+    }
+    .chosen-container-multi .chosen-choices {padding:0 14px}
+    .chosen-container-multi .chosen-choices li.search-field {padding-top: 4px;}
+    .chosen-container-multi .chosen-choices li.search-field input[type=text]{
+        /*text-align: center !important;*/
+        font-size: initial;
+    }
+
+    /* NEW */
+    .chosen-container-multi 
+    .chosen-choices {
+        padding: 0 6px;
+    }
+    .chosen-container-multi 
+    .chosen-choices 
+    li.search-choice {
+        background: #fff;
+        border-radius: 2px;
+        box-shadow: none;
+        padding: 8px 24px 8px 8px;
+    }
+    .chosen-container-multi 
+    .chosen-choices 
+    li.search-choice 
+    .search-choice-close {
+        top: 9px;
+        right: 5px;
+    }
+    
 </style>
 
 <div class="container alert-cust-container">
 
     <div class="profile-alert-nav clearfix">
-        <a href="<?= yii\helpers\Url::to(['user/profile']) ?>">Saved Events</a>
+        <a href="<?= Url::to(['user/profile']) ?>">Saved Events</a>
         <a href="<?= BaseUrl::base() ?>/user/alerts" class="active">Alerts</a>
     </div>
     <div class="profile-alert-container">
         <div class="alert-container">
             <div class="alert-h">Alerts
-                <!--<div class="btn-create-alert" onclick="showAddalertForm()">Create Alert</div>-->
+                <div class="btn-create-alert" onclick="showAddalertForm()">Create Alert</div>
             </div>
             <div class="form-create-alert hidden" id="form-create-alert">
                 <form action="#" id="alert_form">
                     <div class="clearfix" style="margin: 0px;">
                         <div class=" field field-zipcode">
                             <label class="">Zip Code</label>
-                            <input type="text" class="">
+                            <input type="text" class="" name="zipcode">
                         </div>
                         <div class=" field field-keyword">
                             <label class="">Keyword (optional)</label>
-                            <input type="text" class="">
+                            <select class="html-multi-chosen-select" multiple="multiple" style="width:100%;" name="keywords[]" id="keywords">
+                                <?php foreach (GlobalFunctions::getKeywords() as $keyword) { ?>
+                                    <option data-option-category=<?= $keyword['type'] ?> value="<?= $keyword['text'] ?>"><?= $keyword['text'] ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class=" field field-sort">
                             <label class="">Sort By</label>
-                            <select class="">
+                            <select class="" name="sortby">
                                 <option value="Closest">Closest</option>
                                 <option value="Nearest">Nearest</option>
                             </select>
                         </div>
                         <div class="field add">
                             <label class="">&nbsp;</label>
-                            <div class="btn-add-alert" onclick="">Add</div>
+                            <input type="submit" class="btn-add-alert" value="Add">
                         </div>
                     </div>
                 </form>

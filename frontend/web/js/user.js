@@ -15,7 +15,7 @@ function saveAlert() {
             success: function (r) {
                 if (r.msgType === "SUC") {
                     toastr.success(r.msg);
-                }else if(r.msgType === "ERR"){
+                } else if (r.msgType === "ERR") {
                     toastr.error(r.msg);
                 }
                 $.pjax.reload({
@@ -56,3 +56,40 @@ function delete_alert(alert_del, row_id) {
         }
     });
 }
+
+$(document).on("submit", "#alert_form", function (e) {
+    e.preventDefault();
+    var form_data = $("#alert_form").serialize();
+    $.ajax({
+        url: baseUrl + '/user/add-alerts',
+        type: 'post',
+        data: form_data,
+        dataType: 'JSON',
+        success: function (r) {
+            if (r.msgType === "SUC") {
+                toastr.success(r.msg);
+            } else if (r.msgType === "ERR") {
+                toastr.error(r.msg);
+            }
+        },
+        error: function (jqXHR, exception) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            console.log(msg);
+        }
+    });
+});
