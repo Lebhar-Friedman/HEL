@@ -71,6 +71,24 @@ $alerts = array();
         .field.field-zipcode,.field.field-keyword,.field.field-sort,.field.add{width: 100%;}
         .form-create-alert {margin-bottom: 30px;display: block;}
     }
+    @media only screen and (device-width: 768px) {
+        .field.field-zipcode {
+            width: 100%;
+            margin-left: 0px;
+        }
+        .field.field-keyword {
+            width: 100%;
+            margin-left: 0px;
+        }
+        .field.field-sort {
+            width: 100%;
+            margin-left: 0px;
+        }
+        .field.add {
+            width: 100%;
+            margin-left: 0px;
+        }
+    }
 </style>
 
 <div class="container alert-cust-container">
@@ -82,31 +100,33 @@ $alerts = array();
     <div class="profile-alert-container">
         <div class="alert-container">
             <div class="alert-h">Alerts
-                <!--<div class="btn-create-alert">Create Alert</div>-->
+                <!--<div class="btn-create-alert" onclick="showAddalertForm()">Create Alert</div>-->
             </div>
-<!--            <div class="form-create-alert">
-                <div class="clearfix" style="margin: 0px;">
-                    <div class=" field field-zipcode">
-                        <label class="">Zip Code</label>
-                        <input type="text" class="">
+            <div class="form-create-alert hidden" id="form-create-alert">
+                <form action="#" id="alert_form">
+                    <div class="clearfix" style="margin: 0px;">
+                        <div class=" field field-zipcode">
+                            <label class="">Zip Code</label>
+                            <input type="text" class="">
+                        </div>
+                        <div class=" field field-keyword">
+                            <label class="">Keyword (optional)</label>
+                            <input type="text" class="">
+                        </div>
+                        <div class=" field field-sort">
+                            <label class="">Sort By</label>
+                            <select class="">
+                                <option value="Closest">Closest</option>
+                                <option value="Nearest">Nearest</option>
+                            </select>
+                        </div>
+                        <div class="field add">
+                            <label class="">&nbsp;</label>
+                            <div class="btn-add-alert" onclick="">Add</div>
+                        </div>
                     </div>
-                    <div class=" field field-keyword">
-                        <label class="">Keyword (optional)</label>
-                        <input type="text" class="">
-                    </div>
-                    <div class=" field field-sort">
-                        <label class="">Sort By</label>
-                        <select class="">
-                            <option value="Closest">Closest</option>
-                            <option value="Nearest">Nearest</option>
-                        </select>
-                    </div>
-                    <div class="field add">
-                        <label class="">&nbsp;</label>
-                        <div class="btn-add-alert">Add</div>
-                    </div>
-                </div>
-            </div>-->
+                </form>
+            </div>
             <?php if (isset($selected_alerts['alerts'])) { ?>
                 <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
                     <div class="alert-text clearfix" id="alert_<?= ++$id ?>">

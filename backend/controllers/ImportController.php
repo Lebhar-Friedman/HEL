@@ -77,7 +77,7 @@ class ImportController extends Controller {
         if (count($lastImported) > 0) {
             if (!empty($lastImported) && $lastImported->value_type == 'events') {
 //                $events = Event::findAll(['_id' => $lastImported->value]);
-                $events = ImportedEvent::findAll(['_id' => $lastImported->value]);
+                $events = ImportedEvent::find()->all();
             } elseif (!empty($lastImported) && $lastImported->value_type == 'companies') {
                 $companies = Company::findAll(['_id' => $lastImported->value]);
                 foreach ($companies as &$company) {
