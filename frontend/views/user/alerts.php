@@ -161,8 +161,8 @@ $this->registerCss(
                         <div class=" field field-sort">
                             <label class="">Sort By</label>
                             <select class="" name="sortBy">
-                                <option value="Closest">Closest</option>
-                                <option value="Nearest">Nearest</option>
+                                <option value="closest">Closest</option>
+                                <option value="soonest">Soonest</option>
                             </select>
                         </div>
                         <div class="field add">

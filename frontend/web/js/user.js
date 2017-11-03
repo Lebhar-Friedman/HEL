@@ -82,7 +82,7 @@ $(document).on("submit", "#alert_form", function (e) {
 });
 
 function reload_alerts() {
-    $('#alert_form')[0].reset();
+//    $('#alert_form')[0].reset();
     $.pjax.reload({
         url: baseUrl + 'user/alerts',
         container: '#alerts-view',
