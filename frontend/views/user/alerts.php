@@ -15,9 +15,8 @@ $this->title = 'Health Events Live: Alerts';
 <?php
 $id = 0;
 $alerts = array();
-?>
-<style>
-    .btn-create-alert {
+$this->registerCss(
+        ".btn-create-alert {
         border-radius: 3px;
         float: right;
         width: 130px;
@@ -130,9 +129,8 @@ $alerts = array();
     .search-choice-close {
         top: 9px;
         right: 5px;
-    }
-    
-</style>
+    }");
+?>
 
 <div class="container alert-cust-container">
 
@@ -162,7 +160,7 @@ $alerts = array();
                         </div>
                         <div class=" field field-sort">
                             <label class="">Sort By</label>
-                            <select class="" name="sortby">
+                            <select class="" name="sortBy">
                                 <option value="Closest">Closest</option>
                                 <option value="Nearest">Nearest</option>
                             </select>
@@ -176,6 +174,7 @@ $alerts = array();
             </div>
             <?php if (isset($selected_alerts['alerts'])) { ?>
                 <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
+                    <?php $alerts = []; ?>
                     <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
                         <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
                             <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
