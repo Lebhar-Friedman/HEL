@@ -60,7 +60,7 @@ function delete_alert(alert_del, row_id) {
 $(document).on("submit", "#alert_form", function (e) {
     e.preventDefault();
     var form_data = $("#alert_form").serialize();
-    alert(form_data);
+//    alert(form_data);
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',
