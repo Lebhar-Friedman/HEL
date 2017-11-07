@@ -4,19 +4,24 @@ namespace backend\controllers;
 
 use backend\models\CompanyForm;
 use backend\models\EventForm;
+use common\functions\GlobalFunctions;
 use common\models\Company;
 use common\models\Event;
+use common\models\ImportedEvent;
 use common\models\Location;
 use common\models\UploadForm;
 use common\models\Values;
+use components\GlobalFunction;
 use Exception;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use function GuzzleHttp\json_encode;
+//use function Symfony\Component\Debug\header;
 
 //use function Symfony\Component\Debug\header;
 
@@ -71,7 +76,8 @@ class ImportController extends Controller {
         $are_events_importing = FALSE;
         if (count($lastImported) > 0) {
             if (!empty($lastImported) && $lastImported->value_type == 'events') {
-                $events = Event::findAll(['_id' => $lastImported->value]);
+//                $events = Event::findAll(['_id' => $lastImported->value]);
+                $events = ImportedEvent::find()->all();
             } elseif (!empty($lastImported) && $lastImported->value_type == 'companies') {
                 $companies = Company::findAll(['_id' => $lastImported->value]);
                 foreach ($companies as &$company) {
@@ -207,6 +213,41 @@ class ImportController extends Controller {
             }
         } else {
             exit(json_encode(['msgType' => 'NOT_EXIST', 'msg' => 'No file is pending']));
+        }
+    }
+    
+    public function actionDetail($id = "") {
+        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
+            ini_set('memory_limit', '1024M');
+            $event = ImportedEvent::findOne(['_id' => new \MongoDB\BSON\ObjectID($id)]);
+            $model = $locations = NULL;
+            $companies = Company::CompanyList();
+            $companyList = [];
+            foreach ($companies as $c) {
+                $companyList[$c->company_number] = $c->name;
+            }
+
+            if (count($event) > 0) {
+                $categories = GlobalFunctions::getCategoryList();
+                $subCategories = GlobalFunctions::getSubCategoryList();
+                $request = Yii::$app->request;
+                $model = new EventForm();
+                $model->attributes = $event->attributes;
+                $model->eid = $event->_id;
+                $model->date_start = GlobalFunction::getDate('m/d/Y', $model->date_start);
+                $model->date_end = GlobalFunction::getDate('m/d/Y', $model->date_end);
+                $locations = Location::findAll(['_id' => ImportedEvent::findEventLocationsIDs($event->_id)]);
+
+                if ($request->isPost) {
+                    $model->load($request->post());
+                    if ($model->updateImportedEvent()) {
+                        Yii::$app->getSession()->setFlash('success', 'Event has been updated successfully.');
+                    }
+                }
+            }
+            return $this->render('detail', ['model' => $model, 'locations' => $locations, 'categories' => $categories, 'subCategories' => $subCategories, 'companies' => $companyList]);
+        } else {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
     }
 

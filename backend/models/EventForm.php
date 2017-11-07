@@ -39,12 +39,12 @@ class EventForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-                [['title', 'company', 'description'], 'required'],
+            [['title', 'company', 'description'], 'required'],
             // safe fields
             [['is_post', 'price', 'date_start', 'date_end', 'time_start', 'time_end', 'categories', 'sub_categories', 'location_models',], 'safe'],
             // string fields
             [['title', 'company', 'description'], 'string'],
-                ['company', 'validateCompany']
+            ['company', 'validateCompany']
         ];
     }
 
@@ -121,6 +121,7 @@ class EventForm extends Model {
 //            echo 'Message: ' . $e->getMessage();
 //            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
             Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . self::$current_row . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
+//            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . $e->getLine() . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
             self::$current_row = 1;
         }
     }
@@ -160,7 +161,7 @@ class EventForm extends Model {
                 $dataRow = fgetcsv($file);
                 if (!empty($dataRow) && count(array_filter($dataRow))) {
                     foreach ($headerRow as $key => $value) {
-                        if (isset($eventAttributeMapArray[$value]) ) {
+                        if (isset($eventAttributeMapArray[$value])) {
                             $eventAttributes[$eventAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
                         } elseif (isset($locationAttributeMapArray[$value])) {
                             $locationAttributes[$locationAttributeMapArray[$value]] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($dataRow[$key]));
@@ -248,6 +249,21 @@ class EventForm extends Model {
         return ['result' => TRUE, 'models' => $models, 'row_number' => $total_rows - 1];
     }
 
+//    public static function singleEventSave($model) {
+//        $locationForm = $model->location_models;
+////        $location = Location::findOne(['store_number' => $locationForm->store_number]);]
+//        $query = Location::find()->andWhere(['zip' => $locationForm->zip]);
+//        $locations = $query->andWhere(['street' => new \MongoDB\BSON\Regex("^$locationForm->street", 'i')])->all();
+//        if (count($locations) == 0) {
+//            $location = new Location();
+//        } else {
+//            $location = $locations[0];
+//        }
+//        $location->attributes = $locationForm->attributes;
+//        Event::updateLocationInEvents($location);
+//        $location->save();
+//        self::saveCsvEvent($model, $location);
+//    }
     public static function singleEventSave($model) {
         $locationForm = $model->location_models;
 //        $location = Location::findOne(['store_number' => $locationForm->store_number]);]
@@ -264,43 +280,6 @@ class EventForm extends Model {
         self::saveCsvEvent($model, $location);
     }
 
-    public static function validateSingleRowOfCSV($headerRow, $dataRow) {
-        $eventAttributeMapArray = self::getCsvAttributeMapArray();
-        $locationAttributeMapArray = LocationForm::getCsvAttributeMapArray();
-        $locationAttributes = $eventAttributes = $result = [];
-        $eventModel = new EventForm();
-        $locationModel = new LocationForm();
-
-        foreach ($headerRow as $key => $value) {
-            if (isset($eventAttributeMapArray[$value])) {
-                $eventAttributes[$eventAttributeMapArray[$value]] = trim($dataRow[$key]);
-            } elseif (isset($locationAttributeMapArray[$value])) {
-                $locationAttributes[$locationAttributeMapArray[$value]] = trim($dataRow[$key]);
-            } elseif (!empty($value)) {
-                return ['result' => FALSE, 'msg' => '<b>Invalid field "' . $value . '" at Row ' . $rowNo . ' and Column ' . ($key + 1) . '</b> <br>'];
-            }
-        }
-    }
-
-    public static function mergeEventLocations($eventLocations, $newLocation) {
-        $can_replace = false;
-        $i = 0;
-        foreach ($eventLocations as $key => $Location) {
-            if ($Location['location_id'] == $newLocation['location_id']) {
-                $can_replace = true;
-                $replace_index = $i;
-                break;
-            }
-            $i++;
-        }
-        if ($can_replace) {
-            $eventLocations[$replace_index] = $newLocation;
-        } else {
-            $eventLocations[] = $newLocation;
-        }
-        return $eventLocations;
-    }
-
     public static function saveCsvEvent($eventModel, $location) {
         $newEventDate = str_replace('-', '/', $eventModel->date_start);
         $newEventDate = date('m/d/Y', strtotime($newEventDate));
@@ -310,25 +289,33 @@ class EventForm extends Model {
         $newEndEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEndEventDate) * 1000);
 
         $newEventDate = new \MongoDB\BSON\UTCDateTime(strtotime($newEventDate) * 1000);
-        $events = Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
+//        $events = Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
+//                        ->andWhere(['OR', ['date_start' => $newStartEventDate], ['date_end' => $newEndEventDate]])->all();
+        $events = \common\models\ImportedEvent::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
                         ->andWhere(['OR', ['date_start' => $newStartEventDate], ['date_end' => $newEndEventDate]])->all();
 
         if (count($events) > 0) {
-            foreach ($events as $event) {
-                $eventModel->date_start = $event->date_start;
-                $eventModel->date_end = $event->date_end;
-                if ($event->date_start->toDateTime() == $newStartEventDate->toDateTime()) {
+            $events_size = sizeof($events);
+            for ($i = 0; $i < $events_size; $i++) {
+                $eventModel->date_start = $events[$i]->date_start;
+                $eventModel->date_end = $events[$i]->date_end;
+                if ($events[$i]->date_start->toDateTime() == $newStartEventDate->toDateTime()) {
                     $eventModel->date_start = $newEventDate;
                 } else {
                     $eventModel->date_end = $newEventDate;
                 }
-                $event->locations = self::mergeEventLocations($event->locations, $location->attributes);
-                $event->attributes = $eventModel->attributes;
-                $event->save();
-                array_push(self::$importedEvents, $event->_id);
+                $events[$i]->locations = self::mergeEventLocations($events[$i]->locations, $location->attributes);
+                $events[$i]->attributes = $eventModel->attributes;
+                $events[$i]->save();
+                array_push(self::$importedEvents, $events[$i]->_id);
+                unset($events[$i]);
             }
         } else {
-            $event = Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
+//            $event = Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
+//                    ->andWhere(['<=', 'date_start', $newEventDate])
+//                    ->andWhere(['>=', 'date_end', $newEventDate])
+//                    ->one();
+            $event = \common\models\ImportedEvent::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
                     ->andWhere(['<=', 'date_start', $newEventDate])
                     ->andWhere(['>=', 'date_end', $newEventDate])
                     ->one();
@@ -337,7 +324,7 @@ class EventForm extends Model {
                 $eventModel->date_start = $event->date_start;
                 $eventModel->date_end = $event->date_end;
             } else {
-                $event = new Event();
+                $event = new \common\models\ImportedEvent();
                 $event->locations = [$location->attributes];
                 $eventModel->date_start = $eventModel->date_end = $newEventDate;
             }
@@ -347,9 +334,49 @@ class EventForm extends Model {
         }
     }
 
+    public static function mergeEventLocations($eventLocations, $newLocation) {
+        $can_replace = false;
+        $locations_size = sizeof($eventLocations);
+        for ($i = 0; $i < $locations_size; $i++) {
+            if ($eventLocations[$i]['location_id'] == $newLocation['location_id']) {
+                $can_replace = true;
+                $replace_index = $i;
+                break;
+            }
+        }
+        if ($can_replace) {
+            $eventLocations[$replace_index] = $newLocation;
+        } else {
+            $eventLocations[] = $newLocation;
+        }
+        return $eventLocations;
+    }
+
     public function saveEvent() {
         if ($this->validate()) {
             $event = Event::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
+            $event->attributes = $this->attributes;
+            $event->date_start = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_start) * 1000);
+            $event->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_end) * 1000);
+            if (empty($event->categories)) {
+                $event->categories = [];
+            }
+            if (empty($event->sub_categories)) {
+                $event->sub_categories = [];
+            }
+
+            if ($event->update() !== FALSE) {
+                return TRUE;
+            } else {
+                $this->errors = $event->errors;
+                return FALSE;
+            }
+        }
+    }
+    
+    public function updateImportedEvent() {
+        if ($this->validate()) {
+            $event = \common\models\ImportedEvent::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
             $event->attributes = $this->attributes;
             $event->date_start = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_start) * 1000);
             $event->date_end = new \MongoDB\BSON\UTCDateTime(strtotime($this->date_end) * 1000);
@@ -376,6 +403,46 @@ class EventForm extends Model {
         $unsaved->error_msg = $error_msg;
         $unsaved->save();
         self::$current_row = self::$current_row + 1;
+    }
+
+    public static function saveImportedEvent($eventModel) {
+        $events = Event::find()->andWhere(['title' => $eventModel->title, 'company' => $eventModel->company])
+                        ->andWhere(['OR', ['date_start' => $eventModel->date_start], ['date_end' => $eventModel->date_start]])->all();
+        if (count($events) > 0) {
+            $events_size = sizeof($events);
+            for ($i = 0; $i < $events_size; $i++) {
+                $locations = $events[$i]->locations;
+                $size_locations = sizeof($locations);
+                for ($j = 0; $j < $size_locations; $j++) {
+                    $events[$i]->locations = self::mergeEventLocations($events[$i]->locations, $locations[$j]);
+                }
+                $eventModel->_id = $events[$i]->_id;
+                $events[$i]->attributes = $eventModel->attributes;
+                return $events[$i]->save();
+//                unset($events[$i]);
+            }
+        } else {
+            $event = Event::find()->where(['title' => $eventModel->title, 'company' => $eventModel->company])
+                    ->andWhere(['<=', 'date_start', $eventModel->date_start])
+                    ->andWhere(['>=', 'date_end', $eventModel->date_end])
+                    ->one();
+
+            if (count($event) > 0) {
+                $locations = $event->locations;
+                $size_locations = sizeof($locations);
+                for ($j = 0; $j < $size_locations; $j++) {
+                    $event->locations = self::mergeEventLocations($event->locations, $locations[$j]);
+                }
+                $eventModel->date_start = $event->date_start;
+                $eventModel->date_end = $event->date_end;
+                $eventModel->_id = $event->_id;
+            } else {
+                $event = new Event();
+            }
+            $event->attributes = $eventModel->attributes;
+            return $event->save();
+//            array_push(self::$importedEvents, $event->_id);
+        }
     }
 
 // end class

@@ -15,7 +15,7 @@ function saveAlert() {
             success: function (r) {
                 if (r.msgType === "SUC") {
                     toastr.success(r.msg);
-                }else if(r.msgType === "ERR"){
+                } else if (r.msgType === "ERR") {
                     toastr.error(r.msg);
                 }
                 $.pjax.reload({
@@ -56,3 +56,42 @@ function delete_alert(alert_del, row_id) {
         }
     });
 }
+
+$(document).on("submit", "#alert_form", function (e) {
+    e.preventDefault();
+    var form_data = $("#alert_form").serialize();
+//    alert(form_data);
+    $.ajax({
+        url: baseUrl + '/user/add-alerts',
+        type: 'post',
+        data: form_data,
+        dataType: 'JSON',
+        success: function (r) {
+            reload_alerts();
+            if (r.msgType === "SUC") {
+                toastr.success(r.msg);
+            } else if (r.msgType === "ERR") {
+                toastr.error(r.msg);
+            }
+        },
+        error: function (jqXHR, exception) {
+            var msg = 'Internal server error';
+            console.log(msg);
+        }
+    });
+});
+
+function reload_alerts() {
+//    $('#alert_form')[0].reset();
+    $.pjax.reload({
+        url: baseUrl + 'user/alerts',
+        container: '#alerts-view',
+        replace: true,
+        type: 'post',
+        timeout: 30000
+    });
+    
+}
+$(document).on('pjax:complete', function () {
+    $('.html-multi-chosen-select').chosen({placeholder_text_multiple: ' '});
+});

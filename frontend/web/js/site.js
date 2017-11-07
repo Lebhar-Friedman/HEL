@@ -152,3 +152,7 @@ interval = setInterval(function () {
     }
 }, 100);
 
+function showAddalertForm(){
+    $('#form-create-alert').removeClass('hidden');
+}
+

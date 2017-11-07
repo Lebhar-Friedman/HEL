@@ -98,6 +98,25 @@ class EventController extends Controller {
         }
         return $retData;
     }
+     public function actionDeleteImported() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_id = $request['eid'];
+        $model = \common\models\ImportedEvent::findOne($event_id);
+        $retData = array();
+        if ($model && $model->delete()) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully deleted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not delete the event at this time.";
+        }
+        return $retData;
+    }
 
     public function actionDeleteSelected() {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -109,6 +128,24 @@ class EventController extends Controller {
         $event_ids = $request['eids'];
         $retData = array();
         if (Event::deleteAll(['_id' => $event_ids])) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully deleted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not delete the event at this time.";
+        }
+        return $retData;
+    }
+    public function actionDeleteImportedSelected() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_ids = $request['eids'];
+        $retData = array();
+        if (\common\models\ImportedEvent::deleteAll(['_id' => $event_ids])) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully deleted";
         } else {
@@ -130,6 +167,28 @@ class EventController extends Controller {
         $model->is_post = true;
         $retData = array();
         if ($model && $model->update()) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully posted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not post the event at this time.";
+        }
+        return $retData;
+    }
+
+    public function actionPostImported() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_id = $request['eid'];
+        $model = \common\models\ImportedEvent::findOne($event_id);
+        $model->is_post = true;
+        $retData = array();
+        if ($model && \backend\models\EventForm::saveImportedEvent($model)) {
+            $model->delete();
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully posted";
         } else {
@@ -170,6 +229,36 @@ class EventController extends Controller {
         $event_ids = $request['eids'];
         $retData = array();
         if (Event::updateAll(['is_post' => true], ['_id' => $event_ids])) {
+            $retData['msgType'] = "SUC";
+            $retData['msg'] = "Event successfully posted";
+        } else {
+            $retData['msgType'] = "ERR";
+            $retData['msg'] = "Can not post the event at this time.";
+        }
+        return $retData;
+    }
+
+    public function actionPostImportedSelected() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if (!($request->isPost && $request->isAjax)) {
+            throw new ForbiddenHttpException("You are not allowed to access this page.");
+        }
+        $request = Yii::$app->request->post();
+        $event_ids = $request['eids'];
+        $retData = array();
+        $are_posted = true;
+        $no_events = sizeof($event_ids);
+        for ($i = 0; $i < $no_events; $i++) {
+            $model = \common\models\ImportedEvent::findOne($event_ids[$i]);
+            $model->is_post = true;
+            if ($model && \backend\models\EventForm::saveImportedEvent($model)) {
+                $model->delete();
+            } else {
+                $are_posted = false;
+            }
+        }
+        if ($are_posted) {
             $retData['msgType'] = "SUC";
             $retData['msg'] = "Event successfully posted";
         } else {
