@@ -98,6 +98,19 @@ class Alerts extends ActiveRecord {
                 $new_alert['store_number'] = $updatable_alert['store_number'];
             }
             $new_alert['type'] = $type;
+            $is_duplicate = false;
+            foreach ($alerts as $a){
+                $containsSearch = count(array_intersect($new_alert['keywords'], $a['keywords'])) == count($new_alert['keywords']);
+                if($containsSearch){
+                    $is_duplicate =true;
+                }
+            }
+            if($is_duplicate){
+                echo 'mil gya';
+            }else{
+                echo 'nai milya';
+            }
+            exit;
             $alerts[] = $new_alert;
             $existing_entry->alerts = $alerts;
             if ($existing_entry->save()) {

@@ -29,6 +29,7 @@ $this->registerCss(
         margin: -12px auto;
         transition: all 0.3s ease;
     }
+    
     .form-create-alert {
         background-color: #f9f9f9;
         width: 100%;
@@ -64,7 +65,7 @@ $this->registerCss(
         cursor: pointer;
         transition: all 0.3s ease;
     }
-    .btn-create-alert:hover,.field>.btn-add-alert:hover{background-color: #1e5ba9;}
+    .btn-create-alert:hover,.field>.btn-add-alert:hover{background-color: #D38735;}
     @media (max-width: 767px) and (min-width: 0px){
         .field {margin-left: 0px;}
         .field.field-zipcode,.field.field-keyword,.field.field-sort,.field.add{width: 100%;}
