@@ -1,10 +1,10 @@
 <?php
 
-use backend\components\CustomLinkPager;
+use common\models\Company;
 use yii\helpers\BaseUrl;
-use yii\helpers\Url;
-use yii\widgets\LinkPager;
+use yii\helpers\Html;
 use yii\web\JqueryAsset;
+use yii\widgets\ActiveForm;
 ?>
 <?php
 //var_dump($events);
@@ -138,7 +138,7 @@ $baseUrl = Yii::$app->request->baseUrl;
 
             <div id="editEvent" style="display: <?= ($model->hasErrors()) ? 'block' : 'none' ?>">
                 <?php
-                $form = yii\widgets\ActiveForm::begin([
+                $form = ActiveForm::begin([
                             'fieldConfig' => ['template' => "{input}{error}"],
                             'options' => ['enctype' => 'multipart/form-data']
                 ]);
@@ -223,7 +223,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                 <div class ="row mrgnd">
                     <center>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 save-btn-1">
-                            <?= \yii\helpers\Html::submitButton('Submit', ['id' => 'btnSubmit', 'class' => 'hidden']) ?>
+                            <?= Html::submitButton('Submit', ['id' => 'btnSubmit', 'class' => 'hidden']) ?>
                             <a href="javascript:void(0);"  onclick="$('#btnSubmit').click()">Save</a>
                         </div> 
                     </center>
@@ -261,7 +261,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <?php foreach ($locations as $location) { ?>
                         <div class="csv-table-row1 event-table-row1 location-table-row1 clearfix">
                             <div class="table-chk-h1-10"><?= $location->store_number ?></div>
-                            <div class="table-title-h1-20"><?= common\models\Company::getNameByCompanyNumber($location->company) ?></div>
+                            <div class="table-title-h1-20"><?= Company::getNameByCompanyNumber($location->company) ?></div>
                             <div class="table-date-h1-30"><?= $location->contact_name ?></div>
                             <div class="table-time-h1-40"><?= $location->phone ?></div>
                             <div class="table-category-h1-50"><?= $location->street . ', ' . $location->city . ', ' . $location->state . ', ' . $location->zip ?></div>
