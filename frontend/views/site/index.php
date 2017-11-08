@@ -6,7 +6,39 @@ $this->registerCss(
         display: none;
     }");
 ?>
+<style>
+    .slider{
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        width: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+    .slider .slide{
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+    }
+    .slide-0{background: url(<?= $baseUrl ?>/images/banner-img.jpg) top center no-repeat;}
+    .slide-1{background: url(<?= $baseUrl ?>/images/hero1.jpg) top center no-repeat;}
+    .slide-2{background: url(<?= $baseUrl ?>/images/hero2.jpg) top center no-repeat;}
+    .slide-3{background: url(<?= $baseUrl ?>/images/hero3.jpg) top center no-repeat;}
+    @media screen and (max-width: 480px){
+        .slide-0 {background-position-x: 21%;}
+        .slide-1 {background-position-x: 38%;}
+        .slide-2 {background-position-x: 40%;}
+        .slide-3 {background-position-x: 50%;}
+    }
+</style>
 <header>
+    <div class="slider">
+        <div class="slide slide-0"></div>
+        <div class="slide slide-1"></div>
+        <div class="slide slide-2"></div>
+        <div class="slide slide-3"></div>
+        <!--<img class="slide" src="<?= $baseUrl ?>/images/banner-img.jpg" alt="" />-->
+    </div>
     <div class="container" id="home">
         <div class="signUp-btns clearfix">
             <?php
