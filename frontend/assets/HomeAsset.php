@@ -13,6 +13,7 @@ class HomeAsset extends AssetBundle
     ];
     public $js = [
         'toast/toastr.js',
+        'js/slideker.js',
         'js/site.js',
     ];
     public $depends = [

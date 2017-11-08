@@ -66,9 +66,10 @@ input{font-family: 'helveticaneueregular';}
 
 header{
     display:block;
-    background:url(../images/banner-img.jpg) top center no-repeat;
-    background-size:cover;
+/*    background:url(../images/banner-img.jpg) top center no-repeat;
+    background-size:cover;*/
     padding:41px 0px 108px 0px;
+    position: relative;
 }
 @media screen and (max-width : 768px){
     header{
