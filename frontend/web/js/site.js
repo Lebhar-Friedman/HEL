@@ -1,5 +1,6 @@
 //*************************************************************** functions on document load *********************************
 $(document).ready(function () {
+    $('.slider').slideker({animationDelay:4000});
     $('a[href="#home"]').on('click', function (event) {
         if (this.hash !== "") {
             event.preventDefault();
@@ -152,7 +153,7 @@ interval = setInterval(function () {
     }
 }, 100);
 
-function showAddalertForm(){
+function showAddalertForm() {
     $('#form-create-alert').removeClass('hidden');
 }
 

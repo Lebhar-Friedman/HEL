@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Company;
+use dosamigos\ckeditor\CKEditor;
 use yii\helpers\BaseUrl;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
@@ -24,6 +25,9 @@ $baseUrl = Yii::$app->request->baseUrl;
         height: 38px;
         float: left;
         padding: 13px 0px;
+    }
+    #cke_21,#cke_14,#cke_29,#cke_34,#cke_72,#cke_82{
+        display: none;
     }
 </style>
 <?php if (empty($model)) { ?>
@@ -50,7 +54,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             <div class ="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 upload-btn-2">
                     <a href="javascript:;" onclick="window.history.go(-1);
-                            return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
+                                return false;"><img src="<?= $baseUrl ?>/images/Shape3.png"></a>
                 </div>
                 <div class ="col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-1">
@@ -149,11 +153,11 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-7">
                         <div class="col-lg-6" style="padding-left: 0px;">
-                            <?= $form->field($model, 'date_start', ['inputOptions' => ['readonly'=>true,'class' => 'datepicker txetbx ', 'placeholder' => 'From']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_start', ['inputOptions' => ['readonly' => true, 'class' => 'datepicker txetbx ', 'placeholder' => 'From']])->textInput()->label(false); ?>
                         </div>
                         <span class="date_seperater">-</span>
                         <div class="col-lg-6 " style="padding-right: 0px;">        
-                            <?= $form->field($model, 'date_end', ['inputOptions' => ['readonly'=>true,'class' => 'datepicker txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'date_end', ['inputOptions' => ['readonly' => true, 'class' => 'datepicker txetbx', 'placeholder' => 'To']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>
@@ -217,7 +221,14 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <strong>Description:</strong>
                     </div>
                     <div class="col-lg-10 ">
-                        <?= $form->field($model, 'description', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '', 'style' => 'height: 140px;padding-top: 9px;']])->textarea()->label(false); ?>
+                        <?php //$form->field($model, 'description', ['inputOptions' => ['class' => 'txetbx', 'placeholder' => '', 'style' => 'height: 140px;padding-top: 9px;']])->textarea()->label(false); ?>
+                        <?=
+                        $form->field($model, 'description')->widget(CKEditor::className(), [
+                            'options' => ['rows' => 6],
+                            'preset' => 'full',
+                            'class' => 'txetbx'
+                        ])
+                        ?>
                     </div>
                 </div>
                 <div class ="row mrgnd">
