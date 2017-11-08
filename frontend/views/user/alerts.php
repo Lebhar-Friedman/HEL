@@ -15,9 +15,8 @@ $this->title = 'Health Events Live: Alerts';
 <?php
 $id = 0;
 $alerts = array();
-?>
-<style>
-    .btn-create-alert {
+$this->registerCss(
+        ".btn-create-alert {
         border-radius: 3px;
         float: right;
         width: 130px;
@@ -30,6 +29,7 @@ $alerts = array();
         margin: -12px auto;
         transition: all 0.3s ease;
     }
+    
     .form-create-alert {
         background-color: #f9f9f9;
         width: 100%;
@@ -65,7 +65,7 @@ $alerts = array();
         cursor: pointer;
         transition: all 0.3s ease;
     }
-    .btn-create-alert:hover,.field>.btn-add-alert:hover{background-color: #1e5ba9;}
+    .btn-create-alert:hover,.field>.btn-add-alert:hover{background-color: #D38735;}
     @media (max-width: 767px) and (min-width: 0px){
         .field {margin-left: 0px;}
         .field.field-zipcode,.field.field-keyword,.field.field-sort,.field.add{width: 100%;}
@@ -130,9 +130,8 @@ $alerts = array();
     .search-choice-close {
         top: 9px;
         right: 5px;
-    }
-    
-</style>
+    }");
+?>
 
 <div class="container alert-cust-container">
 
@@ -162,9 +161,9 @@ $alerts = array();
                         </div>
                         <div class=" field field-sort">
                             <label class="">Sort By</label>
-                            <select class="" name="sortby">
-                                <option value="Closest">Closest</option>
-                                <option value="Nearest">Nearest</option>
+                            <select class="" name="sortBy">
+                                <option value="closest">Closest</option>
+                                <option value="soonest">Soonest</option>
                             </select>
                         </div>
                         <div class="field add">
@@ -176,6 +175,7 @@ $alerts = array();
             </div>
             <?php if (isset($selected_alerts['alerts'])) { ?>
                 <?php foreach ($selected_alerts['alerts'] as $single_alert_obj) { ?>
+                    <?php $alerts = []; ?>
                     <div class="alert-text clearfix" id="alert_<?= ++$id ?>">
                         <a href="javascript:;" class="single_alert" onclick="delete_alert('<?= (string) $single_alert_obj['_id'] ?>',<?= $id ?>)">
                             <img src="<?= BaseUrl::base() ?>/images/crose-btn2.png" alt="" class="single_alert_img" />
