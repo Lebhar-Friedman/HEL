@@ -214,8 +214,12 @@ class GlobalFunction {
         return $diff->format("%a");
     }
 
-    public static function getLongLat($location) {
-        $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
+    public static function getLongLat($location, $raw_address = NULL) {
+        if ($raw_address == NULL) {
+            $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
+        }else{
+            $anAddress = $raw_address;
+        }
         $url = GOOGLE_API_URL . '&address=' . rawurlencode($anAddress);
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_TIMEOUT, 25000);

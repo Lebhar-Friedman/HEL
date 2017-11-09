@@ -68,14 +68,15 @@ class EventController extends Controller {
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
-
             $events_dist = array();
+            $city = Yii::$app->request->get('city');
             $keywords = Yii::$app->request->get('keywords');
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $filters = Yii::$app->request->get('filters');
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
-            $zip_code = GlobalFunctions::getLatestSearchedZip();
+//            $zip_code = GlobalFunctions::getLatestSearchedZip();
+            $zip_code = NULL;
             $params_keys = array();
             $categories_array = explode(' ', $categories);
             $services_array = explode(' ', $services);
@@ -86,8 +87,9 @@ class EventController extends Controller {
             }
             $keywords = $params_keys;
 
-            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-
+            $longlat = GlobalFunction::getLongLat(null, $city);
+            
+            $title_content = "Free Health Services in $city, FL | Health Events Live";
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longlat['long'], $longlat['lat'], 20, 0, $sort_by);
             return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => strtolower($sort_by), 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
         } else {
