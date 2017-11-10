@@ -8,7 +8,7 @@ use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 ?>
 <?php
-//var_dump($events);
+///var_dump($events);
 $this->registerJsFile('@web/js/event.js', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/location.js', ['depends' => [JqueryAsset::className()]]);
 $this->title = 'Events';
