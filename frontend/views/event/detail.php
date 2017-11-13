@@ -107,9 +107,9 @@ $this->registerMetaTag(["name" => "description", "content" => "Free and low-cost
 </script>
 <!-- 1. Include style -->
 <!--<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">-->
-<?php 
+<?php
 $this->registerCss(
-    ".chosen-choices{
+        ".chosen-choices{
         min-height: 45px;
         display: block;
         border: 1px solid #dbdbdb;
@@ -251,7 +251,7 @@ $this->registerCss(
                 </div>
                 <?php
                 if (sizeof($event['locations']) > 1) {
-                    echo "<span>".$number_of_locations_nearby." More locations nearby</span>";
+                    echo "<span>" . $number_of_locations_nearby . " More locations nearby</span>";
                 }
                 ?>
                 <a href="#map">Show map</a>            </div>
@@ -268,9 +268,9 @@ $this->registerCss(
         <?php
         foreach ($event['sub_categories'] as $sub_category):
             ?>
-                                                                                                                                                                                                                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                                                                                                                                                                                                                            <i><?= $sub_category ?></i>
-                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                                                                                                                                                                                                                                <i><?= $sub_category ?></i>
+                                                                                                                                                                                                                                                                                            </div>
             <?php
         endforeach;
         ?>
@@ -323,7 +323,7 @@ $this->registerCss(
                             'styles' => $poic_styles,
                         ]);
                         $map->setName('gmap');
-
+                        $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : '';
                         foreach ($event['locations'] as $location) {
                             $long_lat = $location['geometry']['coordinates'];
                             if (round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20) {
@@ -337,7 +337,7 @@ $this->registerCss(
                                 'visible' => 'true',
                                 'icon' => $img_url . 'custom-marker.png',
                             ]);
-                            $content = "<a href='" . yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zipcode]) . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
+                            $content = "<a href='" . yii\helpers\Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zipcode]) . "'>" . $location['street'] . ', ' . $location['city'] . ', ' . $location['state'] . ', ' . $location['zip'] . "</a>";
                             $marker->attachInfoWindow(
                                     new InfoWindow(['content' => $content])
                             );
