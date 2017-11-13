@@ -1027,7 +1027,17 @@ h2 {
     .mobile-logo{display:block; padding-top:25px;}
     /*.mobile-logo img{max-width:210px;}*/
     .result-sign-up{padding:12px 0px 10px 0px;}
-    .result-sign-up a{padding:12px 18px;}
+    .result-sign-up a{padding:12px 8px;}
+    .result-sign-up a {
+        float: right;
+        font-size: 12px;
+        line-height: 15px;
+        color: #1e5ba9 !important;
+        margin-left: 0px !important;
+        border-radius: 2px;
+        background-clip: padding-box;
+        transition: all 0.3s ease;
+    }
     .search-result-content{
         display:none;
         width:386px;
@@ -1128,7 +1138,17 @@ h2 {
     .multi-service{padding: 25px 100px 8px 13px !important;}
     .table-cust{width:50%;padding-right: 3px;}
     .multi-service h1, .multi-service h2, .multi-service span{padding-right:95px !important;}
-    .result-sign-up{max-width:200px; margin:0 auto; margin-top:10px;}
+    .result-sign-up{max-width:200px; margin:0 auto; margin-top:5px;margin-left: -15px;}
+}
+/*media query for iphone 5*/
+@media screen and (device-aspect-ratio: 40/71) {
+    .result-sign-up a {
+        font-size: 10px;
+        line-height: 3px;
+    }
+    .result-sign-up a {
+        padding-top: 8px !important;
+    }
 }
 
 .event-near .chosen-container .chosen-drop{

@@ -1053,8 +1053,18 @@ footer a:hover{
     .display-on-mobile{display:block;}
     .mobile-logo{display:block; padding-top:25px;}
     /*.mobile-logo img{max-width:210px;}*/
-    .result-sign-up{padding:12px 0px 10px 0px;}
-    .result-sign-up a{padding:12px 18px;}
+    .result-sign-up{padding:12px 0px 10px 0px;margin-left: -15px;}
+    .result-sign-up a{padding:12px 8px;}
+    .result-sign-up a {
+        float: right;
+        font-size: 12px;
+        line-height: 15px;
+        color: #1e5ba9 !important;
+        margin-left: 0px !important;
+        border-radius: 2px;
+        background-clip: padding-box;
+        transition: all 0.3s ease;
+    }
     .search-result-content{
         display:none;
         width:386px;
@@ -1114,6 +1124,17 @@ footer a:hover{
     margin-bottom: 20px;
 }
 
+/*media query for iphone 5*/
+@media screen and (device-aspect-ratio: 40/71) {
+    .result-sign-up{
+        margin-right: -15px;
+        margin-left: -15px;
+        padding-top: 25px !important;
+    }
+    .result-sign-up a {
+        padding: 0px 10px;
+    }
+}
 
 /*************************Alerts************************************/
 @font-face {
@@ -1554,5 +1575,5 @@ h2 {
 }
 /*_______________________________*/
 padding-top-10{
-   padding-top: 50px;
+    padding-top: 50px;
 }
