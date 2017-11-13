@@ -291,7 +291,7 @@ class EventController extends Controller {
 
     public function actionDirectory() {
 //        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-//        $query = Event::find();
+//        $query = Event::find();/
 //        $events = $query->where(['AND', ['date_start' => ['$gte' => $current_date]], ['is_post' => true]])->all();
         $cities = [array('name'=>'Kansas City, MO','slug'=>'kansas-city-mo'),array('name'=>'Charlotte, NC','slug'=>'charlotte-nc')];
         return $this->render('directory', ['cities' => $cities]);
