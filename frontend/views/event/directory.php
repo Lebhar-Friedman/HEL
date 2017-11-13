@@ -9,10 +9,10 @@ $web_link = "http://$_SERVER[HTTP_HOST]";
 ?>
 <div class="container">
     <div class="row">
-        <?php foreach ($cities as $citiy) { ?>
-            <a href="<?= BaseUrl::base() . '/free-healthcare-events/' . $citiy ?>">
+        <?php foreach ($cities as $city) { ?>
+            <a href="<?= BaseUrl::base() . '/free-healthcare-events/' . $city['slug'] ?>">
                 <div class="multi-service">
-                    <?= $web_link . BaseUrl::base() . '/free-healthcare-events/' . $citiy ?>
+                    <?= $city['name'] ?>
                 </div>
             </a>
         <?php } ?>
