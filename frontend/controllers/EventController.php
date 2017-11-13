@@ -290,10 +290,11 @@ class EventController extends Controller {
     }
 
     public function actionDirectory() {
-        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-        $query = Event::find();
-        $events = $query->where(['AND', ['date_start' => ['$gte' => $current_date]], ['is_post' => true]])->all();
-        return $this->render('directory', ['events' => $events]);
+//        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+//        $query = Event::find();
+//        $events = $query->where(['AND', ['date_start' => ['$gte' => $current_date]], ['is_post' => true]])->all();
+        $cities = ['kansas-city-mo','charlotte-nc'];
+        return $this->render('directory', ['cities' => $cities]);
     }
 
     public function actionDisplayMap() {
