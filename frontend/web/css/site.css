@@ -1129,10 +1129,10 @@ footer a:hover{
     .result-sign-up{
         margin-right: -15px;
         margin-left: -15px;
-        padding-top: 25px !important;
+        padding-top: 15px !important;
     }
     .result-sign-up a {
-        padding: 0px 10px;
+        padding: 4px 10px;
     }
 }
 
