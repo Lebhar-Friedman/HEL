@@ -63,7 +63,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 upload-btn-3">
                     <a id="post-<?= $model->eid ?>" href="javascript:void(0);" class="<?= $model->is_post ? 'hidden' : '' ?>" onclick="postImportedEvent('<?= $model->eid ?>', this,'import/')">Publish</a>
-                    <a id="unpost-<?= $model->eid ?>" href="javascript:void(0);" class="<?= $model->is_post ? '' : 'hidden' ?>" onclick="unpostEvent('<?= $model->eid ?>', this)">Unpublish</a>
+                    <a id="unpost-<?= $model->eid ?>" href="javascript:void(0);" class="<?= $model->is_post ? '' : 'hidden' ?>" onclick="unpostEvent1('<?= $model->eid ?>', this)">Unpublish</a>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 upload-btn-4">
                     <a href="javascript:;" onclick="deleteImportedEvent('<?= $model->eid ?>', this, 'import/');">Delete</a>
