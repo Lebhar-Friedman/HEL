@@ -283,7 +283,7 @@ $this->registerCss(
         <!--        	<div class="col-lg-1"></div>
                     <div class="col-lg-6 col-md-8 col-sm-8">-->
         <div class="col-lg-8 col-md-9 col-sm-8">
-            <div class="event-detail-text">
+            <div class="event-detail-text wysiwyg-div">
                 <h1>Health event details</h1>
                 <?= $event['description'] ?>
             </div>

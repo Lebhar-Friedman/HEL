@@ -10,7 +10,11 @@ use yii\helpers\BaseUrl;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
 
-$this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
+if (isset($title_content)) {
+    $this->title = $title_content;
+} else {
+    $this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
+}
 $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ' . $zip_code]);
 ?>
 <?php
@@ -84,11 +88,15 @@ $events_with_nearest_locations = array();
 <div class="col-lg-8 col-md-8 col-sm-7">
     <div class="event-near " id="event_near" onclick="showNav()">
         <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a>
-        <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
+        <?php if (isset($city_name)) { ?>
+            <h1>Health Events in <?= $city_name ?> <span>(by <?= $sortBy ?>)</span> </h1> 
+        <?php } else { ?>
+            <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
+        <?php } ?>
         <?php //if (sizeof($filters) > 0) {    ?>
-            <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
+        <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
         <?php //foreach ($filters as $filter) {    ?>
-                    <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
+                <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
         <?php //}    ?>
         <!--</select>-->
         <?php // }    ?>

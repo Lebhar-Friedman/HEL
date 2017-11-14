@@ -134,7 +134,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <div class="col-lg-2 ">
                         <strong>Description:</strong>
                     </div>
-                    <div class="col-lg-10 ">
+                    <div class="col-lg-10 wysiwyg-div">
                         <?= !empty($model->description) ? $model->description : 'Free' ?>
                     </div>
                 </div>

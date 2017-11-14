@@ -209,3 +209,5 @@ function keepServerAlive() {
     });
 }
 
+//add css class for wysiwyg text styling
+$('.wysiwyg-div p').addClass('wysiwyg-p');

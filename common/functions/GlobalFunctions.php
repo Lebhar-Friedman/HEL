@@ -33,7 +33,7 @@ class GlobalFunctions {
 //            array('value' => 8, 'text' => 'Mental Health'),
 //        );
         $temp = Categories::CategoryList();
-        
+
         foreach ($temp as $key => $cat) {
             $categories[] = array('value' => $key, 'text' => $cat->name);
         }
@@ -56,11 +56,11 @@ class GlobalFunctions {
 //            'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
 //        );
         $temp = SubCategories::SubCategoryList();
-        
+
         foreach ($temp as $key => $sub_cat) {
             $sub_categories[] = array('value' => $key, 'text' => $sub_cat->name);
         }
-        
+
         return $sub_categories;
     }
 
@@ -93,6 +93,23 @@ class GlobalFunctions {
             $list[$value['text']] = $value['text'];
         }
         return $list;
+    }
+
+    public static function getCitiesWithSlug() {
+        return [
+            array('name' => 'Kansas City, MO', 'slug' => 'kansas-city-mo'),
+            array('name' => 'Charlotte, NC', 'slug' => 'charlotte-nc')
+        ];
+    }
+    
+    public static function getCityBySlug($slug){
+        $cities = self::getCitiesWithSlug();
+        foreach ($cities as $city ){
+            if($city['slug'] == $slug){
+                return $city['name'];
+            }
+        }
+        return $slug;
     }
 
     public static function getCookiesOfLngLat() {
@@ -128,14 +145,15 @@ class GlobalFunctions {
     public static function processString($v) {
         return ucwords(strtolower(trim($v)));
     }
-    
-    public static function saveLatestSearchedZip($zip){
+
+    public static function saveLatestSearchedZip($zip) {
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new Cookie(['name' => 'zip_code', 'value' => $zip]));
     }
-    public static function getLatestSearchedZip(){
+
+    public static function getLatestSearchedZip() {
         $cookies = Yii::$app->request->cookies;
-        return $cookies->getValue('zip_code','');
+        return $cookies->getValue('zip_code', '');
     }
 
 }

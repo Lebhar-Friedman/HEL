@@ -128,7 +128,7 @@ body{
     color:#000;
     /*word-break:break-all;*/
 }
-h1,h2,h3{margin:0  !important;
+h1,h2,h3{margin:0  ;
          padding:0px  !important; 
          /*color:#000;*/
          font-family: 'helveticaneueregular' !important;
@@ -136,7 +136,7 @@ h1,h2,h3{margin:0  !important;
 h1{font-size:35px;}
 h2{font-size:22px;}
 h3{font-size:18px;}
-p{margin:0 !important; padding:0px  !important; font-family: 'helveticaneueregular' !important;}
+p:not(.wysiwyg-p){margin:0 ; padding:0px ; font-family: 'helveticaneueregular' ;}
 a{text-decoration:none !important; margin:0px !important; color:#000 !important; outline:none; font-size:14px; font-family: 'helveticaneueregular';}
 input{font-family: 'helveticaneueregular', sans-serif;}
 
