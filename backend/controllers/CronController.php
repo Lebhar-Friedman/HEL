@@ -46,7 +46,7 @@ class CronController extends Controller {
         $no_of_events = $query->count();
         $events = $query->all();
         echo 'No of events: ' . $no_of_events . '<br>';
-
+        $updated = false;
         for ($i = 0; $i < $no_of_events; $i++) {
             $no_of_locations = sizeof($events[$i]['locations']);
             for ($j = 0; $j < $no_of_locations; $j++) {
@@ -59,8 +59,13 @@ class CronController extends Controller {
                     $events[$i]['locations'] = $locations;
                     $events[$i]->save();
                     echo 'New location_id is: ' . $location->location_id . ' of event: ' . (string) $events[$i]['_id'] . '<br>';
+                    $updated = true;
                 }
             }
+        }
+        if ($updated) {
+            $locationid = \common\models\Counter::getAutoIncrementId('locationid');
+            echo 'Latest location id: ' . $locationid;
         }
     }
 
