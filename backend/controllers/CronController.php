@@ -32,6 +32,38 @@ class CronController extends Controller {
         $results = EventForm::saveCSV('event.csv');
     }
 
+    public function actionUpdateLocationid() {
+        $request = Yii::$app->request;
+        $locationID = $request->get('_id');
+        $location = Location::findOne($locationID);
+        if ($location) {
+//            echo 'jaga v mil gae';
+        } else {
+            echo 'Location not found';
+            return;
+        }
+        $query = \common\models\Event::find()->where(['locations._id' => new \MongoDB\BSON\ObjectID($locationID)]);
+        $no_of_events = $query->count();
+        $events = $query->all();
+        echo 'No of events: ' . $no_of_events . '<br>';
+
+        for ($i = 0; $i < $no_of_events; $i++) {
+            $no_of_locations = sizeof($events[$i]['locations']);
+            for ($j = 0; $j < $no_of_locations; $j++) {
+                if ((string) $events[$i]['locations'][$j]['_id'] == $locationID) {
+                    $locations = $events[$i]['locations'];
+                    $locationObj = $locations[$j];
+                    $locationObj['location_id'] = $location->location_id;
+                    $locationObj['updated_at'] = new \MongoDB\BSON\UTCDateTime(round(microtime(true) * 1000));
+                    $locations[$j] = $locationObj;
+                    $events[$i]['locations'] = $locations;
+                    $events[$i]->save();
+                    echo 'New location_id is: ' . $location->location_id . ' of event: ' . (string) $events[$i]['_id'] . '<br>';
+                }
+            }
+        }
+    }
+
     public function actionTemp() {
         $request = Yii::$app->request;
         $error_msg = $request->get('error');

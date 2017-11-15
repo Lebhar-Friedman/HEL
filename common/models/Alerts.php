@@ -110,7 +110,7 @@ class Alerts extends ActiveRecord {
             }else{
                 echo 'nai milya';
             }
-            exit;
+//            exit;
             $alerts[] = $new_alert;
             $existing_entry->alerts = $alerts;
             if ($existing_entry->save()) {
