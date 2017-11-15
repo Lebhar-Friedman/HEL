@@ -106,9 +106,10 @@ class Alerts extends ActiveRecord {
                 }
             }
             if($is_duplicate){
-                echo 'mil gya';
+//                echo 'mil gya';
+                
             }else{
-                echo 'nai milya';
+//                echo 'nai milya';
             }
 //            exit;
             $alerts[] = $new_alert;
