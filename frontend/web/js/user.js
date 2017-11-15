@@ -34,7 +34,7 @@ function saveAlert() {
 }
 
 function delete_alert(alert_del, row_id) {
-    if (!confirm('Are you sure ')) {
+    if (!confirm('Are you sure ?')) {
         return false;
     }
     $.ajax({
@@ -60,7 +60,10 @@ function delete_alert(alert_del, row_id) {
 $(document).on("submit", "#alert_form", function (e) {
     e.preventDefault();
     var form_data = $("#alert_form").serialize();
-//    alert(form_data);
+    if(($('#keywords').val() == null) && ($('#zipcode').val().trim().length == 0)){
+//        alert('alert can not be empty');
+        exit;
+    }
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',

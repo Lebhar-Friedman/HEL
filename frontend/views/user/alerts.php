@@ -149,7 +149,7 @@ $this->registerCss(
                     <div class="clearfix" style="margin: 0px;">
                         <div class=" field field-zipcode">
                             <label class="">Zip Code</label>
-                            <input type="text" class="" name="zipcode">
+                            <input type="text" class="" name="zipcode" id="zipcode">
                         </div>
                         <div class=" field field-keyword">
                             <label class="">Keyword (optional)</label>

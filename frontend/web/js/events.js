@@ -52,9 +52,9 @@ $(document).ready(function () {
 
 });
 function removeSpecialChars(str) {
-  return str.replace(/(?!\w|\s)./g, '')
-    .replace(/\s+/g, ' ')
-    .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+    return str.replace(/(?!\w|\s)./g, '')
+            .replace(/\s+/g, ' ')
+            .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
 }
 function getCity(zip, callback) {
     closeNavOnMobile();
@@ -117,11 +117,11 @@ function searchResult(form_data, city_name) {
         var value_cat_sub = $(options[i]).val();
         if (property == 'sub') {
 //            services = services + sign_sub + value_cat_sub.replace(' ','+');
-            services = services + sign_sub + removeSpecialChars(value_cat_sub).replace(' ','-').toLowerCase();
-            sign_sub = '+';            
+            services = services + sign_sub + removeSpecialChars(value_cat_sub).replace(' ', '-').toLowerCase();
+            sign_sub = '+';
         } else if (property == 'cat') {
 //            categories = categories + sign_cat + value_cat_sub.replace(' ','+');
-            categories = categories + sign_cat + removeSpecialChars(value_cat_sub).replace(' ','-').toLowerCase();
+            categories = categories + sign_cat + removeSpecialChars(value_cat_sub).replace(' ', '-').toLowerCase();
             sign_cat = '+';
         }
     }
@@ -156,15 +156,15 @@ function searchResult(form_data, city_name) {
     $(form_data).each(function (i, field) {
         dataObj[field.name] = removeSpecialChars(field.value);
     });
-    if(query.charAt(0) == '&'){
+    if (query.charAt(0) == '&') {
         query = query.substr(1);
     }
-    var operator ='';
-    if(query.length > 0){
+    var operator = '';
+    if (query.length > 0) {
         operator = '?'
     }
     $.pjax.reload({
-        url: baseUrl + 'free-healthcare-events/' + city_name + '/'+ operator + query,
+        url: baseUrl + 'free-healthcare-events/' + city_name + '/' + operator + query,
         container: '#result-view',
         replace: false,
         type: 'get',
@@ -325,7 +325,7 @@ function alertZipCode() {
     $.ajax({
         url: baseUrl + '/user/add-alerts',
         type: 'post',
-        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number},
+        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number, '_csrf-frontend': yii.getCsrfToken()},
         dataType: 'JSON',
         success: function (r) {
             if (r.msgType === "SUC") {
