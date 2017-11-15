@@ -137,7 +137,6 @@ class GlobalFunctions {
                         )
                         ->setTo($send_to)
                         ->setFrom(Yii::$app->params['events_update'])
-                        ->AddReplyTo(Yii::$app->params['reply_to'])
                         ->setSubject($subject)
                         ->send();
     }

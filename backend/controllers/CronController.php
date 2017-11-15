@@ -275,6 +275,7 @@ class CronController extends Controller {
     }
 
     public function actionTestCronjob() {
+        echo 'cron running';
         \common\models\Values::saveValue('testing_cronjob','cronjob', date('Y-m-d'));
     }
 }
