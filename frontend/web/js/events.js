@@ -305,7 +305,7 @@ function alertZipCodeSession() {
     $.ajax({
         url: baseUrl + '/site/add-alerts-session',
         type: 'post',
-        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number},
+        data: {zipcode: zip_code, only_zip: 'y', event_id: event_id, street: street, city: city, state: state, store_number: store_number, '_csrf-frontend': yii.getCsrfToken()},
         success: function (r) {
             location.href = baseUrl + "site/signup?email=" + email;
         },
