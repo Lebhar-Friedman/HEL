@@ -33,6 +33,7 @@ class CronController extends Controller {
     }
 
     public function actionUpdateLocationid() {
+        return "can't perfom this action";
         $request = Yii::$app->request;
         $locationID = $request->get('_id');
         $location = Location::findOne($locationID);
@@ -273,4 +274,7 @@ class CronController extends Controller {
 //        \xdebug_debug_zval('locations');
     }
 
+    public function actionTestCronjob() {
+        \common\models\Values::saveValue('testing_cronjob','cronjob', date('Y-m-d'));
+    }
 }
