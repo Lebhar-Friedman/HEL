@@ -1,4 +1,8 @@
 <?php
+
+use common\functions\GlobalFunctions;
+use yii\helpers\Url;
+
 $baseUrl = Yii::$app->request->baseUrl;
 $this->title = 'Health Events Live: Home';
 $this->registerCss(
@@ -33,11 +37,11 @@ $this->registerCss(
 </style>
 <header>
     <div class="slider">
-        <div class="slide slide-0"></div>
-        <div class="slide slide-1"></div>
-        <div class="slide slide-2"></div>
-        <div class="slide slide-3"></div>
-        <!--<img class="slide" src="<?= $baseUrl ?>/images/banner-img.jpg" alt="" />-->
+                <div class="slide slide-0"></div>
+                <div class="slide slide-1"></div>
+                <div class="slide slide-2"></div>
+                <div class="slide slide-3"></div>
+        <!--<img class="slide slide-1" src="<?= $baseUrl ?>/images/<?= GlobalFunctions::getHeroImage() ?>" alt="" />-->
     </div>
     <div class="container" id="home">
         <div class="signUp-btns clearfix">
@@ -49,7 +53,7 @@ $this->registerCss(
             <?php } else {
                 ?>
                 <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
-                <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                <a href="<?= Url::to(['user/profile']) ?>">My Account</a>
                 <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
             <?php } ?>
         </div>
