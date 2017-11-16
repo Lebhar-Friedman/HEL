@@ -154,5 +154,13 @@ class GlobalFunctions {
         $cookies = Yii::$app->request->cookies;
         return $cookies->getValue('zip_code', '');
     }
+    
+    public static function getHeroImage(){
+        
+    }
+    
+    public static function setHeroImage(){
+        
+    }
 
 }
