@@ -26,10 +26,11 @@ use yii\helpers\Url;
                 <?php continue; ?>
             <?php } ?>
             <?php $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : ''; ?>
-        <?php $generated_link = yii\helpers\Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id']]) ?>
+            <?php $generated_link = yii\helpers\Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id']]) ?>
+            <?php $generated_link = frontend_URL . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']) . '?eid=' . (string) $event['_id']; ?>
             <tr style="text-align: center">
-            <a href="<?= Url::base(TRUE) ?>/<?= $generated_link ?>" style="font-size:18px ">
-        <?= Url::base(TRUE) ."/". $generated_link ?>
+            <a href="<?= $generated_link ?>" style="font-size:18px ">
+                <?= $generated_link ?>
             </a>
         </tr>
         <?php array_push($event_links, (string) $event['_id']); ?>
