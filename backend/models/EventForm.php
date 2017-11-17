@@ -120,7 +120,7 @@ class EventForm extends Model {
         } catch (Exception $e) {
 //            echo 'Message: ' . $e->getMessage();
 //            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
-            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . self::$current_row . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
+            Values::saveValue('import_status', 'exception', self::$current_row, 'at Row :' . self::$current_row . '<br>' . $e->getMessage() . ' File name : ' . $e->getFile() . ' Line : ' . $e->getLine() . '<br><div class=""><br> Trace : ' . $e->getTraceAsString() . '</div>', isset($validate['row_number']) ? $validate['row_number'] : 0);
 //            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . $e->getLine() . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
             self::$current_row = 1;
         }
@@ -158,7 +158,7 @@ class EventForm extends Model {
                 $rowNo++;
                 $eventModel = new EventForm();
                 $locationModel = new LocationForm();
-                $dataRow = fgetcsv($file);
+                $dataRow = self::getSafeCsvRow(fgetcsv($file));
                 if (!empty($dataRow) && count(array_filter($dataRow))) {
                     foreach ($headerRow as $key => $value) {
                         if (isset($eventAttributeMapArray[$value])) {
@@ -373,7 +373,7 @@ class EventForm extends Model {
             }
         }
     }
-    
+
     public function updateImportedEvent() {
         if ($this->validate()) {
             $event = \common\models\ImportedEvent::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
@@ -443,6 +443,15 @@ class EventForm extends Model {
             return $event->save();
 //            array_push(self::$importedEvents, $event->_id);
         }
+    }
+
+    public static function getSafeCsvRow($row) {
+        $n = count($row);
+        for ($i = 0; $i < $n; $i++) {
+            $row[$i] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($row[$i]));
+        }
+
+        return $row;
     }
 
 // end class
