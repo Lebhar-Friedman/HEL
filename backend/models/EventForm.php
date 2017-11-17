@@ -120,7 +120,7 @@ class EventForm extends Model {
         } catch (Exception $e) {
 //            echo 'Message: ' . $e->getMessage();
 //            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
-            Values::saveValue('import_status', 'exception', self::$current_row, 'at Row :' . self::$current_row . '<br>' . $e->getMessage() . ' File name : ' . $e->getFile() . ' Line : ' . $e->getLine() . '<br><div class=""><br> Trace : ' . $e->getTraceAsString() . '</div>', isset($validate['row_number']) ? $validate['row_number'] : 0);
+            Values::saveValue('import_status', 'exception', self::$current_row, 'at Row :' . self::$current_row . '<br>' . $e->getMessage() . ' File name : ' . $e->getFile() . ' Line : ' . $e->getLine() . '<br><div class="hidden"><br> Trace : ' . $e->getTraceAsString() . '</div>', isset($validate['row_number']) ? $validate['row_number'] : 0);
 //            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . $e->getLine() . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
             self::$current_row = 1;
         }
