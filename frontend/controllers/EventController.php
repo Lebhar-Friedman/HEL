@@ -86,7 +86,6 @@ class EventController extends Controller {
                 $params_keys = array_merge($params_keys, $services_array);
             }
             $keywords = $params_keys;
-
             $longlat = GlobalFunction::getLongLat(null, $city);
             $city_name_for_title = GlobalFunctions::getCityBySlug($city);
             $title_content = "Free Health Services in $city_name_for_title | Health Events Live";

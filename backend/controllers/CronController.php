@@ -278,4 +278,9 @@ class CronController extends Controller {
         echo 'cron running';
         \common\models\Values::saveValue('testing_cronjob','cronjob', date('Y-m-d'));
     }
+    
+    public function actionSetLongLatForLocations(){
+        echo 'cron running SetLongLatForLocation';
+        
+    }
 }

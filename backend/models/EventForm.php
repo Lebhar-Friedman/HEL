@@ -373,7 +373,7 @@ class EventForm extends Model {
             }
         }
     }
-    
+
     public function updateImportedEvent() {
         if ($this->validate()) {
             $event = \common\models\ImportedEvent::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
@@ -411,13 +411,16 @@ class EventForm extends Model {
         if (count($events) > 0) {
             $events_size = sizeof($events);
             for ($i = 0; $i < $events_size; $i++) {
-                $locations = $events[$i]->locations;
+                $locations = $eventModel->locations;
+//                $locations = $events[$i]->locations;
                 $size_locations = sizeof($locations);
                 for ($j = 0; $j < $size_locations; $j++) {
                     $events[$i]->locations = self::mergeEventLocations($events[$i]->locations, $locations[$j]);
                 }
-                $eventModel->_id = $events[$i]->_id;
-                $events[$i]->attributes = $eventModel->attributes;
+//                $eventModel->_id = $events[$i]->_id;
+//                $locations = $events[$i]->locations;
+//                $events[$i]->attributes = $eventModel->attributes;
+//                $events[$i]->locations = $locations;
                 return $events[$i]->save();
 //                unset($events[$i]);
             }
@@ -428,7 +431,8 @@ class EventForm extends Model {
                     ->one();
 
             if (count($event) > 0) {
-                $locations = $event->locations;
+//                $locations = $event->locations;
+                $locations = $eventModel->locations;
                 $size_locations = sizeof($locations);
                 for ($j = 0; $j < $size_locations; $j++) {
                     $event->locations = self::mergeEventLocations($event->locations, $locations[$j]);
@@ -436,10 +440,14 @@ class EventForm extends Model {
                 $eventModel->date_start = $event->date_start;
                 $eventModel->date_end = $event->date_end;
                 $eventModel->_id = $event->_id;
+                $locations = $event->locations;
             } else {
                 $event = new Event();
             }
             $event->attributes = $eventModel->attributes;
+            if ($size_locations > 0) {
+                $event->locations = $locations;
+            }
             return $event->save();
 //            array_push(self::$importedEvents, $event->_id);
         }
