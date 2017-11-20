@@ -445,7 +445,7 @@ class EventForm extends Model {
                 $event = new Event();
             }
             $event->attributes = $eventModel->attributes;
-            if ($size_locations > 0) {
+            if (isset($size_locations) && $size_locations > 0) {
                 $event->locations = $locations;
             }
             return $event->save();
