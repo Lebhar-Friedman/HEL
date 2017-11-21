@@ -235,6 +235,11 @@ class EventForm extends Model {
 //                    array_push($models, $eventModel);
 
                     EventForm::singleEventSave($eventModel);
+                    $is_canceled = Values::getValueByName('is_canceled');
+                    if($is_canceled !== null && ($is_canceled->value == 'y' || $is_canceled->value == 'Y')){
+                        Values::saveValue('import_status', 'csv_importing', $rowNo, 'canceled');
+                        exit;
+                    }
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
 //                    Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
 //                    $eventModel->location_models = null;

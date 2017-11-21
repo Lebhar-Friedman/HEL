@@ -21,8 +21,8 @@ use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use function GuzzleHttp\json_encode;
-//use function Symfony\Component\Debug\header;
 
+//use function Symfony\Component\Debug\header;
 //use function Symfony\Component\Debug\header;
 
 /**
@@ -38,7 +38,7 @@ class ImportController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                        [
+                    [
 //                        'actions' => ['upload-csv', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -192,7 +192,7 @@ class ImportController extends Controller {
                 $import_status_clone = $import_status;
                 $import_status->delete();
 //                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status . ' at row ' . $import_status_clone->value]));
-                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status ]));
+                exit(json_encode(['msgType' => 'ERR', 'msg' => $import_status_clone->status]));
             } else if ($import_status->value_type == 'exception') {
                 $import_status_clone = $import_status;
                 $import_status->delete();
@@ -202,6 +202,14 @@ class ImportController extends Controller {
                 exit(json_encode(['msgType' => 'EXC', 'msg' => $msg]));
             } else if ($import_status->value_type == 'file_uploading') {
                 exit(json_encode(['msgType' => 'PROC', 'msg' => 'file is being uploaded']));
+            } else if ($import_status->status == 'canceled') {
+                $import_status_clone = $import_status;
+                $import_status->delete();
+                $is_canceled = Values::getValueByName('is_canceled');
+                if($is_canceled){
+                    $is_canceled->delete();
+                }
+                exit(json_encode(['msgType' => 'SUC', 'msg' => 'File processing has been canceled']));
             } else {
                 $completed = $import_status->value;
                 $total = $import_status->total_rows;
@@ -215,7 +223,7 @@ class ImportController extends Controller {
             exit(json_encode(['msgType' => 'NOT_EXIST', 'msg' => 'No file is pending']));
         }
     }
-    
+
     public function actionDetail($id = "") {
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin') {
             ini_set('memory_limit', '1024M');
@@ -249,6 +257,10 @@ class ImportController extends Controller {
         } else {
             throw new ForbiddenHttpException("You are not allowed to access this page.");
         }
+    }
+    
+    public function actionCancelUploadingCsv(){
+        Values::saveValue('is_canceled', 'canceled', 'y');
     }
 
 // end class

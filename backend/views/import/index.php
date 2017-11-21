@@ -13,6 +13,12 @@ $this->registerMetaTag(['name' => 'description', 'content' => '']);
         text-decoration: none;
         color:black;
     }
+    #cancel_link{
+        text-decoration: underline !important;
+    }
+    #cancel_link:hover{
+        color:#34cab5 !important;
+    }
 </style>
 <div class="col-lg-12">
     <div class="csv-comp-content" id="csv_comp_content">
