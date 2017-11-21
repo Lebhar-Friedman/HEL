@@ -218,12 +218,18 @@ function cancelImportingEvents() {
         url: baseUrl + "import/cancel-uploading-csv",
         processData: false,
         contentType: false,
-//        dataType: "json",
-        success: function () {
+        dataType: "json",
+        success: function (data) {
             $('#cancel_link').remove();
             $('#progress_bar').remove();
+            if (data.msgType == 'SUC'){
+                Msg(data.msg);
+            }else if(data.msgType == 'ERR'){
+                Msg(data.msg);
+            }
         },
-        error: function () {
+        error: function (e) {
+            Msg('Internal Server error','ERR');
         }
     });
 }

@@ -260,7 +260,8 @@ class ImportController extends Controller {
     }
     
     public function actionCancelUploadingCsv(){
-        Values::saveValue('is_canceled', 'canceled', 'y');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Values::saveValue('is_canceled', 'canceled', 'y') ? ['msgType'=>'SUC','msg'=>'File Importing is being canceled.'] : ['msgType'=>'ERR','msg'=>'Unable to cancel Importing events.'];
     }
 
 // end class
