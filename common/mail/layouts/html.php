@@ -20,7 +20,7 @@ use yii\helpers\Html;
         <table class="body-wrap" style="width: 100%;background: #f1f1f1;">
             <tr align="center">
                 <td></td>
-                <td style="padding-bottom: 30px;padding-top: 30px"><img src="http://13.59.81.62/HEL/frontend/web/images/logo.png" style="margin:20px 0 20px 0" /></td>
+                <td style="padding-bottom: 30px;padding-top: 30px"><img src="<?= frontend_URL ?>/images/logo.png" style="margin:20px 0 20px 0" /></td>
                 <td></td>        
             </tr>
 
