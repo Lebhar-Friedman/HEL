@@ -31,7 +31,7 @@ use yii\helpers\Html;
                     <div class="content" style="padding: 0px;max-width: 600px;text-align: center; margin: 0 auto;display: block;min-height: 400px;">
                         <table style="width: 100%;min-height: 1000px">
                             <tr style="min-height: 1000px">
-                                <td style="padding-bottom: 50px;padding-top: 50px;margin-bottom: 50px;">
+                                <td style="padding-bottom: 50px;padding-top: 50px;padding-right: 20px;padding-left: 20px;">
                                     <?= $content ?>         
                                     <br /><br />
                                 </td>
@@ -60,16 +60,16 @@ use yii\helpers\Html;
                             <tr>
                                 <td align="center">
                                     <p style="margin-top:15px;">
-                                        <a href="https://web.facebook.com/" style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/fb-btn_2.png" /></a>
+<!--                                        <a href="https://web.facebook.com/" style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/fb-btn_2.png" /></a>
                                         <a href="https://plus.google.com/" style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/gp-btn_2.png" /></a>
                                         <a href="https://www.pinterest.com/"style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/Pinterest.png" /></a>
-                                        <a href="https://twitter.com/" style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/twitter-btn_2.png" /></a>
+                                        <a href="https://twitter.com/" style="color: #2BA6CB;"><img src="http://www.buymiles.com/images/twitter-btn_2.png" /></a>-->
                                     </p>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center">
-                                    <p style="color:#fff; font-size:16px; font-family: roboto, Helvetica, Arial, sans-serif;    margin-top: 0px;">© Copyrights 2016</p>
+                                    <p style="color:#fff; font-size:16px; font-family: roboto, Helvetica, Arial, sans-serif;    margin-top: 0px;">© Copyrights <?= date('Y') ?></p>
                                 </td>
                             </tr>
                         </table>
