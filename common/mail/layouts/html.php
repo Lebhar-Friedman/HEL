@@ -31,7 +31,7 @@ use yii\helpers\Html;
                     <div class="content" style="padding: 0px;max-width: 600px;text-align: left; margin: 0 auto;display: block;min-height: 400px;">
                         <table style="width: 100%;min-height: 400px">
                             <tr style="min-height: 400px">
-                                <td style="padding-bottom: 50px;padding-top: 50px;padding-right: 20px;padding-left: 20px;">
+                                <td style="padding-bottom: 50px;padding-top: 50px;padding-right: 20px;padding-left: 20px;color: black">
                                     <?= $content ?>         
                                     <br /><br />
                                 </td>
