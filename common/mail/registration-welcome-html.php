@@ -24,7 +24,7 @@ use yii\helpers\Html;
     }
 </style>
 <div class="password-reset" style="padding-left: 20px;padding-right: 20px;">
-    <h1 style="padding-left: 20px;padding-right: 20px;">Welcome to Health Events Live!</h1>
+    <h1>Welcome to Health Events Live!</h1>
     <p>Thank you for signing up — a new world of free and low-cost health care is waiting for you.</p>
     <p>Login anytime and go to "My Account” to create email alerts for upcoming events near you. That why you’ll never miss out on valuable health services coming your way. You can also save event details for later, add events to your calendar, and more.</p>
     <p>It’s time to take your health into your own hands with more access to care, greater convenience, and less cost!</p>
