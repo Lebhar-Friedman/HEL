@@ -9,16 +9,17 @@ use yii\helpers\Html;
 ?>
 <style>
     .password-reset{
+        padding-left: 20px !important; 
+        padding-right: 20px !important;
         text-align: left !important;
     }
     .password-reset p{
-        padding-left: 20px !important; 
-        padding-right: 20px !important;
+        
         text-align: left !important;
     }
     .password-reset h1{
-        padding-left: 20px !important; 
-        padding-right: 20px !important;
+/*        padding-left: 20px !important; 
+        padding-right: 20px !important;*/
         text-align: left !important;
     }
 </style>
