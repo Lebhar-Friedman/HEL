@@ -28,7 +28,7 @@ use yii\helpers\Html;
                 <td width="10%"></td>
                 <td width="80%" class="container" bgcolor="#FFFFFF" style="border:#e5e5e5 solid 1px;display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important; ">
 
-                    <div class="content" style="padding: 0px;max-width: 600px;text-align: center; margin: 0 auto;display: block;min-height: 400px;">
+                    <div class="content" style="padding: 0px;max-width: 600px;text-align: left; margin: 0 auto;display: block;min-height: 400px;">
                         <table style="width: 100%;min-height: 400px">
                             <tr style="min-height: 400px">
                                 <td style="padding-bottom: 50px;padding-top: 50px;padding-right: 20px;padding-left: 20px;">
