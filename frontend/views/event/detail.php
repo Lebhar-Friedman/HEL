@@ -324,7 +324,8 @@ $this->registerCss(
                         ]);
                         $map->setName('gmap');
                         $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : '';
-                        foreach ($event['locations'] as $location) {
+                        $event_locations = GlobalFunction::locationsInRadius($lat_lng['lat'], $lat_lng['long'], $event['locations'], 25);
+                        foreach ($event_locations as $location) {
                             $long_lat = $location['geometry']['coordinates'];
                             if (round(GlobalFunction::distanceBetweenPoints($lat_lng['lat'], $lat_lng['long'], $long_lat[1], $long_lat[0])) > 20) {
                                 continue;
