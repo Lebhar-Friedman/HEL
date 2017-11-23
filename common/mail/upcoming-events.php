@@ -13,7 +13,7 @@ use yii\helpers\Url;
         <td style="padding-bottom: 50px">    
             <h5 style="font-size: 18px;font-weight: 500">
                 The following event(s) has just been created and 
-                fits the alert filter that you have saved on HealthEventsLive.com: 
+                fits the alert filter that you have saved on <a href="http://www.healtheventslive.com/">HealthEventsLive.com</a>: 
             </h5>
         </td>
     </tr>
