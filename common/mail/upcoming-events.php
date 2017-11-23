@@ -6,7 +6,7 @@ use yii\helpers\Url;
 <table style="margin-bottom: 50px;text-align: center" align="center" >
     <tr align="center" style="text-align: center">
         <td style="padding-bottom: 50px">
-            <h3 style="font-size: 22px;font-weight: 500">Hi, <?= $user_name ?></h3> 
+            <!--<h3 style="font-size: 22px;font-weight: 500">Hi, <?= $user_name ?></h3>--> 
         </td>
     </tr>
     <tr>
@@ -46,7 +46,7 @@ use yii\helpers\Url;
     <tr>
         <td style="padding-bottom: 20px">    
             <h5 style="font-size: 18px;font-weight: 500">
-                <a href="13.59.81.62/HEL/frontend/web/">www.healtheventlive.com</a>
+                <a href="http://www.healtheventslive.com/">www.healtheventlive.com</a>
             </h5>
         </td>
     </tr>
