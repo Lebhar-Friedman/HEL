@@ -35,7 +35,7 @@ class CompanyForm extends Model {
             // email validation
             ['email', 'email'],
             // image field
-            [['logo'], 'image', 'skipOnEmpty' => FALSE, 'extensions' => 'png, jpg'],
+            [['logo'], 'file', 'skipOnEmpty' => FALSE, 'extensions' => 'png, jpg'],
             ['name', 'validateCompanyName'],
 //            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
         ];
@@ -56,7 +56,7 @@ class CompanyForm extends Model {
     public function upload($image_name = '') {
         if ($this->validate()) {
             if ($this->logo == null) {
-                return true;
+                return false;
             }
             if ($image_name == '') {
                 $image_name = $this->logo->baseName;
@@ -64,6 +64,7 @@ class CompanyForm extends Model {
             $this->logo->saveAs('uploads/' . $image_name . '.' . $this->logo->extension);
             return true;
         } else {
+//            echo 'validation failed';exit;
             return false;
         }
     }

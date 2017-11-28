@@ -91,7 +91,9 @@ class CompanyController extends Controller {
             $image_name = str_replace(' ','_',$model->name . time());
             if (isset($model->logo) && $model->upload($image_name)) {
                 $company->logo = $image_name . '.' . $model->logo->extension;
-                $model->logo = $company->logo;
+//                $model->logo = $company->logo;
+            }else{
+                $company->logo = null;
             }
             $company->name = ucfirst($company->name);
             $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
