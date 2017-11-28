@@ -61,10 +61,11 @@ class CompanyController extends Controller {
         }
         $request = Yii::$app->request;
 
-        $model = new CompanyForm();
+        $model = new CompanyForm(['scenario' => 'create']);
         if ($request->isPost && $request->isAjax) {
             $model->load($request->post());
             if (isset($model->c_id) && $model->c_id !== NULL && $model->c_id !== '') { //update case
+                $model->scenario = 'update';
                 $company = Company::findOne($model->c_id);
 //                $model->company_number = $company->company_number;
                 $image_name = $company->logo;
@@ -110,6 +111,7 @@ class CompanyController extends Controller {
             if (isset($commpany)) {
                 $model->attributes = $commpany->attributes;
                 $model->c_id = (string) $commpany->_id;
+                $model->scenario = 'update';
             }
         }
         return $this->render('detail', ['model' => $model]);
@@ -141,6 +143,9 @@ class CompanyController extends Controller {
         $model = new CompanyForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+            if(!empty($model->c_id)){
+                $model->scenario = 'update';
+            }
             $model->name = ucfirst($model->name);
             return ActiveForm::validate($model);
         }

@@ -27,7 +27,7 @@ class CompanyForm extends Model {
      */
     public function rules() {
         return [
-            [['c_id', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'],'safe'],
+            [['c_id', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'safe'],
             // username and password are both required
             [['company_number', 'name'], 'required'],
             // string fields
@@ -35,7 +35,8 @@ class CompanyForm extends Model {
             // email validation
             ['email', 'email'],
             // image field
-            [['logo'], 'file', 'skipOnEmpty' => FALSE, 'extensions' => 'png, jpg'],
+            [['logo'], 'image', 'skipOnEmpty' => FALSE, 'extensions' => 'png, jpg', 'on' => 'create'],
+            [['logo'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'on' => 'update'],
             ['name', 'validateCompanyName'],
 //            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
         ];
