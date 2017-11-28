@@ -78,7 +78,7 @@ class CompanyController extends Controller {
                 $company->attributes = $model->attributes;
                 $company->logo = $image_name;
                 $company->update() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
-                $retData['msgType'] === "SUC" ? $msg = "Company has been Updated successfully" : $msg = "Unable to Update Company data this time";
+                $retData['msgType'] === "SUC" ? $msg = "Company has been Updated successfully" : $msg = "Nothing has changed";
                 $retData['msg'] = $msg;
 //                $retData['msg']=$err;
                 $retData['companyId'] = (string) $company->_id;
