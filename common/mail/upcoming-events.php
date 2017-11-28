@@ -4,7 +4,7 @@ use components\GlobalFunction;
 use yii\helpers\Url;
 ?>
 <table style="margin-bottom: 50px;text-align: center" align="center" >
-    <tr align="center" style="text-align: center">
+    <tr align="center" style="text-align: left">
         <td style="padding-bottom: 50px">
             <!--<h3 style="font-size: 22px;font-weight: 500">Hi, <?= $user_name ?></h3>--> 
         </td>
@@ -18,7 +18,7 @@ use yii\helpers\Url;
         </td>
     </tr>
 </table>
-<table align="center" style="margin-bottom: 50px;">
+<table align="left" style="margin-bottom: 50px;">
     <?php $event_links = array(); ?>
     <?php foreach ($events as $Single_array_events) { ?>
         <?php foreach ($Single_array_events as $event) { ?>

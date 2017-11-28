@@ -1,12 +1,14 @@
 <?php
 
 use common\functions\GlobalFunctions;
+use common\models\Company;
 use components\GlobalFunction;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
 
@@ -94,9 +96,9 @@ $events_with_nearest_locations = array();
             <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
         <?php } ?>
         <?php //if (sizeof($filters) > 0) {    ?>
-        <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
+<!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
         <?php //foreach ($filters as $filter) {    ?>
-                <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
+<!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
         <?php //}    ?>
         <!--</select>-->
         <?php // }    ?>
@@ -115,7 +117,11 @@ $events_with_nearest_locations = array();
         ?>
         <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
         <?php $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : ''; ?>
-        <a href="<?= yii\helpers\Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
+        <?php $category_first = isset($event['categories'][0]) ? $event['categories'][0] : ''; ?>
+        <?php $company = Company::findCompanyByNumber($event['company']); ?>
+        <?php $event_company = isset($company['name']) ? $company['name'] : ''; ?>
+        <?php $event_title_attribute = $category_first . ',' . $event_company . ',' . $zip_code; ?>
+        <a href="<?= Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code, 'title' => $event_title_attribute]) ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/", "/ ", $event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -168,11 +174,15 @@ $events_with_nearest_locations = array();
             $map->setName('gmap');
             foreach ($events_with_nearest_locations as $event) {
                 $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : '';
+                $category_first = isset($event['categories'][0]) ? $event['categories'][0] : '';
+                $company = Company::findCompanyByNumber($event['company']);
+                $event_company = isset($company['name']) ? $company['name'] : '';
+                $event_title_attribute = $category_first . ',' . $event_company . ',' . $zip_code;
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-//                    echo "<pre>";
-//                    print_r($coord);
+                    //                    echo "<pre>";
+                    //                    print_r($coord);
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],
@@ -181,13 +191,13 @@ $events_with_nearest_locations = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . yii\helpers\Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code]) . "'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code, 'title'=> $event_title_attribute]) . "'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );
-//                $marker->setName('abc');   //to set Info window default open
-//                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
-//            google.maps.event.trigger(abc, 'click');});");
+                    //                $marker->setName('abc');   //to set Info window default open
+                    //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
+                    //            google.maps.event.trigger(abc, 'click');});");
 
                     $map->addOverlay($marker);
                 }
@@ -195,8 +205,8 @@ $events_with_nearest_locations = array();
             $map->center = $map->getMarkersCenterCoordinates();
             $map->zoom = $map->getMarkersFittingZoom() + 1;
 
-//            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
-//            $map->addEvent($map_event);
+            //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
+            //            $map->addEvent($map_event);
             echo $map->display();
             ?>
         </div>

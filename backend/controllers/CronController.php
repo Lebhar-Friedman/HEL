@@ -161,12 +161,13 @@ class CronController extends Controller {
             $events_to_send = array();
             foreach ($single_user_alerts['alerts'] as $single_alert) {
                 if ($single_alert['type'] === "exact_location") {
-                    echo 'Alert on company location';
+                    echo 'Alert on company location<br>';
                     $events = $this->getEventsByLocation($single_alert['street'], $single_alert['city'], $single_alert['state'], $single_alert['zip_code']);
                     if (sizeof($events) > 0) {
                         $events_to_send[] = $events;
                     }
                 } else {
+                    echo 'Alert via zip code location<br>';
                     $events = $this->getEventsWithDistance($single_alert['keywords'], $single_alert['filters'], $single_alert['longitude'], $single_alert['latitude'], $single_alert['sort']);
                     if (sizeof($events) > 0) {
                         $events_to_send[] = $events;
