@@ -26,8 +26,8 @@ if (isset($model['c_id'])) {
                 'enableAjaxValidation' => true,
                 'validateOnBlur' => true,
                 'validationUrl' => Yii::$app->urlManager->createUrl("company/company-validation"),
-                //'validateOnChange' => false,
-                //'enableClientValidation' => true,
+//                'validateOnChange' => false,
+//                'enableClientValidation' => true,
                 'fieldConfig' => ['template' => "{input}{error}"],
                 'options' => ['enctype' => 'multipart/form-data']
     ]);
@@ -62,7 +62,7 @@ if (isset($model['c_id'])) {
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-7">
                         <div>
-                            <?= $form->field($model, 'company_number', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Company Name']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'company_number', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Company Number']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>

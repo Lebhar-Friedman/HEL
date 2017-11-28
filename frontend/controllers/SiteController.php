@@ -36,12 +36,12 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                        [
+                    [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -301,7 +301,7 @@ class SiteController extends Controller {
                     $loginModel->password = $model->password;
                     $loginModel->role = User::ROLE_USER;
                     if ($loginModel->login()) {
-                        return $this->render('signup-thankyou');
+                        return $this->redirect('thankyou');
                     } else {
                         return $this->goBack();
                     }
@@ -320,6 +320,10 @@ class SiteController extends Controller {
         return $this->render('signup', [
                     'model' => $model,
         ]);
+    }
+
+    public function actionThankyou() {
+        return $this->render('signup-thankyou');
     }
 
     public function actionConfirm($id, $key, $url) {
