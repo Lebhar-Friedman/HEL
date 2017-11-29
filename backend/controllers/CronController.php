@@ -12,14 +12,18 @@ use backend\models\EventForm;
 use common\functions\GlobalFunctions;
 use common\models\Alerts;
 use common\models\Categories;
+use common\models\Counter;
 use common\models\Event;
 use common\models\Location;
 use common\models\SubCategories;
 use common\models\UnsavedEvent;
 use common\models\User;
+use common\models\Values;
 use components\GlobalFunction;
+use DOMDocument;
 use Yii;
 use yii\web\Controller;
+use const frontend_URL;
 
 /**
  * Description of CronController
@@ -43,7 +47,7 @@ class CronController extends Controller {
             echo 'Location not found';
             return;
         }
-        $query = \common\models\Event::find()->where(['locations._id' => new \MongoDB\BSON\ObjectID($locationID)]);
+        $query = Event::find()->where(['locations._id' => new \MongoDB\BSON\ObjectID($locationID)]);
         $no_of_events = $query->count();
         $events = $query->all();
         echo 'No of events: ' . $no_of_events . '<br>';
@@ -65,7 +69,7 @@ class CronController extends Controller {
             }
         }
         if ($updated) {
-            $locationid = \common\models\Counter::getAutoIncrementId('locationid');
+            $locationid = Counter::getAutoIncrementId('locationid');
             echo 'Latest location id: ' . $locationid;
         }
     }
@@ -277,11 +281,74 @@ class CronController extends Controller {
 
     public function actionTestCronjob() {
         echo 'cron running';
-        \common\models\Values::saveValue('testing_cronjob','cronjob', date('Y-m-d'));
+        Values::saveValue('testing_cronjob', 'cronjob', date('Y-m-d'));
     }
-    
-    public function actionSetLongLatForLocations(){
+
+    public function actionSetLongLatForLocations() {
         echo 'cron running SetLongLatForLocation';
-        
     }
+
+    public function actionGenerateXml() {
+        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+        $query = Event::find()->where(['AND', ['date_end' => ['$gte' => $current_date]], ['is_post' => true]]);
+        echo $no_of_events = $query->count();
+        $events = $query->all();
+        $content_loc = array();
+        $xml = new DOMDocument();
+        $xml->formatOutput = true;
+        $xml_urlSet = $xml->createElement("urlset");
+        $xml_urlSet->setAttribute('xmlns', 'http://www.healtheventslive.com/');
+        $other_pages = $this->getPages();
+        foreach ($other_pages as $page) {
+            $xml_url = $xml->createElement("url");
+            $xml_loc = $xml->createElement('loc');
+            $xml_loc->nodeValue = htmlspecialchars($page['url']);
+            $xml_lastmod = $xml->createElement('lastmod');
+            $xml_lastmod->nodeValue = Date('Y-m-d');
+            $xml_changefreq = $xml->createElement('changefreq');
+            $xml_changefreq->nodeValue = 'monthly';
+            $xml_priority = $xml->createElement('priority');
+            $xml_priority->nodeValue = $page['priority'];
+            $xml_url->appendChild($xml_loc);
+            $xml_url->appendChild($xml_lastmod);
+            $xml_url->appendChild($xml_changefreq);
+            $xml_url->appendChild($xml_priority);
+            $xml_urlSet->appendChild($xml_url);
+        }
+        echo "<pre>";
+        for ($i = 0; $i < $no_of_events; $i++) {
+            $no_of_locations = sizeof($events[$i]['locations']);
+            $category_url = isset($events[$i]['categories'][0]) ? GlobalFunction::removeSpecialCharacters($events[$i]['categories'][0]) . '/' : '';
+            for ($j = 0; $j < $no_of_locations; $j++) {
+                $event_link = @frontend_URL . 'healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($events[$i]['sub_categories']) . '?eid=' . (string) $events[$i]['_id'] . '&store=' . $events[$i]['locations'][$j]['location_id'];
+                $xml_url = $xml->createElement("url");
+                $xml_loc = $xml->createElement('loc');
+                $xml_loc->nodeValue = htmlspecialchars($event_link);
+                $xml_lastmod = $xml->createElement('lastmod');
+                $xml_lastmod->nodeValue = Date('Y-m-d');
+                $xml_changefreq = $xml->createElement('changefreq');
+                $xml_changefreq->nodeValue = 'monthly';
+                $xml_priority = $xml->createElement('priority');
+                $xml_priority->nodeValue = .8;
+                $xml_url->appendChild($xml_loc);
+                $xml_url->appendChild($xml_lastmod);
+                $xml_url->appendChild($xml_changefreq);
+                $xml_url->appendChild($xml_priority);
+                $xml_urlSet->appendChild($xml_url);
+            }
+        }
+        print_r($content_loc);
+        $xml->appendChild($xml_urlSet);
+        $xml->save("sitemap.xml");
+    }
+
+    public function getPages() {
+        return [
+            array('url' => 'http://www.healtheventslive.com/', 'priority' => '1'),
+            array('url' => 'http://www.healtheventslive.com/site/signup', 'priority' => '.8'),
+            array('url' => 'http://www.healtheventslive.com/site/login', 'priority' => '.8'),
+            array('url' => 'http://www.healtheventslive.com/site/terms-privacy', 'priority' => '.8'),
+        ];
+    }
+
 }
