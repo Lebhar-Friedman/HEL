@@ -339,7 +339,7 @@ class CronController extends Controller {
         }
         print_r($content_loc);
         $xml->appendChild($xml_urlSet);
-        $xml->save(Yii::getAlias('@frontend')."/web/sitemap.xml");
+        $xml->save(Yii::getAlias('@frontend')."/web/sitemap.xml");;
     }
 
     public function getPages() {

@@ -36,3 +36,4 @@ phpunit.phar
 /Backup/
 /common/uploads/
 /backend/web/uploads/
+/frontend/web/sitemap.xml
