@@ -320,7 +320,8 @@ class CronController extends Controller {
             $no_of_locations = sizeof($events[$i]['locations']);
             $category_url = isset($events[$i]['categories'][0]) ? GlobalFunction::removeSpecialCharacters($events[$i]['categories'][0]) . '/' : '';
             for ($j = 0; $j < $no_of_locations; $j++) {
-                $event_link = @frontend_URL . 'healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($events[$i]['sub_categories']) . '?eid=' . (string) $events[$i]['_id'] . '&store=' . $events[$i]['locations'][$j]['location_id'];
+                $cat_sub = rtrim($category_url.GlobalFunction::removeSpecialCharacters($events[$i]['sub_categories']), '/');
+                $event_link = @frontend_URL . 'healthcare-events/' . $cat_sub . '?eid=' . (string) $events[$i]['_id'] . '&store=' . $events[$i]['locations'][$j]['location_id'];
                 $xml_url = $xml->createElement("url");
                 $xml_loc = $xml->createElement('loc');
                 $xml_loc->nodeValue = htmlspecialchars($event_link);
