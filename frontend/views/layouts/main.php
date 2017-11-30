@@ -47,7 +47,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2WNXC" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript>
         <!-- End Google Tag Manager (noscript) -->
         <script type="text/javascript">
-            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                               ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                                                                                ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->role) ? Yii::$app->user->identity->role : ''); ?>';
             var userId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
             var image_url = '<?= BaseUrl::base() ?>/images/';
@@ -98,45 +98,46 @@ $baseUrl = Yii::$app->request->baseUrl;
             </div>
             <?= $content ?>
         </div>
-    <!--</div>-->
-    <!--<footer>-->
-    <!--            <div class="social-icon">
-                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>
-                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon2.png" alt="" /></a>
-                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon3.png" alt="" /></a>
-                    <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon4.png" alt="" /></a>
-                </div>
-                Copyright © 2017 Health Events Live Plus-->
-
-    <div class="result-footer">
-        <div class="container">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <div class="footer-logo">
-                            <a href="<?= Url::to(['/']); ?>"><img src="<?= BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
-                        </div>
+        <!--</div>-->
+        <!--<footer>-->
+        <!--            <div class="social-icon">
+                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon.png" alt="" /></a>
+                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon2.png" alt="" /></a>
+                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon3.png" alt="" /></a>
+                        <a href="#"><img src="<?= Yii::$app->getHomeUrl(); ?>images/social-icon4.png" alt="" /></a>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8">
-                        <div class="footer-right-side">
-                            <!--<a href="#">Sitemap</a>-->  
-                            <a href="<?= BaseUrl::base() . '/site/terms-privacy' ?>">Terms & Privacy</a>
-<!--                            &bull;-->
-                            <!--<a href="<?= BaseUrl::base() . '/event/directory' ?>">Directory</a>-->
-                            <span></span>
-                            © Health Events Live.  All rights reserved.
+                    Copyright © 2017 Health Events Live Plus-->
+
+        <div class="result-footer">
+            <div class="container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="footer-logo">
+                                <a href="<?= Url::to(['/']); ?>"><img src="<?= BaseUrl::base() ?>/images/logo2.png" alt="" /></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="footer-right-side">
+                                <!--<a href="#">Sitemap</a>-->  
+                                <a href="<?= BaseUrl::base() . '/site/terms-privacy' ?>">Terms & Privacy</a>
+                                <!--                            &bull;-->
+                                                            <!--<a href="<?= BaseUrl::base() . '/event/directory' ?>">Directory</a>-->
+                                <a href="<?= yii\helpers\BaseUrl::base() . '/sitemap.xml' ?>">Sitemap</a> 
+                                <span></span>
+                                © Health Events Live.  All rights reserved.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--</footer>-->
+        <!--</footer>-->
 
 
-    <?php $this->endBody() ?>
-    <!-- Go to www.addthis.com/dashboard to customize your tools --> 
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5982f4419c3e0add"></script> 
-</body>
+        <?php $this->endBody() ?>
+        <!-- Go to www.addthis.com/dashboard to customize your tools --> 
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5982f4419c3e0add"></script> 
+    </body>
 </html>
 <?php $this->endPage() ?>
