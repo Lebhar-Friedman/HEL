@@ -24,7 +24,7 @@ if (ENV === "local") {
     $api_for_all = GOOGLE_API_KEY;
 } else if (ENV === "live") {
     define('IMG_URL', 'http://13.59.81.62/HEL/backend/web/uploads/');
-    define('frontend_URL', 'http://healtheventslive.com');
+    define('frontend_URL', 'http://healtheventslive.com/');
     define('MONGODB_DSN', 'mongodb://jemiuser:jemi#user@localhost:27017/health_events');
     define('GOOGLE_API_URL', 'https://maps.googleapis.com/maps/api/geocode/json?key=' . GOOGLE_API_KEY . '&');
     $api_for_all = GOOGLE_API_KEY_BACKUP;
