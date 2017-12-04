@@ -298,6 +298,7 @@ class CronController extends Controller {
         $xml->formatOutput = true;
         $xml_urlSet = $xml->createElement("urlset");
         $xml_urlSet->setAttribute('xmlns', 'http://www.healtheventslive.com/');
+        $xml_urlSet->setAttribute('targetNamespace', 'http://www.healtheventslive.com/');
         $other_pages = $this->getPages();
         foreach ($other_pages as $page) {
             $xml_url = $xml->createElement("url");

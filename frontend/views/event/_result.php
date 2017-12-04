@@ -121,7 +121,7 @@ $events_with_nearest_locations = array();
         <?php $company = Company::findCompanyByNumber($event['company']); ?>
         <?php $event_company = isset($company['name']) ? $company['name'] : ''; ?>
         <?php $event_title_attribute = $category_first . ',' . $event_company . ',' . $zip_code; ?>
-        <a href="<?= Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code, 'title' => $event_title_attribute]) ?>">
+        <a href="<?= Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>" title="<?= $event['title']; ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/", "/ ", $event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -191,7 +191,7 @@ $events_with_nearest_locations = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code, 'title'=> $event_title_attribute]) . "'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code]) . "' title='".$event['title']."'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );
