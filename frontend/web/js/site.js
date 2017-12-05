@@ -163,9 +163,11 @@ $('.wysiwyg-div p').addClass('wysiwyg-p');
 function reasonToContact($element){
     $option = $("#reason_to_contact").val()
     if($option == 1 ){
-        $('#contact_fields').show();
+//        $('#contact_fields').show();
+        $('.contact_for_event').show();
     }else{
-        $('#contact_fields').hide();
+        $('.contact_for_event').hide();
+//        $('#contact_fields').hide();
     }
 }
 

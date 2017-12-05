@@ -1583,6 +1583,9 @@ padding-top-10{
 #contact_fields{
     display: none;
 }
+.contact_for_event{
+    display: none;
+}
 .contact-us-h{
     color:#364d6a;
     font-size:35px;

@@ -27,7 +27,10 @@ $form = ActiveForm::begin([
                 <?= $form->field($model, 'reason')->dropDownList(array("Ask a question about the website / report an issue", "Submit a health event for posting"), ['class' => "contact-textbox select-option", 'id' => 'reason_to_contact', 'onchange' => 'reasonToContact(this)'])->label(false); ?>
             </div>
         </div>
-        <div id="contact_fields">
+        <div style="padding-bottom: 20px " class="contact_for_event">
+            <p>That's great! Please tell us everything your patients need to know to attend your event. We'll do our best to post it as soon as possible. If we have any questions, we will reach out to the contact information provided.</p>
+        </div>
+        <div id="contact_fields" class="contact_for_event">
             <div class="cotact-us-content">
                 <label>Name:</label>
                 <div class="textbox-cotent">
