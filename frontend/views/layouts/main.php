@@ -120,6 +120,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="footer-right-side">
                                 <!--<a href="#">Sitemap</a>-->  
+                                <a href="<?= yii\helpers\BaseUrl::base() . '/site/contact' ?>">Contact</a> 
                                 <a href="<?= BaseUrl::base() . '/site/terms-privacy' ?>">Terms & Privacy</a>
                                 <!--                            &bull;-->
                                                             <!--<a href="<?= BaseUrl::base() . '/event/directory' ?>">Directory</a>-->
