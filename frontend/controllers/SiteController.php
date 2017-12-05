@@ -213,7 +213,7 @@ class SiteController extends Controller {
     public function actionContact() {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+            if ($model->sendEmail(Yii::$app->params['zeeshanEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
@@ -436,18 +436,6 @@ class SiteController extends Controller {
         }
 
         exit(json_encode($retData));
-    }
-
-    public function actionContactFormValidation() {
-        $model = new ContactForm();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($model->reason == 1) {
-                $model->scenario = 'update';
-            }
-
-            return ActiveForm::validate($model);
-        }
     }
 
 }
