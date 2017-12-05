@@ -59,7 +59,7 @@ class ContactForm extends Model {
         }
         return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
                         ->setTo($email)
-                        ->setFrom('query@healhtevents.com')
+                        ->setFrom(Yii::$app->params['events_update'])
                         ->setSubject($subject)
                         ->send();
     }

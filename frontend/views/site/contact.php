@@ -15,11 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $form = ActiveForm::begin([
             'id' => 'contact-form'
-//            'validateOnBlur' => TRUE,
-//            'validateOnChange' => TRUE,
-//            'enableAjaxValidation' => true,
-//            'enableClientValidation' => True,
-//            'validationUrl' => Yii::$app->urlManager->createUrl("site/contact-form-validation")
                 ]
 );
 ?>
@@ -60,7 +55,7 @@ $form = ActiveForm::begin([
             <div class="cotact-us-content">
                 <label>Date:</label>
                 <div class="textbox-cotent">
-                    <?= $form->field($model, 'event_date')->input('date',['class' => "contact-textbox"])->label(FALSE) ?>
+                    <?= $form->field($model, 'event_date')->input('date', ['class' => "contact-textbox"])->label(FALSE) ?>
                 </div>
             </div>
             <div class="cotact-us-content">
