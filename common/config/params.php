@@ -6,5 +6,6 @@ return [
     'reply_to' => 'no-reply@healtheventslive.com',
     'user.passwordResetTokenExpire' => 3600,
     'darrenEmail' => 'dursino@lf1925.com',
-    'zeeshanEmail' => 'zeeshan@maavan.com'
+    'zeeshanEmail' => 'zeeshan@maavan.com',
+    'contactEmail' => 'contact@healthevents.com',
 ];
