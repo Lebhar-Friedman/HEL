@@ -8,39 +8,43 @@ use yii\base\Model;
 /**
  * ContactForm is the model behind the contact form.
  */
-class ContactForm extends Model
-{
+class ContactForm extends Model {
+
+    public $reason;
     public $name;
     public $email;
     public $subject;
     public $body;
-    public $verifyCode;
-
+    public $organization;
+    public $event_address;
+    public $event_date;
+    public $event_time;
+    public $event_title;
+    public $event_categories_services;
+    public $event_cost;
+    public $event_insurance;
+    public $detail;
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
+            [['reason','name','email','organization','event_address','event_date','event_time','event_title','event_categories_services','event_cost','event_insurance','detail'],'safe'],
+            [['detail'], 'required'],
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
-        return [
-            'verifyCode' => 'Verification Code',
-        ];
-    }
+//    public function attributeLabels()
+//    {
+//        return [
+//            'verifyCode' => 'Verification Code',
+//        ];
+//    }
 
     /**
      * Sends an email to the specified email address using the information collected by this model.
@@ -48,13 +52,16 @@ class ContactForm extends Model
      * @param string $email the target email address
      * @return bool whether the email was sent
      */
-    public function sendEmail($email)
-    {
-        return Yii::$app->mailer->compose()
-            ->setTo($email)
-            ->setFrom([$this->email => $this->name])
-            ->setSubject($this->subject)
-            ->setTextBody($this->body)
-            ->send();
+    public function sendEmail($email) {
+        $subject ='Query from Health events';
+        if($this->reason == 1){
+            $subject = 'Event query from Health Events';
+        }
+        return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
+                        ->setTo($email)
+                        ->setFrom('query@healhtevents.com')
+                        ->setSubject($subject)
+                        ->send();
     }
+
 }

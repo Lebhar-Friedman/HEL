@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+SITEMAP: http://www.healtheventslive.com/sitemap.xml

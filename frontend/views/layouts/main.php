@@ -108,7 +108,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     </div>
                     Copyright © 2017 Health Events Live Plus-->
 
-        <div class="result-footer">
+        <div class="result-footer ">
             <div class="container">
                 <div class="container">
                     <div class="row">

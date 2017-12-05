@@ -159,3 +159,14 @@ function showAddalertForm() {
 //add css class for wysiwyg text styling
 $('.wysiwyg-div p').addClass('wysiwyg-p');
 
+//contact us page
+function reasonToContact($element){
+    $option = $("#reason_to_contact").val()
+    if($option == 1 ){
+        $('#contact_fields').show();
+    }else{
+        $('#contact_fields').hide();
+    }
+}
+
+

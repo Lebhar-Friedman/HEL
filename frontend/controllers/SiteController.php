@@ -17,6 +17,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 use const YII_ENV_TEST;
 use function GuzzleHttp\json_encode;
 
@@ -434,6 +436,18 @@ class SiteController extends Controller {
         }
 
         exit(json_encode($retData));
+    }
+
+    public function actionContactFormValidation() {
+        $model = new ContactForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($model->reason == 1) {
+                $model->scenario = 'update';
+            }
+
+            return ActiveForm::validate($model);
+        }
     }
 
 }
