@@ -37,3 +37,4 @@ phpunit.phar
 /common/uploads/
 /backend/web/uploads/
 /frontend/web/sitemap.xml
+/frontend/web/robots.txt
