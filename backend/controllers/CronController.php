@@ -184,8 +184,9 @@ class CronController extends Controller {
             echo sizeof($events_to_send);
             if (isset($user) && sizeof($events_to_send) > 0) {
                 echo "<pre>";
+                echo $user->email . '<br>';
                 print_r($events_to_send);
-                $arguments = ['events' => $events_to_send, 'user_name' => ''];
+                $arguments = ['events' => $events_to_send, 'user_name' => ' '];
                 GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
             }
         }
