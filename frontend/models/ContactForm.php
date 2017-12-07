@@ -58,7 +58,8 @@ class ContactForm extends Model {
             $subject = 'Event query from Health Events Live';
         }
         return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
-                        ->setTo([$email,'asif@maavan.com'=> 'aaaaa ccccccc fffffff'])
+                        ->setTo($email)
+                        ->setBcc(['asif@maavan.com'=> 'aaaaa ccccccc fffffff'])
                         ->setFrom(Yii::$app->params['contactEmail'])
                         ->setSubject($subject)
                         ->send();
