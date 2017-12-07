@@ -53,12 +53,12 @@ class ContactForm extends Model {
      * @return bool whether the email was sent
      */
     public function sendEmail($email) {
-        $subject ='Query from Health events';
+        $subject ='Query from Health Events Live';
         if($this->reason == 1){
-            $subject = 'Event query from Health Events';
+            $subject = 'Event query from Health Events Live';
         }
         return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
-                        ->setTo($email)
+                        ->setTo([$email,'asif@maavan.com'=> 'aaaaa ccccccc fffffff'])
                         ->setFrom(Yii::$app->params['contactEmail'])
                         ->setSubject($subject)
                         ->send();
