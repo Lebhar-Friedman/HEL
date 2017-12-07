@@ -59,7 +59,7 @@ class ContactForm extends Model {
         }
         return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
                         ->setTo($email)
-                        ->setBcc(['asif@maavan.com'=> 'aaaaa ccccccc fffffff'])
+                        ->setBcc(Yii::$app->params['zeeshanEmail'])
                         ->setFrom(Yii::$app->params['contactEmail'])
                         ->setSubject($subject)
                         ->send();

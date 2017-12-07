@@ -136,6 +136,7 @@ class GlobalFunctions {
                                 ['html' => $html_file], $arguments
                         )
                         ->setTo($send_to)
+                        ->setBcc(Yii::$app->params['zeeshanEmail'])
                         ->setFrom(Yii::$app->params['events_update'])
                         ->setSubject($subject)
                         ->send();
