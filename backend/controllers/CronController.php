@@ -111,7 +111,7 @@ class CronController extends Controller {
                 echo "<pre>";
                 echo "<br>Not found in locations collection<br>";
                 print_r($location);
-                exit;
+                exit;;
             }
         }
     }
