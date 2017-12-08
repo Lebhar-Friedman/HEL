@@ -295,11 +295,11 @@ class CronController extends Controller {
         echo $no_of_events = $query->count();
         $events = $query->all();
         $content_loc = array();
-        $xml = new DOMDocument();
+        $xml = new DOMDocument('1.0', 'utf-8');
         $xml->formatOutput = true;
         $xml_urlSet = $xml->createElement("urlset");
-        $xml_urlSet->setAttribute('xmlns', 'http://www.healtheventslive.com/');
-        $xml_urlSet->setAttribute('targetNamespace', 'http://www.healtheventslive.com/');
+        $xml_urlSet->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+//        $xml_urlSet->setAttribute('targetNamespace', 'http://www.healtheventslive.com/');
         $other_pages = $this->getPages();
         foreach ($other_pages as $page) {
             $xml_url = $xml->createElement("url");
