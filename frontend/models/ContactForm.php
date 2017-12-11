@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\functions\GlobalFunctions;
 use Yii;
 use yii\base\Model;
 
@@ -57,12 +58,14 @@ class ContactForm extends Model {
         if($this->reason == 1){
             $subject = 'Event query from Health Events Live';
         }
-        return Yii::$app->mailer->compose(['html' => 'contact-email'], ['model' => $this])
-                        ->setTo($email)
-                        ->setBcc(Yii::$app->params['zeeshanEmail'])
-                        ->setFrom(Yii::$app->params['contactEmail'])
-                        ->setSubject($subject)
-                        ->send();
+        
+        return GlobalFunctions::sendEmail('contact-email', $email, Yii::$app->params['contactEmail'], $subject, ['model'=> $this]);
+//        $sendGrid = Yii::$app->sendGrid;
+//        $message = $sendGrid->compose('contact-email', ['model' => $this]);
+//        return $message->setFrom(Yii::$app->params['contactEmail'])
+//                ->setTo($email)
+//                ->setSubject($subject)
+//                ->send($sendGrid);
     }
 
 }

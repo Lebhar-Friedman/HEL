@@ -131,15 +131,21 @@ class GlobalFunctions {
         }
     }
 
-    public static function sendEmail($html_file, $send_to, $subject, $arguments) {
-        return Yii::$app->mailer->compose(
-                                ['html' => $html_file], $arguments
-                        )
+    public static function sendEmail($html_file, $send_to,$send_from, $subject, $arguments) {
+//        return Yii::$app->mailer->compose(
+//                                ['html' => $html_file], $arguments
+//                        )
+//                        ->setTo($send_to)
+//                        ->setBcc(Yii::$app->params['zeeshanEmail'])
+//                        ->setFrom(Yii::$app->params['events_update'])
+//                        ->setSubject($subject)
+//                        ->send();
+        $sendGrid = Yii::$app->sendGrid;
+        $message = $sendGrid->compose($html_file, $arguments);
+        return $message->setFrom($send_from)
                         ->setTo($send_to)
-                        ->setBcc(Yii::$app->params['zeeshanEmail'])
-                        ->setFrom(Yii::$app->params['events_update'])
                         ->setSubject($subject)
-                        ->send();
+                        ->send($sendGrid);
     }
 
     public static function processString($v) {
@@ -162,7 +168,7 @@ class GlobalFunctions {
         if ($img_index == 'not_set') {
             $img_index = 0;
             static::setHeroImage(1);
-        }else{
+        } else {
             static::setHeroImage(intval($img_index) + 1);
         }
         return static::getHeroImageByindex($img_index);

@@ -11,6 +11,12 @@ return [
 //            'charset' => 'utf8',
 //        ],
         'mongodb' => require(__DIR__ . '/mongodb.php'),
+        'sendGrid' => [
+		'class' => 'bryglen\sendgrid\Mailer',
+		'username' => 'ali+maavan',
+		'password' => 'Technology@123',
+		'viewPath' => '@common/mail',
+	],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
