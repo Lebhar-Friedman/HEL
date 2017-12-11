@@ -346,7 +346,7 @@ $this->registerCss(
                         }
                         if (!empty($map->getMarkers())) {
                             $map->center = $map->getMarkersCenterCoordinates();
-                            $map->zoom = $map->getMarkersFittingZoom();
+//                            $map->zoom = $map->getMarkersFittingZoom();
                             echo $map->display();
                         }
                         ?>
