@@ -36,12 +36,12 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup'],
                 'rules' => [
-                        [
+                    [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                        [
+                    [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -211,12 +211,11 @@ class SiteController extends Controller {
     public function actionContact() {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+            if ($model->sendEmail(Yii::$app->params['darrenEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
             }
-
             return $this->refresh();
         } else {
             return $this->render('contact', [
@@ -301,7 +300,7 @@ class SiteController extends Controller {
                     $loginModel->password = $model->password;
                     $loginModel->role = User::ROLE_USER;
                     if ($loginModel->login()) {
-                        return $this->render('signup-thankyou');
+                        return $this->redirect('thankyou');
                     } else {
                         return $this->goBack();
                     }
@@ -320,6 +319,10 @@ class SiteController extends Controller {
         return $this->render('signup', [
                     'model' => $model,
         ]);
+    }
+
+    public function actionThankyou() {
+        return $this->render('signup-thankyou');
     }
 
     public function actionConfirm($id, $key, $url) {

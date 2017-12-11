@@ -6,6 +6,7 @@ use app\common\models\User;
 use DateTime;
 use DateTimeZone;
 use Yii;
+use yii\helpers\ArrayHelper;
 use function GuzzleHttp\json_decode;
 
 class GlobalFunction {
@@ -214,8 +215,12 @@ class GlobalFunction {
         return $diff->format("%a");
     }
 
-    public static function getLongLat($location) {
-        $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
+    public static function getLongLat($location, $raw_address = NULL) {
+        if ($raw_address == NULL) {
+            $anAddress = $location->street . " " . $location->city . " " . $location->state . " " . $location->zip;
+        } else {
+            $anAddress = $raw_address;
+        }
         $url = GOOGLE_API_URL . '&address=' . rawurlencode($anAddress);
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_TIMEOUT, 25000);
@@ -356,6 +361,9 @@ class GlobalFunction {
             }
         }
         $locations_to_return = GlobalFunction::deleteDuplicateLocations($locations_to_return);
+        if (sizeof($locations_to_return) > 25) {
+            $locations_to_return = GlobalFunction::sortLocationsByDistance($lat, $lng, $locations);
+        }
         return $locations_to_return;
     }
 
@@ -369,6 +377,7 @@ class GlobalFunction {
                 $nearest = $distance;
             }
         }
+
         return $location_to_return;
     }
 
@@ -409,6 +418,28 @@ class GlobalFunction {
             $text = preg_replace('/[^A-Za-z0-9\-]/', '', $text);
             return $text;
         }
+    }
+
+    public static function sortLocationsByDistance($lat, $lng, $locations) {
+        $distance_index = array();
+        $no_of_locations = sizeof($locations);
+        $locations_to_return = array();
+        for ($i = 0; $i < $no_of_locations; $i++) {
+            $distance = round(GlobalFunction::distanceBetweenPoints($lat, $lng, $locations[$i]['geometry']['coordinates'][1], $locations[$i]['geometry']['coordinates'][0]), 2);
+            $distance_index[] = ['index_no' => $i, 'distance' => $distance];
+        }
+        $no_of_index = sizeof($distance_index);
+        if ($no_of_index > 0) {
+            ArrayHelper::multisort($distance_index, ['distance', 'index_no'], [SORT_ASC, SORT_DESC]);
+            for ($i = 0; $i < $no_of_index; $i++) {
+                if ($i == 25) {
+                    break;
+                }
+                $locations_to_return[] = $locations[$distance_index[$i]['index_no']];
+            }
+            return $locations_to_return;
+        }
+        return $locations_to_return;
     }
 
 // end class

@@ -1,6 +1,6 @@
 //*************************************************************** functions on document load *********************************
 $(document).ready(function () {
-    $('.slider').slideker({animationDelay:4000});
+    $('.slider').slideker({animationDelay: 4000});
     $('a[href="#home"]').on('click', function (event) {
         if (this.hash !== "") {
             event.preventDefault();
@@ -156,4 +156,19 @@ interval = setInterval(function () {
 function showAddalertForm() {
     $('#form-create-alert').removeClass('hidden');
 }
+//add css class for wysiwyg text styling
+$('.wysiwyg-div p').addClass('wysiwyg-p');
+
+//contact us page
+function reasonToContact($element){
+    $option = $("#reason_to_contact").val()
+    if($option == 1 ){
+//        $('#contact_fields').show();
+        $('.contact_for_event').show();
+    }else{
+        $('.contact_for_event').hide();
+//        $('#contact_fields').hide();
+    }
+}
+
 

@@ -205,7 +205,7 @@ function postEvent(eventID, element) {
         }
     });
 }
-function postImportedEvent(eventID, element) {
+function postImportedEvent(eventID, element,redirect) {
     actionText = $(element).text();
     if (!confirm("Are you sure you  want to " + actionText + " this event?")) {
         return false;
@@ -225,6 +225,11 @@ function postImportedEvent(eventID, element) {
                 $(element).closest('.csv-table-row1').hide(1000, function () {
                     $(element).closest('.csv-table-row1').remove();
                 });
+                if (redirect) {
+                    setTimeout(function () {
+                        window.location.href = baseUrl + '' + redirect;
+                    }, 2000);
+                }
             } else {
                 toastr.error(r.msg);
             }

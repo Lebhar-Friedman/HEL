@@ -120,7 +120,7 @@ class EventForm extends Model {
         } catch (Exception $e) {
 //            echo 'Message: ' . $e->getMessage();
 //            Values::saveValue('import_status', 'exception', $e->getLine(), $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number']: 0);
-            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . self::$current_row . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
+            Values::saveValue('import_status', 'exception', self::$current_row, 'at Row :' . self::$current_row . '<br>' . $e->getMessage() . ' File name : ' . $e->getFile() . ' Line : ' . $e->getLine() . '<br><div class="hidden"><br> Trace : ' . $e->getTraceAsString() . '</div>', isset($validate['row_number']) ? $validate['row_number'] : 0);
 //            Values::saveValue('import_status', 'exception', self::$current_row, 'at Line :' . $e->getLine() . $e->getMessage() . ' File name : ' . $e->getFile(), isset($validate['row_number']) ? $validate['row_number'] : 0);
             self::$current_row = 1;
         }
@@ -158,7 +158,7 @@ class EventForm extends Model {
                 $rowNo++;
                 $eventModel = new EventForm();
                 $locationModel = new LocationForm();
-                $dataRow = fgetcsv($file);
+                $dataRow = self::getSafeCsvRow(fgetcsv($file));
                 if (!empty($dataRow) && count(array_filter($dataRow))) {
                     foreach ($headerRow as $key => $value) {
                         if (isset($eventAttributeMapArray[$value])) {
@@ -235,6 +235,11 @@ class EventForm extends Model {
 //                    array_push($models, $eventModel);
 
                     EventForm::singleEventSave($eventModel);
+                    $is_canceled = Values::getValueByName('is_canceled');
+                    if($is_canceled !== null && ($is_canceled->value == 'y' || $is_canceled->value == 'Y')){
+                        Values::saveValue('import_status', 'csv_importing', $rowNo, 'canceled');
+                        exit;
+                    }
                     Values::saveValue('import_status', 'csv_importing', $rowNo, 'validating');
 //                    Values::saveValue('memory_usage', $baseMemory, $rowNo, memory_get_usage() - $baseMemory);
 //                    $eventModel->location_models = null;
@@ -373,7 +378,7 @@ class EventForm extends Model {
             }
         }
     }
-    
+
     public function updateImportedEvent() {
         if ($this->validate()) {
             $event = \common\models\ImportedEvent::findOne(['_id' => new \MongoDB\BSON\ObjectID($this->eid)]);
@@ -411,13 +416,16 @@ class EventForm extends Model {
         if (count($events) > 0) {
             $events_size = sizeof($events);
             for ($i = 0; $i < $events_size; $i++) {
-                $locations = $events[$i]->locations;
+                $locations = $eventModel->locations;
+//                $locations = $events[$i]->locations;
                 $size_locations = sizeof($locations);
                 for ($j = 0; $j < $size_locations; $j++) {
                     $events[$i]->locations = self::mergeEventLocations($events[$i]->locations, $locations[$j]);
                 }
-                $eventModel->_id = $events[$i]->_id;
-                $events[$i]->attributes = $eventModel->attributes;
+//                $eventModel->_id = $events[$i]->_id;
+//                $locations = $events[$i]->locations;
+//                $events[$i]->attributes = $eventModel->attributes;
+//                $events[$i]->locations = $locations;
                 return $events[$i]->save();
 //                unset($events[$i]);
             }
@@ -428,7 +436,8 @@ class EventForm extends Model {
                     ->one();
 
             if (count($event) > 0) {
-                $locations = $event->locations;
+//                $locations = $event->locations;
+                $locations = $eventModel->locations;
                 $size_locations = sizeof($locations);
                 for ($j = 0; $j < $size_locations; $j++) {
                     $event->locations = self::mergeEventLocations($event->locations, $locations[$j]);
@@ -436,13 +445,26 @@ class EventForm extends Model {
                 $eventModel->date_start = $event->date_start;
                 $eventModel->date_end = $event->date_end;
                 $eventModel->_id = $event->_id;
+                $locations = $event->locations;
             } else {
                 $event = new Event();
             }
             $event->attributes = $eventModel->attributes;
+            if (isset($size_locations) && $size_locations > 0) {
+                $event->locations = $locations;
+            }
             return $event->save();
 //            array_push(self::$importedEvents, $event->_id);
         }
+    }
+
+    public static function getSafeCsvRow($row) {
+        $n = count($row);
+        for ($i = 0; $i < $n; $i++) {
+            $row[$i] = iconv('UTF-8', 'ISO-8859-1//IGNORE', trim($row[$i]));
+        }
+
+        return $row;
     }
 
 // end class

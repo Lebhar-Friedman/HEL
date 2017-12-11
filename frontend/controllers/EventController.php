@@ -68,14 +68,15 @@ class EventController extends Controller {
         }
 
         if (Yii::$app->request->get('zipcode') === NULL) {
-
             $events_dist = array();
+            $city = Yii::$app->request->get('city');
             $keywords = Yii::$app->request->get('keywords');
             $categories = Yii::$app->request->get('categories');
             $services = Yii::$app->request->get('services');
             $filters = Yii::$app->request->get('filters');
             $sort_by = ucfirst(urldecode(Yii::$app->request->get('sortby')));
-            $zip_code = GlobalFunctions::getLatestSearchedZip();
+//            $zip_code = GlobalFunctions::getLatestSearchedZip();
+            $zip_code = NULL;
             $params_keys = array();
             $categories_array = explode(' ', $categories);
             $services_array = explode(' ', $services);
@@ -85,11 +86,11 @@ class EventController extends Controller {
                 $params_keys = array_merge($params_keys, $services_array);
             }
             $keywords = $params_keys;
-
-            $longlat = GlobalFunction::getLongLatFromZip($zip_code);
-
+            $longlat = GlobalFunction::getLongLat(null, $city);
+            $city_name_for_title = GlobalFunctions::getCityBySlug($city);
+            $title_content = "Free Health Services in $city_name_for_title | Health Events Live";
             $events_dist = $this->getEventsWithDistance($zip_code, $keywords, $filters, $longlat['long'], $longlat['lat'], 20, 0, $sort_by);
-            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => strtolower($sort_by), 'longitude' => $longlat['long'], 'latitude' => $longlat['lat']]);
+            return $this->render('index', ['events' => $events_dist, 'zip_code' => $zip_code, 'total_events' => 0, 'ret_keywords' => $keywords, 'ret_filters' => $filters, 'ret_sort' => strtolower($sort_by), 'longitude' => $longlat['long'], 'latitude' => $longlat['lat'], 'title_content' => $title_content, 'city_name' => $city_name_for_title]);
         } else {
             $zip_code = urldecode(Yii::$app->request->get('zipcode'));
             $keywords = Yii::$app->request->get('keywords');
@@ -282,16 +283,17 @@ class EventController extends Controller {
             $zipcode = $event_location['zip'];
         }
         $company_name_in_title = isset($company['name']) ? $company['name'] : '';
-        $title_content = $categories_in_title .$company_name_in_title. ', ' . $zipcode;
+        $title_content = $categories_in_title . $company_name_in_title . ', ' . $zipcode;
 //        echo $title_content;exit;
         return $this->render('detail', ['event' => $event, 'company' => $company, 'companyEvents' => $companyEvents, 'error' => $error, 'alert_added' => $alert_added, 'event_location' => $event_location, 'title_content' => $title_content]);
     }
 
     public function actionDirectory() {
-        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
-        $query = Event::find();
-        $events = $query->where(['AND', ['date_start' => ['$gte' => $current_date]], ['is_post' => true]])->all();
-        return $this->render('directory', ['events' => $events]);
+//        $current_date = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d')) * 1000);
+//        $query = Event::find();/
+//        $events = $query->where(['AND', ['date_start' => ['$gte' => $current_date]], ['is_post' => true]])->all();
+        $cities = GlobalFunctions::getCitiesWithSlug();
+        return $this->render('directory', ['cities' => $cities]);
     }
 
     public function actionDisplayMap() {
@@ -373,7 +375,7 @@ class EventController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-                [
+            [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -386,8 +388,8 @@ class EventController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-                ['$match' => $matchParams],
-                ['$sort' => $sort === 'Soonest' ? ["date_start" => 1, "distance" => 1] : ["distance" => 1]]
+            ['$match' => $matchParams],
+            ['$sort' => $sort === 'Soonest' ? ["date_start" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;

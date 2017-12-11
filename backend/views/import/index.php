@@ -8,6 +8,18 @@ $this->title = 'Import csv';
 $this->registerMetaTag(['name' => 'description', 'content' => '']);
 //print_r($events);
 ?>
+<style>
+    .tc-location{
+        text-decoration: none;
+        color:black;
+    }
+    #cancel_link{
+        text-decoration: underline !important;
+    }
+    #cancel_link:hover{
+        color:#34cab5 !important;
+    }
+</style>
 <div class="col-lg-12">
     <div class="csv-comp-content" id="csv_comp_content">
         <div class="upload clearfix">
@@ -88,7 +100,7 @@ if (count($events) > 0) {
                             <div class="table-category-h1"><?= implode(',', $event->categories) ?></div>
                             <div class="table-sub-cat-h1"><?= implode(',', $event->sub_categories) ?></div>
                             <div class="table-location-h1">
-                                <div class="tc-location"><a href="<?= BaseUrl::base() . '/location?eid=' . $event['_id'] ?>"><?= count($event->locations) ?></a>
+                                <div class="tc-location"><?= count($event->locations) ?>
                                     <!--<img src="images/caution.png" alt="" />-->
                                 </div>
                             </div>

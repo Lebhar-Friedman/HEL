@@ -1,44 +1,19 @@
 <?php
+
+use common\functions\GlobalFunctions;
+use yii\helpers\Url;
+
 $baseUrl = Yii::$app->request->baseUrl;
 $this->title = 'Health Events Live: Home';
 $this->registerCss(
         "#homelayout-header{
         display: none;
-    }");
+    }
+    header{background-image: url(images/". GlobalFunctions::getHeroImage(). ") ;}
+    ");
 ?>
-<style>
-    .slider{
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        width: 100%;
-        z-index: -1;
-        overflow: hidden;
-    }
-    .slider .slide{
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-    }
-    .slide-0{background: url(<?= $baseUrl ?>/images/banner-img.jpg) top center no-repeat;}
-    .slide-1{background: url(<?= $baseUrl ?>/images/hero1.jpg) top center no-repeat;}
-    .slide-2{background: url(<?= $baseUrl ?>/images/hero2.jpg) top center no-repeat;}
-    .slide-3{background: url(<?= $baseUrl ?>/images/hero3.jpg) top center no-repeat;}
-    @media screen and (max-width: 480px){
-        .slide-0 {background-position-x: 21%;}
-        .slide-1 {background-position-x: 38%;}
-        .slide-2 {background-position-x: 40%;}
-        .slide-3 {background-position-x: 50%;}
-    }
-</style>
-<header>
-    <div class="slider">
-        <div class="slide slide-0"></div>
-        <div class="slide slide-1"></div>
-        <div class="slide slide-2"></div>
-        <div class="slide slide-3"></div>
-        <!--<img class="slide" src="<?= $baseUrl ?>/images/banner-img.jpg" alt="" />-->
-    </div>
+
+<header >
     <div class="container" id="home">
         <div class="signUp-btns clearfix">
             <?php
@@ -49,7 +24,7 @@ $this->registerCss(
             <?php } else {
                 ?>
                 <a href="<?= $baseUrl ?>/site/logout" class="active show_menu">Logout</a>
-                <a href="<?= \yii\helpers\Url::to(['user/profile']) ?>">My Account</a>
+                <a href="<?= Url::to(['user/profile']) ?>">My Account</a>
                 <!--<a class="active show_menu" style="font-weight: bold;"><?= Yii::$app->user->identity->first_name ?></a>-->
             <?php } ?>
         </div>

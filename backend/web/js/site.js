@@ -186,7 +186,11 @@ function keepServerAlive() {
                 $('#progress_bar').remove();
                 $progress_bar = '<div class="upload" id="progress_bar" ><div class="progress" ><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="' + data.msg + '" aria-valuemin="0" aria-valuemax="100" style="width:' + data.msg + '%">' + data.msg + '%</div><div><div>';
                 $('#csv_comp_content').append($progress_bar);
-                console.log($progress_bar)
+                $('#cancel_link').remove();
+                $cancel_link = '<div class="text-center"><a id="cancel_link" style="text-decoration:underline" href="#" onclick="cancelImportingEvents()">Cancel Uploading</a></div>';
+                $('#csv_comp_content').append($cancel_link);
+                console.log($cancel_link);
+//                console.log($progress_bar)
             } else if (data.msgType == 'EXC') {
                 console.log(data.msg);
                 $('#upload_btn').removeClass('hidden');
@@ -209,3 +213,25 @@ function keepServerAlive() {
     });
 }
 
+function cancelImportingEvents() {
+    $.ajax({
+        url: baseUrl + "import/cancel-uploading-csv",
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (data) {
+            $('#cancel_link').remove();
+            $('#progress_bar').remove();
+            if (data.msgType == 'SUC'){
+                Msg(data.msg);
+            }else if(data.msgType == 'ERR'){
+                Msg(data.msg);
+            }
+        },
+        error: function (e) {
+            Msg('Internal Server error','ERR');
+        }
+    });
+}
+//add css class for wysiwyg text styling
+$('.wysiwyg-div p').addClass('wysiwyg-p');

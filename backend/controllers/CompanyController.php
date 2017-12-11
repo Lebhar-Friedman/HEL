@@ -61,10 +61,11 @@ class CompanyController extends Controller {
         }
         $request = Yii::$app->request;
 
-        $model = new CompanyForm();
+        $model = new CompanyForm(['scenario' => 'create']);
         if ($request->isPost && $request->isAjax) {
             $model->load($request->post());
             if (isset($model->c_id) && $model->c_id !== NULL && $model->c_id !== '') { //update case
+                $model->scenario = 'update';
                 $company = Company::findOne($model->c_id);
 //                $model->company_number = $company->company_number;
                 $image_name = $company->logo;
@@ -77,7 +78,7 @@ class CompanyController extends Controller {
                 $company->attributes = $model->attributes;
                 $company->logo = $image_name;
                 $company->update() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
-                $retData['msgType'] === "SUC" ? $msg = "Company has been Updated successfully" : $msg = "Unable to Update Company data this time";
+                $retData['msgType'] === "SUC" ? $msg = "Company has been Updated successfully" : $msg = "Nothing has changed";
                 $retData['msg'] = $msg;
 //                $retData['msg']=$err;
                 $retData['companyId'] = (string) $company->_id;
@@ -91,7 +92,9 @@ class CompanyController extends Controller {
             $image_name = str_replace(' ','_',$model->name . time());
             if (isset($model->logo) && $model->upload($image_name)) {
                 $company->logo = $image_name . '.' . $model->logo->extension;
-                $model->logo = $company->logo;
+//                $model->logo = $company->logo;
+            }else{
+                $company->logo = null;
             }
             $company->name = ucfirst($company->name);
             $company->save() ? $retData['msgType'] = "SUC" : $retData['msgType'] = "ERR";
@@ -108,6 +111,7 @@ class CompanyController extends Controller {
             if (isset($commpany)) {
                 $model->attributes = $commpany->attributes;
                 $model->c_id = (string) $commpany->_id;
+                $model->scenario = 'update';
             }
         }
         return $this->render('detail', ['model' => $model]);
@@ -139,6 +143,9 @@ class CompanyController extends Controller {
         $model = new CompanyForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+            if(!empty($model->c_id)){
+                $model->scenario = 'update';
+            }
             $model->name = ucfirst($model->name);
             return ActiveForm::validate($model);
         }

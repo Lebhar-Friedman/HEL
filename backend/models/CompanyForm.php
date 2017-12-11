@@ -27,15 +27,16 @@ class CompanyForm extends Model {
      */
     public function rules() {
         return [
-            ['c_id', 'safe'],
+            [['c_id', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'safe'],
             // username and password are both required
-            [['company_number', 'name', 'contact_name', 'phone', 'email', 'street', 'city', 'state', 'zip'], 'required'],
+            [['company_number', 'name'], 'required'],
             // string fields
             [['name', 'contact_name', 'street', 'city', 'state', 'zip'], 'string'],
             // email validation
             ['email', 'email'],
             // image field
-            [['logo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['logo'], 'image', 'skipOnEmpty' => FALSE, 'extensions' => 'png, jpg', 'on' => 'create'],
+            [['logo'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'on' => 'update'],
             ['name', 'validateCompanyName'],
 //            ['name', 'unique','targetClass'=> '\common\models\Company', 'message' => 'Company name must be unique.'],
         ];
@@ -56,7 +57,7 @@ class CompanyForm extends Model {
     public function upload($image_name = '') {
         if ($this->validate()) {
             if ($this->logo == null) {
-                return true;
+                return false;
             }
             if ($image_name == '') {
                 $image_name = $this->logo->baseName;
@@ -64,6 +65,7 @@ class CompanyForm extends Model {
             $this->logo->saveAs('uploads/' . $image_name . '.' . $this->logo->extension);
             return true;
         } else {
+//            echo 'validation failed';exit;
             return false;
         }
     }

@@ -24,10 +24,10 @@ if (isset($model['c_id'])) {
                 'id' => 'companyForm',
                 'action' => $baseUrl . '/company/detail',
                 'enableAjaxValidation' => true,
-                'validateOnBlur' => true,
+                'validateOnBlur' => TRUE,
+                'validateOnChange' => TRUE,
                 'validationUrl' => Yii::$app->urlManager->createUrl("company/company-validation"),
-                //'validateOnChange' => false,
-                //'enableClientValidation' => true,
+                'enableClientValidation' => FALSE,
                 'fieldConfig' => ['template' => "{input}{error}"],
                 'options' => ['enctype' => 'multipart/form-data']
     ]);
@@ -52,7 +52,7 @@ if (isset($model['c_id'])) {
                     <div class="col-lg-7 col-md-9 col-sm-9">
                         <div class="upload-logo">
                             <label for="logo">Upload Logo</label>
-                            <?= $form->field($model, 'logo', ['inputOptions' => ['id' => 'logo', 'hidden' => '', 'onchange' => 'logoChange(this)']])->fileInput() ?>
+                            <?= $form->field($model, 'logo', ['inputOptions' => ['id' => 'logo', 'onchange' => 'logoChange(this)'],'enableAjaxValidation' => FALSE, 'enableClientValidation' => True])->fileInput() ?>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@ if (isset($model['c_id'])) {
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-7">
                         <div>
-                            <?= $form->field($model, 'company_number', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Company Name']])->textInput()->label(false); ?>
+                            <?= $form->field($model, 'company_number', ['inputOptions' => ['class' => 'school-name-textbx', 'placeholder' => 'Company Number']])->textInput()->label(false); ?>
                         </div>
                     </div>
                 </div>

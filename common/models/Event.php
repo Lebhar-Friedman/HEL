@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\mongodb\ActiveRecord;
 use yii\helpers\ArrayHelper;
+
 /**
  * Location model
  *
@@ -25,7 +26,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  */
 class Event extends ActiveRecord {
-    
+
     public static $importEvents = [];
 
     /**
@@ -116,36 +117,40 @@ class Event extends ActiveRecord {
     public static function findEvent($id) {
         return static::findOne(['_id' => $id]);
     }
+
     public static function findEventLocationsIDs($id) {
-        $locations = static::findOne(['_id' => $id]); 
+        $locations = static::findOne(['_id' => $id]);
         //array_column($locations, 'first_name');
         $IDs = ArrayHelper::getColumn($locations->locations, function ($element) {
                     return $element['_id'];
-                  });
-          return $IDs;
+                });
+        return $IDs;
     }
-    public static function findCompanyEventsByNumber($company,$eid) {
-        return static::find()->andWhere(['company' => $company])->andWhere(['Not','_id',$eid])->all();
+
+    public static function findCompanyEventsByNumber($company, $eid) {
+        return static::find()->andWhere(['company' => $company])->andWhere(['Not', '_id', $eid])->all();
     }
+
     public static function findCompanyEvents($company) {
         return static::findAll(['company' => $company]);
     }
-    
-    public static function updateLocationInEvents($location){
-        $events = self::findAll(['locations._id'=>$location->_id]);
+
+    public static function updateLocationInEvents($location) {
+        $events = self::findAll(['locations._id' => $location->_id]);
         foreach ($events as $event) {
             $event->locations = \backend\models\EventForm::mergeEventLocations($event->locations, $location->attributes);
             $event->save();
-        }        
+        }
     }
-    
-    public static function deleteLocationFromEvents($location){
+
+    public static function deleteLocationFromEvents($location) {
         $db = self::getCollection();
-        $result = $db->update(['locations._id'=>$location->_id], ['$pull' => ['locations' => ['_id' => $location->_id]]], ['multi'=> true]);        
+        $result = $db->update(['locations._id' => $location->_id], ['$pull' => ['locations' => ['_id' => $location->_id]]], ['multi' => true]);
     }
-    
-    public static function findEventsByStore($store_number,$eid) {
-        return static::find()->andWhere(['locations.location_id' => $store_number])->andWhere(['Not','_id',$eid])->all();
+
+    public static function findEventsByStore($store_number, $eid) {
+        return static::find()->andWhere(['locations.location_id' => $store_number])->andWhere(['Not', '_id', $eid])->all();
     }
+
 // end class counter
 }

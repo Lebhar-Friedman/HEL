@@ -127,11 +127,11 @@ body{
     background:white ;
     /*word-break:break-all;*/
 }
-h1,h2,h3{margin:0  !important; padding:0px  !important;  color:#364D6A; font-family: 'helveticaneueregular' !important;}
+h1,h2,h3{margin:0  ; padding:0px  ;  color:#364D6A; font-family: 'helveticaneueregular' !important;}
 h1{font-size:35px;}
 h2{font-size:22px;font-family: 'helveticaneueregular';}
 h3{font-size:18px;}
-p{margin:0 ; padding:0px  ; font-family: 'helveticaneueregular' !important;}
+p:not(.wysiwyg-p){margin:0 ; padding:0px  ; font-family: 'helveticaneueregular' !important;}
 a{text-decoration:none !important; margin:0px !important; color:#F59A38 !important; outline:none; font-size:14px; font-family: 'helveticaneueregular';}
 a:hover{color: #D38735 !important}
 a img{border:none;}
@@ -1053,8 +1053,18 @@ footer a:hover{
     .display-on-mobile{display:block;}
     .mobile-logo{display:block; padding-top:25px;}
     /*.mobile-logo img{max-width:210px;}*/
-    .result-sign-up{padding:12px 0px 10px 0px;}
-    .result-sign-up a{padding:12px 18px;}
+    .result-sign-up{padding:12px 0px 10px 0px;margin-left: -15px;}
+    .result-sign-up a{padding:12px 8px;}
+    .result-sign-up a {
+        float: right;
+        font-size: 12px;
+        line-height: 15px;
+        color: #1e5ba9 !important;
+        margin-left: 0px !important;
+        border-radius: 2px;
+        background-clip: padding-box;
+        transition: all 0.3s ease;
+    }
     .search-result-content{
         display:none;
         width:386px;
@@ -1114,6 +1124,17 @@ footer a:hover{
     margin-bottom: 20px;
 }
 
+/*media query for iphone 5*/
+@media screen and (device-aspect-ratio: 40/71) {
+    .result-sign-up{
+        margin-right: -15px;
+        margin-left: -15px;
+        padding-top: 15px !important;
+    }
+    .result-sign-up a {
+        padding: 4px 10px;
+    }
+}
 
 /*************************Alerts************************************/
 @font-face {
@@ -1554,5 +1575,92 @@ h2 {
 }
 /*_______________________________*/
 padding-top-10{
-   padding-top: 50px;
+    padding-top: 50px;
+}
+
+
+/********************************Contact Us****************************************/
+#contact_fields{
+    display: none;
+}
+.contact_for_event{
+    display: none;
+}
+.contact-us-h{
+    color:#364d6a;
+    font-size:35px;
+    line-height:30px;
+    text-align:center;
+    padding:45px 0px 65px 0px;
+}
+.contact-us-wrapper{
+    max-width:602px;
+    margin:0 auto;
+    padding-bottom:100px;
+}
+.contact-us-wrapper	select {
+    cursor:pointer;
+    appearance:none;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+}
+.cotact-us-content{
+    display:table-row;
+
+}
+.cotact-us-content label{
+    width:251px;
+    display:table-cell;
+    vertical-align:middle;
+    font-size:18px;
+    line-height:22px;
+    color:#5a5a5a;
+    padding-bottom:30px;
+}
+.cotact-us-content .textbox-cotent{
+    width:351px;
+    display:table-cell;
+    vertical-align:middle;
+    padding-bottom:30px;
+}
+.contact-textbox{
+    width:100%;
+    height:46px;
+    background:#FFF;
+    border:1px solid #e3e3e3;
+    outline:none;
+    padding:0px 15px;
+    color:#909090;
+    font-size:16px;
+    line-height:14px;
+}
+select.contact-textbox{background:#FFF url(../images/down-arrow.png) center right no-repeat;}
+.select-option{padding:0px 50px;padding-left: 15px; max-width:315px;}
+select.select-option2{padding:0px 34px; max-width:135px; background:#FFF url(../images/down-arrow1.png) center right no-repeat;}
+.contatc-textarea{height:151px; resize:none; padding:15px;}
+.cotact-us-content label.textaraea-label{vertical-align:top; padding:20px 0px 0px 0px;}
+.contact-submit{
+    width:210px;
+    display:inline-block;
+    background:#0088cc !important;
+    padding:17px 0px 16px 0px;
+    font-size:18px;
+    line-height:16px;
+    color:#FFF !important;
+}
+.contact-submit:hover{ background:#222 !important;}
+@media (max-width: 767px) and (min-width: 0px){
+    .contact-us-wrapper{max-width:100%; padding-bottom:20px;}
+    .cotact-us-content label, .cotact-us-content .textbox-cotent{display:block; width:100%;}
+    .cotact-us-content{display:block;}
+    .cotact-us-content label{padding-bottom:10px;}
+    .cotact-us-content .textbox-cotent{padding-bottom:20px;}
+    .select-option{max-width:100%;}
+    .cotact-us-content label.textaraea-label{padding:0px 0px 10px 0px;}
+    .contact-us-h{
+        font-size:30px;
+        line-height:25px;
+        text-align:center;
+        padding:30px 0px;
+    }
 }

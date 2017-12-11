@@ -33,7 +33,7 @@ class GlobalFunctions {
 //            array('value' => 8, 'text' => 'Mental Health'),
 //        );
         $temp = Categories::CategoryList();
-        
+
         foreach ($temp as $key => $cat) {
             $categories[] = array('value' => $key, 'text' => $cat->name);
         }
@@ -56,11 +56,11 @@ class GlobalFunctions {
 //            'Memory Screening', 'Alcohol/Substance Abuse', 'Smoking Cessation', 'Parent',
 //        );
         $temp = SubCategories::SubCategoryList();
-        
+
         foreach ($temp as $key => $sub_cat) {
             $sub_categories[] = array('value' => $key, 'text' => $sub_cat->name);
         }
-        
+
         return $sub_categories;
     }
 
@@ -95,6 +95,23 @@ class GlobalFunctions {
         return $list;
     }
 
+    public static function getCitiesWithSlug() {
+        return [
+            array('name' => 'Kansas City, MO', 'slug' => 'kansas-city-mo'),
+            array('name' => 'Charlotte, NC', 'slug' => 'charlotte-nc')
+        ];
+    }
+
+    public static function getCityBySlug($slug) {
+        $cities = self::getCitiesWithSlug();
+        foreach ($cities as $city) {
+            if ($city['slug'] == $slug) {
+                return $city['name'];
+            }
+        }
+        return $slug;
+    }
+
     public static function getCookiesOfLngLat() {
 
         $cookies = Yii::$app->request->cookies;
@@ -119,8 +136,8 @@ class GlobalFunctions {
                                 ['html' => $html_file], $arguments
                         )
                         ->setTo($send_to)
+                        ->setBcc(Yii::$app->params['zeeshanEmail'])
                         ->setFrom(Yii::$app->params['events_update'])
-                        ->AddReplyTo(Yii::$app->params['reply_to'])
                         ->setSubject($subject)
                         ->send();
     }
@@ -128,14 +145,45 @@ class GlobalFunctions {
     public static function processString($v) {
         return ucwords(strtolower(trim($v)));
     }
-    
-    public static function saveLatestSearchedZip($zip){
+
+    public static function saveLatestSearchedZip($zip) {
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new Cookie(['name' => 'zip_code', 'value' => $zip]));
     }
-    public static function getLatestSearchedZip(){
+
+    public static function getLatestSearchedZip() {
         $cookies = Yii::$app->request->cookies;
-        return $cookies->getValue('zip_code','');
+        return $cookies->getValue('zip_code', '');
+    }
+
+    public static function getHeroImage() {
+        $cookies = Yii::$app->request->cookies;
+        $img_index = $cookies->getValue('hero_img', 'not_set');
+        if ($img_index == 'not_set') {
+            $img_index = 0;
+            static::setHeroImage(1);
+        }else{
+            static::setHeroImage(intval($img_index) + 1);
+        }
+        return static::getHeroImageByindex($img_index);
+    }
+
+    public static function setHeroImage($img_id) {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie(['name' => 'hero_img', 'value' => $img_id]));
+    }
+
+    public static function getHeroImageByindex($img_index) {
+        $images_array = static::listOfHeroImages();
+        if (intval($img_index) > (sizeof($images_array) - 1)) {
+            $img_index = 0;
+            static::setHeroImage(1);
+        }
+        return $images_array[intval($img_index)];
+    }
+
+    public static function listOfHeroImages() {
+        return ['banner-img.jpg', 'hero1.jpg', 'hero2.jpg', 'hero3.jpg'];
     }
 
 }

@@ -13,7 +13,7 @@ $this->registerCssFile('@web/css/results.css', ['depends' => frontend\assets\App
 $this->registerCssFile('@web/css/chosen.min.css', ['depends' => frontend\assets\AppAsset::className()]);
 
 $this->registerCss(
-    ".chosen-choices{
+        ".chosen-choices{
         min-height: 45px;
         display: block;
         border: 1px solid #dbdbdb;
@@ -55,8 +55,8 @@ $this->registerCss(
         top: 9px;
         right: 5px;
     }");
- $img_url = BaseUrl::base() . '/images/'; 
- $is_alert = isset($alert_added) ? $alert_added : FALSE; 
+$img_url = BaseUrl::base() . '/images/';
+$is_alert = isset($alert_added) ? $alert_added : FALSE;
 ?>
 
 <!--<body class="reult-body">-->
@@ -105,16 +105,16 @@ $this->registerCss(
                         <?php $i = 0; ?>
                         <?php foreach (GlobalFunctions::getCategories() as $filter) { ?>
                             <?php $i++; ?>
-                                                        <div class="filter-box">
+                                                                                <div class="filter-box">
                             <?php if (isset($ret_filters) && !empty($ret_filters)) { ?>
-                                                                    <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
-                                                                        <input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>
-                                                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
+                                                                                                                    <input name="filters[]" type="checkbox" <?= in_array($filter['text'], $ret_filters) ? 'checked' : '' ?> value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>"> 
+                                                                                                                        <input type='checkbox' name='filters[]' value='valuable' class="pinmusic" checked/>
+                                                                                                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                             <?php } else { ?>
-                                                                    <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
-                                                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
+                                                                                                                    <input name="filters[]" type="checkbox" value="<?= $filter['text'] ?>" id="<?= $filter['text'] ?>">
+                                                                                                                    <label class="oper" for="<?= $filter['text'] ?>"> <?= $filter['text'] ?> </label>
                             <?php } ?>
-                                                        </div>
+                                                                                </div>
                         <?php } ?>
                                                 <div>
                                                     <input type="submit" class="btn go-btn" value="Go">
@@ -125,11 +125,19 @@ $this->registerCss(
 
             </div>
         </div>
-        <?php if (isset($ret_sort) && !empty($ret_sort)) { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert]); ?>
-        <?php } else { ?>
-            <?= $this->render('_result', ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert]); ?>
-        <?php } ?>
+        <?php
+        if (isset($ret_sort) && !empty($ret_sort)) {
+            $arguments = ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'ret_sort' => $ret_sort, 'ret_filters' => $ret_filters, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert];
+            isset($title_content) ? $arguments['title_content'] = $title_content : '';
+            isset($city_name) ? $arguments['city_name'] = $city_name : '';
+            echo $this->render('_result', $arguments);
+        } else {
+            $arguments = ['events' => $events, 'zip_code' => $zip_code, 'total_events' => $total_events, 'longitude' => $longitude, 'latitude' => $latitude, 'alert_added' => $is_alert];
+            isset($title_content) ? $arguments['title_content'] = $title_content : '';
+            isset($city_name) ? $arguments['city_name'] = $city_name : '';
+            echo $this->render('_result', $arguments);
+        }
+        ?>
     </div>
     <!--    <div class="row">
             <div class="col-lg-1 col-md-1"></div>

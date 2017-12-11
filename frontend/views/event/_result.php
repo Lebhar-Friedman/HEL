@@ -1,20 +1,27 @@
 <?php
 
 use common\functions\GlobalFunctions;
+use common\models\Company;
 use components\GlobalFunction;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\BaseUrl;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 use function GuzzleHttp\json_encode;
 
-$this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
+if (isset($title_content)) {
+    $this->title = $title_content;
+} else {
+    $this->title = 'Free Health Services near ZIP Code ' . $zip_code . ' | Health Events Live';
+}
 $this->registerMetaTag(['name' => 'description', 'content' => 'Find free and low-cost health services at trusted stores near your ZIP Code ' . $zip_code]);
 ?>
-<?php $this->registerCss(
-    "#overlay {
+<?php
+$this->registerCss(
+        "#overlay {
         position: fixed;
         display: none;
         width: 100%;
@@ -83,14 +90,18 @@ $events_with_nearest_locations = array();
 <div class="col-lg-8 col-md-8 col-sm-7">
     <div class="event-near " id="event_near" onclick="showNav()">
         <a class="search-filter" href="javascript:;" onclick="showNav()"><img src="<?= $img_url ?>filter-btn.png" alt="" /></a>
-        <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
-        <?php //if (sizeof($filters) > 0) {   ?>
-            <!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
-        <?php //foreach ($filters as $filter) {   ?>
-                    <!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
-        <?php //}   ?>
+        <?php if (isset($city_name)) { ?>
+            <h1>Health Events in <?= $city_name ?> <span>(by <?= $sortBy ?>)</span> </h1> 
+        <?php } else { ?>
+            <h1>Events near <?= $zip_code ?> <br class="show_on_mobile"><span>(by <?= $sortBy ?>)</span> </h1> 
+        <?php } ?>
+        <?php //if (sizeof($filters) > 0) {    ?>
+<!--<select class="filters-multi-chosen-selected" multiple="multiple" style="width:100%;" name="filters[]">-->
+        <?php //foreach ($filters as $filter) {    ?>
+<!--<option value="<?/= $filter ?>" selected ><?/= $filter ?></option>-->
+        <?php //}    ?>
         <!--</select>-->
-        <?php // }   ?>
+        <?php // }    ?>
     </div>
     <?php foreach ($events as $event) { ?>
         <?php
@@ -105,7 +116,12 @@ $events_with_nearest_locations = array();
         }
         ?>
         <?php $locations_near = GlobalFunction::locationsInRadius($user_lat, $user_lng, $event['locations'], 20); ?>
-        <a href="<?= yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>">
+        <?php $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : ''; ?>
+        <?php $category_first = isset($event['categories'][0]) ? $event['categories'][0] : ''; ?>
+        <?php $company = Company::findCompanyByNumber($event['company']); ?>
+        <?php $event_company = isset($company['name']) ? $company['name'] : ''; ?>
+        <?php $event_title_attribute = $category_first . ',' . $event_company . ',' . $zip_code; ?>
+        <a href="<?= Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $nearest_store_number, 'zipcode' => $zip_code]) ?>" title="<?= $event['title']; ?>">
             <div class="multi-service" >
                 <h1><?= (isset($event['categories']) && sizeof($event['categories']) === 1 ) ? str_replace("/", "/ ", $event['categories'][0]) . ' Screenings' : 'Multiple Services' ?></h1>
                 <h2><?= GlobalFunction::getEventDate($event['date_start'], $event['date_end']) ?></h2>
@@ -126,8 +142,8 @@ $events_with_nearest_locations = array();
             </div>
 
         </a>
-    
-   
+
+
         <?php
         $event['locations'] = $locations_near;
         $events_with_nearest_locations[] = $event;
@@ -157,11 +173,16 @@ $events_with_nearest_locations = array();
             ]);
             $map->setName('gmap');
             foreach ($events_with_nearest_locations as $event) {
+                $category_url = isset($event['categories'][0]) ? GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' : '';
+                $category_first = isset($event['categories'][0]) ? $event['categories'][0] : '';
+                $company = Company::findCompanyByNumber($event['company']);
+                $event_company = isset($company['name']) ? $company['name'] : '';
+                $event_title_attribute = $category_first . ',' . $event_company . ',' . $zip_code;
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-//                    echo "<pre>";
-//                    print_r($coord);
+                    //                    echo "<pre>";
+                    //                    print_r($coord);
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],
@@ -170,13 +191,13 @@ $events_with_nearest_locations = array();
                         'icon' => $img_url . 'custom-marker.png',
                     ]);
 
-                    $content = "<a class='marker-info' href='" . yii\helpers\Url::to(['healthcare-events/' . GlobalFunction::removeSpecialCharacters($event['categories'][0]) . '/' . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code]) . "'>" . $event['title'] . "</a>";
+                    $content = "<a class='marker-info' href='" . Url::to(['healthcare-events/' . $category_url . GlobalFunction::removeSpecialCharacters($event['sub_categories']), 'eid' => (string) $event['_id'], 'store' => $location['location_id'], 'zipcode' => $zip_code]) . "' title='".$event['title']."'>" . $event['title'] . "</a>";
                     $marker->attachInfoWindow(
                             new InfoWindow(['content' => $content])
                     );
-//                $marker->setName('abc');   //to set Info window default open
-//                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
-//            google.maps.event.trigger(abc, 'click');});");
+                    //                $marker->setName('abc');   //to set Info window default open
+                    //                $map->appendScript("google.maps.event.addListenerOnce(gmap, 'idle', function(){
+                    //            google.maps.event.trigger(abc, 'click');});");
 
                     $map->addOverlay($marker);
                 }
@@ -184,8 +205,8 @@ $events_with_nearest_locations = array();
             $map->center = $map->getMarkersCenterCoordinates();
 //            $map->zoom = $map->getMarkersFittingZoom() + 1;
 
-//            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
-//            $map->addEvent($map_event);
+            //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
+            //            $map->addEvent($map_event);
             echo $map->display();
             ?>
         </div>
