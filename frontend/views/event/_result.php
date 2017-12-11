@@ -157,15 +157,12 @@ $events_with_nearest_locations = array();
     ?>
     <?php if (sizeof($events_with_nearest_locations) > 0) { ?>
         <div class="map-content" >
-            <!--<a href="javascript:;" onclick='openModal(<?php echo json_encode($temp_events, JSON_FORCE_OBJECT); ?>)' class="view-all-btn" style="z-index: 99">View all event locations</a>-->
             <?php
             $coord = new LatLng(['lat' => intval($user_lat), 'lng' => intval($user_lng)]);
             $poic_styles = '[{"featureType": "poi","elementType": "labels","stylers": [{ "visibility": "off" }]},{"featureType": "transit","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
-//            $coord = new LatLng(['lat' => intval($events[0]['locations'][0]['geometry']['coordinates'][1]), 'lng' => intval($events[0]['locations'][0]['geometry']['coordinates'][0])]);
             $map = new Map([
                 'center' => $coord,
                 'zoom' => 18,
-//                'maxZoom' => 16,
                 'width' => '100%',
                 'height' => '275',
                 'scrollwheel' => false,
@@ -181,8 +178,6 @@ $events_with_nearest_locations = array();
                 foreach ($event['locations'] as $location) {
                     $long_lat = $location['geometry']['coordinates'];
                     $coord = new LatLng(['lng' => $long_lat[0], 'lat' => $long_lat[1]]);
-                    //                    echo "<pre>";
-                    //                    print_r($coord);
                     $marker = new Marker([
                         'position' => $coord,
                         'title' => $event['title'],
@@ -203,7 +198,7 @@ $events_with_nearest_locations = array();
                 }
             }
             $map->center = $map->getMarkersCenterCoordinates();
-//            $map->zoom = $map->getMarkersFittingZoom() + 1;
+            $map->zoom = $map->getMarkersFittingZoom() + 1;
 
             //            $map_event = new Event(["trigger" => "click", "js" => "openModal(" . json_encode($temp_events, JSON_FORCE_OBJECT) . ")"]);
             //            $map->addEvent($map_event);
@@ -224,8 +219,6 @@ $events_with_nearest_locations = array();
                     <?php if (Yii::$app->user->isGuest) { ?>
                         <div class="email-conatiner">
                             <input type="text" class="email-textbox" placeholder="Email" name="email" id="email"/>
-                            <!--<input type="submit" value="Go" class="submitbtn" />-->
-                            <!--<a href="<?= BaseUrl::base() ?>/user/add-alerts"  class="submitbtn">Go</a>-->
                             <a href="javascript:;" onclick="addAlertSession()" class="submitbtn">Alert Me</a>
                         </div>
                     <?php } else { ?>

@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\functions\GlobalFunctions;
 use common\models\User;
 use Yii;
 use yii\base\Model;
@@ -74,13 +75,14 @@ class SignupForm extends Model {
     }
 
     public function welcomeEmail($user, $url) {
-        return Yii::$app->mailer->compose(
-                                ['html' => 'registration-welcome-html'], ['user' => $user, 'url' => $url]
-                        )
-                        ->setTo($user->email)
-                        ->setFrom(Yii::$app->params['supportEmail'])
-                        ->setSubject('Health Events Live Welcome')
-                        ->send();
+//        return Yii::$app->mailer->compose(
+//                                ['html' => 'registration-welcome-html'], ['user' => $user, 'url' => $url]
+//                        )
+//                        ->setTo($user->email)
+//                        ->setFrom(Yii::$app->params['supportEmail'])
+//                        ->setSubject('Health Events Live Welcome')
+//                        ->send();
+        return GlobalFunctions::sendEmail('registration-welcome-html', $user->email, Yii::$app->params['supportEmail'], 'Health Events Live Welcome', ['user' => $user, 'url' => $url]);
     }
 
 }

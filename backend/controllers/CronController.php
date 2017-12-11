@@ -111,7 +111,8 @@ class CronController extends Controller {
                 echo "<pre>";
                 echo "<br>Not found in locations collection<br>";
                 print_r($location);
-                exit;;
+                exit;
+                ;
             }
         }
     }
@@ -187,7 +188,7 @@ class CronController extends Controller {
                 echo $user->email . '<br>';
                 print_r($events_to_send);
                 $arguments = ['events' => $events_to_send, 'user_name' => ' '];
-                GlobalFunctions::sendEmail('upcoming-events', $user->email, 'Up-coming events ', $arguments);
+                GlobalFunctions::sendEmail('upcoming-events', $user->email, Yii::$app->params['events_update'],'Up-coming events ', $arguments);
             }
         }
     }
@@ -232,7 +233,7 @@ class CronController extends Controller {
         }
         $db = Event::getDb();
         $events = $db->getCollection('event')->aggregate([
-            [
+                [
                 '$geoNear' => [
                     "near" => [
                         "type" => "Point",
@@ -246,8 +247,8 @@ class CronController extends Controller {
                     "distanceMultiplier" => 0.000621371
                 ],
             ],
-            ['$match' => $matchParams],
-            ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
+                ['$match' => $matchParams],
+                ['$sort' => $sort === 'Soonest' ? ["event_id" => 1, "distance" => 1] : ["distance" => 1]]
                 ], ['allowDiskUse' => true]);
 
         return $events;
@@ -283,6 +284,12 @@ class CronController extends Controller {
     public function actionTestCronjob() {
         echo 'cron running';
         Values::saveValue('testing_cronjob', 'cronjob', date('Y-m-d'));
+        $sendGrid = Yii::$app->sendGrid;
+        $message = $sendGrid->compose('registration-welcome-html', ['arguments' => 'hello']);
+       echo $message->setFrom('from@domain.com')
+                ->setTo('zeeshan1853@gmail.com')
+                ->setSubject('Send grid testing')
+                ->send($sendGrid);
     }
 
     public function actionSetLongLatForLocations() {
@@ -322,7 +329,7 @@ class CronController extends Controller {
             $no_of_locations = sizeof($events[$i]['locations']);
             $category_url = isset($events[$i]['categories'][0]) ? GlobalFunction::removeSpecialCharacters($events[$i]['categories'][0]) . '/' : '';
             for ($j = 0; $j < $no_of_locations; $j++) {
-                $cat_sub = rtrim($category_url.GlobalFunction::removeSpecialCharacters($events[$i]['sub_categories']), '/');
+                $cat_sub = rtrim($category_url . GlobalFunction::removeSpecialCharacters($events[$i]['sub_categories']), '/');
                 $event_link = @frontend_URL . 'healthcare-events/' . $cat_sub . '?eid=' . (string) $events[$i]['_id'] . '&store=' . $events[$i]['locations'][$j]['location_id'];
                 $xml_url = $xml->createElement("url");
                 $xml_loc = $xml->createElement('loc');
@@ -342,7 +349,7 @@ class CronController extends Controller {
         }
         print_r($content_loc);
         $xml->appendChild($xml_urlSet);
-        $xml->save(Yii::getAlias('@frontend')."/web/sitemap.xml");
+        $xml->save(Yii::getAlias('@frontend') . "/web/sitemap.xml");
     }
 
     public function getPages() {
